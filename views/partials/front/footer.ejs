@@ -1,0 +1,83 @@
+<footer id="footer">
+    <div class="container text-center">
+        <a href="#"><img src="/theme-assets/images/logo_new.png" alt="" class="img-fluid" /></a>
+        <ul class="d-flex justify-content-center footMenu">
+            <li><a href="<%= process.env.APP_URL %>">Home</a></li>
+            <li><a href="<%= process.env.APP_URL %>/features">Features</a></li>
+            <li><a href="<%= process.env.APP_URL %>/pricing">Pricing</a></li>
+            <li><a href="<%= process.env.APP_URL %>/workprocess">How it Work</a></li>
+            <li><a href="<%= process.env.APP_URL %>/privacy">Privacy Policy</a></li>
+            <li><a href="<%= process.env.APP_URL %>/terms">Terms & Conditions</a></li>
+        </ul>
+        <ul class="d-flex justify-content-center footSocial">
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-skype"></i></a></li>
+            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+        </ul>
+    </div>
+    <div class="footBottom">
+        <p>© 2021 All Rights Reserved<a href="#"> spymycell.com</a></p>
+    </div>
+</footer>
+</div>
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="/theme-assets/js/jquery.min.js"></script>
+<script src="/theme-assets/js/bootstrap.bundle.min.js"></script>
+<script src="/theme-assets/js/owl.carousel.min.js"></script>
+<script>
+$('.testimonials-carousel').owlCarousel({
+    loop: true,
+    autoplay: true,
+    smartSpeed: 1000,
+    autoplayTimeout: 4000,
+    margin: 0,
+    responsiveClass: true,
+    responsive: {
+        0: {
+            items: 1,
+        },
+        600: {
+            items: 1,
+        },
+        1000: {
+            items: 1,
+        }
+    }
+});
+</script>
+
+<script>
+// Login SignUp Popup Script
+const signUpButton = document.getElementById("signUp");
+const signInButton = document.getElementById("signIn");
+const container = document.getElementById("container");
+
+signUpButton.addEventListener("click", () => {
+    container.classList.add("right-panel-active");
+});
+
+signInButton.addEventListener("click", () => {
+    container.classList.remove("right-panel-active");
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    $(".showSignUp").click(function() {
+        $(".loginSignPopUp .container").addClass("show");
+    });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    $(".showLogin").click(function() {
+        $(".loginSignPopUp .container").removeClass("show");
+    });
+});
+</script>
+</body>
+
+</html>

@@ -1,0 +1,268 @@
+<%- include('../partials/header'); %>
+
+    <!-- For Left Sidebar include body-> data-menu="vertical-menu" class="vertical-layout vertical-menu content-left-sidebar menu-expanded"-->
+
+    <style>
+        html body .content .content-wrapper {
+            
+            background-size: cover;
+            height: 100vh;
+        }
+        
+        .card-body {
+            text-align: center;
+        }
+        
+        .card {
+            margin-top: 10vh;
+        }
+        
+        footer.footer-light {
+            background: #fff;
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        footer.footer-light span {
+            display: block;
+            text-align: center;
+        }
+    </style>
+
+    <body>
+        <!-- BEGIN Content-->
+        <div class="content modern-content container-fluid">
+            <div class="content-wrapper">
+                <!-- content header-->
+                <div class="content-header row">
+
+                </div>
+                <!-- content header-->
+
+                <!-- content body-->
+                <div class="content-body">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+ <style>
+                    .loader {
+                        display: none;
+                        top: 50%;
+                        left: 50%;
+                        position: fixed;
+                        transform: translate(-50%, -50%);
+                        background-color: rgba(255, 255, 255, 0.8);
+                        height: 100%;
+                        text-align: center;
+                        width: 100%;
+                        z-index: 99999999;
+                    }
+                    
+                    .loading {
+                        border: 2px solid #ccc;
+                        width: 60px;
+                        height: 60px;
+                        margin: auto;
+                        border-radius: 50%;
+                        border-top-color: #1ecd97;
+                        border-left-color: #1ecd97;
+                        animation: spin 1s infinite ease-in;
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                    }
+                    
+                    @keyframes spin {
+                        0% {
+                            transform: rotate(0deg);
+                        }
+                        100% {
+                            transform: rotate(360deg);
+                        }
+                    }
+                </style>
+                <div class="loader">
+                    <div class="loader-inner" style="    position: relative;
+                    height: 100%;
+                    width: 100%;">
+                        <div class="loading">
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+<script>
+
+$(document).ready(function(){  
+
+    $('select.country').click(function(){  
+        var selectedCountry = $(this).children("option:selected").val();
+    if(selectedCountry!=""){
+        var data = {};
+					data.task = selectedCountry;
+    $.ajax({  
+           url:'/api/users/getstate',  
+           method:'post',  
+           contentType: 'application/json',
+           data: JSON.stringify(data), 
+           success:function(response){  
+               console.log(response);
+
+               $('select[name="state_id"]').empty();
+                    $.each(response.data,function(key,value){
+                        $('select[name="state_id"]').append('<option value="'+value.id+'">'+value.name+'</option>');
+
+                    });
+            
+           },  
+           error:function(response){  
+               alert('server error occured')  
+           }  
+       });  
+    }
+    });  
+});  
+ </script>
+
+
+
+                    <section class="basic-inputs h-100">
+                        <div class="row match-height h-100 justify-content-center align-items-center">
+                            <div class="col-xl-4 col-md-4">
+                                <form action="/signup" method="post" class="form needs-validation" novalidate>
+
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-body">
+                                                <style>
+                                                    .brand-logo {
+                                                        width: 284px;
+                                                    }
+                                                </style>
+                                                <a href="<%= process.env.APP_URL %>"> <img class="brand-logo" alt="Admin logo" src="/theme-assets/images/logo/logo.png" /></a>
+
+                                            </div>
+                                            <div class="card-body">
+                                                <% if (locals.messages) { %>
+                                                    <div class="alert alert__success " style="color:red; ">
+                                                        <%= messages.error %>
+                                                    </div>
+                                                    <% } %>
+                                                        <div class="form-body">
+                                                            <h1>Start Free Trial !</h1>
+                                                            <p>Enter your personal details and start journey with us</p>
+                                                          
+                                                            <div class="form-group">
+                                                                <label for="donationinput31" class="sr-only"> Company Name</label>
+
+                                                              
+                            <input type="text" required id="donationinput31" class="form-control" placeholder="Enter Company Name" name="companyname">
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="donationinput3" class="sr-only">Your E-mail</label>
+                                                                <input required type="email" id="donationinput3" class="form-control" placeholder="E-mail" name="email">
+                                                                <div class="valid-feedback">Valid.</div>
+                                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                                            </div>
+                                                          
+                                                        <div class="input-group">
+                                                            <div class="form-group">
+                                                            <div class="row" > 
+                                                               <div class="col-6" >
+                                                
+                           
+<select name="country_id" required class="form-control country" >
+<option value="">--Select Country--</option>
+
+<%  if(country.data.length > 0){
+for(var i=0; i < country.data.length; i++) { %>
+<option value="<%= country.data[i].id; %>"><%= country.data[i].name; %></option>
+<% } }  %>
+</select>
+
+                                                            </div>
+
+                                                            <div class="col-6">
+                                                               
+                                                                              
+             <select name="state_id" required class="form-control state">
+            <option value="">--Select State--</option>
+            
+               </select>
+                      </div>   </div></div></div>
+                                                             
+                                                          
+                      <div class="form-group">
+                        <label for="donationinput3c" class="sr-only">Enter City</label>
+                        <input required type="text" id="donationinput3c" class="form-control" placeholder="Enter City" name="city">
+
+                        <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
+                                                          
+
+                                                       
+                                                        <div class="d-flex justify-content-between align-items-center list-unstyled w-100">
+                                                            <div> Already Account? <a style="color: green;" href="<%= process.env.APP_URL %>/login"><u style="font-size: 15px;">Login ?</u></a></div>
+                                                            <div class="form-actions center">
+                                                                <button type="submit"  onclick="spinner()" class="btn btn-primary">Start Free Trial </button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <script type="text/javascript">
+                                function spinner() {
+                        
+                                    document.getElementsByClassName("loader")[0].style.display = "block";
+                                }
+                            </script>
+
+                        </div>
+                    </section>
+
+
+                </div>
+
+                <!-- content body-->
+
+            </div>
+        </div>
+        <!-- START FOOTER DARK-->
+    
+<script>
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            document.getElementsByClassName("loader")[0].style.display = "block";
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              document.getElementsByClassName("loader")[0].style.display = "none";
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+    
+        <%- include('../partials/footer'); %>
+
+            <!-- END Content-->

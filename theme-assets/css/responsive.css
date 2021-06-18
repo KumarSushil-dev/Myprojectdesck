@@ -1,0 +1,826 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+
+/* @import url('css/font-awesome.min.css');*/
+
+
+/* In html file */
+
+
+/*<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<meta name="viewport" content="width=device-width">*/
+
+
+/**
+ * 8.0 Media Queries
+ * ----------------------------------------------------------------------------
+ */
+
+
+/* Does the same thing as <meta name="viewport" content="width=device-width">,
+ * but in the future W3C standard way. -ms- prefix is required for IE10+ to
+ * render responsive styling in Windows 8 "snapped" views; IE10+ does not honor
+ * the meta tag. See https://core.trac.wordpress.org/ticket/25888.
+ */
+
+@-ms-viewport {
+    width: device-width;
+}
+
+@viewport {
+    width: device-width;
+}
+
+@media (max-width: 1599px) {}
+
+@media (max-width: 1200px) {
+    #slider {
+        border-bottom-left-radius: 100px;
+    }
+    .graphics_4 {
+        height: 250px;
+        width: 250px;
+        right: 40px;
+    }
+    #features .featureTile h4 {
+        min-height: 40px;
+    }
+}
+
+@media (max-width: 1069px) {
+    #features .featureTile p {
+        font-size: 13px;
+        min-height: 80px;
+    }
+    #features .featureTile h4 {
+        min-height: 33px;
+        font-size: 14px;
+    }
+    #featurePage .features_slider .features_slider-contant h1 {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 992px) {
+    .slider_left {
+        width: 60%;
+    }
+    #slider .sliderRight {
+        width: 40%;
+    }
+    #slider .sliderRight img {
+        width: 100%;
+    }
+    h1 {
+        font-size: 28px;
+    }
+    h2 {
+        font-size: 18px;
+    }
+    #slider .slider_left ul li {
+        font-size: 14px;
+    }
+    #slider {
+        height: 500px;
+        min-height: 500px;
+        border-bottom-left-radius: 50px;
+    }
+    .graphics_4 {
+        display: none;
+    }
+    #bestParental .mobileImage {
+        display: none;
+    }
+    h3.sectionHeading {
+        font-size: 28px;
+        text-align: center;
+    }
+    #bestParental {
+        background: none;
+        padding: 40px 0px;
+    }
+    .siteButton {
+        margin: auto;
+    }
+    #features p {
+        color: #fff;
+        font-size: 16px;
+    }
+    #features {
+        padding: 40px 0px;
+    }
+    #features .featureTile {
+        padding: 5px;
+    }
+    #features .featureTile h4 {
+        min-height: auto;
+    }
+    #features .featuresBottomContent p {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    #features .featuresBottomContent ul {
+        justify-content: center !important;
+    }
+    .headerButtons {
+        display: flex;
+        flex-direction: row;
+    }
+    #header .navbar-nav {
+        margin-top: 20px;
+    }
+    #header ul li a {
+        font-size: 14px;
+        font-weight: 400;
+        padding-left: 0;
+    }
+    #header ul.headerButtons li a.loginButton {
+        margin-left: 0;
+    }
+    #header .navbar-brand img {
+        width: 150px;
+    }
+    #ParentalControl24-7 {
+        padding: 40px 0px;
+    }
+    #ParentalControl24-7 h3.sectionHeading {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+    #ParentalControl24-7 p {
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 15px;
+    }
+    #ParentalControl24-7 .siteButton {
+        margin: inherit;
+    }
+    #testimonials {
+        padding: 40px 0px;
+    }
+    #selectPackage {
+        padding: 40px 0px;
+    }
+    #selectPackage h3 {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+    #selectPackage p {
+        font-size: 16px;
+    }
+    .navbar-toggler-icon i {
+        vertical-align: sub;
+    }
+    #featurePage .featureSideBarContaner {
+        width: 210px;
+    }
+    #featurePage .featureSideBar {
+        width: 210px;
+        top: 80px;
+    }
+    .listSingle .listDescription h5 {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    .listSingle .listDescription p {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    .listSingle .listDescription ul li {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    .listSingle .listDescription ul:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    .listDescription {
+        margin: 20px 0px;
+    }
+    #featurePage .features_slider {
+        padding: 80px 0px 40px;
+    }
+    .features_slider-contant {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+    #pricingPage .bg-green {
+        border: none !important;
+        width: auto;
+        flex: 1;
+    }
+    #pricingPage button {
+        border: none !important;
+        background: #12bad2;
+        color: #fff;
+    }
+    #pricingPage .bg-green:last-child button {
+        background: #333;
+    }
+    #pricingPage .bg-green:nth-child(2) button {
+        background: #a4cb61;
+    }
+    #pricingPage {
+        padding: 50px 0px;
+        background: #f2fcfd;
+    }
+    .detail {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        background: #fff;
+        border: 1px solid #ccc;
+        top: 70px;
+        z-index: 9;
+    }
+    .course-pricing-table.border-end-0.bg-white {
+        padding: 0px !important;
+        border: none !important;
+    }
+    #pricingPage td.default.course-pricing-table {
+        width: 60%;
+    }
+    #pricingPage table.course-pricing-table {
+        margin-top: 156px;
+    }
+    #pricingPage td.course-pricing-table,
+    #pricingPage th.course-pricing-table {
+        font-size: 12px;
+        font-weight: 700;
+        width: 50%;
+    }
+    #howItWorkPage #track_Steps h1 {
+        color: #f5f5f6;
+        margin-bottom: -24px;
+        font-size: 95px;
+        text-transform: uppercase;
+        font-weight: 900;
+        margin-bottom: -50px !important;
+    }
+    #howItWorkPage .hiwSlider .serv_elemento1 {
+        display: none;
+    }
+    #howItWorkPage #track_Steps h1 {
+        font-size: 65px;
+        margin-bottom: -30px !important;
+    }
+    #howItWorkPage #track_Steps h3 {
+        font-size: 26px;
+    }
+    #howItWorkPage #track_Steps p {
+        font-size: 14px;
+    }
+}
+
+
+/* Collapse oversized image and pulled images after iPad breakpoint. */
+
+@media (max-width: 767px) {
+    h1 {
+        font-size: 24px;
+    }
+    #slider .slider_left ul li i {
+        font-size: 13px;
+        margin-right: 5px;
+    }
+    #slider {
+        height: 450px;
+        min-height: 450px;
+        border-bottom-left-radius: 50px;
+    }
+    #footer {
+        padding-top: 30px;
+    }
+    #footer .footMenu li a {
+        padding: 8px 10px;
+        display: block;
+        font-size: 14px;
+    }
+    #footer img {
+        width: 150px;
+        margin-bottom: 10px;
+    }
+    #ParentalControl24-7 h3.sectionHeading {
+        font-size: 20px;
+    }
+    #selectPackage .tryButton,
+    #selectPackage .demoButton {
+        font-size: 16px;
+        padding: 10px 30px;
+    }
+    #selectPackage h3 {
+        font-size: 22px;
+    }
+    #selectPackage p {
+        font-size: 14px;
+    }
+    #testimonials p {
+        width: 95%;
+    }
+    #slider .slider_left .tryButton,
+    #slider .slider_left .demoButton {
+        padding: 10px 25px;
+    }
+    #features .featureTile {
+        margin-top: 20px;
+    }
+    #slider .slider_left ul li {
+        font-size: 12px;
+    }
+    #featurePage .featureSideBar a {
+        font-size: 13px;
+    }
+    #featurePage .featureSideBar a {
+        padding: 5px 0px;
+        font-size: 13px;
+    }
+    #featurePage .featureSideBar {
+        width: 180px;
+    }
+    #featurePage .featureSideBarContaner {
+        width: 180px;
+    }
+    #featurePage .featureSideBar .dropdown-toggle::after {
+        right: 0px;
+        top: 14px;
+    }
+    #featurePage .featureLists {
+        padding-left: 15px;
+    }
+    #featurePage .features_slider .features_slider-contant p {
+        font-size: 13px;
+    }
+    #featurePage .features_slider .features_slider-contant .site_a,
+    #featurePage .features_slider .features_slider-contant .site_b {
+        font-size: 13px;
+        min-width: 100px;
+        padding: 12px 15px;
+    }
+    #featurePage .featureSideBar {
+        height: 87vh;
+    }
+    .listSingle .listDescription p {
+        display: none;
+    }
+    .listSingle .listDescription h5 {
+        font-size: 18px;
+    }
+    #featurePage {
+        background-size: cover;
+    }
+    .graphics_6 {
+        height: 320px;
+        width: 100%;
+        border-radius: 0;
+        opacity: .5;
+        top: 0%;
+        left: 0px;
+        will-change: inherit;
+        animation: inherit;
+        -webkit-animation: inherit;
+    }
+    #howItWorkPage .hiwSlider .slider-contant h1 {
+        font-size: 32px;
+        font-weight: 900;
+        color: #12bad2;
+    }
+    #howItWorkPage .hiwSlider .slider-contant p {
+        font-size: 16px;
+    }
+    #howItWorkPage .hiwSlider .slider-contant img {
+        display: none;
+    }
+    #howItWorkPage .hiwSlider {
+        padding: 90px 0px 80px;
+        position: relative;
+    }
+    #howItWorkPage .image_section,
+    #howItWorkPage #track_Steps .arroe_img img {
+        display: none;
+    }
+    #howItWorkPage #track_Steps h1 {
+        display: none;
+    }
+    .contant_section {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+    }
+    #track_Steps:nth-child(5) .contant_section {
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+        border-bottom: none;
+    }
+    #howItWorkPage #track_Steps h3 {
+        font-size: 20px;
+    }
+    .loginSignPopUp .sign-in-container ul {
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width: 576px) {
+    #slider .sliderRight {
+        display: none;
+    }
+    .slider_left {
+        width: 100%;
+    }
+    .slider_left ul {
+        display: none;
+    }
+    .slider_left h1 {
+        font-size: 28px;
+    }
+    .slider_left h1,
+    .slider_left h2 {
+        text-align: center;
+    }
+    .slider_left ul {
+        justify-content: center;
+    }
+    #slider .slider_left .demoButton {
+        margin-right: 0px;
+    }
+    #slider {
+        height: 330px;
+        min-height: 330px;
+    }
+    #slider .sliderContent {
+        padding-top: 70px;
+    }
+    h3.sectionHeading {
+        font-size: 22px;
+        text-align: center;
+    }
+    #features p {
+        font-size: 14px;
+    }
+    h3.sectionHeading {
+        margin-bottom: 10px;
+    }
+    #features .featureTile i {
+        font-size: 30px;
+        margin-top: 10px;
+    }
+    #ParentalControl24-7 h3.sectionHeading {
+        text-align: center;
+    }
+    #ParentalControl24-7 p {
+        text-align: center;
+        font-size: 15px;
+    }
+    #ParentalControl24-7 .siteButton {
+        margin: auto;
+        margin-bottom: 20px;
+    }
+    #selectPackage h3 {
+        text-align: center;
+    }
+    #selectPackage p {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    #selectPackage ul {
+        justify-content: center !important;
+    }
+    #footer ul.footMenu {
+        flex-wrap: wrap;
+        margin: 10px 0px;
+    }
+    #footer ul.footMenu li {
+        /* display: inline !important;
+        float: left;
+        width: 33%;
+        text-align: left; */
+    }
+    #footer ul.footMenu:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    #footer img {
+        width: 150px;
+        margin-bottom: 10px;
+        display: block;
+        text-align: center;
+        margin: auto;
+    }
+    .bestContent h3.sectionHeading {
+        margin-bottom: 20px;
+    }
+    .bestContent .siteButton {
+        margin-top: 20px;
+    }
+    .bestContent .row>*,
+    #features .row>* {
+        padding-right: 5px;
+        padding-left: 5px;
+        margin-top: 0px;
+    }
+    .bestParentalSingle {
+        margin-bottom: 10px;
+    }
+    .bestParentalSingle p {
+        font-size: 14px;
+        text-align: center;
+        color: #333;
+        min-height: 67px;
+    }
+    #featurePage .featureSideBarContaner {
+        display: none;
+    }
+    #featurePage .featureLists {
+        padding-left: 0;
+    }
+    .listSingle .listDescription p {
+        display: block;
+    }
+    #priceSlider {
+        height: 20vh;
+        min-height: 150px;
+        margin-top: 60px;
+    }
+    #howItWorkPage #More_Features .features {
+        background-color: #e7f3ff;
+        padding: 20px;
+        margin: 30px 0px;
+        border: 10px solid #d9e9f9;
+    }
+    #howItWorkPage #More_Features h2 {
+        font-size: 22px;
+    }
+    #howItWorkPage .hiwSlider {
+        padding: 35px 0px;
+        /* padding-bottom: 70px; */
+        position: relative;
+    }
+    .graphics_6 {
+        height: 310px;
+    }
+    #howItWorkPage .hiwSlider .slider-contant h1 {
+        font-size: 24px;
+        margin-bottom: 0px !important;
+    }
+    #howItWorkPage .hiwSlider .slider-contant p {
+        font-size: 16px;
+        margin: 10px 0px;
+    }
+    .loginSignPopUp form {
+        padding: 0 10px;
+    }
+    .loginSignPopUp .overlay-panel {
+        padding: 0px 10px;
+    }
+    .slider-contant {
+        padding-top: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    #features .featureTile h4 {
+        min-height: 38px;
+        font-size: 16px;
+    }
+    #features .featureTile p {
+        font-size: 13px;
+        min-height: 95px;
+    }
+    #features .featureTile {
+        margin-top: 10px;
+    }
+    #features p {
+        margin-bottom: 10px;
+    }
+    #ParentalControl24-7 h3.sectionHeading br {
+        display: none;
+    }
+    .bestParentalSingle p {
+        font-size: 13px;
+        text-align: center;
+        color: #333;
+        min-height: 67px;
+    }
+    .slider_left h1 {
+        font-size: 24px;
+    }
+    #features .featuresBottomContent .tryButton {
+        padding: 10px 20px;
+    }
+    #features .featuresBottomContent .demoButton {
+        padding: 10px 20px;
+        margin-right: 0px;
+    }
+    #testimonials p {
+        font-size: 13px;
+        width: 95%;
+    }
+    .graphics_3 {
+        height: 200px;
+        width: 200px;
+        bottom: 200px;
+        left: 210px;
+    }
+    .graphics_1 {
+        height: 200px;
+        width: 200px;
+        top: 210px;
+        left: -50px;
+    }
+    .listSingle .col-4 {
+        display: none;
+    }
+    .listSingle .col-8 {
+        width: 100% !important;
+    }
+    #featurePage .features_slider .container {
+        padding: 0px;
+    }
+    #featurePage .features_slider .features_slider-contant {
+        background: #12bad2;
+    }
+    #featurePage .features_slider .features_slider-contant {
+        background: #12bad2;
+        color: #fff;
+        padding: 20px 15px;
+        padding-top: 85px;
+    }
+    #featurePage .features_slider .features_slider-contant h1 {
+        font-size: 20px;
+        color: #fff;
+        text-align: center;
+    }
+    #featurePage .features_slider {
+        padding: 0px 0px 40px;
+    }
+    .features_slider-contant ul {
+        justify-content: center !important;
+    }
+    #featurePage .features_slider .features_slider-contant .site_a {
+        background: #ffffff;
+        color: #333;
+    }
+    .listSingle {
+        padding: 0px 15px;
+    }
+    .listDescription {
+        margin: 10px 0px;
+    }
+    #priceSlider .innerHeadingContainer h3 {
+        font-size: 22px;
+    }
+    .graphics_6 {
+        height: 295px;
+    }
+    #howItWorkPage #track_Steps .site_a,
+    #howItWorkPage #track_Steps .site_b,
+    #howItWorkPage .hiwSlider .slider-contant .site_a,
+    #howItWorkPage .hiwSlider .slider-contant .site_b,
+    #howItWorkPage #More_Features .site_a,
+    #howItWorkPage #More_Features .site_b {
+        min-width: 110px;
+        padding: 10px 15px;
+        margin: 0px 5px;
+    }
+    .loginSignPopUp .overlay h1,
+    .loginSignPopUp .overlay p {
+        display: none;
+    }
+    .loginSignPopUp .overlay button {
+        transform: rotate(90deg);
+        padding: 10px 25px;
+    }
+    .loginSignPopUp .overlay {
+        display: none;
+    }
+    .loginSignPopUp .sign-in-container {
+        left: 0;
+        width: 100%;
+        z-index: 2;
+    }
+    .loginSignPopUp .sign-up-container {
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        z-index: 1;
+    }
+    .loginSignPopUp .sign-up-container form {
+        margin-top: 0px !important;
+    }
+    .showTitleMobile {
+        display: block;
+    }
+    .showTitleMobile h1 {
+        font-size: 20px;
+    }
+    .showTitleMobile p {
+        font-size: 16px;
+        margin: 0px 30px 20px;
+    }
+    .loginSignPopUp form {
+        padding: 0px 30px;
+    }
+    .loginSignPopUp h1 {
+        margin: 0px;
+    }
+    .showSignUp,
+    .showLogin {
+        position: absolute;
+        bottom: 0px;
+        text-align: center;
+        width: 100%;
+        left: 0px;
+        background: #12bad2;
+        font-size: 14px;
+        padding: 10px;
+        color: #fff !important;
+    }
+    .loginSignPopUp .show .sign-up-container {
+        opacity: 1;
+    }
+    .loginSignPopUp .show .sign-in-container {
+        opacity: 0;
+        z-index: 0;
+    }
+    .selectBoxContainer {
+        display: flex;
+        justify-content: space-between;
+    }
+    .selectBoxContainer .select {
+        width: 48%;
+    }
+    .selectBoxContainer .select select {
+        border: none;
+        background: #eee;
+    }
+    #exampleModalCenter .form-control {
+        margin-bottom: 7px;
+    }
+    .loginSignPopUp .overlay-container {
+        z-index: 0;
+    }
+    #slider .sliderContent {
+        padding-top: 65px;
+    }
+    #howItWorkPage .hiwSlider {
+        padding-bottom: 0px;
+    }
+}
+
+
+/* Mobile devices */
+
+@media (max-width: 375px) {
+    .bestContent .row>*,
+    #features .row>* {
+        width: 100%;
+    }
+    .bestParentalSingle p {
+        min-height: auto;
+    }
+    #features .featureTile h4 {
+        min-height: auto;
+        font-size: 16px;
+    }
+    #features .featureTile p {
+        font-size: 13px;
+        min-height: auto;
+    }
+    #selectPackage .tryButton,
+    #selectPackage .demoButton {
+        font-size: 15px;
+        padding: 10px 20px;
+    }
+    .slider_left h1 {
+        font-size: 22px;
+    }
+    .slider_left h2 {
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 10px !important;
+    }
+    .graphics_6 {
+        height: 315px;
+    }
+}
+
+
+/**
+ * 9.0 Print
+ * ----------------------------------------------------------------------------
+ */
+
+
+/* Retina-specific styles. */
+
+@media print,
+(-o-min-device-pixel-ratio: 5/4),
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 120dpi) {}
+
+@media print {}

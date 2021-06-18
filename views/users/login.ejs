@@ -1,0 +1,159 @@
+<%- include('../partials/header'); %>
+
+    <!-- For Left Sidebar include body-> data-menu="vertical-menu" class="vertical-layout vertical-menu content-left-sidebar menu-expanded"-->
+
+    <style>
+        html body .content .content-wrapper {
+           background-size: cover;
+            height: 100vh;
+        }
+        
+        .card-body {
+            text-align: center;
+        }
+        
+        .card {
+            margin-top: 10vh;
+        }
+        
+        footer.footer-light {
+            background: #fff;
+            position: fixed;
+            bottom: 0px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        footer.footer-light span {
+            display: block;
+            text-align: center;
+        }
+    </style>
+
+    <body>
+        <!-- BEGIN Content-->
+        <div class="content modern-content container-fluid">
+            <div class="content-wrapper">
+                <!-- content header-->
+                <div class="content-header row">
+
+                </div>
+                <!-- content header-->
+
+                <!-- content body-->
+                <div class="content-body">
+
+
+
+                    <section class="basic-inputs h-100">
+
+                        <div class="row match-height h-100 justify-content-center align-items-center">
+                            <div class="col-xl-4 col-md-4">
+                                <form action="/login" method="post" class="form needs-validation" novalidate>
+
+                                    <div class="card">
+                                        <div class="card-content">
+                                            <div class="card-body">
+
+                                                <style>
+                                                    .brand-logo {
+                                                        width: 284px;
+                                                    }
+
+                                                    
+                                                        </style>
+                                              <a href="<%= process.env.APP_URL %>"> <img class="brand-logo" alt="Admin logo" src="/theme-assets/images/logo/logo.png" />
+                                                    </a>
+
+                                            </div>
+                                            <div class="card-body">
+                                                <% if (locals.messages) { %>
+                                                    <div class="alert alert__success " style="color:red; ">
+                                                        <%= messages.error %>
+                                                    </div>
+                                                    <% } %>
+                                                        <div class="form-body">
+                                                            <h1>Welcome Back!</h1>
+                                                            <p>To keep connected with us please login with your personal info</p>
+                                                            <div class="form-group">
+                                                                <label for="donationinput3" class="sr-only">E-mail</label>
+                                                                <input type="email" id="donationinput3" class="form-control" required placeholder="E-mail" name="email">
+                                                                <div class="valid-feedback">Valid.</div>
+                                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                                                <small>We will never share your username with anyone else.
+                                                                </small>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="donationinput4" class="sr-only">Password</label>
+                                                                <input type="password" required class="form-control" id="donationinput4" name="password" placeholder="Enter Password">
+                                                                <div class="valid-feedback">Valid.</div>
+                                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                                            </div>
+
+                                                        </div>
+                                                        <ul class="d-flex justify-content-between align-items-center list-unstyled w-100">
+                                                            <li class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                                <label class="custom-control-label" for="customCheck1" style="font-size: 12px; text-align: left; margin-left: 10px;">Remember me</label>
+                                                            </li>
+                                                            <li><a href="#">Forgot your password?</a></li>
+                                                        </ul>
+
+                                                        <div class="d-flex justify-content-between align-items-center list-unstyled w-100">
+                                                            <div>
+                                                               <a style="    color: green;" href="<%= process.env.APP_URL %>/signup"><u style="font-size: 15px;">Sign Up for free trial ?</u></a>
+                                                            </div>
+                                                            <div class="form-actions center">
+                                                                <button type="submit" class="btn btn-primary">Login !</button>
+
+                                                            </div>
+                                                        </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </section>
+
+
+                </div>
+
+                <!-- content body-->
+
+            </div>
+        </div>
+        <!-- START FOOTER DARK-->
+      
+<script>
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            $('.preloader').show();
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              $('.preloader').hide();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+    
+        <%- include('../partials/footer'); %>
+
+            <!-- END Content-->

@@ -1,0 +1,104 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        <%- include('../partials/left'); %>
+        <link href="https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Emailtemplate </h4>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                                <ul class="list-inline mb-0">
+                                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+                                <form action="/emailtemplateedit" method="post" class="form">
+                                 <div class="form-body">
+                                            <h4 class="form-section">
+                                                <i class="ft-flag"></i>Edit Emailtemplate</h4>
+                                          
+                                        <input type="hidden" name="id" value="<%= emailtemplate.data.id; %>">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="companyName">Title</label>
+              <input type="text" id="companyName" class="form-control" placeholder="Emailtemplate Title" name="title" value="<%= emailtemplate.data.title; %>" required>
+              <div class="valid-feedback">Valid.</div>
+              <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="subject">Subject</label>
+          <input type="text" id="subject" class="form-control" placeholder="Emailtemplate Subject" name="subject" value="<%= emailtemplate.data.subject; %>" required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+          
+          
+          <div class="form-group">
+            <label for="edit">Description</label>
+          <textarea  id="edit"  rows="20"  placeholder="Emailtemplate Description" name="format" value="<%= emailtemplate.data.format; %>" required><%= emailtemplate.data.format; %></textarea>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+                       
+
+
+
+            
+                            <div class="form-actions">
+                            <a type="button" href="/emailtemplate" class="btn btn-danger mr-1">
+                            <i class="ft-x"></i> Cancel</a>
+                            <button  onclick="spinner()"  type="submit" class="btn btn-primary">
+                            <i class="la la-check-square-o"></i> Update</button>
+                                        </div>
+                                  </form>
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table head options end -->
+        </div>
+    </div>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@3.1.0/js/froala_editor.pkgd.min.js"></script>
+
+<!-- Initialize the editor. -->
+ <script>
+  new FroalaEditor('#edit', {
+    // Set the file upload URL.
+    imageUploadURL: 'image_upload',
+    imageUploadParams: {
+      id: 'my_editor'
+    }
+  })
+</script>
+
+<%- include('../partials/footer'); %>

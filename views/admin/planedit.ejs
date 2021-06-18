@@ -1,0 +1,130 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        <%- include('../partials/left'); %>
+        <script type="text/javascript" src="<?php echo SITE_URL; ?>frontend/js/jquery.formatCurrency-1.4.0.min.js"></script>
+
+<script> $(function () {
+  $(".currency").blur(function () {
+    $(".currency").html(null), $(this).formatCurrency({
+      colorize: !0,
+      symbol: "",
+      negativeFormat: "-%s%n",
+      roundToDecimalPlace: -1
+    })
+  }).keyup(function (e) {
+    var e = window.event || e,
+      a = e.charCode || e.keyCode;
+    if (110 != a && 229 != a && 190 != a && 46 != a && 45 != a && a > 31 && (96 > a || a > 105) && (48 > a || a > 57) && $(".currency").val(""), void 0 !== e) switch (a) {
+      case 16:
+        break;
+      case 17:
+        break;
+      case 18:
+        break;
+      case 27:
+        this.value = "";
+        break;
+      case 35:
+        break;
+      case 36:
+        break;
+      case 37:
+        break;
+      case 38:
+        break;
+      case 39:
+        break;
+      case 40:
+        break;
+      case 78:
+        break;
+      case 110:
+        break;
+      case 190:
+        break;
+      default:
+        $(this).formatCurrency({
+          colorize: !0,
+          negativeFormat: "-%s%n",
+          roundToDecimalPlace: -1,
+          eventOnDecimalsEntered: !1
+        })
+    }
+  }).bind("decimalsEntered", function (e, a) {
+    var t = "Please do not enter any cents (0." + a + ")";
+    alert(t), log("Event on decimals entered:" + t)
+  });
+});
+</script>
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Plan </h4>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                                <ul class="list-inline mb-0">
+                                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+                                <form action="/planedit" method="post" class="form">
+                                 <div class="form-body">
+                                            <h4 class="form-section">
+                                                <i class="ft-flag"></i>Edit Plan</h4>
+                                            <div class="form-group">
+                                            <label for="companyName">Name</label>
+                                          <input type="text" id="companyName" class="form-control" placeholder="Plan Name" name="name" required value="<%= plan.data.name; %>">
+                                        <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                        <input type="hidden" name="id" value="<%= plan.data.id; %>">
+                        </div>
+
+                        <div class="form-group">
+                        <label for="price">Price </label>
+                        <input type="text" id="price" maxlength="4" value="<%= plan.data.price; %>" class="form-control currency" placeholder="Price" name="price" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                            </div></div>
+            
+                            <div class="form-actions">
+                            <a type="button" href="/plan" class="btn btn-danger mr-1">
+                            <i class="ft-x"></i> Cancel</a>
+                            <button  onclick="spinner()"  type="submit" class="btn btn-primary">
+                            <i class="la la-check-square-o"></i> Update</button>
+                                        </div>
+                                  </form>
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table head options end -->
+        </div>
+    </div>
+</div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+
+<%- include('../partials/footer'); %>
