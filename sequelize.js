@@ -8,6 +8,7 @@ const UserattendancelogModel = require('./models/userattendancelog')
 const EmailtemplateModel = require('./models/emailtemplate')
 const SubscriptionsModel = require('./models/subscription')
 const StaticModel = require('./models/staticpages')
+const SitesettingsModel = require('./models/sitesettings')
 //const LocationModel = require('./models/location')
 
 
@@ -33,10 +34,15 @@ const Userattendancelog = UserattendancelogModel(sequelize, Sequelize)
 const Emailtemplate = EmailtemplateModel(sequelize, Sequelize)
 const Subscriptions = SubscriptionsModel(sequelize, Sequelize)
 const Static = StaticModel(sequelize, Sequelize)
+const Sitesettings = SitesettingsModel(sequelize, Sequelize)
 //const Location = LocationModel(sequelize, Sequelize)
 User.belongsTo(Country, { foreignKey: 'country_id' });
 User.belongsTo(State, { foreignKey: 'state_id' });
 User.belongsTo(Plan, { foreignKey: 'plan_id' });
+
+Subscriptions.belongsTo(Plan, { foreignKey: 'plan_id' });
+Subscriptions.belongsTo(User, { foreignKey: 'userId' });
+Sitesettings.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(Subscriptions);
 //Subscriptions.hasMany(User, { foreignKey: 'id' });
 //Subscriptions.hasMany(Plan, { foreignKey: 'id' });
@@ -48,5 +54,5 @@ sequelize.sync()
   })
 
 module.exports = {
-  User,Country,State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Static,Op
+  User,Country,State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Static,Sitesettings,Op
 }

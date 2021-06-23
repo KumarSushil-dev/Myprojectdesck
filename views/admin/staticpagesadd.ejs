@@ -90,11 +90,11 @@
         // Loop over them and prevent submission
         var validation = Array.prototype.filter.call(forms, function(form) {
           form.addEventListener('submit', function(event) {
-            $('.preloader').show();
+            document.getElementsByClassName("loader")[0].style.display = "block";
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
-              $('.preloader').hide();
+              document.getElementsByClassName("loader")[0].style.display = "none";
             }
             form.classList.add('was-validated');
           }, false);

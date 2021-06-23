@@ -1,0 +1,276 @@
+
+  <div id="table_wrapper2">
+  
+    <% if(roleid==2){ var orderid=order.id; 
+      var ppid=getinvoicedata.data[0].payment_id; if(ppid){ %><button  class="btn btn-danger pull-right" style="margin-top: -41px;">Paid && Download</button>  <%  }else{ %>
+ <button id="rzp-button1"  class="btn btn-primary pull-right" style="margin-top: -41px;">Pay</button>
+ <% } %>
+
+
+<script> 
+
+ var options = 
+  {
+   "key": "rzp_test_ZL1wkQfxNIacl5", // Enter the Key ID generated from the Dashboard 
+   "name": "Test Company", 
+   "order_id": "<%= order.id; %>", // For one time payment
+   "subscription_id" : "", // For recurring subscription
+   "prefill": {
+     "name": "<%= getinvoicedata.data[0].user.companyname; %>",
+     "email": "<%= getinvoicedata.data[0].user.email; %>",
+     "contact": "<%= getinvoicedata.data[0].user.mobile; %>"
+   },
+   "theme": {
+    "color": "#3399cc"
+   },
+   // This handler function will handle the success payment
+   "handler": function (response) {
+    var pid='<%= getinvoicedata.data[0].order_id; %>';
+    var psid='<%= getinvoicedata.data[0].id; %>';
+    var planid='<%= getinvoicedata.data[0].plan_id; %>';
+    var userId='<%= getinvoicedata.data[0].userId; %>';
+   var data = {};
+   data.id=psid;
+   data.payment_id=response.razorpay_payment_id;
+   data.signature_razorpay=response.razorpay_signature;
+   data.order_id=pid;
+   data.plan_id=planid;
+   data.user_id=userId;
+
+
+    $.ajax({
+      url:'/api/users/updatepayment',
+      method:'post',  
+     contentType: 'application/json',
+      data: JSON.stringify(data), 
+  success: function(response){
+if(response.data==1){
+window.location.href ='<%= process.env.APP_URL %>/orderinvoice?userfound=1';
+}else{
+  window.location.href ='<%= process.env.APP_URL %>/orderinvoice?userfound=2';
+
+}
+},
+});
+ 
+   },
+};
+var rzp1 = new Razorpay(options);
+document.getElementById('rzp-button1').onclick = function (e) {
+  rzp1.open();
+  e.preventDefault();
+}
+rzp1.on('payment.failed', function (response)
+ {            
+  alert(response.error.code);     
+  alert(response.error.description);      
+  alert(response.error.source);
+  alert(response.error.step);     
+  alert(response.error.reason);
+  alert(response.error.metadata.order_id);
+  alert(response.error.metadata.payment_id);
+ });
+</script>
+   
+    
+      
+         
+          <% } %>
+  <hr>
+<table width="100%" >
+ 
+  
+    <tr>
+ 
+    <td style="color:#6610f2; font-size:19px; font-weight:bold; text-align:left; height:28px; line-height:28px; width:48%;"><%= getinvoicedata.admin.companyname; %>
+    </td>
+    
+    <td style="color:#6610f2; font-size:19px; font-weight:bold; text-align:right; height:28px; line-height:28px; width:48%;">
+    Invoice
+    </td>
+    <td width="2%"></td>
+    </tr>
+    
+    
+    <tr>
+
+    <td style="color:#7d7d7d; font-size:15px; font-weight:normal; text-align:left; height:28px; line-height:22px; width:35%;">
+      <%= getinvoicedata.admin.address; %><br>
+      <%= getinvoicedata.admin.zipcode; %> INDIA
+    </td>
+    
+    <td style="color:#7d7d7d; font-size:15px; font-weight:normal; text-align:right; height:28px; line-height:28px; width:61%;">
+      <%  if(getinvoicedata.data.length > 0){ %>
+        <%= getinvoicedata.data[0].order_id; %> 
+        <% } %>
+    </td>
+  
+    </tr>
+    </table>
+    <br>
+    <br>
+    
+    <table width="100%" style="background-color:#f8f9fa;">
+    
+    
+    
+    <tr>
+
+    <td width="100%" colspan="3" style="padding: 8px;height:20px; color:#6610f2; line-height:20px; font-size:13px;">Billing to:</td>
+  
+    </tr>
+    
+    <tr>
+    
+    <td width="60%" style="color:#000; padding: 8px; text-align:left; font-size:13px;"><%= getinvoicedata.data[0].user.companyname; %></td>
+    <td width="20%" style="padding: 8px;text-align:left; color:#6610f2;  font-size:13px;">Invoice Date</td>
+    <td width="20%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:right;"><%= moment(getinvoicedata.data[0].createdAt).format('DD-MM-YYYY'); %></td>
+   
+    </tr>
+    
+    <tr>
+    
+    <td width="60%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:left;"><%= getinvoicedata.data[0].user.address; %> <%= getinvoicedata.data[0].user.zipcode; %>
+    </td>
+    <td width="20%" style="padding: 8px;text-align:left; color:#6610f2;  font-size:13px;"></td>
+    <td width="20%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:right;"></td>
+   
+    </tr>
+    
+  
+    </table>
+    <br>
+    <br>
+    
+    <table width="100%">
+    <tr>
+  
+    
+    <td width="60%" style="height:25px; text-align:left; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd; border-bottom:1px solid #ddd; border-right:1px solid #ddd;">Description 
+    </td>
+    
+    <td width="40%"  style="height:25px; text-align:right; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd; border-bottom:1px solid #ddd;">Amount (In Rs.) 
+    </td>
+   
+    
+    </tr>
+    
+    
+    <tr>
+  
+    <td width="60%" style=" padding: 8px;color:#000;  font-size:13px; text-align:left; height:40px ; line-height:22px;">
+    My Project Desk Employee Desktop Monitoring Software
+    <div style="font-size:11px; font-weight:normal;">-  <%  if(getinvoicedata.data.length > 0){ %> <%= getinvoicedata.data[0].totaluser; %>  Users Plan @ Rs. 249.00<br>
+    - Billing Period: <%= moment(getinvoicedata.data[0].created).format('DD-MM-YYYY'); %> to <%= moment(getinvoicedata.data[0].expiry_date).format('DD-MM-YYYY');  %> <% } %></div>
+    
+    
+    </td>
+    
+    <td width="40%"  style=" padding: 8px;color:#000;  font-size:13px; text-align:right;"> 
+      <%= getinvoicedata.data[0].plantotalprice; %>
+    </td>
+     
+   
+    </tr>
+    
+    </table>
+    <br>
+    <br>
+    <table width="100%">
+    <tr>
+  
+    
+    <td width="60%" style="height:25px; text-align:left; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
+    Thank you for your Business!
+    </td>
+    
+    <td width="20%" style="padding: 8px;height:25px; text-align:left; color:#000; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
+    Sub Total
+    </td>
+    
+    <td width="20%" style="padding: 8px;height:25px; text-align:right; color:#000; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
+      <%= getinvoicedata.data[0].plantotalprice; %>
+    
+    </td>
+    
+  
+    </tr>
+    
+    
+    <tr>
+    <td  width="60%" style="height:18px; line-height:18px; ">
+    
+    </td>
+    
+    
+    
+    <td width="20%" style="padding: 8px;height:18px; text-align:left; color:#000; line-height:18px; font-size:13px;  ">
+    Discount
+    </td>
+    
+    <td width="20%" style="padding: 8px;height:18px; text-align:right; color:#000; line-height:18px; font-size:13px;   ">
+      <%= getinvoicedata.data[0].discount; %>
+    
+    </td>
+    
+    
+    </tr>
+    
+    
+  
+    
+
+   
+    
+      <tr>
+        <td  width="60%" style="height:18px; line-height:18px; ">
+        
+        </td>
+        
+        
+        
+        <td width="20%" style="padding: 8px;height:18px; text-align:left; color:#000; line-height:18px; font-size:13px;  ">
+        Tax (18%)
+        </td>
+        
+        <td width="20%" style="padding: 8px;height:18px; text-align:right; color:#000; line-height:18px; font-size:13px;   ">
+          <%= getinvoicedata.data[0].taxprice; %>
+        
+        </td>
+        
+      
+        </tr>
+    
+        <tr>
+          <td  width="60%" style="height:18px; line-height:18px; ">
+        
+          </td>
+    <td width="20%" style="padding: 8px;height:40px; text-align:left; color:#fff; background-color:#6610f2; line-height:40px; font-size:13px;  ">
+    &nbsp; Total Order Value
+    </td>
+    
+    <td width="20%" style="padding: 8px;height:40px; text-align:right; color:#fff; background-color:#6610f2; line-height:40px; font-size:13px;   ">
+      <%= getinvoicedata.data[0].payment_detail; %> &nbsp;
+    
+    </td>
+    
+   
+    </tr>
+   </table>
+    <table width="100%">
+     
+    
+    <tr>
+  
+    <td width="40%" style=" padding: 8px;text-align:left; color:#6610f2; font-size:13px;  font-size:13px;  ">
+    Amount in Words
+    </td>
+    
+    <td width="60%" style="padding: 8px;text-align:right; color:#000; font-size:11px;  font-size:13px;  ">
+        <%=  toWords.convert(getinvoicedata.data[0].payment_detail); %>
+    </td>
+    
+    
+    </tr>
+   
+    </table></div>

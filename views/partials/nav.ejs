@@ -43,8 +43,10 @@
 
                             <%= person %>
                               </span></a>
-                              <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="ft-user"></i> Edit Profile</a>
-                                
+                              <div class="dropdown-divider"></div><a class="dropdown-item" href="<%= process.env.APP_URL %>/editprofile"><i class="ft-user"></i> My Profile</a>
+                              <% if(roleid==2){ %>
+                              <div class="dropdown-divider"></div><a class="dropdown-item" href="<%= process.env.APP_URL %>/orderinvoice"><i class="ft-check-square"></i> Account & Billing</a>
+                                <% } %>
                                 <div class="dropdown-divider"></div><a class="dropdown-item" href="<%= process.env.APP_URL %>/logout"><i class="ft-power"></i> Logout</a>
                             </div>
                         </div>

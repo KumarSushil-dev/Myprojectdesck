@@ -1,4 +1,4 @@
-const {getcountry,getstate,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,saveuserpunch,saveuserpunchout,activationverificationid,getplan,planupgradesbyid } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,saveuserpunch,saveuserpunchout,activationverificationid,getplan,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,updatepaymentid } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -164,6 +164,229 @@ getselectedstate: (req, res) => {
 
 },
 
+// Get Selected State from Country 
+getSearch: (req, res) => {
+    const body = req.body;
+
+    getSearchid(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+   
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            detail: ""
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+
+    });
+
+},
+
+// Get Selected User Detail
+getDetail: (req, res) => {
+    const body = req.body;
+
+    getDetailid(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+        
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            detail: ""
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+
+    });
+
+},
+
+
+
+// Get Selected User Detail
+editprofile:(req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    editprofileid(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+        getcountry(body, (err, resultsdata) => {
+            getstate(body, (err, resultsdatae) => {
+                getsitesettings(body, (err, resultsetting) => {
+
+            
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            country:resultsdata,
+            state:resultsdatae,
+            settings:resultsetting,
+            detail: ""
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+    });
+    });
+    });
+});
+
+},
+
+// Get Selected User Detail
+getsubscription: (req, res) => {
+    const body = req.body;
+
+    getsubscriptionid(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+        
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            detail: ""
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+
+    });
+
+},
+
+// Get Selected User Detail
+updatepayment: (req, res) => {
+    const body = req.body;
+console.log(body);
+    updatepaymentid(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: 2,
+                detail: "Connection Error."
+            });
+        }
+        
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: 1,
+            detail: ""
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: 2,
+                detail: "No State Listed."
+
+            });
+
+        }
+
+    });
+
+},
+// Get Selected User Detail
+getsubscriptiondetail: (req, res) => {
+    const body = req.body;
+
+    getsubscriptiondetailid(body, (err, results) => {
+        
+        
+        if (results) {
+
+        getadmin(body, (err, resultsdata) => {
+           
+            return res.status(200).json({
+                success:true,
+                data: results,
+                admin:resultsdata,
+                detail: ""
+              });
+
+
+
+        });
+
+
+ }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+
+    });
+
+},
+
     // Login User
     loginuser: (req, res) => {
         const body = req.body;
@@ -193,7 +416,7 @@ getselectedstate: (req, res) => {
 
                     }
                     if (!data) {
-                        return res.status(500).json({
+                        return res.status(401).json({
                             success: false,
                             data: [],
                             detail: "Invalid username or password."
@@ -213,11 +436,12 @@ getselectedstate: (req, res) => {
                         success: true,
                         data: obj,
                         companyname: test[0].companyname,
+                        roleid: test[0].role_id,
                         detail: "Logged IN"
     });
 }else{
 
-    return res.status(500).json({
+    return res.status(401).json({
         success: false,
         data: [],
         detail: "Invalid username or password."
@@ -401,6 +625,81 @@ var str=utest[0].format;
 });
     });
     },
+// Signup User Web
+addsubscriptions: (req, res) => {
+    const body = req.body;
+    body.orderid=randomstring.generate(7);
+    addsubscriptionsid(body, (err, results) => {
+       
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                data: results,
+                detail: "Connection Error."
+
+            });
+        }
+
+        if (!results){
+            return res.status(500).json({
+                success: false,
+                data: results,
+                detail: "Invalid username or password."
+
+            });
+        }
+
+        if (results) {
+            res.status(200).json({ message: "Mail send", results: results,   data: results });
+      /*  body.lid=1;
+        getemailtemplate(body, (err, resultsf) => {
+    //  console.log(resultsf);
+            var ure = JSON.stringify(resultsf);
+            var utest = JSON.parse(ure);
+          
+         
+var activation=process.env.APP_URL+'/activationverified/'+body.activationkey;
+
+    var replacements = {
+        "%Name%": body.companyname,
+        "%Email%": body.email,
+        "%Password%": body.password,
+        "%Activation%": activation
+    }
+
+var str=utest[0].format;
+    str = str.replace(/%\w+%/g, function(all) {
+        return replacements[all] || all;
+     });
+            const mailData = {
+                from: 'noreply@eboxtenders.com',
+                to: body.email,
+                subject: utest[0].subject,
+                text: '',
+                html: str,
+            };
+        
+            transporter.sendMail(mailData, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+
+
+                res.status(200).json({ message: "Mail send", message_id: info.messageId,   data: resultsdata });
+            });
+
+
+
+        });
+*/
+    }
+
+    });
+
+
+},
+
   // Get All User
     getallusers: (req, res) => {
 
@@ -409,6 +708,120 @@ var str=utest[0].format;
 
        body.userid=req.decoded.result[0].id;
         getuser(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "Connection Error."
+                });
+            }
+
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    detail: "No User Listed."
+
+                });
+            }
+
+            getplan(body, (err, resultsf) => {
+                if (err) {
+                    console.log(err);
+                    return;
+    
+                }
+
+                return res.status(200).json({
+                    success: true,
+                    data: results,
+                    plan:resultsf
+    
+    
+                });
+    
+    
+    
+            });
+
+
+   
+
+
+
+        });
+
+    },
+  // Get All User
+  billingdetail: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+        getuserbiling(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "Connection Error."
+                });
+            }
+
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    detail: "No User Listed."
+
+                });
+            }
+
+            getplan(body, (err, resultsf) => {
+                if (err) {
+                    console.log(err);
+                    return;
+    
+                }
+
+                return res.status(200).json({
+                    success: true,
+                    data: results,
+                    plan:resultsf
+    
+    
+                });
+    
+    
+    
+            });
+
+
+   
+
+
+
+        });
+
+    },
+  // Get All User
+  billingcompany: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+        getuserbilingcompany(body, (err, results) => {
             if (err) {
 
                 console.log(err);
@@ -516,7 +929,6 @@ var str=utest[0].format;
     planupgrades: (req, res) => {
         const body = req.body;
 
-console.log(body);
      
         planupgradesbyid(body, (err, results) => {
             if (err) {
@@ -568,7 +980,7 @@ console.log(body);
 
     activationverification: (req, res) => {
         const body = req.body;
-     
+     body.orderid=randomstring.generate(7);
         activationverificationid(body, (err, results) => {
             if (err) {
                 console.log(err);
@@ -727,7 +1139,140 @@ console.log(body);
 
         });
 
-    }
+    },
+
+// Edit Planlist
+usereditservice: (req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+if(body.companyname){
+    useredit(body, (err, results) => {
+       
+
+        getcountry(body, (err, resultsdata) => {
+            getstate(body, (err, resultsdatae) => {
+                getsitesettings(body, (err, resultsetting) => {
+
+            
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            country:resultsdata,
+            state:resultsdatae,
+            settings:resultsetting,
+            detail: "Your Profile has been updated succesfully."
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+    });
+    });
+    });
+     
+
+
+        
+       
+
+    });
+
+}else if(body.cpassword){
+
+    const salt = genSaltSync(10);
+      
+    body.passwords = hashSync(body.cpassword, salt);
+    passwordedit(body, (err, results) => {
+       
+       
+        getcountry(body, (err, resultsdata) => {
+            getstate(body, (err, resultsdatae) => {
+                getsitesettings(body, (err, resultsetting) => {
+
+            
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            country:resultsdata,
+            state:resultsdatae,
+            settings:resultsetting,
+            detail: "Password changed succesfully."
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+    });
+    });
+    });
+     
+
+
+        
+       
+
+    });
+
+}else{
+
+  
+    sitesettingedit(body, (err, results) => {
+
+
+        getcountry(body, (err, resultsdata) => {
+            getstate(body, (err, resultsdatae) => {
+                getsitesettings(body, (err, resultsetting) => {
+
+            
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            country:resultsdata,
+            state:resultsdatae,
+            settings:resultsetting,
+            detail: "Your Account Setting has been updated succesfully."
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+    });
+    });
+    });
+     
+
+
+        
+       
+
+    });
+}
+
+},
 
 
 

@@ -1,0 +1,645 @@
+<%- include('../partials/header'); %>
+<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        <%- include('../partials/left'); %>
+        <script type="text/javascript" src="/theme-assets/js/jquery.formatCurrency-1.4.0.min.js"></script>
+        <script> $(function () {
+          $(".currency").blur(function () {
+            $(".currency").html(null), $(this).formatCurrency({
+              colorize: !0,
+              symbol: "",
+              negativeFormat: "-%s%n",
+              roundToDecimalPlace: -1
+            })
+          }).keyup(function (e) {
+            var e = window.event || e,
+              a = e.charCode || e.keyCode;
+            if (110 != a && 229 != a && 190 != a && 46 != a && 45 != a && a > 31 && (96 > a || a > 105) && (48 > a || a > 57) && $(".currency").val(""), void 0 !== e) switch (a) {
+              case 16:
+                break;
+              case 17:
+                break;
+              case 18:
+                break;
+              case 27:
+                this.value = "";
+                break;
+              case 35:
+                break;
+              case 36:
+                break;
+              case 37:
+                break;
+              case 38:
+                break;
+              case 39:
+                break;
+              case 40:
+                break;
+              case 78:
+                break;
+              case 110:
+                break;
+              case 190:
+                break;
+              default:
+                $(this).formatCurrency({
+                  colorize: !0,
+                  negativeFormat: "-%s%n",
+                  roundToDecimalPlace: -1,
+                  eventOnDecimalsEntered: !1
+                })
+            }
+          }).bind("decimalsEntered", function (e, a) {
+            var t = "Please do not enter any cents (0." + a + ")";
+            alert(t), log("Event on decimals entered:" + t)
+          });
+        });
+        </script>
+       <script>
+           $(document).ready(function () {
+            $imgSrc = $('#imgProfile').attr('src');
+            function readURL(input) {
+
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#imgProfile').attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $('#btnChangePicture').on('click', function () {
+                // document.getElementById('profilePicture').click();
+                if (!$('#btnChangePicture').hasClass('changing')) {
+                    $('#profilePicture').click();
+                }
+                else {
+                    // change
+                }
+            });
+            $('#profilePicture').on('change', function () {
+                readURL(this);
+                $('#btnChangePicture').addClass('changing');
+                $('#btnChangePicture').attr('value', 'Confirm');
+                $('#btnDiscard').removeClass('d-none');
+                // $('#imgProfile').attr('src', '');
+            });
+            $('#btnDiscard').on('click', function () {
+                // if ($('#btnDiscard').hasClass('d-none')) {
+                $('#btnChangePicture').removeClass('changing');
+                $('#btnChangePicture').attr('value', 'Change');
+                $('#btnDiscard').addClass('d-none');
+                $('#imgProfile').attr('src', $imgSrc);
+                $('#profilePicture').val('');
+                // }
+            });
+        });
+           </script><style>
+                 .image-container {
+            position: relative;
+        }
+
+        .image {
+            opacity: 1;
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+
+        .middle {
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .image-container:hover .image {
+            opacity: 0.3;
+        }
+
+        .image-container:hover .middle {
+            opacity: 1;
+        }
+           </style>
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Update Profile </h4>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                                <ul class="list-inline mb-0">
+                                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+             
+                               
+
+<div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="card-body">
+                        <% if (locals.messages) { %>
+                            <div class="alert alert__success " style="color:red; ">
+                                <%= messages.error %>
+                            </div>
+                            <% } %>
+                        <div class="card-title mb-4">
+                            <div class="d-flex justify-content-start">
+                                <div class="image-container">
+                                    <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                    <div class="middle">
+                                        <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />
+                                       
+                                    </div>
+                                </div>
+                                <div class="userData ml-3">
+                                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);"><%= user.data.companyname; %> </a></h2>
+                                    <h6 class="d-block"><%= user.data.email; %></h6>
+                                
+                                </div>
+                                <div class="ml-auto">
+                                    <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+
+                            $(document).ready(function(){  
+                            
+                                $('select.country').click(function(){  
+                                    var selectedCountry = $(this).children("option:selected").val();
+                                if(selectedCountry!=""){
+                                    var data = {};
+                                                data.task = selectedCountry;
+                                $.ajax({  
+                                       url:'/api/users/getstate',  
+                                       method:'post',  
+                                       contentType: 'application/json',
+                                       data: JSON.stringify(data), 
+                                       success:function(response){  
+                                           console.log(response);
+                            
+                                           $('select[name="state_id"]').empty();
+                                                $.each(response.data,function(key,value){
+                                                    $('select[name="state_id"]').append('<option value="'+value.id+'">'+value.name+'</option>');
+                            
+                                                });
+                                        
+                                       },  
+                                       error:function(response){  
+                                           alert('server error occured')  
+                                       }  
+                                   });  
+                                }
+                                });  
+                            });  
+                             </script>
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                    </li> 
+                                    <% 
+                                        var roleids=user.data.role_id;  if(roleids==2){ %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">Account Settings</a>
+                                    </li> <% }  %>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="passwordServices-tab" data-toggle="tab" href="#passwordServices" role="tab" aria-controls="passwordServices" aria-selected="false">Change Password</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content ml-1" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+                                        <form action="/editprofile" method="post" class="form  needs-validation" novalidate>
+                                        
+                                            <input type="file" style="display: none;" id="profilePicture" name="logo" />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="firstname" style="font-weight:bold;">Full Name</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input type="text" id="firstname" class="form-control" placeholder="Enter Name" name="firstname" required value="<%= user.data.firstname; %>">
+                                        <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                    
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="mobile"style="font-weight:bold;">Mobile No.</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input type="text" id="mobile" class="form-control currency" placeholder="Enter Mobile No." name="mobile" required value="<%= user.data.mobile; %>">
+                                                <div class="valid-feedback">Valid.</div>
+                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        
+                                        
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="companyname"style="font-weight:bold;">Company Name</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input type="text" id="companyname" class="form-control" placeholder="Enter Name" name="companyname" required value="<%= user.data.companyname; %>">
+                                                <div class="valid-feedback">Valid.</div>
+                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="country_id"style="font-weight:bold;">Country</label>
+                                            </div>
+                                            <div class="col-md-4 col-6">
+                                                      
+<select name="country_id" required class="form-control country" >
+    <option value="">--Select Country--</option>
+    
+    <%  if(user.country.length > 0){
+        for(var i=0; i < user.country.length; i++) { %>
+<option <% if(user.data.country_id==user.country[i].id) { %> selected <% } %> value="<%= user.country[i].id; %>"><%= user.country[i].name; %></option>
+        <% } }  %>
+
+    </select>
+                                                <div class="valid-feedback">Valid.</div>
+                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                            </div>
+
+                                            <div class="col-md-4 col-6">
+                                                      
+                                                <select name="state_id" required class="form-control state" >
+                                                    <option value="">--Select State--</option>
+         <%  if(user.state.length > 0){
+             for(var i=0; i < user.state.length; i++) { %>
+           <option <% if(user.data.state_id==user.state[i].id) { %> selected <% } %> value="<%= user.state[i].id; %>"><%= user.state[i].name; %></option>
+                                                        <% } }  %>            
+                                                  
+                                                    </select>
+                                                                                                <div class="valid-feedback">Valid.</div>
+                                                                                                <div class="invalid-feedback">Please fill out this field.</div>
+             </div>
+            </div>
+                 <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="city"style="font-weight:bold;">City</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input type="text" id="city" class="form-control" placeholder="Enter Name" name="city" required value="<%= user.data.city; %>">
+                                                <div class="valid-feedback">Valid.</div>
+                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="address"style="font-weight:bold;">Address</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <textarea type="text" id="address" class="form-control" placeholder="Enter Address" name="address" required value="<%= user.data.address; %>"><%= user.data.address; %></textarea>
+                                                <div class="valid-feedback">Valid.</div>
+                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="zipcode"style="font-weight:bold;">Zip Code</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input type="text" id="zipcode" class="form-control" placeholder="Enter Zip Code" name="zipcode" required value="<%= user.data.zipcode; %>">
+                                                <div class="valid-feedback">Valid.</div>
+                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                            </div>
+                                        </div>
+                                     
+                                        <div class="form-actions">
+                                            <a type="button" href="/userlist" class="btn btn-danger mr-1">
+                                            <i class="ft-x"></i> Cancel</a>
+                                            <button  onclick="spinner()"  type="submit" class="btn btn-primary pull-right">
+                                            <i class="la la-check-square-o "></i> Update</button>
+                                                        </div>
+                                                   </form>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                                        <form action="/editprofile" method="post" class="form needs-validation" novalidate>
+                                          <div class="row">
+                                                <div class="col-sm-5 col-md-3 col-5">
+                                                    <label for="screenshot_freq" style="font-weight:bold;">Screenshot Frequency</label>
+                                                </div>
+                                                <div class="col-md-7 col-6">
+ <div class="app_radio pb-2">
+     
+    <div class="custom-radio custom-control"><input type="radio" id="hour12" name="screenshot_freq" class="custom-control-input"  
+        <% if(user.settings.length > 0){ %>  <% if(user.settings[0].screenshot_freq==12){ %> checked="checked"  <% } } %>  value="12"  ><label class="custom-control-label" for="hour12">12 Screenshots per hour</label>
+         <div class="c_text">Screenshot will be captured every 5 Minutes</div>
+        
+        </div>
+        
+        <div class="custom-radio custom-control">
+            <input type="radio" id="hour8" name="screenshot_freq" class="custom-control-input" <% if(user.settings.length > 0){ %>  <% if(user.settings[0].screenshot_freq==6){ %> checked="checked"  <% } } %> value="6"><label class="custom-control-label" for="hour8">6 Screenshots per hour</label>
+            
+            <div class="c_text">Screenshot will be captured every 10 Minutes</div></div>
+            
+            
+            <div class="custom-radio custom-control">
+                
+                <input type="radio" id="hour6" name="screenshot_freq" class="custom-control-input" <% if(user.settings.length > 0){ %> value="<%= user.settings[0].screenshot_freq; %>" <% if(user.settings[0].screenshot_freq==4){ %> checked="checked"  <% } } %> value="4">
+                <label class="custom-control-label" for="hour6">4 Screenshots per hour</label>
+                
+                <div class="c_text">Screenshot will be captured every 15 Minutes</div></div>
+                
+                <div class="custom-radio custom-control">
+                    
+                    <input type="radio" id="hour3" name="screenshot_freq" class="custom-control-input" <% if(user.settings.length > 0){ %> value="<%= user.settings[0].screenshot_freq; %>" <% if(user.settings[0].screenshot_freq==3){ %> checked="checked"  <% } } %> value="3">
+                    
+                    <label class="custom-control-label" for="hour3">3 Screenshots per hour</label>
+                    
+                    <div class="c_text">Screenshot will be captured every 20 Minutes</div></div></div>
+
+
+
+                                    
+                                                </div>
+                                            </div>
+                                            <hr />
+    
+                                            <div class="row">
+                                                <div class="col-sm-5 col-md-3 col-5">
+                                                    <label for="user_logintime" style="font-weight:bold;">User login time (In hours)</label>
+                                                </div>
+                                                <div class="col-md-7 col-6">
+                <input type="text" id="user_logintime" maxlength="2" class="form-control currency" placeholder="Enter User login time (In hours)" name="user_logintime" required <% if(user.settings.length > 0){ %> value="<%= user.settings[0].user_logintime; %>"  <% } %>>
+                                                    <div class="valid-feedback">Valid.</div>
+                                                    <div class="invalid-feedback">Please fill out this field.</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            
+                                         
+                                            <div class="row">
+                                                <div class="col-sm-4 col-md-3 col-5">
+                                                    <label for="idle_threshold" style="font-weight:bold;">Threshold</label>
+                                                </div>
+                                                <div class="col-md-4 col-6">
+                        <select name="idle_threshold" required class="form-control" >
+                        <option value="">--Idle threshold (In mins)--</option>
+                        <option <% if(user.settings.length > 0){ %> <% if(user.settings[0].idle_threshold==30) { %> selected <% } } %> value="30">30 Minutes</option>
+                        <option <% if(user.settings.length > 0){ %><% if(user.settings[0].idle_threshold==60) { %> selected <% } } %> value="60">1 Hour</option>
+                        <option <% if(user.settings.length > 0){ %> <% if(user.settings[0].idle_threshold==120) { %> selected <% } } %> value="120">2 Hours</option>
+                        <option <% if(user.settings.length > 0){ %><% if(user.settings[0].idle_threshold==180) { %> selected <% } } %> value="180">3 Hours</option>
+                        <option <% if(user.settings.length > 0){ %><% if(user.settings[0].idle_threshold==240) { %> selected <% } } %> value="240">4 Hours</option>
+                        <option <% if(user.settings.length > 0){ %><% if(user.settings[0].idle_threshold==300) { %> selected <% } } %> value="300">5 Hours</option>
+                        <option <% if(user.settings.length > 0){ %> <% if(user.settings[0].idle_threshold==360) { %> selected <% } } %> value="360">6 Hours</option>
+             
+                                                            
+                                                      
+                                                        </select>
+
+
+
+
+                                                </div>
+                                                <div class="col-md-4 col-6">
+                                                    <input type="text" id="idle_threshold_punchout" class="form-control currency" placeholder="Enter Idle threshold punch out (In mins)
+                                                    " maxlength="2"  name="idle_threshold_punchout" required <% if(user.settings.length > 0){ %> value="<%= user.settings[0].idle_threshold_punchout; %>"  <% } %>>
+                                                    <div class="valid-feedback">Valid.</div>
+                                                    <div class="invalid-feedback">Please fill out this field.</div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                           
+                
+                                            <div class="row">
+                                                <div class="col-sm-5 col-md-3 col-5">
+                                                    <label for="punchout_time"style="font-weight:bold;">Auto Punch Out (In hours)</label>
+                                                </div>
+                                                <div class="col-md-7 col-6">
+                                                    <input type="text" id="punchout_time" class="form-control currency"  maxlength="2" placeholder="Enter Auto Punch Out (In hours)" name="punchout_time" required  <% if(user.settings.length > 0){ %> value="<%= user.settings[0].punchout_time; %>"  <% } %>>
+                                                    <div class="valid-feedback">Valid.</div>
+                                                    <div class="invalid-feedback">Please fill out this field.</div>
+                                                </div>
+                                            </div>
+                                          
+    
+                                           
+                                            <div class="form-actions">
+                                                <a type="button" href="/userlist" class="btn btn-danger mr-1">
+                                                <i class="ft-x"></i> Cancel</a>
+                                                <button  onclick="spinner()"  type="submit" class="btn btn-primary pull-right">
+                                                <i class="la la-check-square-o"></i> Update</button>
+                                                            </div>
+                                                       </form>
+    
+
+
+
+
+                                    </div>
+
+
+                                    <div class="tab-pane fade show " id="passwordServices" role="tabpanel" aria-labelledby="passwordServices-tab">
+                                        <form action="/editprofile" method="post" class="form  needs-validation" novalidate>
+                                            <style>
+                                                #register .short{ color:#FF0000; } #register .weak{ color:#E66C2C; } #register .good{ color:#2D98F3; } #register .strong{ color:#006400; }
+  </style>
+                       <script>
+
+                       $(document).ready(function() {
+ 
+    $('#password').keyup(function(){
+        $('#result').html(checkStrength($('#password').val()))
+    })  
+ 
+    function checkStrength(password){
+ 
+    //initial strength
+    var strength = 0
+ 
+    //if the password length is less than 6, return message.
+    if (password.length < 6) {
+        $('#result').removeClass()
+        $('#result').addClass('short')
+        return 'Too short'
+    }
+ 
+    //length is ok, lets continue.
+ 
+    //if length is 8 characters or more, increase strength value
+    if (password.length > 7) strength += 1
+ 
+    //if password contains both lower and uppercase characters, increase strength value
+    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/))  strength += 1
+ 
+    //if it has numbers and characters, increase strength value
+    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  strength += 1 
+ 
+    //if it has one special character, increase strength value
+    if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/))  strength += 1
+ 
+    //if it has two special characters, increase strength value
+    if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,",%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+ 
+    //now we have calculated strength value, we can return messages
+ 
+    //if value is less than 2
+    if (strength < 2 ) {
+        $('#result').removeClass()
+        $('#result').addClass('weak')
+        return 'Weak'
+    } else if (strength == 2 ) {
+        $('#result').removeClass()
+        $('#result').addClass('good')
+        return 'Good'
+    } else {
+        $('#result').removeClass()
+        $('#result').addClass('strong')
+        return 'Strong'
+    }
+}
+});
+</script>    
+
+    <script>
+    function checkPasswordMatch() {
+        var password = $("#password").val();
+        var confirmPassword = $("#ckpassword").val();
+        if (password != confirmPassword){
+            $("#CheckPasswordMatch").html("Passwords does not match!");
+            $("#updatepassword").hide();
+    }else{
+            $("#CheckPasswordMatch").html("Passwords match.");
+            $("#updatepassword").show();
+    }
+}
+    $(document).ready(function () {
+       $("#ckpassword").keyup(checkPasswordMatch);
+    });
+    </script>             
+                                           
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="password" style="font-weight:bold;">New Password </label>
+                                            </div>
+                                            <div class="col-md-8 col-6" id="register">
+                                                <input type="password" id="password" class="form-control" maxlength="10" placeholder="Enter New Password" name="cpassword" required >
+                                                <span id="result"></span>
+                                        <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                    
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="ckpassword" style="font-weight:bold;">Confirm Password</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input type="password" id="ckpassword" class="form-control" maxlength="10" placeholder="Enter Confirm Password" name="ckpassword" required >
+                                                <div class="registrationFormAlert" style="color:red;" id="CheckPasswordMatch"></div>
+                                                <div class="valid-feedback">Valid.</div>
+                                                <div class="invalid-feedback">Please fill out this field.</div>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        
+                                        
+                                        <div class="form-actions">
+                                            <a type="button" href="/userlist" class="btn btn-danger mr-1">
+                                            <i class="ft-x"></i> Cancel</a>
+                                            <button  onclick="spinner()" id="updatepassword"  type="submit" class="btn btn-primary pull-right">
+                                            <i class="la la-check-square-o "></i> Update</button>
+                                                        </div>
+                                                   </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table head options end -->
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            document.getElementsByClassName("loader")[0].style.display = "block";
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              document.getElementsByClassName("loader")[0].style.display = "none";
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+    
+
+
+
+
+<%- include('../partials/footer'); %>

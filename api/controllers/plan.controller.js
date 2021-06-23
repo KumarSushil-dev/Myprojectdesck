@@ -1,4 +1,4 @@
-const { getplan,addplan,editplan, editshows, planupdatestatusbyid,plandeletesuperbyid } = require('../plans/plan.service');
+const { getplan,addplan,editplan, editshows, planupdatestatusbyid,plandeletesuperbyid,getplanforselect } = require('../plans/plan.service');
 const { sign } = require("jsonwebtoken");
 var multer = require('multer');
 
@@ -9,6 +9,48 @@ module.exports = {
 planlist: (req, res) => {
     const body = req.body;
     getplan(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                message: "Connection Error."
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Plan Listed."
+
+            });
+        }
+
+        if (results) {
+        return res.status(200).json({
+            success: true,
+            data: results,
+            detail: ""
+          });
+        }else{
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Plan Listed."
+
+            });
+
+        }
+
+
+    });
+
+},
+
+// Get Planlist for Select
+getplanlist: (req, res) => {
+    const body = req.body;
+    getplanforselect(body, (err, results) => {
         if (err) {
           return res.status(500).json({
                 success: false,

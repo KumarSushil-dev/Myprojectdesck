@@ -21,15 +21,19 @@
       
             <li class="active"><a href="<%= process.env.APP_URL %>/dashboard"><i class="ft-home"></i><span class="menu-title" data-i18n="">Dashboard</span></a>
               </li>
-                    
+              <% if(roleid==1){ %>
         <li class=" nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/userlist"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Subscription List</span></a>
             </li>
-            <li class=" nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/plan"><i class="la la-th-list"></i><span class="menu-title" data-i18n="">Plan Manager</span></a>
+
+        <li class=" nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/billingdetail"><i class="la la-file-text-o"></i><span class="menu-title" data-i18n=""> Billing Manager</span></a>
+        </li>
+        <li class=" nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/plan"><i class="la la-th-list"></i><span class="menu-title" data-i18n="">Plan Manager</span></a>
             </li>
             <li class=" nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/emailtemplate"><i class="la la-comments"></i><span class="menu-title" data-i18n="">Email Template </span></a>
             </li>
             <li class=" nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/staticpages"><i class="la la-book"></i><span class="menu-title" data-i18n="">Static Manager</span></a>
             </li>
+            <% } %>
 
         </ul>
     </div>

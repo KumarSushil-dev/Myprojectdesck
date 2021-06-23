@@ -2,6 +2,7 @@
 
     <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
         <%- include('../partials/nav'); %>
+
         
 
 <%- include('../partials/left'); %>
@@ -19,73 +20,27 @@
   
     
     $('#dropplan').modal('show');
-    $('.planselectuser').val(df);
+
     e.preventDefault();
+     $('#dropplan').modal('show').find('.modal-body').load($(this).attr('href'));
     
     });
     </script>
 
 
 <div class="modal fade" id="dropplan">
-    <div class="modal-dialog ">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header">
-<h5 class="modal-title">Upgrade Plan ?</h5>
+<h5 class="modal-title">Invoice Detail</h5>
 <button type="button" class="close" data-dismiss="modal">&times;</button>
 </div>
 
 <!-- Modal body -->
 <div class="modal-body">
-<form action="/planupgrade" method="post" class="form-horizontal needs-validation" novalidate>
-<div class="row">
-
-<div class="" style="padding: 12px;">
-<input type="hidden" name="planselectuser" class="planselectuser" value="">
-
-<div class="form-group">
-<div class="col-md-12 mb-6">
-<div  class="row input-append">
-<label for="txtPassword"><b style="font-size: 16px;">Plan<span style="color:red;">*</span></b></label>
-                                      
-                           
-<select name="plan_id" required class="form-control country" >
-    <option value="">--Select Plan--</option>
    
-<%  if(userlist.plan.length > 0){
-    for(var i=0; i < userlist.plan.length; i++) { %>
-<option value="<%= userlist.plan[i].id; %>"><%= userlist.plan[i].name; %>-<%= userlist.plan[i].price; %> / month</option>
-    <% } }  %> 
-    </select>
-    <div class="valid-feedback">Valid.</div>
-    <div class="invalid-feedback">Please fill out this field.</div>
-</div>
-</div>
-</div>
-
-
-<div class="form-group">
-<div class="col-md-12 mb-6">
-<div  class="row input-append">
-<label for="txtPassword"><b style="font-size: 16px;">Please Mark Purchase Detail for Upgrade Plan.<span style="color:red;">*</span></b></label>
-<textarea required="required"  placeholder="Enter Mark Purchase Detail Here..." name="payment_detail" class="form-control" rows="5" aria-describedby="emailHelp" ></textarea>
-<div class="valid-feedback">Valid.</div>
-<div class="invalid-feedback">Please fill out this field.</div>
-</div>
-</div>
-</div>
-
-
-</div> 
-         </div> <div class="modal-footer">
-      <button type="button" class="btn btn-default f-left" data-dismiss="modal">Close</button>
-  <input type="submit" onclick="spinner()" class="btn btn-default f-right btn btn-danger" style="color: #fff !important;
-  background-color: #c82333 !important;
-  border-color: #bd2130 !important;"  value="Upgrade" ></div>
-
-         </form>
-
         </div>
 
         <!-- Modal footer -->
@@ -139,7 +94,7 @@
                                 <div class="col-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4 class="card-title">Company Subscription </h4>
+                                            <h4 class="card-title">Orders / Invoices </h4>
                                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                             <div class="heading-elements">
                                                 <ul class="list-inline mb-0">
@@ -148,7 +103,8 @@
                                                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
                                                     <li><a data-action="close"><i class="ft-x"></i></a></li>
                                                 </ul>
-<a class="btn btn-primary" href="<%= process.env.APP_URL %>/addsubscription">Add Subscription</a>
+                                                <a class="btn btn-primary" href="<%= process.env.APP_URL %>/addsubscription">Add Subscription</a>
+                                        
                                             </div>
                                         </div>
                                         <div class="card-content collapse show">
@@ -164,14 +120,14 @@
                                                 <table class="table">
                                                     <thead class="thead-dark">
                                                         <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Company Detail</th>
-                                                        
-                                           <th scope="col" style="width: 19%;">Plan Detail</th>
-                                          
-                                                            <th scope="col">Billing Date</th>
-                                                            <th scope="col">Expired Date</th>
+                                                          <th scope="col">#</th>
+                                                          <th scope="col">Company Detail</th>
+                                                          <th scope="col" style="width: 12%;">Invoice ID</th>
+                                                          <th scope="col" style="width: 15%;">Invoice Date</th>
+                                                           <th scope="col" style="width: 16%;">Payment Date</th>
                                                             <th scope="col">Status</th>
+                                                             <th scope="col" style="width: 10%;">Amount</th>
+                                                            <th scope="col" >Action</th>
                                                         
                                                         </tr>
                                                     </thead>
@@ -179,56 +135,50 @@
                                         <%  if(userlist.data.length > 0){
                                                              var s=1; 
                                         for(var i=0; i < userlist.data.length; i++) { %>
-                                                            <tr>
-                                                 <th scope="row"><%= s++; %></th>
-                                             <td><b><%= userlist.data[i].companyname; %></b><% if(userlist.data[i].status=="Y"){  %>
-                                                <i class="la la-check-circle-o" style="color: green;
-                                                   font-weight: bold;
-                                                   font-size: 14px;">verified</i> <% } %><br><a href="mailto:<%= userlist.data[i].email; %>"><%= userlist.data[i].email; %></a></td>
- <%   if(userlist.data[i].subscriptions.length > 0){
-    var payment_detail=userlist.data[i].subscriptions[0]['payment_detail'];
-    var totaluser=userlist.data[i].subscriptions[0]['totaluser'];
- var price= userlist.data[i].plan['price'];
-    }else{
-       var payment_detail=""; 
-       var totaluser=""; 
-       var price="";
-    } %>
-
-
-                                             <td><% if(userlist.data[i].plan['name']){ %>
-                                                 <%= userlist.data[i].plan['name'];   %> 
-                                                 <div style="font-size:11px; font-weight:normal;">-   <%= totaluser; %>  Users Plan @ Rs. <%= price; %> </div>
+                                          <tr>
+                                            <th scope="row"><%= s++; %></th>
+                                        <td><b><%= userlist.data[i].user['companyname']; %></b><% if(userlist.data[i].user['status']=="Y"){  %>
+                                           <i class="la la-check-circle-o" style="color: green;
+                                              font-weight: bold;
+                                              font-size: 14px;">verified</i> <% } %><br><a href="mailto:<%= userlist.data[i].user['email']; %>"><%= userlist.data[i].user['email']; %></a><br>
+                                              <% if(userlist.data[i].plan['name']){ %>
+                                                
+                 <span style="color:green;"><%= userlist.data[i].plan['name'];  %></span>
+                                             <% } %></td>
+                                        <td>
+                                          
+                                               <%= userlist.data[i].order_id;   %>    
+                                              
+                                             </td>
+                                             
+                                             <td>
+                                               <%    var strs=userlist.data[i].createdAt; 
+                                               var strsu=userlist.data[i].updatedAt; %>
+                                               <%= moment(strs).format('DD-MM-YYYY') %> 
                                                  
-                                                     <!--  <i title="<%= payment_detail; %>" class="la la-sticky-note" style="color:green;
-                                                 font-size: 14px;"></i>-->
+                                              
+                                             </td>
+                                             
+                                             <td>     <% if(userlist.data[i].plan['id']==5){ %>  <%= moment(strs).format('DD-MM-YYYY') %>  <% }else if(userlist.data[i].payment_id){ %>
+                                               <%= moment(strsu).format('DD-MM-YYYY') %>
 
-                                             <% } %>
-                                         <!--<a class="dropdown-item dropplan" href="javascript:void(0);" id="<%= userlist.data[i].id; %>" style="color:red;">
-                                            
-                                                 <i title="Upgrade Plan" class="la la-cloud-upload" ></i></a>-->
-                                                  </td>
-                                                <% if(userlist.data[i].subscriptions.length > 0){  %>
-                                            <td> <%  var str=userlist.data[i].subscriptions[0]['created']; %>
-                                                <%= moment(str).format('DD-MM-YYYY') %> </td>
-                                            <td> <% var str=userlist.data[i].subscriptions[0]['expiry_date']; %>
-                                                 <%= moment(str).format('DD-MM-YYYY') %></td>
-                                                 <% }else{ %>  
-                                                    <td> N.A
-                                                         </td>
-                                                    <td> N.A</td>
-                                                    
-                                                    <% } %>              
-<td>
-    <% if(userlist.data[i].status=="Y"){  %>
-        <a  href="<%= process.env.APP_URL %>/userupdatestatus/<%= userlist.data[i].id %>/N" onclick="return confirm('Do you really want to inactive this Company?');" title="InActivate Company?" style="color:rgb(224, 35, 44)" > <i style="color:green" class="la la-toggle-on"></i></a>
-        
-        <% }else{ %>
-           <a  href="<%= process.env.APP_URL %>/userupdatestatus/<%= userlist.data[i].id %>/Y" onclick="return confirm('Do you really want to activate this Company?');" title="Activate Company?" style="color:rgb(224, 35, 44)" ><i style="color:red" class="la la-toggle-off "></i></a>
-            <% } %>
-            <a  href="<%= process.env.APP_URL %>/userupdatedelete/<%= userlist.data[i].id %>" onclick="return confirm('Do you really want to delete this Company?');" title="Delete Company?" style="color:rgb(224, 35, 44)" > <i style="color:red" class="la la-trash-o"></i></a></td>
-     
-                                                            </tr>
+                                               <%  } %></td>
+                                             <td>  <% if(userlist.data[i].status=="Y"){  %>
+<span style="color:green;">Paid</span>
+
+                                               <% }else{ %><span style="color:red;">Pending</span> <% } %>  
+                                             </td>
+                                             <td>₹&nbsp;<%= userlist.data[i].payment_detail;   %>    
+                                              
+                                             </td>
+                                             
+                                             <td>
+                                               <% if(userlist.data[i].plan['id']!=5){ %>
+                   <a class="dropdown-item dropplan" href="<%= process.env.APP_URL %>/getinvoice/<%= userlist.data[i].id %>" style="color:red;"> View</a>   
+                   <% }else{ %> -- <% } %>     
+                                             </td>
+
+                                                       </tr>
                                                             <% } }else{ %>
                                                                 <tr>
 

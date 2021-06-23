@@ -3,8 +3,7 @@
     <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
         <%- include('../partials/nav'); %>
         <%- include('../partials/left'); %>
-        <script type="text/javascript" src="<?php echo SITE_URL; ?>frontend/js/jquery.formatCurrency-1.4.0.min.js"></script>
-
+        <script type="text/javascript" src="/theme-assets/js/jquery.formatCurrency-1.4.0.min.js"></script>
 <script> $(function () {
   $(".currency").blur(function () {
     $(".currency").html(null), $(this).formatCurrency({
@@ -139,11 +138,11 @@
         // Loop over them and prevent submission
         var validation = Array.prototype.filter.call(forms, function(form) {
           form.addEventListener('submit', function(event) {
-            $('.preloader').show();
+            document.getElementsByClassName("loader")[0].style.display = "block";
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
-              $('.preloader').hide();
+              document.getElementsByClassName("loader")[0].style.display = "none";
             }
             form.classList.add('was-validated');
           }, false);

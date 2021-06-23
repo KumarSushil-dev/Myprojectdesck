@@ -10,6 +10,15 @@ module.exports = {
             return callBack(err);
           }); 
     },
+    getplanforselect: async(data, callBack) => {
+        await Plan.findAll({
+            where: {status:'Y',id: {[Op.notIn]:[5]}},
+            order:[['id','ASC']],
+        }).then(getplanlist => callBack(null, getplanlist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
     addplan: async(data, callBack) => {
      
         await Plan.create({name:data.name,price:data.price}).then(function(){

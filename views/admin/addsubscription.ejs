@@ -1,0 +1,550 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        <%- include('../partials/left'); %>
+        <script type="text/javascript" src="/theme-assets/js/jquery.formatCurrency-1.4.0.min.js"></script>
+
+<script> $(document).ready(function(){
+  $(".currency").blur(function () {
+    $(".currency").html(null), $(this).formatCurrency({
+      colorize: !0,
+      symbol: "",
+      negativeFormat: "-%s%n",
+      roundToDecimalPlace: -1
+    })
+  }).keyup(function (e) {
+    var e = window.event || e,
+      a = e.charCode || e.keyCode;
+    if (110 != a && 229 != a && 190 != a && 46 != a && 45 != a && a > 31 && (96 > a || a > 105) && (48 > a || a > 57) && $(".currency").val(""), void 0 !== e) switch (a) {
+      case 16:
+        break;
+      case 17:
+        break;
+      case 18:
+        break;
+      case 27:
+        this.value = "";
+        break;
+      case 35:
+        break;
+      case 36:
+        break;
+      case 37:
+        break;
+      case 38:
+        break;
+      case 39:
+        break;
+      case 40:
+        break;
+      case 78:
+        break;
+      case 110:
+        break;
+      case 190:
+        break;
+      default:
+        $(this).formatCurrency({
+          colorize: !0,
+          negativeFormat: "-%s%n",
+          roundToDecimalPlace: -1,
+          eventOnDecimalsEntered: !1
+        })
+    }
+  }).bind("decimalsEntered", function (e, a) {
+    var t = "Please do not enter any cents (0." + a + ")";
+    alert(t), log("Event on decimals entered:" + t)
+  });
+});
+</script>
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Subscription Add </h4>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                                <ul class="list-inline mb-0">
+                                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+<script>
+$(document).ready(function(){
+$("#txt_search").keyup(function(){
+  $(".invoicetable").hide();
+    var search = $(this).val();
+    if(search != ""){
+      var data = {};
+					data.search = search;
+
+        $.ajax({
+            url: '/api/users/getSearch',
+            method: 'post',
+            data: JSON.stringify(data), 
+            contentType: 'application/json',
+             success:function(response){  
+               console.log(response.data);
+            
+                var len = response.data.length;
+                $("#searchResult").empty();
+                for( var i = 0; i<len; i++){
+                    var id = response.data[i]['id'];
+                    var name = response.data[i]['companyname'];
+                    $("#searchResult").append("<li value='"+id+"'>"+name+"</li>");
+                }
+
+                // binding click event to li
+                $("#searchResult li").bind("click",function(){
+                    setText(this);
+                   
+                });
+
+            }
+        });
+    }
+
+});
+
+});
+
+// Set Text to search box and get details
+function setText(element){
+
+var value = $(element).text();
+var userid = $(element).val();
+
+$("#txt_search").val(value);
+$("#searchResult").empty();
+var data = {};
+					data.userid = userid;
+// Request User Details
+$.ajax({
+    url: '/api/users/getDetail',
+    method: 'post',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+    success:function(response){
+        var len = response.data.length;
+     
+        if(len > 0){
+       var email = response.data[0]['email'];
+       var address = response.data[0]['address'];
+       var zipcode = response.data[0]['zipcode'];
+       var mobile = response.data[0]['mobile'];
+       var id = response.data[0]['id'];
+           $("#email").val(email);
+           $("#address").val(address);
+           $("#zipcode").val(zipcode);
+           $("#mobile").val(mobile);
+           $("#uid").val(id);
+        }
+        subscription(element);
+    }
+
+});
+}
+// Set Text to search box and get details
+function subscription(element){
+
+
+var userid = $(element).val();
+$("#searchResult").empty();
+var data = {};
+data.userid = userid;
+// Request User Details
+$.ajax({
+    url: '/api/users/getsubscription',
+    method: 'post',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+    success:function(response){
+        var len = response.data.length;
+     
+        if(len > 0){
+          $("#txt_search").val('');
+          $(".invoicetable").show();
+           $("#email").val('');
+           $("#address").val('');
+           $("#zipcode").val('');
+           $("#mobile").val('');
+           $("#uid").val('');
+        }
+    }
+
+});
+}
+ </script>
+ <style>
+.clear{
+ clear:both;
+ margin-top: 20px;
+}
+
+#searchResult{
+ list-style: none;
+ padding: 0px;
+ width: 474px;
+ position: absolute;
+ margin: 0;
+}
+
+#searchResult li{
+ background: lavender;
+ padding: 4px;
+ margin-bottom: 1px;
+}
+
+#searchResult li:nth-child(even){
+ background: cadetblue;
+ color: white;
+}
+
+#searchResult li:hover{
+ cursor: pointer;
+}
+
+
+
+   </style>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+<form action="/addsubscriptions"  method="post" class="form-horizontal needs-validation" novalidate>
+                               
+  <div class="form-body">
+  <h4 class="form-section"> <i class="ft-flag"></i>Add Subscription</h4>
+   <div class="form-group">
+
+    <div class="row">
+      <div class="col-xs-6 col-md-6">
+   <label for="txt_search">Verified Company Name</label>
+   <input type="text" id="txt_search"  class="form-control" placeholder="Company Name" name="name" required>
+    <input type="hidden" id="uid" value="" name="uid" required>
+    <ul id="searchResult"></ul>
+    <div class="valid-feedback">Valid.</div>
+    <div class="invalid-feedback">Please fill out this field.</div>
+<span class="invoicetable" style="display:none;color:red;">Already Company Plan Invoice Pending for Selected Plan.  <a href="<%= process.env.APP_URL %>/billingdetail" target="_blank"> Biling Manager</a></span>
+</div>
+
+  <div class="col-xs-6 col-md-6">
+  <label for="email">Email ID</label>
+<input type="text" id="email" class="form-control" placeholder="Email ID" name="email" required>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+</div>
+</div>
+<div class="form-group">
+  <label for="address">Company Address</label>
+<textarea type="text" id="address" class="form-control" placeholder="Company Address" name="address" required></textarea>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+<div class="form-group">
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+
+  <label for="zipcode">Zip Code </label>
+<input type="text" id="zipcode" class="form-control" placeholder="Zip Code" name="zipcode" required>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+<div class="col-xs-6 col-md-6">
+
+  <label for="mobile">Mobile No.</label>
+<input type="text" id="mobile" class="form-control currency" maxlength="12" placeholder="Enter Mobile No" name="mobile" required>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+</div>
+</div>
+<script>
+
+  $(document).ready(function(){
+      $('.discounts').change(function add() {
+       var subtotaluser=parseFloat($(".plantotalprice").html().replace(/([,€])+/g, ''));
+       var $rooms = $(".discounts");
+      var adis = parseFloat($rooms.val());
+  if(subtotaluser >adis && adis!="0"){
+  var reamin=subtotaluser-adis;
+  
+
+  withtax = 18 * (reamin / 100);
+  withtax = withtax.toFixed(2);
+  var withtaxs = new Intl.NumberFormat('en-US' , { minimumFractionDigits: 2 }).format(withtax);
+  $('.vatprice').html(withtaxs);
+
+  $('.vatprices').val(withtax);
+   toamountnew = parseFloat(reamin) + parseFloat(withtax);
+
+   
+     $(".subtotal").val(toamountnew.toFixed(2)); 
+     $(".subtotals").html(toamountnew.toFixed(2)); 
+   
+
+
+
+  }else{
+  
+    $rooms.val(0);
+  }
+      
+      
+       
+  
+      });
+      });
+  
+  
+  
+  
+      $(document).ready(function(){
+      $('.plan').click(function add() {
+  
+     $(".updateuser").html(0);
+     $(".planprice").html(0);
+     $(".totalmonth").val(0);
+     $(".plantotalprice").html(0); 
+     $(".plantotalprices").val(0);
+     $(".subtotal").val(0); 
+     $(".subtotals").html(0); 
+     $(".vatprice").html(0); 
+     $(".vatprices").val(0); 
+     $(".discounts").val(0); 
+     $("#noOfRoom").val(0); 
+  
+  
+        var selectedOptionVal = $('.plan').find(":selected").text();
+        var result=selectedOptionVal.split('-');
+        var rgss=parseInt(result[1]);
+        var rgss = new Intl.NumberFormat('en-US' , { minimumFractionDigits: 2 }).format(rgss);
+         
+        var resultmonth=result[0];
+        var NOW = new Date();
+  
+        if(resultmonth=="Monthly"){
+          var pl=1;
+          $('.totalmonth').val(1);
+         var date= NOW.setMonth(NOW.getMonth() + +pl); 
+          var expireds=new Date(date);
+          var expiredss=expireds.getFullYear()+"-"+(expireds.getMonth()+1)+"-"+expireds.getDate();
+        }else if(resultmonth=="Quarterly"){
+          var pl=3;
+          $('.totalmonth').val(3);
+          var date= NOW.setMonth(NOW.getMonth() + +pl);
+          var expireds=new Date(date);
+          var expiredss=expireds.getFullYear()+"-"+(expireds.getMonth()+1)+"-"+expireds.getDate();
+        }else if(resultmonth=="Half Yearly"){
+          var pl=6;
+          $('.totalmonth').val(6);
+          var date= NOW.setMonth(NOW.getMonth() + +pl);
+          var expireds=new Date(date);
+          var expiredss=expireds.getFullYear()+"-"+(expireds.getMonth()+1)+"-"+expireds.getDate();
+        }else if(resultmonth=="Yearly"){
+          var pl=12;
+          $('.totalmonth').val(12);
+          var date= NOW.setMonth(NOW.getMonth() + +pl);
+          var expireds=new Date(date);
+          var expiredss=expireds.getFullYear()+"-"+(expireds.getMonth()+1)+"-"+expireds.getDate();
+        }
+  
+        var startdate = new Date();
+        var vals=startdate.getFullYear()+"-"+(startdate.getMonth()+1)+"-"+startdate.getDate();
+        $('.startdate').html(vals);
+        $('.enddate').html(expiredss);
+
+        $('.planprice').html(rgss);
+       
+      });
+      });
+      </script>
+  
+  
+  
+  <script>
+  $(document).ready(function(){
+  $('#adds').click(function add() {
+      var $rooms = $("#noOfRoom");
+      var a = $rooms.val();
+      
+      a++;
+      $("#subs").prop("disabled", !a);
+      $rooms.val(a);
+      $(".updateuser").html(a);
+  
+     var userselect=$(".updateuser").html();
+     var planprice=$(".planprice").html();
+     var totalmonth=$(".totalmonth").val();
+   
+     var multipyuser=parseInt(userselect,10)*parseInt(planprice,10);
+     var cal=multipyuser*parseInt(totalmonth);
+   
+
+     withtax = 18 * (cal / 100);
+          withtax = withtax.toFixed(2);
+          var withtaxs = new Intl.NumberFormat('en-US' , { minimumFractionDigits: 2 }).format(withtax);
+          $('.vatprice').html(withtaxs);
+
+          $('.vatprices').val(withtax);
+          toamountnew = parseFloat(cal) + parseFloat(withtax);
+
+          var cal = new Intl.NumberFormat('en-US' , { minimumFractionDigits: 2 }).format(cal);
+          $(".plantotalprice").html(cal); 
+          $(".plantotalprices").val(cal);
+     $(".subtotal").val(toamountnew.toFixed(2)); 
+     $(".subtotals").html(toamountnew.toFixed(2)); 
+     $(".discounts").val(0); 
+
+  });
+  $("#subs").prop("disabled", !$("#noOfRoom").val());
+  
+  $('#subs').click(function subst() {
+      var $rooms = $("#noOfRoom");
+      var b = $rooms.val();
+      if (b >= 1) {
+          b--;
+          $rooms.val(b);
+      }
+  
+      else {
+          $("#subs").prop("disabled", true);
+      }
+      $(".updateuser").html(b);
+  
+      var userselect=$(".updateuser").html();
+     var planprice=$(".planprice").html();
+     var totalmonth=$(".totalmonth").val();
+   
+     var multipyuser=parseInt(userselect,10)*parseInt(planprice,10);
+     var cal=multipyuser*parseInt(totalmonth);
+     withtax = 18 * (cal / 100);
+          withtax = withtax.toFixed(2);
+          var withtaxs = new Intl.NumberFormat('en-US' , { minimumFractionDigits: 2 }).format(withtax);
+          $('.vatprice').html(withtaxs);
+
+          $('.vatprices').val(withtax);
+          toamountnew = parseFloat(cal) + parseFloat(withtax);
+
+          var cal = new Intl.NumberFormat('en-US' , { minimumFractionDigits: 2 }).format(cal);
+          $(".plantotalprice").html(cal); 
+          $(".plantotalprices").val(cal); 
+     $(".subtotal").val(toamountnew.toFixed(2)); 
+     $(".subtotals").html(toamountnew.toFixed(2)); 
+     $(".discounts").val(0); 
+     
+  });
+  });
+  </script>
+<div class="form-group">
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+  <label for="plan">Choose Plan </label>
+                           
+  <select name="plan_id" required class="form-control plan" >
+    <option value="">--Select Plan--</option>
+    <%  if(plan.data.length > 0){
+      for(var i=0; i < plan.data.length; i++) { %>
+  <option value="<%= plan.data[i].id; %>"><%= plan.data[i].name; %>-<%= plan.data[i].price; %> / month</option>
+      <% } }  %> 
+    </select>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+
+</div>
+
+<div class="col-xs-6 col-md-6">
+  <label for="noOfRoom">Select User </label><br>
+<input type="button" value="-" id="subs" class="btn btn-default pull-left" style="margin-right: 2%;background-color: black;
+color: #fff;" />&nbsp;
+<input type="text" readonly style="width: 353px;text-align: center; margin: 0px;" class="onlyNumber form-control pull-left" id="noOfRoom" value="" required  placeholder="Add User" name="noOfRoom" />&nbsp;
+<input type="button" value="+" id="adds" class="btn btn-default"  style="background-color: black;
+color: #fff;"/>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+</div>
+<div class="clear"></div>
+<div class="form-group">
+<table class="invoice_table" style="width: 100%;" border="1"><thead>
+  <tr><th colspan="2" style="text-align: center;">Description</th><th colspan="2" style="text-align: center;">Amount (In Rs.)</th></tr>
+</thead><tbody><tr><td colspan="2" style="padding: 13px;" class="descrip"><h5>My Project Desk Employee Desktop Monitoring Software</h5><p>- <span  style="font-weight:bold;" class="updateuser">0</span>  Users Plan @ Rs. <span style="font-weight:bold;" class="planprice">0</span> </p><p>- Billing Period: <span style="font-weight:bold;"  class="startdate">--</span> to <span style="font-weight:bold;"  class="enddate">--</span> </p></td><td colspan="2" style="text-align: center;"><span style="font-weight:bold;" class="plantotalprice">0</span> <input type="hidden" name="plantotalprice" class="plantotalprices" value="0"></td></tr>
+  <tr><td colspan="2" style="padding: 15px;" class="descrip">(-)Discount</td><td colspan="2" style="text-align: center;"><input type="text" style="width: 66px;" name="discount" class="discounts currency" value="0"></td></tr>
+
+  <tr><td colspan="2" style="padding: 15px;" class="descrip">Total Tax (18%)</td><td colspan="2" style="text-align: center;"><span class="vatprice"></span><input type="hidden" name="taxprice" class="vatprices" value="0"></td></tr>
+
+  <tr><td colspan="2" style="padding: 15px;" class="descrip">Sub Total</td><td colspan="2" style="text-align: center;"><input type="hidden" name="total" class="subtotal" value=""><span style="font-weight:bold;" class="subtotals">0</span></td></tr>
+
+
+
+
+</tbody></table>
+<input type="hidden" name="totalmonth" class="totalmonth" value="">
+</div>                     
+            
+                                        <div class="form-actions">
+                                            <a type="button" href="/userlist" class="btn btn-danger mr-1">
+                                                <i class="ft-x"></i> Cancel
+                                            </a>
+                                            <button type="submit" onclick="spinner()"  class="btn btn-primary pull-right">
+                                                <i class="la la-check-square-o"></i> Genrate Invoice
+                                            </button>
+                                        </div>
+                                  
+                                  
+                                </form>
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table head options end -->
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            document.getElementsByClassName("loader")[0].style.display = "block";
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              document.getElementsByClassName("loader")[0].style.display = "none";
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+    
+
+
+
+
+<%- include('../partials/footer'); %>

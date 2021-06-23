@@ -57,6 +57,10 @@ const User=sequelize.define('users',{
         type: DataTypes.STRING
         // allowNull defaults to true
       },
+      city: {
+        type: DataTypes.STRING
+        // allowNull defaults to true
+      },
       zipcode: {
         type: DataTypes.STRING
         // allowNull defaults to true
