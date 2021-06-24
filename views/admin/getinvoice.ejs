@@ -37,7 +37,7 @@
    data.plan_id=planid;
    data.user_id=userId;
 
-
+   document.getElementsByClassName("loader")[0].style.display = "block";
     $.ajax({
       url:'/api/users/updatepayment',
       method:'post',  
@@ -95,6 +95,7 @@ rzp1.on('payment.failed', function (response)
     <tr>
 
     <td style="color:#7d7d7d; font-size:15px; font-weight:normal; text-align:left; height:28px; line-height:22px; width:35%;">
+      
       <%= getinvoicedata.admin.address; %><br>
       <%= getinvoicedata.admin.zipcode; %> INDIA
     </td>
@@ -130,7 +131,7 @@ rzp1.on('payment.failed', function (response)
     
     <tr>
     
-    <td width="60%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:left;"><%= getinvoicedata.data[0].user.address; %> <%= getinvoicedata.data[0].user.zipcode; %>
+    <td width="60%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:left;"><%= getinvoicedata.data[0].user.mobile; %><br> <%= getinvoicedata.data[0].user.address; %> <%= getinvoicedata.data[0].user.zipcode; %>
     </td>
     <td width="20%" style="padding: 8px;text-align:left; color:#6610f2;  font-size:13px;"></td>
     <td width="20%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:right;"></td>

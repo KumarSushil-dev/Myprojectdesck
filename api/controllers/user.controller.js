@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,saveuserpunch,saveuserpunchout,activationverificationid,getplan,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,updatepaymentid } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,updatepaymentid,datatransferid} = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -7,6 +7,7 @@ const path = require('path');
 const helpers = require('./helpers');
 var upload = multer({ dest: 'uploads/' });
 const moveFile = require('move-file');
+const moment = require("moment");
 var randomstring = require("randomstring");
 const nodemailer = require('nodemailer');
 
@@ -318,7 +319,7 @@ getsubscription: (req, res) => {
 // Get Selected User Detail
 updatepayment: (req, res) => {
     const body = req.body;
-console.log(body);
+
     updatepaymentid(body, (err, results) => {
         if (err) {
           return res.status(500).json({
@@ -329,11 +330,62 @@ console.log(body);
         }
         
         if (results) {
-        return res.status(200).json({
-            success:true,
-            data: 1,
-            detail: ""
-          });
+
+          body.lid=2;
+            getemailtemplate(body, (err, resultsf) => {
+                
+                        var ured = JSON.stringify(resultsf);
+                        var utest = JSON.parse(ured);
+                
+                var subscriptiondetail = JSON.stringify(results);
+            var subscriptiondetails = JSON.parse(subscriptiondetail);
+
+
+        var replacements = {
+            "%Name%": subscriptiondetails.user.companyname,
+            "%planname%": subscriptiondetails.plan.name,
+            "%totaluser%": subscriptiondetails.totaluser,
+            "%price%": subscriptiondetails.payment_detail,
+            "%payment_id%": subscriptiondetails.payment_id,
+            "%createdd%": moment(subscriptiondetails.created).format('DD-MM-YYYY'),
+            "%expire%": moment(subscriptiondetails.expiry_date).format('DD-MM-YYYY')
+        }
+
+var str=utest[0].format;
+        str = str.replace(/%\w+%/g, function(all) {
+            return replacements[all] || all;
+         });
+                const mailData = {
+                    from: 'noreply@eboxtenders.com',
+                    to: subscriptiondetails.user.email,
+                    subject: utest[0].subject,
+                    text: '',
+                    html: str,
+                };
+            
+                transporter.sendMail(mailData, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+
+
+                   // res.status(200).json({ message: "Mail send", message_id: info.messageId,   data: resultsdata });
+                   console.log(info.messageId);
+                    return res.status(200).json({
+                        success:true,
+                        data: 1,
+                        message_id:info.messageId,
+                        detail: ""
+                      });
+                });
+    
+   
+    
+            });
+
+
+
+       
 
         }else{
 
@@ -824,7 +876,7 @@ var str=utest[0].format;
         getuserbilingcompany(body, (err, results) => {
             if (err) {
 
-                console.log(err);
+            
               return res.status(500).json({
                     success: false,
                     data: [],
@@ -835,16 +887,11 @@ var str=utest[0].format;
 
 
             
-            if (results.length === 0) {
-                return res.status(200).json({
-                    success: false,
-                    data: [],
-                    detail: "No User Listed."
-
-                });
-            }
+         
 
             getplan(body, (err, resultsf) => {
+
+                getsubscriptionidcreated(body, (err, resultsfy) => {
                 if (err) {
                     console.log(err);
                     return;
@@ -854,7 +901,8 @@ var str=utest[0].format;
                 return res.status(200).json({
                     success: true,
                     data: results,
-                    plan:resultsf
+                    plan:resultsf,
+                    userfreeplan:resultsfy
     
     
                 });
@@ -862,6 +910,7 @@ var str=utest[0].format;
     
     
             });
+        });
 
 
    
@@ -1271,6 +1320,77 @@ if(body.companyname){
 
     });
 }
+
+},
+
+datatransfer: (req, res) => {
+    let upload = multer({ storage: storage, fileFilter: helpers.imageFilter }).single('screenshot');
+    upload(req, res, function(err) {
+
+        // req.file contains information of uploaded file
+        // req.body contains information of text fields, if there were any
+       // body.userid=req.decoded.result[0].id;
+        if (req.fileValidationError) {
+            return res.status(500).json({
+                success: 0,
+                message: req.fileValidationError
+            });
+        } else if (!req.file) {
+            return res.status(500).json({
+                success: 0,
+                message: 'Please select an image to upload'
+            });
+        } else if (err instanceof multer.MulterError) {
+            return res.status(500).json({
+                success: 0,
+                message: err
+
+            });
+        } else if (err) {
+            return res.status(500).json({
+                success: 0,
+                message: err
+
+            });
+        }
+        const files = req.file;
+        console.log(files.filename);
+        const body = req.body;
+       
+        const photos = req.file.filename;
+        body.photo = photos;
+        body.type=0;
+        body.userId=req.decoded.result[0].id;
+var productivitycnt=body.productivityCount;
+    
+            (async() => {
+                await moveFile('uploads/' + photos, 'uploads/' + body.type + '/' + photos);
+
+            })();
+
+
+            datatransferid(body, (err, results) => {
+            if (err) {
+               console.log(err);
+                return res.status(401).json({
+                    success: false,
+                    detail: "Data Inserted Error ,Try Again"
+
+                });
+            }
+            var obj = [];
+            obj.push({ "productivityCount": productivitycnt });
+            return res.status(200).json({
+                success: true,
+                data: obj,
+                detail: "Data Inserted"
+
+            });
+
+
+        });
+        
+    });
 
 },
 

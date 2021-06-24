@@ -1,5 +1,5 @@
 const pool = require("../../config/database");
-const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Op } = require('../../sequelize');
+const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Op } = require('../../sequelize');
 var p;
 
 module.exports = {
@@ -15,6 +15,12 @@ module.exports = {
         await User.findAll({
             where: {email: data.email}
         }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    datatransferid: async(data, callBack) => {
+        await Usersnapshots.create({userId:data.userId,productivityCount:data.productivityCount,screenshot:data.photo,totalIdleMinutes: data.totalIdleMinutes,totalKeypressCount:data.totalKeypressCount,totalMouseMovement:data.totalMouseMovement,totalClicks:data.totalClicks,capturetime:data.capturetime,applist:data.applist}).then(emailexist => callBack(null, emailexist)).catch(function (err) {
             // handle error;
             return callBack(err);
           }); 
@@ -69,6 +75,7 @@ module.exports = {
     getuserbiling: async(data, callBack) => {
 
       await Subscriptions.findAll({
+        where: {plan_id: {[Op.notIn]:[5]}},
         order:[['id','DESC']],
             include: [{
               model: User,
@@ -89,6 +96,7 @@ module.exports = {
     getuserbilingcompany: async(data, callBack) => {
 
       await Subscriptions.findAll({
+        where: {plan_id: {[Op.notIn]:[5]}},
         order:[['id','DESC']],
             include: [{
               model: User,
@@ -99,9 +107,8 @@ module.exports = {
                 attributes: ['id','name','price']
             },
         ]
-        
-       
-          }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+          }).then(getsubscriptions => callBack(null, getsubscriptions))
+          .catch(function (err) {
             // handle error;
             return callBack(err);
           }); 
@@ -200,7 +207,23 @@ module.exports = {
                 }).then(function(){
                     User.update({plan_id: data.plan_id},{
                         where: {id: data.user_id}
-                    }).then(notes => callBack(null,notes));                      
+                    }).then(function(){
+                        Subscriptions.findOne({
+                            where: {id: data.id},
+                            order:[['id','DESC']],
+                                include: [{
+                                  model: User,
+                                  attributes: ['companyname','email'],
+                                  where: {role_id:2,id:data.user_id,status:'Y'}
+                                }, {
+                                    model: Plan,
+                                    attributes: ['id','name','price']
+                                },
+                            ]
+                            
+                           
+                              }).then(notes => callBack(null,notes));                      
+                         })                      
                      }).catch(function (err) {
                     // handle error;
                     return callBack(err);
@@ -251,6 +274,14 @@ module.exports = {
     },
     getemailtemplate: async(data, callBack) => {
         await Emailtemplate.findAll({
+            where: {id: data.lid}
+        }).then(emailtemplate => callBack(null, emailtemplate)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    getemailtemplateone: async(data, callBack) => {
+        await Emailtemplate.findOne({
             where: {id: data.lid}
         }).then(emailtemplate => callBack(null, emailtemplate)).catch(function (err) {
             // handle error;
@@ -432,6 +463,20 @@ module.exports = {
         await Subscriptions.findAll({
             attributes: ['id'],
             where: {status: 'N',userId: data.userid},
+            order:[['id','DESC']],
+            include: [{
+                model: User,
+                attributes: ['companyname','email']
+              }],
+
+        }).then(getcountrylist => callBack(null, getcountrylist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    getsubscriptionidcreated: async(data, callBack) => {
+        await Subscriptions.findAll({
+            where: {status: 'Y',userId: data.userid,plan_id: {[Op.in]:[5]}},
             order:[['id','DESC']],
             include: [{
                 model: User,

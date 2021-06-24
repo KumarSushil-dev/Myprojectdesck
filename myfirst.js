@@ -45,11 +45,12 @@ const toWords = new ToWords({
 app.locals.moment = moment;
 app.locals.fs = fs;
 app.locals.toWords = toWords;
+var jsonParser = bodyParser.json({'limit':'500MB'})
 // create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: true });
+var urlencodedParser = bodyParser.urlencoded({limit: '500MB', extended: true });
 
 // parse application/json
-var jsonParser = bodyParser.json({'limit':'500MB'})
+
 app.use(session({
     secret: 'streamserver',
     saveUninitialized: true,
@@ -63,7 +64,9 @@ app.use(function(req, res, next) {
     next();
 });
 //intilize routes
+//app.use('/api/users', urlencodedParser, require('./api/routes/user.router'));
 app.use('/api/users', jsonParser, require('./api/routes/user.router'));
+app.use('/app', urlencodedParser, require('./api/routes/user.router'));
 app.use('/api/plans', jsonParser, require('./api/routes/plan.router'));
 app.use('/api/plans', urlencodedParser, require('./api/routes/plan.router'));
 app.use('/api/emailtemplate', jsonParser, require('./api/routes/emailtemplate.router'));
@@ -307,6 +310,7 @@ if(req.query.userfound){
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
+                        console.log(datas);
 if(userfound==1){
     req.flash("error", "Payment Succesfully completed with selected plan. You Can Proceed Now.");
     res.locals.messages = req.flash();

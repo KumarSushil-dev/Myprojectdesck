@@ -103,7 +103,7 @@
                                                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
                                                     <li><a data-action="close"><i class="ft-x"></i></a></li>
                                                 </ul>
-                                             
+                                                <a class="up_btn btn btn-primary  btn-md" style="color: rgb(255, 255, 255);">Change Plan</a>
                                         
                                             </div>
                                         </div>
@@ -114,6 +114,43 @@
                                                         <%= messages.error %>
                                                     </div>
                                                     <% } %>
+
+                                                    <% if(userlist.userfreeplan){ if(userlist.userfreeplan.length > 0){
+                                                 var date1 = new Date();
+                                                var exprfree=userlist.userfreeplan[0].expiry_date;
+                                                      
+                                                      var time1 = moment(date1).format('YYYY-MM-DD');
+                                                      var time2 = moment(exprfree).format('YYYY-MM-DD');
+
+                                                      if(time2 > time1){
+                                                       %>  
+                                                    <h4 style="text-align: center;
+                                                    background-color: bisque;">Currently you are on Free Trial-7 Days Free Trial plan
+                                                    </h4><br>
+                                        <h5 style="text-align: center;">For <%= userlist.userfreeplan[0].totaluser; %> Users</h5>
+                                        <br> 
+                                              <h6 style="text-align: center;font-weight:bold;">Expired : <%= moment(exprfree).format('DD-MM-YYYY') %> </h6>
+                                                    <% }else if(userlist.data.length==0){ %>
+                                                      <h4 style="text-align: center;
+                                                      background-color: bisque;">Plan Expired , Need to Upgrade Plan.
+                                                      </h4>
+
+                                                 <% } } } %>
+                                                    <%  var ty=0; if(userlist.data.length > 0){
+                                                   
+                                 for(var i=0; i < userlist.data.length; i++) { 
+
+
+                                 if(userlist.data[i].status=="N"){  
+                                   ty=1;
+                                                      }  } } %>
+
+
+<% if(ty==1){ %>
+                          <b style="color:red;">You have pending invoices. Please clear your pending invoices to change plan or payment.</b>
+
+          
+                          <% } %>
                                             </div>
                                             <div class="table-responsive">
 
@@ -163,12 +200,12 @@
                                                     <%= moment(strsu).format('DD-MM-YYYY') %>
 
                                                     <%  } %></td>
-                                                  <td>  <% if(userlist.data[i].status=="Y"){  %>
+         <td>  <% if(userlist.data[i].status=="Y"){  %>
 <span style="color:green;">Paid</span>
 
                                                     <% }else{ %><span style="color:red;">Pending</span> <% } %>  
                                                   </td>
-                                                  <td>₹&nbsp;<%= userlist.data[i].payment_detail;   %>    
+          <td>₹&nbsp;<%= userlist.data[i].payment_detail;   %>    
                                                    
                                                   </td>
                                                   
