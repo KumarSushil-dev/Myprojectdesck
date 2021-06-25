@@ -1,4 +1,4 @@
-const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer } = require('../controllers/user.controller');
+const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo } = require('../controllers/user.controller');
 const { checkToken } = require("../middleware/authjwt.js");
 const express = require('express');
 const router = express.Router();
@@ -28,6 +28,7 @@ router.post("/addsubscriptions",checkToken,  addsubscriptions);
 router.post("/usereditservice",checkToken,  usereditservice);
 router.post("/editprofile",checkToken,  editprofile);
 router.post("/datatransfer",checkToken,  datatransfer);
+router.get("/productivityinfo",checkToken,  productivityinfo);
 /*router.post('/createcalllog/:id', createcalllog);
 router.post('/createsmslog/:id', createsmslog);
 router.post('/createlocation/:id', createlocation);

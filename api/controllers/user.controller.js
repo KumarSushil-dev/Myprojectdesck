@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,updatepaymentid,datatransferid} = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,updatepaymentid,datatransferid,getproductivityinfo} = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -479,7 +479,7 @@ getsubscriptiondetail: (req, res) => {
 
                         
         results.password=undefined;
-        const jsontoken = sign({ result: results },process.env.TOKEN_SECRET, { expiresIn: '1h' });
+        const jsontoken = sign({ result: results },process.env.TOKEN_SECRET, { expiresIn: '9h' });
         const planexpiry='2022-06-14';
         var obj = [];
         obj.push({ "token": jsontoken,"planExpiryDate":planexpiry });
@@ -1324,51 +1324,12 @@ if(body.companyname){
 },
 
 datatransfer: (req, res) => {
-    let upload = multer({ storage: storage, fileFilter: helpers.imageFilter }).single('screenshot');
-    upload(req, res, function(err) {
-
-        // req.file contains information of uploaded file
-        // req.body contains information of text fields, if there were any
-       // body.userid=req.decoded.result[0].id;
-        if (req.fileValidationError) {
-            return res.status(500).json({
-                success: 0,
-                message: req.fileValidationError
-            });
-        } else if (!req.file) {
-            return res.status(500).json({
-                success: 0,
-                message: 'Please select an image to upload'
-            });
-        } else if (err instanceof multer.MulterError) {
-            return res.status(500).json({
-                success: 0,
-                message: err
-
-            });
-        } else if (err) {
-            return res.status(500).json({
-                success: 0,
-                message: err
-
-            });
-        }
-        const files = req.file;
-        console.log(files.filename);
-        const body = req.body;
-       
-        const photos = req.file.filename;
-        body.photo = photos;
-        body.type=0;
-        body.userId=req.decoded.result[0].id;
+  const body = req.body;
+       console.log(body);
+ body.userId=req.decoded.result[0].id;
 var productivitycnt=body.productivityCount;
-    
-            (async() => {
-                await moveFile('uploads/' + photos, 'uploads/' + body.type + '/' + photos);
-
-            })();
-
-
+var applist=body.applist;
+body.applist=JSON.stringify(applist);
             datatransferid(body, (err, results) => {
             if (err) {
                console.log(err);
@@ -1390,10 +1351,71 @@ var productivitycnt=body.productivityCount;
 
         });
         
-    });
+
 
 },
+productivityinfo: (req, res) => {
+  
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
 
+    let x = 60; //minutes interval
+    let times = []; // time array
+    let tt = 0; // start time
+ 
+    
+    //loop to increment the time and push results in array
+    for (let i=0;tt<24*60; i++) {
+        let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+        let sh=hh+1;
+        let mm = (tt%60); // getting minutes of the hour in 0-55 format
+      times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
+      tt = tt + x;
+    }
+    body.times=times;
+    const startdate = new Date();
+    body.startdate=moment(startdate).format('YYYY-MM-DD');
+
+
+    getproductivityinfo(body, (err, results) => {
+        if (err) {
+          
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+       
+        if (results.length === 0) {
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Country Listed."
+
+            });
+        }
+
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            detail: ""
+          });
+
+        }else{
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Country Listed."
+
+            });
+
+        }
+
+    });
+
+}
 
 
 

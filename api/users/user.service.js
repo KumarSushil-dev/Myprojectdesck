@@ -20,10 +20,51 @@ module.exports = {
           }); 
     },
     datatransferid: async(data, callBack) => {
-        await Usersnapshots.create({userId:data.userId,productivityCount:data.productivityCount,screenshot:data.photo,totalIdleMinutes: data.totalIdleMinutes,totalKeypressCount:data.totalKeypressCount,totalMouseMovement:data.totalMouseMovement,totalClicks:data.totalClicks,capturetime:data.capturetime,applist:data.applist}).then(emailexist => callBack(null, emailexist)).catch(function (err) {
-            // handle error;
+        await Usersnapshots.create({userId:data.userId,productivityCount:data.productivityCount,productivitytime:data.productivitytime,screenshot:data.screenshot,totalIdleMinutes: data.totalIdleMinutes,totalKeypressCount:data.totalKeypressCount,totalMouseMovement:data.totalMouseMovement,totalClicks:data.totalClicks,capturetime:data.capturetime,applist:data.applist}).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+
             return callBack(err);
           }); 
+    },
+    getproductivityinfo: async(data, callBack) => {
+      
+      let startdate = data.startdate;
+      let pending = data.times.length;
+      let promises = [];
+        for (let i = 0; i < data.times.length; i++) {
+          const  string = data.times[i].split('-');
+
+          await pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+                data.userid,
+                startdate,
+                string[0],
+                string[1]
+            ],(error, results, fields) => {
+         if (error) {
+          console.log("test");
+                    }
+              
+                 if (results.length == 0) {
+                       // promises.push(0);
+                    } else {
+
+                        if(results[0].productivitytime!== null){
+                        var obj = [];
+                        obj.push({ "starttime": string[0],"endtime":string[1],"idletime":results[0].idletime,"productivitytime":results[0].productivitytime,"productivitypercentage":results[0].productivitypercentage });
+                        
+                        promises.push(obj);
+                        }
+                    }
+
+                    if (0 === --pending) {
+                       
+                       return callBack(null, promises); //callback if all queries are processed
+                    }
+
+                });
+        }
+
+      
+       
     },
     create: async(data, callBack) => {                
         statusdata='N';

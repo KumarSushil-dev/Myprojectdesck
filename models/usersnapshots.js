@@ -6,7 +6,11 @@ const Usersnapshots=sequelize.define('users_snapshotscapture',{
     allowNull: false
      },
   productivityCount: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
+     // allowNull: false
+       },
+       productivitytime: {
+      type: DataTypes.INTEGER,
      // allowNull: false
        },
        screenshot: {
