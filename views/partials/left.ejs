@@ -35,6 +35,11 @@
             </li>
             <% } %>
 
+            <% if(roleid==2){ %>
+    <li class="nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/companyuser"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Users List</span></a>
+                    </li>
+                    <% } %>
+
         </ul>
     </div>
     <script type="text/javascript">

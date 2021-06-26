@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,updatepaymentid,datatransferid,getproductivityinfo} = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -164,6 +164,39 @@ getselectedstate: (req, res) => {
     });
 
 },
+checkemailexist: (req, res) => {
+    const body = req.body;
+
+    checkemailexistid(body, (err, results) => {
+       
+
+
+        if (results.length === 0) {
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: 0
+
+            });
+
+
+
+        }
+
+
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            detail: 1
+          });
+
+        }
+
+    });
+
+},
 
 // Get Selected State from Country 
 getSearch: (req, res) => {
@@ -274,6 +307,53 @@ editprofile:(req, res) => {
             });
 
         }
+    });
+    });
+    });
+});
+
+},
+
+// Get Selected User Detail
+viewdetail:(req, res) => {
+    const body = req.body;
+    body.userid=body.id
+    viewdetailid(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+        getcountry(body, (err, resultsdata) => {
+            getstate(body, (err, resultsdatae) => {
+                getsitesettings(body, (err, resultsetting) => {
+                    getattendence(body, (err, resultlogs) => {
+
+            
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            country:resultsdata,
+            state:resultsdatae,
+            settings:resultsetting,
+            logss:resultlogs,
+            detail: ""
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+    });
     });
     });
     });
@@ -809,6 +889,55 @@ var str=utest[0].format;
         });
 
     },
+// Get Company employee
+    companyuser: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+        getusercompany(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+                
+
+                return res.status(200).json({
+                    success: true,
+                    data: results
+    
+    
+                });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+
+    },
+
   // Get All User
   billingdetail: (req, res) => {
 
@@ -859,11 +988,7 @@ var str=utest[0].format;
             });
 
 
-   
-
-
-
-        });
+    });
 
     },
   // Get All User
@@ -1110,13 +1235,28 @@ var str=utest[0].format;
     // Save Employee Punch IN
     savepunchin: (req, res) => {
 
-        
         const body = req.body;
 
        body.userid=req.decoded.result[0].id;
 
-      
+       body.punchInTime=moment(body.punchInTime).format('YYYY-MM-DD HH:mm:ss');
+       checkiftodaydateexistuserid(body, (err, resultsd) => {
+
+        if (err) {
+             
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+
+            });
+        }
+
+        if (resultsd.length === 0) {
+
+
         saveuserpunch(body, (err, results) => {
+        getcpaturescrreninterval(body, (err, resultss) => {
             if (err) {
                 console.log(err);
               return res.status(500).json({
@@ -1136,9 +1276,12 @@ var str=utest[0].format;
             }
           var re = JSON.stringify(results);
            var test = JSON.parse(re);
-    const intimee=test.punch_in;
+          var resave = JSON.stringify(resultss);
+           var testgetscrren = JSON.parse(resave);
+   // const intimee=test.punch_in;
+    const intimee=moment(test.punch_in).format('YYYY-MM-DD HH:mm:ss');
     var obj = [];
-    obj.push({ "intime": intimee, "ScreenShortInterval": 12 });
+    obj.push({ "intime": intimee, "ScreenShortInterval": testgetscrren.screenshot_freq });
             return res.status(200).json({
                 success:true,
                 data: obj
@@ -1146,6 +1289,18 @@ var str=utest[0].format;
 
 
 
+        });
+        });
+        }else{
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "User Already Punch IN Today."
+
+            });
+
+
+        }
         });
 
     },
@@ -1157,7 +1312,7 @@ var str=utest[0].format;
 
        body.userid=req.decoded.result[0].id;
 
-      
+       body.puchOutTime=moment(body.puchOutTime).format('YYYY-MM-DD HH:mm:ss');
         saveuserpunchout(body, (err, results) => {
             if (err) {
                
@@ -1190,7 +1345,7 @@ var str=utest[0].format;
 
     },
 
-// Edit Planlist
+// Edit Profile
 usereditservice: (req, res) => {
     const body = req.body;
     body.userid=req.decoded.result[0].id;
@@ -1323,6 +1478,151 @@ if(body.companyname){
 
 },
 
+
+
+// Edit Profile
+viewdetailprofileservice: (req, res) => {
+    const body = req.body;
+    body.userid=body.id;
+if(body.companyname){
+   
+    useredit(body, (err, results) => {
+
+        getcountry(body, (err, resultsdata) => {
+            getstate(body, (err, resultsdatae) => {
+                getsitesettings(body, (err, resultsetting) => {
+                    getattendence(body, (err, resultlogs) => {
+
+            
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            country:resultsdata,
+            state:resultsdatae,
+            settings:resultsetting,
+            logss:resultlogs,
+            id:body.userid+'?userfound=1',
+            detail: ""
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed.",
+                id:body.userid
+
+            });
+
+        }
+    });
+    });
+    });
+    });
+     
+
+
+        
+       
+
+    });
+
+}else if(body.cpassword){
+
+    const salt = genSaltSync(10);
+      
+    body.passwords = hashSync(body.cpassword, salt);
+    passwordedit(body, (err, results) => {
+       
+       
+        getcountry(body, (err, resultsdata) => {
+            getstate(body, (err, resultsdatae) => {
+                getsitesettings(body, (err, resultsetting) => {
+                    getattendence(body, (err, resultlogs) => {
+
+            
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            country:resultsdata,
+            state:resultsdatae,
+            settings:resultsetting,
+            logss:resultlogs,
+            id:body.userid+'?userfound=2',
+            detail: "Password changed succesfully."
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed.",
+                id:body.userid
+
+            });
+
+        }
+    });
+    });
+    });
+    });
+     
+
+
+        
+       
+
+    });
+
+}else{
+
+  
+    sitesettingedit(body, (err, results) => {
+
+
+        getcountry(body, (err, resultsdata) => {
+            getstate(body, (err, resultsdatae) => {
+                getsitesettings(body, (err, resultsetting) => {
+
+            
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            country:resultsdata,
+            state:resultsdatae,
+            settings:resultsetting,
+            detail: "Your Account Setting has been updated succesfully."
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: [],
+                detail: "No State Listed."
+
+            });
+
+        }
+    });
+    });
+    });
+     
+
+
+        
+       
+
+    });
+}
+
+},
+
 datatransfer: (req, res) => {
   const body = req.body;
        console.log(body);
@@ -1330,6 +1630,7 @@ datatransfer: (req, res) => {
 var productivitycnt=body.productivityCount;
 var applist=body.applist;
 body.applist=JSON.stringify(applist);
+body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
             datatransferid(body, (err, results) => {
             if (err) {
                console.log(err);
@@ -1415,7 +1716,117 @@ productivityinfo: (req, res) => {
 
     });
 
-}
+},
+
+
+// Add Company User
+
+    addcompanyuser: (req, res) => {
+        const body = req.body;
+        const salt = genSaltSync(10);
+        body.passwords = hashSync(body.cpassword, salt);
+        body.role_id=3;
+       
+        checkifemailexist(body, (err, result) => {
+  if (err) {
+    console.log(err);
+                return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "Connection Error."
+
+                });
+            }
+
+            
+        if (result.length === 0) {
+            body.userid=req.decoded.result[0].id;
+            
+            getselectedcompanydetail(body, (err, resultsdata) => {
+                body.plan_id=resultsdata.plan_id;
+                body.country_id=resultsdata.country_id;
+                body.state_id=resultsdata.state_id;
+                body.parent_id=body.userid;
+            addcompanyuserid(body, (err, results) => {
+           
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    success: false,
+                    data: 'resultsdata',
+                    detail: "Connection Error."
+
+                });
+            }
+
+            if (!results){
+                return res.status(500).json({
+                    success: false,
+                    data: '',
+                    detail: "Add User Error , Please Try Again."
+
+                });
+            }
+
+if(results) {
+   
+            body.lid=3;
+            getemailtemplate(body, (err, resultsf) => {
+                getusercompany(body, (err, resultsd) => {
+        //  console.log(resultsf);
+                var ure = JSON.stringify(resultsf);
+                var utest = JSON.parse(ure);
+              
+             
+        var replacements = {
+            "%Name%": body.email,
+            "%Email%": body.email,
+            "%Password%": body.cpassword
+        }
+
+     var str=utest[0].format;
+        str = str.replace(/%\w+%/g, function(all) {
+            return replacements[all] || all;
+         });
+                const mailData = {
+                    from: 'noreply@eboxtenders.com',
+                    to: body.email,
+                    subject: utest[0].subject,
+                    text: '',
+                    html: str,
+                };
+            
+                transporter.sendMail(mailData, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+
+
+                    res.status(200).json({ message: "Mail send", message_id: info.messageId,   data: resultsd });
+                });
+    
+    
+    
+            });
+            });
+
+        }
+
+        });
+        });
+    }else{
+
+        return res.status(500).json({
+            success: false,
+            data: '',
+            detail: "Email Already Exist."
+
+        });
+
+    }
+
+    });
+    },
 
 
 

@@ -1,0 +1,10 @@
+
+.avatar-me-wrapper { min-height: 48px; overflow: hidden; padding-left: 58px; position: relative; }
+.avatar-me {
+    background-color: #c00; color: #fff; display: block; height: 48px; left: 0; overflow: hidden; padding: 0 10px; position: absolute; text-align: center; text-overflow: ellipsis; text-transform: uppercase; top: 0; white-space: nowrap; width: 48px;
+    -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%;
+    -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
+}
+.avatar-me, .user-name { font-family: 'Open Sans Condensed', sans-serif; font-size: 18px; line-height: 48px; }
+.avatar-me { font-weight: 300; }
+.user-name { font-weight: 700; }

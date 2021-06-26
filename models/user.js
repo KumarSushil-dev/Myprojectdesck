@@ -72,6 +72,10 @@ const User=sequelize.define('users',{
       status: {
         type: DataTypes.ENUM('Y', 'N')
         // allowNull defaults to true
+      },
+      is_screenshot: {
+        type: DataTypes.ENUM('Y', 'N')
+        // allowNull defaults to true
       }
       
  });

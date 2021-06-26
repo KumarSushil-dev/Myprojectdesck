@@ -1,5 +1,5 @@
 const pool = require("../../config/database");
-const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Op } = require('../../sequelize');
+const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Op } = require('../../sequelize');
 var p;
 
 module.exports = {
@@ -12,6 +12,31 @@ module.exports = {
           }); 
     },
     checkifemailexist: async(data, callBack) => {
+        await User.findAll({
+            where: {email: data.email}
+        }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    checkiftodaydateexistuserid: async(data, callBack) => {
+        const TODAY_START = new Date().setHours(0, 0, 0, 0);
+var NOW = new Date();
+NOW=NOW.setHours(22);
+        await Userattendancelog.findAll({
+            where: {
+                punch_in: { 
+                  [Op.gt]: TODAY_START,
+                  [Op.lt]: NOW
+                },
+                userId :data.userid
+              },
+        }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    checkemailexistid: async(data, callBack) => {
         await User.findAll({
             where: {email: data.email}
         }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
@@ -78,6 +103,14 @@ module.exports = {
      
 
     },
+    addcompanyuserid: async(data, callBack) => {                
+        statusdata='Y';
+        data.activationkey='';
+        await User.create({companyname:data.companyname,firstname:data.firstname,lastname:data.lastname,email: data.email,password:data.passwords,activation_key:data.activationkey,country_id:data.country_id,state_id:data.state_id,mobile:data.mobile,status:statusdata,role_id: data.role_id,plan_id: data.plan_id,parent_id: data.parent_id,is_screenshot:data.is_screenshot}).then(createlist => callBack(null, createlist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+ },
     getuser: async(data, callBack) => {
 
       
@@ -102,12 +135,53 @@ module.exports = {
             return callBack(err);
           }); 
     },
+    getusercompany: async(data, callBack) => {
+
+      await User.findAll({
+            where: { 
+                role_id: {
+                [Op.or]: [2, 3]
+              },
+              parent_id: data.userid},   
+              include: [ {
+                  model: Roles,
+                  attributes: ['name']
+              },
+              {
+                model: Usersnapshots,
+                attributes: ['capturetime']
+            },
+          ],  
+          order: [[{model: Usersnapshots}, 'id', 'desc']]   
+          }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
 
     editprofileid: async(data, callBack) => {
 
       await User.findOne({
             where: {id:data.userid},
-            order:[['id','DESC']]
+            include: [ {
+                model: Roles,
+                attributes: ['name']
+            },
+        ], order:[['id','DESC']]
+            }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    viewdetailid: async(data, callBack) => {
+
+      await User.findOne({
+            where: {id:data.id},
+            include: [ {
+                model: Roles,
+                attributes: ['name']
+            },
+        ], order:[['id','DESC']]
             }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
             // handle error;
             return callBack(err);
@@ -178,6 +252,12 @@ module.exports = {
         }).then(function(){
             User.findOne({
                 where: {id:data.userid},
+                 include: [ {
+                    model: Roles,
+                    attributes: ['name']
+                },
+            ],
+
                 order:[['id','DESC']]
                 }).then(notes => callBack(null,notes));                      
              }).catch(function (err) {
@@ -192,6 +272,26 @@ module.exports = {
         }).then(function(){
             User.findOne({
                 where: {id:data.userid},
+                include: [ {
+                    model: Roles,
+                    attributes: ['name']
+                },
+            ],
+                order:[['id','DESC']]
+                }).then(notes => callBack(null,notes));                      
+             }).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    getcpaturescrreninterval: async(data, callBack) => {
+     
+        await User.findOne({
+            where: {id:data.userid},
+            order:[['id','DESC']]
+            }).then(function(createduser){
+                Sitesettings.findOne({
+                where: {userId:createduser.parent_id},
                 order:[['id','DESC']]
                 }).then(notes => callBack(null,notes));                      
              }).catch(function (err) {
@@ -206,7 +306,12 @@ module.exports = {
         }).then(function(){
             User.findOne({
                 where: {id:data.userid},
-                order:[['id','DESC']]
+                include: [ {
+                    model: Roles,
+                    attributes: ['name']
+                },
+            ],
+             order:[['id','DESC']]
                 }).then(notes => callBack(null,notes));                      
              }).catch(function (err) {
             // handle error;
@@ -341,7 +446,7 @@ module.exports = {
 
 
        
-        await Userattendancelog.create({punch_in:data.punchInTime,employee_id:data.userid }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+        await Userattendancelog.create({punch_in:data.punchInTime,userId:data.userid }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
             // handle error;
             return callBack(err);
           }); 
@@ -351,6 +456,7 @@ module.exports = {
         data.status='Y';
         data.plan_id=5;
         data.totaluser=5;
+
         const NOW = new Date();
         const expired= NOW.setDate(NOW.getDate() + 7);
         const startdate = new Date();
@@ -358,7 +464,7 @@ module.exports = {
             where: {activation_key:data.name},
             order:[['id','DESC']] 
         }).then(function(createdUser){
-        User.update({status: data.status,activation_key:''},{
+        User.update({status: data.status,activation_key:'',parent_id:createdUser.id},{
             where: {id: createdUser.id}
         }).then(function(createdUser){
     Sitesettings.create({userId:createdUser.id,is_screenshot_enable:'Y',screenshot_freq:'12',user_logintime:'9',idle_threshold:'60',idle_threshold_punchout:'15',is_auto_punchout:'Y',punchout_time:'10'}).then(function(){
@@ -464,10 +570,25 @@ module.exports = {
     },
     saveuserpunchout: async(data, callBack) => {
 
-
+        const TODAY_START = new Date().setHours(0, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setHours(22);
        
         await Userattendancelog.update({punch_out: data.puchOutTime},{
-            where: {employee_id: data.userid},
+            where: {punch_in: { 
+                [Op.gt]: TODAY_START,
+                [Op.lt]: NOW
+              },userId: data.userid},
+            order:[['id','DESC']],
+        }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    }, 
+    getattendence: async(data, callBack) => {
+
+        await Userattendancelog.findAll({
+            where: {userId: data.id},
             order:[['id','DESC']],
         }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
             // handle error;
@@ -547,6 +668,15 @@ module.exports = {
         await User.findOne({
             attributes: ['companyname','address','zipcode'],
             where: {role_id:1,status: 'Y'}
+        }).then(getcountrylist => callBack(null, getcountrylist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    getselectedcompanydetail: async(data, callBack) => {
+        await User.findOne({
+            attributes: ['plan_id','country_id','state_id'],
+            where: {id:data.userid,status: 'Y'}
         }).then(getcountrylist => callBack(null, getcountrylist)).catch(function (err) {
             // handle error;
             return callBack(err);

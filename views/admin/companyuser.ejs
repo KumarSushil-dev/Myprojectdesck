@@ -1,0 +1,195 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        
+
+<%- include('../partials/left'); %>
+
+
+
+
+<script>
+ $(document).on('click','.dropplan',function (e){
+
+        var df=this.id;
+  $('#dropplan').modal('show');
+    $('.planselectuser').val(df);
+    e.preventDefault();
+    
+    });
+    </script>
+
+
+  <script type="text/javascript">
+    function spinner() {
+
+        document.getElementsByClassName("loader")[0].style.display = "block";
+    }
+</script>
+
+<script>
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            document.getElementsByClassName("loader")[0].style.display = "block";
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              document.getElementsByClassName("loader")[0].style.display = "none";
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+    
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">User List </h4><br>
+                                            <p>Here You Can Manage Your Existing Users , Edit Their Profiles , Change Password Or Even Add New Users To Your Organisation.</p>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                                <ul class="list-inline mb-0">
+                                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                                    <li><a data-action="close"><i class="ft-x"></i></a></li><br>
+                                                    <li><a type="button" href="/addcompanyuser" class="btn btn-outline-primary btn-min-width btn-glow mr-1 mb-1"><i class="la la-plus"></i> Add New User
+                                                    </a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="card-content collapse show">
+                                            <div class="card-body">
+                                                <% if (locals.messages) { %>
+                                                    <div class="alert alert__success " style="color:red; ">
+                                                        <%= messages.error %>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                            <div class="table-responsive">
+
+                                                <table class="table">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Name</th>
+                                                        
+                                           <th scope="col" style="width: 19%;">Email</th>
+                                          
+                                                            <th scope="col">Role</th>
+                                                            <th scope="col">Last Activity Time</th>
+                                                            <th scope="col">Screenshots</th>
+                                                           
+                                                        
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                        <%  if(companyuser.data.length > 0){
+                                                             var s=1; 
+                                        for(var i=0; i < companyuser.data.length; i++) { %>
+                                                            <tr>
+                                                 <th scope="row"><%= s++; %></th>
+                                             <td><b><a href="<%= process.env.APP_URL %>/viewdetail/<%= companyuser.data[i].id %>"><%= companyuser.data[i].firstname; %> <%= companyuser.data[i].lastname; %></a></b><% if(companyuser.data[i].status=="Y"){  %>
+                                                <i class="la la-check-circle-o" style="color: green;
+                                                   font-weight: bold;
+                                                   font-size: 14px;">verified</i> <% } %></td>
+
+                                             <td><a href="mailto:<%= companyuser.data[i].email; %>"><%= companyuser.data[i].email; %></a>
+                                                  </td>
+                                                           
+<td>
+    <%= companyuser.data[i].role['name']; %>
+ </td>
+ <% if(companyuser.data[i].users_snapshotscaptures.length > 0){  %>
+  <td> <%  var str=companyuser.data[i].users_snapshotscaptures[0]['capturetime']; %>
+      <%= moment(str).tz('Asia/Calcutta').format('llll') %> </td>
+  <% }else{ %>  
+          <td> -- </td>
+          
+          <% } %> 
+
+
+  
+ <td>
+    Enable
+ </td>
+
+     
+                                                            </tr>
+                                                            <% } }else{ %>
+                                                                <tr>
+
+                                                                    <td class=" text-center " colspan=" 7 " style="color:red; ">
+                                                                        No Users Listed Yet
+                                                                    </td>
+                                                                </tr>
+                                                                <% }  %>
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Table head options end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+                <script>
+                    // Disable form submissions if there are invalid fields
+                    (function() {
+                      'use strict';
+                      window.addEventListener('load', function() {
+                        // Get the forms we want to add validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                          form.addEventListener('submit', function(event) {
+                            $('.preloader').show();
+                            if (form.checkValidity() === false) {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              $('.preloader').hide();
+                            }
+                            form.classList.add('was-validated');
+                          }, false);
+                        });
+                      }, false);
+                    })();
+                    </script>
+                    
+            
+                <%- include('../partials/footer'); %>

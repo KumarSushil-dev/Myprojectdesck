@@ -1,0 +1,305 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        <%- include('../partials/left'); %>
+        <script type="text/javascript" src="/theme-assets/js/jquery.formatCurrency-1.4.0.min.js"></script>
+<script> $(function () {
+  $(".currency").blur(function () {
+    $(".currency").html(null), $(this).formatCurrency({
+      colorize: !0,
+      symbol: "",
+      negativeFormat: "-%s%n",
+      roundToDecimalPlace: -1
+    })
+  }).keyup(function (e) {
+    var e = window.event || e,
+      a = e.charCode || e.keyCode;
+    if (110 != a && 229 != a && 190 != a && 46 != a && 45 != a && a > 31 && (96 > a || a > 105) && (48 > a || a > 57) && $(".currency").val(""), void 0 !== e) switch (a) {
+      case 16:
+        break;
+      case 17:
+        break;
+      case 18:
+        break;
+      case 27:
+        this.value = "";
+        break;
+      case 35:
+        break;
+      case 36:
+        break;
+      case 37:
+        break;
+      case 38:
+        break;
+      case 39:
+        break;
+      case 40:
+        break;
+      case 78:
+        break;
+      case 110:
+        break;
+      case 190:
+        break;
+      default:
+        $(this).formatCurrency({
+          colorize: !0,
+          negativeFormat: "-%s%n",
+          roundToDecimalPlace: -1,
+          eventOnDecimalsEntered: !1
+        })
+    }
+  }).bind("decimalsEntered", function (e, a) {
+    var t = "Please do not enter any cents (0." + a + ")";
+    alert(t), log("Event on decimals entered:" + t)
+  });
+});
+</script>
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">User </h4>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                                <ul class="list-inline mb-0">
+                                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+                <form action="/addcompanyuser"  method="post" class="form-horizontal needs-validation" novalidate>
+                               
+                 <div class="form-body">
+                 <h4 class="form-section"> <i class="ft-flag"></i> Add User</h4>
+                 <div class="w_50 mb-2 mt-2"><h6>Basic Information</h6><hr>
+                 </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-6 col-md-4 col-5">
+                <label for="companyName">First Name</label>
+    <input type="text" id="companyName" class="form-control"  name="firstname" required>
+    <div class="valid-feedback">Valid.</div>
+    <div class="invalid-feedback">Please fill out this field.</div>
+</div>
+<div class="col-sm-6 col-md-4 col-5">
+  <label for="companyName">Last Name</label>
+<input type="text" id="companyName" class="form-control"  name="lastname" required>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+</div>
+
+</div>
+
+
+<div class="form-group">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-5">
+<label for="companyemail">Enter Email</label>
+<input type="text" id="companyemail" class="form-control email"  name="useremail" required>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+<div class="emailalert" style="color:red;" ></div>
+</div>
+<div class="col-sm-6 col-md-4 col-5">
+<label for="phone">Phone</label>
+<input type="text" id="phone" class="form-control currency" maxlength="12"  name="mobile" required>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+</div>
+
+</div>
+<div class="w_50 mb-2 mt-2"><h6>Login Information</h6><hr>
+</div>
+
+<script>
+  function checkPasswordMatch() {
+      var password = $("#password").val();
+      var confirmPassword = $("#ckpassword").val();
+      if (password != confirmPassword){
+          $("#CheckPasswordMatch").html("Passwords does not match!");
+          
+  }else{
+          $("#CheckPasswordMatch").html("Passwords match.");
+       
+  }
+}
+  $(document).ready(function () {
+     $("#ckpassword").keyup(checkPasswordMatch);
+  });
+
+  $(document).ready(function(){  
+                            
+                           $( ".email" ).change(function() { 
+                            
+                            var selectedemail = $(this).val();
+                            if(selectedemail!=""){
+                                var data = {};
+                                data.email = selectedemail;
+                            $.ajax({  
+                                   url:'/api/users/checkemailexist',  
+                                   method:'post',  
+                                   contentType: 'application/json',
+                                   data: JSON.stringify(data), 
+                                   success:function(response){  
+                                 
+                        if(response.detail==1){
+                           $(".email").val('');
+                           $(".emailalert").html("Email already Exist");
+                        }else if(response.detail==0){
+                          $(".emailalert").html("");
+                          $(".email").val(selectedemail);
+                        }
+                                    
+                                   },  
+                                   error:function(response){  
+                                       alert('server error occured')  
+                                   }  
+                               });  
+                            }
+                            });  
+                        });  
+  </script>   
+<div class="form-group">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-5">
+<label for="email">Enter Email</label>
+<input type="email" id="email" class="form-control email"  name="email" required>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+<div class="emailalert" style="color:red;" ></div>
+</div>
+<div class="col-sm-6 col-md-4 col-5">
+<label for="phone">Password</label>
+<input type="password" id="password" class="form-control"  name="cpassword" required>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+<div class="col-sm-6 col-md-4 col-5">
+  <label for="phone">Confirm Password</label>
+  <input type="password" id="ckpassword" class="form-control"  name="ckpassword" required>
+  <div class="registrationFormAlert" style="color:red;" id="CheckPasswordMatch"></div>
+  <div class="valid-feedback">Valid.</div>
+  <div class="invalid-feedback">Please fill out this field.</div>
+  </div>
+</div>
+
+</div>
+
+
+
+<div class="form-group">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-5">
+<label for="role">Role</label>
+<select name="role_id" class="form-control" >
+  <option value="3">Employee</option>
+  </select>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="w_50 mb-2 mt-2"><h6>Tracking</h6><hr>
+</div>
+
+<div class="form-group">
+  <div class="row">
+    <div class="col-sm-6 col-md-6 col-5">
+<label for="companyName">Capture Screenshot</label>
+
+<div class="form-check pl-0">
+  <input id="stackedCheck1" class="form-check-input" type="checkbox" name="is_screenshot" value="Y" data-toggle="toggle" checked>
+  <label for="stackedCheck1" class="form-check-label">Enabled</label>
+</div>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+
+    <div class="col-sm-6 col-md-6 col-5">
+<label for="role">Notify User</label><br>
+<input type="checkbox" name="notifieduser" checked value="1"> Send the new user an email about their account
+
+</div>
+
+</div>
+
+</div>
+
+
+            
+                                        <div class="form-actions">
+                                            <a type="button" href="/plan" class="btn btn-danger mr-1">
+                                                <i class="ft-x"></i> Cancel
+                                            </a>
+                                            <button type="submit" onclick="spinner()"  class="btn btn-primary pull-right">
+                                                <i class="la la-check-square-o"></i> Save
+                                            </button>
+                                        </div>
+                                  
+                                  
+                                </form>
+                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Table head options end -->
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            document.getElementsByClassName("loader")[0].style.display = "block";
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              document.getElementsByClassName("loader")[0].style.display = "none";
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+    
+
+
+
+
+<%- include('../partials/footer'); %>

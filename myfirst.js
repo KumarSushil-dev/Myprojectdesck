@@ -14,7 +14,7 @@ var cookieParser = require('cookie-parser');
 var $           = require('jquery');  
 var {check,validationResult} = require('express-validator');  
 const puppeteer = require("puppeteer"); // will automatically load the node version
-
+const { encrypt, decrypt } = require("./api/middleware/crpyto.js");
 //set up express app
 const app = express();
 app.set('view engine', 'ejs');
@@ -42,6 +42,8 @@ const toWords = new ToWords({
    });
 
 
+app.locals.encrypt = encrypt;
+app.locals.decrypt = decrypt;
 app.locals.moment = moment;
 app.locals.fs = fs;
 app.locals.toWords = toWords;
@@ -66,7 +68,6 @@ app.use(function(req, res, next) {
 //intilize routes
 //app.use('/api/users', urlencodedParser, require('./api/routes/user.router'));
 app.use('/api/users', jsonParser, require('./api/routes/user.router'));
-app.use('/app', urlencodedParser, require('./api/routes/user.router'));
 app.use('/api/plans', jsonParser, require('./api/routes/plan.router'));
 app.use('/api/plans', urlencodedParser, require('./api/routes/plan.router'));
 app.use('/api/emailtemplate', jsonParser, require('./api/routes/emailtemplate.router'));
@@ -310,7 +311,7 @@ if(req.query.userfound){
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                        console.log(datas);
+                     
 if(userfound==1){
     req.flash("error", "Payment Succesfully completed with selected plan. You Can Proceed Now.");
     res.locals.messages = req.flash();
@@ -2056,6 +2057,74 @@ app.get('/editprofile', urlencodedParser, function(req, res) {
         res.render('users/login');
     }
 }); 
+
+app.get('/viewdetail/:id', urlencodedParser, function(req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    const token = sess.token;
+    if(ids && sess.token!='') {
+        setTimeout(function() {
+         
+    request.post({
+                 headers: {
+                 'Authorization': `Bearer ${token}`
+                 },
+                url: process.env.APP_URL + '/api/users/viewdetail',
+                body: { "id": ids },
+                json: true
+                },
+                function(error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        if(userfound==1){
+                            req.flash("error", "User Profile has been succesfully updated.");
+                            res.locals.messages = req.flash();
+                        }else if(userfound==2){
+                            req.flash("error", "Change password succesfully updated for user!");
+                            res.locals.messages = req.flash();
+                        }
+                 
+                            res.render('admin/viewdetail', { person: sess.companyname, user: test,roleid :sess.roleid  });
+                        res.end;
+                          
+                   
+              
+
+                       
+                    } else {
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+            res.locals.messages = req.flash();
+            res.redirect(process.env.APP_URL + '/plan');
+                        res.end;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+}); 
 // Edir post Profile
 
   // Edit Plan Post
@@ -2097,6 +2166,198 @@ app.get('/editprofile', urlencodedParser, function(req, res) {
                 res.render('admin/editprofile', { person: sess.companyname, user: test,roleid :sess.roleid  });
                 res.end;
 
+                }else{
+    
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+    
+    
+                }
+    
+            });
+        }, 0000);
+        }
+    
+    });
+
+
+
+
+
+  // Edit Plan Post
+  app.post('/viewdetailprofile', urlencodedParser, (req, res) => {
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
+
+   
+    if (sess.companyname && sess.token!='') {
+            setTimeout(function() {
+            // this code will only run when time has ellapsed
+                request.post({
+                headers: {
+                'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/users/viewdetailprofileservice',
+                body: req.body,
+                json: true
+            },
+    
+            function(error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+               
+                    req.flash("error", "Error While updated Profile Successfully.");
+                    res.locals.messages = req.flash();
+                    res.redirect(process.env.APP_URL + '/viewdetail/');
+    
+                } else if (!error && response.statusCode == 200) {
+                    
+                var data = response.body;
+                var re = JSON.stringify(data);
+                var test = JSON.parse(re);
+          
+                sess = req.session;
+                req.flash("error", test.detail);
+                res.locals.messages = req.flash();
+                res.redirect(process.env.APP_URL + '/viewdetail/'+test.id);
+               // res.render('admin/viewdetail/:'+test.id, { person: sess.companyname, user: test,roleid :sess.roleid  });
+                res.end;
+
+                }else{
+    
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+    
+    
+                }
+    
+            });
+        }, 0000);
+        }
+    
+    });
+
+// company users list
+
+
+app.get('/companyuser', urlencodedParser, function(req, res) {
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/companyuser',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        console.log(datas);
+                        sess = req.session;
+res.render('admin/companyuser', { person: sess.companyname, companyuser: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+// Add User
+
+app.get('/addcompanyuser', function(req, res) {
+
+sess = req.session;
+const token = sess.token;
+if(sess.companyname!="" && sess.token!=''){  
+res.render('admin/addcompanyuser', { person: sess.companyname,roleid :sess.roleid  });
+res.end;
+}
+ //  res.render('users/login');
+});
+
+
+// Add Company User
+app.post('/addcompanyuser', urlencodedParser, (req, res) => {
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
+    body.companyname=sess.companyname;
+    console.log(body);
+if(sess.companyname && sess.token!='') {
+    setTimeout(function() {
+            // this code will only run when time has ellapsed
+            
+        request.post({
+                headers: {
+                        'Authorization': `Bearer ${token}`
+                },
+                 url: process.env.APP_URL + '/api/users/addcompanyuser',
+                 body: req.body,
+                 json: true
+            },
+    
+            function(error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+                    var resave = JSON.stringify(data);
+                    var tests = JSON.parse(resave);
+                    
+                    req.flash("error", tests.detail);
+                    res.locals.messages = req.flash();
+                    res.redirect(process.env.APP_URL + '/addcompanyuser');
+    
+                } else if (!error && response.statusCode == 200) {
+                    
+                var data = response.body;
+                var re = JSON.stringify(data);
+                var test = JSON.parse(re);
+             
+                sess = req.session;
+                req.flash("error", "Company New User has been added Successfully.");
+                res.locals.messages = req.flash();
+             
+         res.render('admin/companyuser', { person: sess.companyname,companyuser: test,roleid :sess.roleid  });
+               
+                res.end;
+    
                 }else{
     
                     //do something with error

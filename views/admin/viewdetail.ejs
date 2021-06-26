@@ -158,9 +158,9 @@
                             <!-- Table head options start -->
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="card">
+                                    <div class="card"> 
                                         <div class="card-header">
-                                            <h4 class="card-title">Update Profile </h4>
+                                            <h4 class="card-title">User Details :<span class="user-name"><%= user.data.firstname; %> <%= user.data.lastname; %> (Role : <b><%= user.data.role['name']; %></b>) </span></h4>
                                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                             <div class="heading-elements">
                                                 <ul class="list-inline mb-0">
@@ -187,30 +187,7 @@
                                 <%= messages.error %>
                             </div>
                             <% } %>
-                        <div class="card-title mb-4">
-                            <div class="d-flex justify-content-start">
-                                <div class="image-container">
-                                    <img src="http://placehold.it/150x150" id="imgProfile" style="width: 150px; height: 150px" class="img-thumbnail" />
-                                    <div class="middle">
-                                        <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />
-                                       
-                                    </div>
-                                </div>
-                                <script>
                      
-
-                                </script>
-                                <div class="userData ml-3">
-                                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a href="javascript:void(0);"><span class="user-name"><%= user.data.companyname; %></span></a></h2>
-                                    <h6 class="d-block"><b><%= user.data.email; %></b></h6>
-                                    <h6 class="d-block">Role : <b><%= user.data.role['name']; %></b></h6>
-                                
-                                </div>
-                                <div class="ml-auto">
-                                    <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
-                                </div>
-                            </div>
-                        </div>
 
                         <script>
 
@@ -248,22 +225,57 @@
                             <div class="col-12">
                                 <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                        <a class="nav-link active" id="logsInfo-tab" data-toggle="tab" href="#logsInfo" role="tab" aria-controls="logsInfo" aria-selected="true">Logs</a>
                                     </li> 
-                                    <% 
-                                        var roleids=user.data.role_id;  if(roleids==2){ %>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">Account Settings</a>
-                                    </li> <% }  %>
+                                        <a class="nav-link " id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                    </li> 
+                                 
 
                                     <li class="nav-item">
                                         <a class="nav-link" id="passwordServices-tab" data-toggle="tab" href="#passwordServices" role="tab" aria-controls="passwordServices" aria-selected="false">Change Password</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content ml-1" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
-                                        <form action="/editprofile" method="post" class="form  needs-validation" novalidate>
-                                        
+                                    <div class="tab-pane fade show active" id="logsInfo" role="tabpanel" aria-labelledby="logsInfo-tab">
+
+                                        <div class="table-responsive">
+
+                                            <table class="table">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Punch IN</th>
+                                                    
+                                       <th scope="col">Punch Out</th>
+                                      
+                                    
+                                                    
+                                                    </tr>
+                                                </thead>
+                                                <tbody>   
+                                                    <%  if(user.logss.length > 0){
+                                                        var s=1; 
+                                   for(var i=0; i < user.logss.length; i++) { %>
+                                                       <tr>
+                                            <th scope="row"><%= s++; %></th>
+                <td><b><%= moment(user.logss[i].punch_in).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
+                <td><b><%= moment(user.logss[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
+                              
+</tr>
+<% } }else{ %>
+<tr><td colspan="3" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
+
+    <% } %>
+</tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    <div class="tab-pane fade show" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+                            <form action="/viewdetailprofile" method="post" class="form  needs-validation" novalidate>
+                            <input type="hidden" name="id" value="<%= user.data.id; %>">
+
                                             <input type="file" style="display: none;" id="profilePicture" name="logo" />
                                         <div class="row">
                                             <div class="col-sm-3 col-md-2 col-5">
@@ -274,6 +286,18 @@
                                         <div class="valid-feedback">Valid.</div>
                                         <div class="invalid-feedback">Please fill out this field.</div>
                                     
+                                            </div>
+                                        </div>
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label for="email" style="font-weight:bold;">Email ID</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                <input type="email" id="email" class="form-control" maxlength="12" placeholder="Enter Mobile No." name="email" required value="<%= user.data.email; %>">
+                                                <div class="valid-feedback">Valid.</div>
+                                                <div class="invalid-feedback">Please fill out this field.</div>
                                             </div>
                                         </div>
                                         <hr />
@@ -379,125 +403,12 @@
                                                    </form>
 
                                     </div>
-                                    <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
-                                        <form action="/editprofile" method="post" class="form needs-validation" novalidate>
-                                          <div class="row">
-                                                <div class="col-sm-5 col-md-3 col-5">
-                                                    <label for="screenshot_freq" style="font-weight:bold;">Screenshot Frequency</label>
-                                                </div>
-                                                <div class="col-md-7 col-6">
- <div class="app_radio pb-2">
-     
-    <div class="custom-radio custom-control"><input type="radio" id="hour12" name="screenshot_freq" class="custom-control-input"  
-        <% if(user.settings.length > 0){ %>  <% if(user.settings[0].screenshot_freq==12){ %> checked="checked"  <% } } %>  value="12"  ><label class="custom-control-label" for="hour12">12 Screenshots per hour</label>
-         <div class="c_text">Screenshot will be captured every 5 Minutes</div>
-        
-        </div>
-        
-        <div class="custom-radio custom-control">
-            <input type="radio" id="hour8" name="screenshot_freq" class="custom-control-input" <% if(user.settings.length > 0){ %>  <% if(user.settings[0].screenshot_freq==6){ %> checked="checked"  <% } } %> value="6"><label class="custom-control-label" for="hour8">6 Screenshots per hour</label>
-            
-            <div class="c_text">Screenshot will be captured every 10 Minutes</div></div>
-            
-            
-            <div class="custom-radio custom-control">
-                
-                <input type="radio" id="hour6" name="screenshot_freq" class="custom-control-input" <% if(user.settings.length > 0){ %> value="<%= user.settings[0].screenshot_freq; %>" <% if(user.settings[0].screenshot_freq==4){ %> checked="checked"  <% } } %> value="4">
-                <label class="custom-control-label" for="hour6">4 Screenshots per hour</label>
-                
-                <div class="c_text">Screenshot will be captured every 15 Minutes</div></div>
-                
-                <div class="custom-radio custom-control">
-                    
-                    <input type="radio" id="hour3" name="screenshot_freq" class="custom-control-input" <% if(user.settings.length > 0){ %> value="<%= user.settings[0].screenshot_freq; %>" <% if(user.settings[0].screenshot_freq==3){ %> checked="checked"  <% } } %> value="3">
-                    
-                    <label class="custom-control-label" for="hour3">3 Screenshots per hour</label>
-                    
-                    <div class="c_text">Screenshot will be captured every 20 Minutes</div></div></div>
-
-
-
-                                    
-                                                </div>
-                                            </div>
-                                            <hr />
-    
-                                            <div class="row">
-                                                <div class="col-sm-5 col-md-3 col-5">
-                                                    <label for="user_logintime" style="font-weight:bold;">User login time (In hours)</label>
-                                                </div>
-                                                <div class="col-md-7 col-6">
-                <input type="text" id="user_logintime" maxlength="2" class="form-control currency" placeholder="Enter User login time (In hours)" name="user_logintime" required <% if(user.settings.length > 0){ %> value="<%= user.settings[0].user_logintime; %>"  <% } %>>
-                                                    <div class="valid-feedback">Valid.</div>
-                                                    <div class="invalid-feedback">Please fill out this field.</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            
-                                         
-                                            <div class="row">
-                                                <div class="col-sm-4 col-md-3 col-5">
-                                                    <label for="idle_threshold" style="font-weight:bold;">Threshold</label>
-                                                </div>
-                                                <div class="col-md-4 col-6">
-                        <select name="idle_threshold" required class="form-control" >
-                        <option value="">--Idle threshold (In mins)--</option>
-                        <option <% if(user.settings.length > 0){ %> <% if(user.settings[0].idle_threshold==30) { %> selected <% } } %> value="30">30 Minutes</option>
-                        <option <% if(user.settings.length > 0){ %><% if(user.settings[0].idle_threshold==60) { %> selected <% } } %> value="60">1 Hour</option>
-                        <option <% if(user.settings.length > 0){ %> <% if(user.settings[0].idle_threshold==120) { %> selected <% } } %> value="120">2 Hours</option>
-                        <option <% if(user.settings.length > 0){ %><% if(user.settings[0].idle_threshold==180) { %> selected <% } } %> value="180">3 Hours</option>
-                        <option <% if(user.settings.length > 0){ %><% if(user.settings[0].idle_threshold==240) { %> selected <% } } %> value="240">4 Hours</option>
-                        <option <% if(user.settings.length > 0){ %><% if(user.settings[0].idle_threshold==300) { %> selected <% } } %> value="300">5 Hours</option>
-                        <option <% if(user.settings.length > 0){ %> <% if(user.settings[0].idle_threshold==360) { %> selected <% } } %> value="360">6 Hours</option>
-             
-                                                            
-                                                      
-                                                        </select>
-
-
-
-
-                                                </div>
-                                                <div class="col-md-4 col-6">
-                                                    <input type="text" id="idle_threshold_punchout" class="form-control currency" placeholder="Enter Idle threshold punch out (In mins)
-                                                    " maxlength="2"  name="idle_threshold_punchout" required <% if(user.settings.length > 0){ %> value="<%= user.settings[0].idle_threshold_punchout; %>"  <% } %>>
-                                                    <div class="valid-feedback">Valid.</div>
-                                                    <div class="invalid-feedback">Please fill out this field.</div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                           
-                
-                                            <div class="row">
-                                                <div class="col-sm-5 col-md-3 col-5">
-                                                    <label for="punchout_time"style="font-weight:bold;">Auto Punch Out (In hours)</label>
-                                                </div>
-                                                <div class="col-md-7 col-6">
-                                                    <input type="text" id="punchout_time" class="form-control currency"  maxlength="2" placeholder="Enter Auto Punch Out (In hours)" name="punchout_time" required  <% if(user.settings.length > 0){ %> value="<%= user.settings[0].punchout_time; %>"  <% } %>>
-                                                    <div class="valid-feedback">Valid.</div>
-                                                    <div class="invalid-feedback">Please fill out this field.</div>
-                                                </div>
-                                            </div>
-                                          
-    
-                                           
-                                            <div class="form-actions">
-                                                <a type="button" href="/userlist" class="btn btn-danger mr-1">
-                                                <i class="ft-x"></i> Cancel</a>
-                                                <button  onclick="spinner()"  type="submit" class="btn btn-primary pull-right">
-                                                <i class="la la-check-square-o"></i> Update</button>
-                                                            </div>
-                                                       </form>
-    
-
-
-
-
-                                    </div>
+                                 
 
 
                                     <div class="tab-pane fade show " id="passwordServices" role="tabpanel" aria-labelledby="passwordServices-tab">
-                                        <form action="/editprofile" method="post" class="form  needs-validation" novalidate>
+                                        <form action="/viewdetailprofile" method="post" class="form  needs-validation" novalidate>
+                                            <input type="hidden" name="id" value="<%= user.data.id; %>">
                                             <style>
                                                 #register .short{ color:#FF0000; } #register .weak{ color:#E66C2C; } #register .good{ color:#2D98F3; } #register .strong{ color:#006400; }
   </style>

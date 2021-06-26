@@ -10,6 +10,7 @@ const SubscriptionsModel = require('./models/subscription')
 const StaticModel = require('./models/staticpages')
 const SitesettingsModel = require('./models/sitesettings')
 const UsersnapshotsModel = require('./models/usersnapshots')
+const RolesModel = require('./models/roles')
 //const LocationModel = require('./models/location')
 
 
@@ -37,16 +38,20 @@ const Subscriptions = SubscriptionsModel(sequelize, Sequelize)
 const Static = StaticModel(sequelize, Sequelize)
 const Sitesettings = SitesettingsModel(sequelize, Sequelize)
 const Usersnapshots = UsersnapshotsModel(sequelize, Sequelize)
+const Roles = RolesModel(sequelize, Sequelize)
 //const Location = LocationModel(sequelize, Sequelize)
 User.belongsTo(Country, { foreignKey: 'country_id' });
 User.belongsTo(State, { foreignKey: 'state_id' });
 User.belongsTo(Plan, { foreignKey: 'plan_id' });
+User.belongsTo(Roles, { foreignKey: 'role_id' });
 
 Subscriptions.belongsTo(Plan, { foreignKey: 'plan_id' });
 Subscriptions.belongsTo(User, { foreignKey: 'userId' });
 Sitesettings.belongsTo(User, { foreignKey: 'userId' });
 Usersnapshots.belongsTo(User, { foreignKey: 'userId' });
+Userattendancelog.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(Subscriptions);
+User.hasMany(Usersnapshots);
 //Subscriptions.hasMany(User, { foreignKey: 'id' });
 //Subscriptions.hasMany(Plan, { foreignKey: 'id' });
 //Location.belongsTo(User, { foreignKey: 'user_id' });
@@ -57,5 +62,5 @@ sequelize.sync()
   })
 
 module.exports = {
-  User,Country,State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Usersnapshots,Static,Sitesettings,Op
+  User,Country,State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Usersnapshots,Static,Sitesettings,Roles,Op
 }

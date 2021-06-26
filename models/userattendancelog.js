@@ -1,7 +1,7 @@
 module.exports=(sequelize,DataTypes)=>{
     const Userattendancelog=sequelize.define('users_attendancelogs',{
        
-        employee_id: {
+      userId: {
           type: DataTypes.INTEGER,
           allowNull: false
            }, 
