@@ -561,6 +561,10 @@ getsubscriptiondetail: (req, res) => {
         results.password=undefined;
         const jsontoken = sign({ result: results },process.env.TOKEN_SECRET, { expiresIn: '9h' });
         const planexpiry='2022-06-14';
+        var firstname=test[0].firstname;
+        if(test[0].lastname){
+         firstname=test[0].firstname +' '+ test[0].lastname;
+        }
         var obj = [];
         obj.push({ "token": jsontoken,"planExpiryDate":planexpiry });
 
@@ -568,6 +572,7 @@ getsubscriptiondetail: (req, res) => {
                         success: true,
                         data: obj,
                         companyname: test[0].companyname,
+                        name: firstname,
                         roleid: test[0].role_id,
                         detail: "Logged IN"
     });
@@ -1678,7 +1683,7 @@ productivityinfo: (req, res) => {
     body.startdate=moment(startdate).format('YYYY-MM-DD');
 
 
-    getproductivityinfo(body, (err, results) => {
+    getproductivityinfo(body, (err, results,totalproductinfo,totalidle) => {
         if (err) {
           
           return res.status(500).json({
@@ -1687,28 +1692,82 @@ productivityinfo: (req, res) => {
                 detail: "Connection Error."
             });
         }
-       
+      
         if (results.length === 0) {
             return res.status(500).json({
                 success: false,
                 data: [],
-                detail: "No Country Listed."
+                detail: "No Productivity Found."
 
             });
         }
 
         if (results) {
+
+            if(totalproductinfo){
+
+
+                var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
+                var mstotalworkingDisplays = mstotalworkings > 0 ? (mstotalworkings > 9 ? mstotalworkings : "0"+mstotalworkings) + (mstotalworkings == 1 ? "" : "") : "00";
+                 var percentage=(Number(mstotalworkingDisplays)*100)/60;
+
+
+                dtotalproductinfo = Number(totalproductinfo);
+                var htotalproductinfo = Math.floor(dtotalproductinfo / 3600);
+                var mtotalproductinfo = Math.floor(dtotalproductinfo % 3600 / 60);
+                
+                var totalproductinfoDisplay = htotalproductinfo > 0 ? (htotalproductinfo > 9 ? htotalproductinfo : "0"+htotalproductinfo) + (htotalproductinfo == 1 ? "" : "") : "00";
+                var mtotalproductinfoDisplay = mtotalproductinfo > 0 ? (mtotalproductinfo > 9 ? mtotalproductinfo : "0"+mtotalproductinfo) + (mtotalproductinfo == 1 ? "" : "") : "00";
+ 
+
+
+
+               var totalworking=totalproductinfo+totalidle;
+               dtotalworking = Number(totalworking);
+              
+               var htotalworking = Math.floor(dtotalworking / 3600);
+            
+               var mtotalworking = Math.floor(dtotalworking % 3600 / 60);
+               
+               var totalworkingDisplay = htotalworking > 0 ? (htotalworking > 9 ? htotalworking : "0"+htotalworking) + (htotalworking == 1 ? "" : "") : "00";
+             
+               var mtotalworkingDisplay = mtotalworking > 0 ? (mtotalworking > 9 ? mtotalworking : "0"+mtotalworking) + (mtotalworking == 1 ? "" : "") : "00";
+              
+               dtotalidle = Number(totalidle);
+               var htotalidle = Math.floor(dtotalidle / 3600);
+               var mtotalidle = Math.floor(dtotalidle % 3600 / 60);
+               
+    var totalidleDisplay = htotalidle > 0 ? htotalidle + (htotalidle == 1 ? "" : "") : "00";
+    var mtotalidleDisplay = mtotalidle > 0 ? (mtotalidle > 9 ? mtotalidle : "0"+mtotalidle) + (mtotalidle == 1 ? "" : "") : "00";
+
+
+
+
+
+            }else{
+                var totalworking="";
+                var totalworkingDisplay="00";
+                var mtotalworkingDisplay="00";
+                var percentage="0";
+            }
+
+            percentage=Math.round(percentage);
+
         return res.status(200).json({
             success:true,
             data: results,
-            detail: ""
+            totalproductivity: totalproductinfoDisplay+':'+mtotalproductinfoDisplay,
+            totalidle: totalidleDisplay+':'+mtotalidleDisplay,
+            totalworking: totalworkingDisplay+':'+mtotalworkingDisplay,
+            totalproductivitypercentage: percentage+' %',
+            detail: "Productivity Info"
           });
 
         }else{
             return res.status(500).json({
                 success: false,
                 data: [],
-                detail: "No Country Listed."
+                detail: "No Productivity Listed."
 
             });
 

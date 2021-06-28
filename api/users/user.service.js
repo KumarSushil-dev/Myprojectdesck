@@ -55,6 +55,9 @@ NOW=NOW.setHours(22);
       let startdate = data.startdate;
       let pending = data.times.length;
       let promises = [];
+      let productivetotal =0;
+      let idletotal =0;
+     
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
@@ -74,7 +77,66 @@ NOW=NOW.setHours(22);
 
                         if(results[0].productivitytime!== null){
                         var obj = [];
-                        obj.push({ "starttime": string[0],"endtime":string[1],"idletime":results[0].idletime,"productivitytime":results[0].productivitytime,"productivitypercentage":results[0].productivitypercentage });
+                        productivetotal+=results[0].productivitytime;
+                        idletotal+=results[0].idletime;
+if(results[0].idletime){
+                        didletime = Number(results[0].idletime);
+                        var hidletime = Math.floor(didletime / 3600);
+                        var midletime = Math.floor(didletime % 3600 / 60);
+                        var sidletime = Math.floor(didletime % 3600 % 60);
+                        var idletimeDisplay = hidletime > 0 ? (hidletime > 9 ? hidletime : "0"+hidletime) + (hidletime == 1 ? "" : "") : "00";
+                        var midletimeDisplay = midletime > 0 ? (midletime > 9 ? midletime : "0"+midletime) + (midletime == 1 ? "" : "") : "00";
+                        var sidletimeDisplay = sidletime > 0 ? (sidletime > 9 ? sidletime : "0"+sidletime) + (sidletime == 1 ? "" : "") : "00";
+                      
+
+   var idletime=idletimeDisplay+':'+midletimeDisplay+':'+sidletimeDisplay;
+
+
+}else{
+    var idletime ="00:00";
+   
+}
+
+if(results[0].productivitytime){
+
+    var today = new Date();
+   var getHours=today.getHours()% 12;
+   getHours=(getHours > 9 ? getHours : "0"+getHours);
+   var getstrhr = string[0].split(':');
+   var getstrhrs = string[1].split(':');
+
+if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
+ 
+   var getMinutes=today.getMinutes();
+   getMinutes=(getMinutes > 9 ? getMinutes : "0"+getMinutes);
+   var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
+   var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
+   var percentage=(Number(mstotalworkingDisplay)*100)/getMinutes;
+    }else{
+  var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
+   var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
+    var percentage=(Number(mstotalworkingDisplay)*100)/60;
+    }
+
+    percentage=Math.round(percentage);
+    dproductivitytime = Number(results[0].productivitytime);
+    var hproductivitytime = Math.floor(dproductivitytime / 3600);
+    var mproductivitytime = Math.floor(dproductivitytime % 3600 / 60);
+    var sproductivitytime = Math.floor(dproductivitytime % 3600 % 60);
+    var productivitytimeDisplay = hproductivitytime > 0 ? (hproductivitytime > 9 ? hproductivitytime : "0"+hproductivitytime) + (hproductivitytime == 1 ? "" : "") : "00";
+    var mproductivitytimeDisplay = mproductivitytime > 0 ? (mproductivitytime > 9 ? mproductivitytime : "0"+mproductivitytime) + (mproductivitytime == 1 ? "" : "") : "00";
+    var sproductivitytimeDisplay = sproductivitytime > 0 ? (sproductivitytime > 9 ? sproductivitytime : "0"+sproductivitytime) + (sproductivitytime == 1 ? "" : "") : "00";
+  var productivitytime=productivitytimeDisplay+':'+mproductivitytimeDisplay+':'+sproductivitytimeDisplay;
+
+
+}else{
+    var productivitytime ="00:00";
+    var percentage="0 %";
+    
+}
+
+
+                        obj.push({ "starttime": string[0],"endtime":string[1],"idletime":idletime,"productivitytime":productivitytime,"productivitypercentage":percentage+" %" });
                         
                         promises.push(obj);
                         }
@@ -82,7 +144,7 @@ NOW=NOW.setHours(22);
 
                     if (0 === --pending) {
                        
-                       return callBack(null, promises); //callback if all queries are processed
+                       return callBack(null, promises,productivetotal,idletotal); //callback if all queries are processed
                     }
 
                 });
