@@ -194,7 +194,7 @@
                             $(document).ready(function(){  
                             
                                 $('select.country').click(function(){  
-                                    var selectedCountry = $(this).children("option:selected").val();
+                                 var selectedCountry = $(this).children("option:selected").val();
                                 if(selectedCountry!=""){
                                     var data = {};
                                                 data.task = selectedCountry;
@@ -204,17 +204,16 @@
                                        contentType: 'application/json',
                                        data: JSON.stringify(data), 
                                        success:function(response){  
-                                     
-                            
-                                           $('select[name="state_id"]').empty();
-                                                $.each(response.data,function(key,value){
-                                                    $('select[name="state_id"]').append('<option value="'+value.id+'">'+value.name+'</option>');
+                                    
+                                    $('select[name="state_id"]').empty();
+                                 $.each(response.data,function(key,value){
+                                 $('select[name="state_id"]').append('<option value="'+value.id+'">'+value.name+'</option>');
                             
                                                 });
                                         
                                        },  
                                        error:function(response){  
-                                           alert('server error occured')  
+                                           alert('server error occured');  
                                        }  
                                    });  
                                 }
@@ -225,7 +224,10 @@
                             <div class="col-12">
                                 <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="logsInfo-tab" data-toggle="tab" href="#logsInfo" role="tab" aria-controls="logsInfo" aria-selected="true">Logs</a>
+                                        <a class="nav-link active" id="Snapshots-tab" data-toggle="tab" href="#Snapshots" role="tab" aria-controls="Snapshots" aria-selected="true">Snapshots</a>
+                                    </li> 
+                                    <li class="nav-item">
+                                        <a class="nav-link " id="logsInfo-tab" data-toggle="tab" href="#logsInfo" role="tab" aria-controls="logsInfo" aria-selected="true">Logs</a>
                                     </li> 
                                     <li class="nav-item">
                                         <a class="nav-link " id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
@@ -237,7 +239,43 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content ml-1" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="logsInfo" role="tabpanel" aria-labelledby="logsInfo-tab">
+                                    <div class="tab-pane fade show active" id="Snapshots" role="tabpanel" aria-labelledby="Snapshots-tab">
+
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                        <th scope="col">Time</th>
+                                        <th scope="col">Image</th>
+                                      
+                                    
+                                                    
+                                                    </tr>
+                                                </thead>
+                                                <tbody>   
+                                                    <%  if(user.snapshotdata.length > 0){
+                                                        var s=1; 
+                                   for(var i=0; i < user.snapshotdata.length; i++) { %>
+                                                       <tr>
+                                            <th scope="row"><%= s++; %></th>
+                <td><b><%= moment(user.snapshotdata[i].starttime).format('HH:mm:ss'); %></b></td>
+                <td> <%=user.snapshotdata[i].image.length;  %></td>
+                              
+</tr>
+<% } }else{ %>
+<tr><td colspan="3" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
+
+    <% } %>
+</tbody>
+                                                </table>
+                                           
+                                            </div>
+                                        </div>
+
+
+                                <div class="tab-content ml-1" id="myTabContent">
+                                    <div class="tab-pane fade show " id="logsInfo" role="tabpanel" aria-labelledby="logsInfo-tab">
 
                                         <div class="table-responsive">
 
@@ -351,12 +389,12 @@
                                                     <option value="">--Select State--</option>
          <%  if(user.state.length > 0){
              for(var i=0; i < user.state.length; i++) { %>
-           <option <% if(user.data.state_id==user.state[i].id) { %> selected <% } %> value="<%= user.state[i].id; %>"><%= user.state[i].name; %></option>
+    <option <% if(user.data.state_id==user.state[i].id) { %> selected <% } %> value="<%= user.state[i].id; %>"><%= user.state[i].name; %></option>
                                                         <% } }  %>            
                                                   
                                                     </select>
-                                                                                                <div class="valid-feedback">Valid.</div>
-                                                                                                <div class="invalid-feedback">Please fill out this field.</div>
+                      <div class="valid-feedback">Valid.</div>
+                        <div class="invalid-feedback">Please fill out this field.</div>
              </div>
             </div>
                  <hr />
@@ -417,7 +455,7 @@
                        $(document).ready(function() {
  
     $('#password').keyup(function(){
-        $('#result').html(checkStrength($('#password').val()))
+        $('#result').html(checkStrength($('#password').val()));
     })  
  
     function checkStrength(password){
@@ -427,8 +465,8 @@
  
     //if the password length is less than 6, return message.
     if (password.length < 6) {
-        $('#result').removeClass()
-        $('#result').addClass('short')
+        $('#result').removeClass();
+        $('#result').addClass('short');
         return 'Too short'
     }
  
@@ -453,17 +491,17 @@
  
     //if value is less than 2
     if (strength < 2 ) {
-        $('#result').removeClass()
-        $('#result').addClass('weak')
-        return 'Weak'
+        $('#result').removeClass();
+        $('#result').addClass('weak');
+        return 'Weak';
     } else if (strength == 2 ) {
-        $('#result').removeClass()
-        $('#result').addClass('good')
-        return 'Good'
+        $('#result').removeClass();
+        $('#result').addClass('good');
+        return 'Good';
     } else {
-        $('#result').removeClass()
-        $('#result').addClass('strong')
-        return 'Strong'
+        $('#result').removeClass();
+        $('#result').addClass('strong');
+        return 'Strong';
     }
 }
 });

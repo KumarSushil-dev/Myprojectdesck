@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -331,7 +331,29 @@ viewdetail:(req, res) => {
                 getsitesettings(body, (err, resultsetting) => {
                     getattendence(body, (err, resultlogs) => {
 
-            
+
+                        let x = 60; //minutes interval
+                        let times = []; // time array
+                        let tt = 0; // start time
+                     
+                        
+                        //loop to increment the time and push results in array
+                        for (let i=0;tt<24*60; i++) {
+                            let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+                            let sh=hh+1;
+                            let mm = (tt%60); // getting minutes of the hour in 0-55 format
+                          times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
+                          tt = tt + x;
+                        }
+                        body.times=times;
+                        const startdate = new Date();
+                        body.startdate=moment(startdate).format('YYYY-MM-DD');
+                    
+                    
+
+        getsnapshotsinfo(body, (err, productivityresults) => {
+       
+console.log(productivityresults);
         if (results) {
         return res.status(200).json({
             success:true,
@@ -340,7 +362,7 @@ viewdetail:(req, res) => {
             state:resultsdatae,
             settings:resultsetting,
             logss:resultlogs,
-            detail: ""
+            snapshotdata: productivityresults
           });
 
         }else{
@@ -348,11 +370,12 @@ viewdetail:(req, res) => {
             return res.status(200).json({
                 success: false,
                 data: [],
-                detail: "No State Listed."
+                detail: "No Data Listed."
 
             });
 
         }
+    });
     });
     });
     });

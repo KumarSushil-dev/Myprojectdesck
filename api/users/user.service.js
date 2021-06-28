@@ -76,6 +76,9 @@ NOW=NOW.setHours(22);
                     } else {
 
                         if(results[0].productivitytime!== null){
+
+                        results[0].productivitytime=Number(results[0].productivitytime);
+                        results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
                         var obj = [];
                         productivetotal+=results[0].productivitytime;
                         idletotal+=results[0].idletime;
@@ -136,15 +139,64 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
 }
 
 
-                        obj.push({ "starttime": string[0],"endtime":string[1],"idletime":idletime,"productivitytime":productivitytime,"productivitypercentage":percentage+" %" });
+     obj.push({ "starttime": string[0],"endtime":string[1],"idletime":idletime,"productivitytime":productivitytime,"productivitypercentage":percentage+" %" });
                         
-                        promises.push(obj);
+         promises.push(obj);
                         }
                     }
 
                     if (0 === --pending) {
                        
                        return callBack(null, promises,productivetotal,idletotal); //callback if all queries are processed
+                    }
+
+                });
+        }
+
+      
+       
+    },
+    getsnapshotsinfo: async(data, callBack) => {
+      
+      let startdate = data.startdate;
+      let pending = data.times.length;
+      let promises = [];
+      let productivetotal =0;
+      let idletotal =0;
+     
+        for (let i = 0; i < data.times.length; i++) {
+          const  string = data.times[i].split('-');
+
+          await pool.query('SELECT screenshot FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+                data.userid,
+                startdate,
+                string[0],
+                string[1]
+            ],(error, results, fields) => {
+         if (error) {
+          console.log("test");
+                    }
+              
+                 if (results.length == 0) {
+                       // promises.push(0);
+                    } else {
+var obj=[];
+var objs=[];
+
+for (let hd = 0; hd < results.length; hd++) {
+    objs.push({ "img": results[hd].screenshot });
+}
+
+
+     obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
+                        
+         promises.push(obj);
+                        
+                    }
+
+                    if (0 === --pending) {
+                       
+                       return callBack(null, promises); //callback if all queries are processed
                     }
 
                 });
