@@ -11,6 +11,8 @@ const StaticModel = require('./models/staticpages')
 const SitesettingsModel = require('./models/sitesettings')
 const UsersnapshotsModel = require('./models/usersnapshots')
 const RolesModel = require('./models/roles')
+const BreakModel = require('./models/break')
+const UsersbreakslogsModel = require('./models/userbreaklog')
 //const LocationModel = require('./models/location')
 
 
@@ -39,6 +41,8 @@ const Static = StaticModel(sequelize, Sequelize)
 const Sitesettings = SitesettingsModel(sequelize, Sequelize)
 const Usersnapshots = UsersnapshotsModel(sequelize, Sequelize)
 const Roles = RolesModel(sequelize, Sequelize)
+const Break = BreakModel(sequelize, Sequelize)
+const Usersbreakslogs = UsersbreakslogsModel(sequelize, Sequelize)
 //const Location = LocationModel(sequelize, Sequelize)
 User.belongsTo(Country, { foreignKey: 'country_id' });
 User.belongsTo(State, { foreignKey: 'state_id' });
@@ -49,7 +53,8 @@ Subscriptions.belongsTo(Plan, { foreignKey: 'plan_id' });
 Subscriptions.belongsTo(User, { foreignKey: 'userId' });
 Sitesettings.belongsTo(User, { foreignKey: 'userId' });
 Usersnapshots.belongsTo(User, { foreignKey: 'userId' });
-Userattendancelog.belongsTo(User, { foreignKey: 'userId' });
+Usersnapshots.belongsTo(User, { foreignKey: 'userId' });
+Break.belongsTo(User, { foreignKey: 'userId' });
 User.hasMany(Subscriptions);
 User.hasMany(Usersnapshots);
 //Subscriptions.hasMany(User, { foreignKey: 'id' });
@@ -62,5 +67,5 @@ sequelize.sync()
   })
 
 module.exports = {
-  User,Country,State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Usersnapshots,Static,Sitesettings,Roles,Op
+  User,Country,State,Plan,Userattendancelog,Emailtemplate,Usersbreakslogs,Subscriptions,Break,Usersnapshots,Static,Sitesettings,Roles,Op
 }

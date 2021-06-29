@@ -1,5 +1,5 @@
 const pool = require("../../config/database");
-const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Op } = require('../../sequelize');
+const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Break,Usersbreakslogs,Op } = require('../../sequelize');
 var p;
 
 module.exports = {
@@ -158,7 +158,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     },
     getsnapshotsinfo: async(data, callBack) => {
       
-      let startdate = data.startdate;
+      let startdate = "2021-06-29";
       let pending = data.times.length;
       let promises = [];
       let productivetotal =0;
@@ -186,9 +186,9 @@ var objs=[];
 for (let hd = 0; hd < results.length; hd++) {
     objs.push({ "img": results[hd].screenshot });
 }
+console.log(objs);
 
-
-     obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
+obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                         
          promises.push(obj);
                         
@@ -359,6 +359,18 @@ for (let hd = 0; hd < results.length; hd++) {
             return callBack(err);
           }); 
     },
+
+    breaklistget: async(data, callBack) => {
+
+        await Break.findAll({
+            where: {userId:data.userid},
+            attributes: ['id','name'],
+          order:[['id','ASC']],
+            }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
     useredit: async(data, callBack) => {
      
         await User.update({firstname: data.firstname,mobile: data.mobile,companyname: data.companyname,country_id: data.country_id,state_id: data.state_id,city: data.city,address: data.address,address: data.address,zipcode:data.zipcode},{
@@ -565,6 +577,15 @@ for (let hd = 0; hd < results.length; hd++) {
             return callBack(err);
           }); 
     },
+    savebreakstartid: async(data, callBack) => {
+
+
+       
+        await Usersbreakslogs.create({breaks_id:data.type,starttime:data.starttime,userId:data.userid }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
     activationverificationid: async(data, callBack) => {
 
         data.status='Y';
@@ -695,6 +716,30 @@ for (let hd = 0; hd < results.length; hd++) {
               },userId: data.userid},
             order:[['id','DESC']],
         }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    }, 
+    savebreakstopid: async(data, callBack) => {
+
+        const TODAY_START = new Date().setHours(0, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setHours(22);
+       
+        await Usersbreakslogs.update({endtime: data.endtime},{
+            where: {starttime: { 
+                [Op.gt]: TODAY_START,
+                [Op.lt]: NOW
+              },userId: data.userid,breaks_id:data.type},
+            order:[['id','DESC']],
+        }).then(function(){
+            Usersbreakslogs.findOne({
+                where: {starttime: { 
+                    [Op.gt]: TODAY_START,
+                    [Op.lt]: NOW
+                  },userId: data.userid,breaks_id:data.type},
+                order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
+             }).catch(function (err) {
             // handle error;
             return callBack(err);
           }); 

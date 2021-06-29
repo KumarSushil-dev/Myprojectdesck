@@ -259,8 +259,13 @@
                                    for(var i=0; i < user.snapshotdata.length; i++) { %>
                                                        <tr>
                                             <th scope="row"><%= s++; %></th>
-                <td><b><%= moment(user.snapshotdata[i].starttime).format('HH:mm:ss'); %></b></td>
-                <td> <%=user.snapshotdata[i].image.length;  %></td>
+                <td><b><%= moment(user.snapshotdata[i].starttime).format('llll'); %></b></td>
+                <td>  <%= user.snapshotdata[i].image["img"]; %> <%  
+                   
+for(var ih=0; ih < user.snapshotdata[i].image; ih++) { %>
+<img src="<%= user.snapshotdata[i].image.img %>">
+
+<% }  %></td>
                               
 </tr>
 <% } }else{ %>
