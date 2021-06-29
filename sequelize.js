@@ -55,6 +55,7 @@ Sitesettings.belongsTo(User, { foreignKey: 'userId' });
 Usersnapshots.belongsTo(User, { foreignKey: 'userId' });
 Usersnapshots.belongsTo(User, { foreignKey: 'userId' });
 Break.belongsTo(User, { foreignKey: 'userId' });
+Usersbreakslogs.belongsTo(Break, { foreignKey: 'breaks_id' });
 User.hasMany(Subscriptions);
 User.hasMany(Usersnapshots);
 //Subscriptions.hasMany(User, { foreignKey: 'id' });

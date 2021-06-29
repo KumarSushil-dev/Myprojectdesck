@@ -158,7 +158,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     },
     getsnapshotsinfo: async(data, callBack) => {
       
-      let startdate = "2021-06-29";
+      let startdate = data.startdate;
       let pending = data.times.length;
       let promises = [];
       let productivetotal =0;
@@ -167,7 +167,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
-          await pool.query('SELECT screenshot FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+          await pool.query('SELECT screenshot FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY id ASC LIMIT 0,2', [
                 data.userid,
                 startdate,
                 string[0],
@@ -184,9 +184,10 @@ var obj=[];
 var objs=[];
 
 for (let hd = 0; hd < results.length; hd++) {
-    objs.push({ "img": results[hd].screenshot });
+    objs.push({ [hd]: results[hd].screenshot });
+
 }
-console.log(objs);
+
 
 obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                         
@@ -365,6 +366,30 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
         await Break.findAll({
             where: {userId:data.userid},
             attributes: ['id','name'],
+          order:[['id','ASC']],
+            }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      activeactivityget: async(data, callBack) => {
+        const TODAY_START = new Date().setHours(0, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setHours(22);
+       
+     
+        await Usersbreakslogs.findAll({
+            where: {starttime: { 
+                [Op.gt]: TODAY_START,
+                [Op.lt]: NOW
+              },userId:data.userid},
+            attributes: ['starttime'],
+            include: [ {
+                    model: Break,
+                    attributes: ['name']
+                },
+            ],
+
           order:[['id','ASC']],
             }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
               // handle error;

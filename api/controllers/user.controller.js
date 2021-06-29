@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savebreakstartid,savebreakstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savebreakstartid,savebreakstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,activeactivityget } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -353,7 +353,7 @@ viewdetail:(req, res) => {
 
         getsnapshotsinfo(body, (err, productivityresults) => {
        
-console.log(productivityresults);
+
         if (results) {
         return res.status(200).json({
             success:true,
@@ -1822,6 +1822,48 @@ breaklist: (req, res) => {
                 success: false,
                 data: [],
                 detail: "No Break List."
+
+            });
+
+        }
+
+    });
+
+},
+activeactivity: (req, res) => {
+  
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+
+    activeactivityget(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+      
+        if (results.length === 0) {
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Activity Break Found."
+            });
+        }
+
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            detail: "Activity Break List"
+          });
+
+        }else{
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Activity Break List."
 
             });
 

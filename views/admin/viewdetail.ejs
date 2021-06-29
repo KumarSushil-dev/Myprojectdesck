@@ -73,520 +73,585 @@
           });
         });
         </script>
-       <script>
-           $(document).ready(function () {
-            $imgSrc = $('#imgProfile').attr('src');
-            function readURL(input) {
+       
 
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        $('#imgProfile').attr('src', e.target.result);
-                    };
-
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
-            $('#btnChangePicture').on('click', function () {
-                // document.getElementById('profilePicture').click();
-                if (!$('#btnChangePicture').hasClass('changing')) {
-                    $('#profilePicture').click();
-                }
-                else {
-                    // change
-                }
-            });
-            $('#profilePicture').on('change', function () {
-                readURL(this);
-                $('#btnChangePicture').addClass('changing');
-                $('#btnChangePicture').attr('value', 'Confirm');
-                $('#btnDiscard').removeClass('d-none');
-                // $('#imgProfile').attr('src', '');
-            });
-            $('#btnDiscard').on('click', function () {
-                // if ($('#btnDiscard').hasClass('d-none')) {
-                $('#btnChangePicture').removeClass('changing');
-                $('#btnChangePicture').attr('value', 'Change');
-                $('#btnDiscard').addClass('d-none');
-                $('#imgProfile').attr('src', $imgSrc);
-                $('#profilePicture').val('');
-                // }
-            });
-        });
-           </script><style>
-                 .image-container {
-            position: relative;
-        }
-
-        .image {
-            opacity: 1;
-            display: block;
-            width: 100%;
-            height: auto;
-            transition: .5s ease;
-            backface-visibility: hidden;
-        }
-
-        .middle {
-            transition: .5s ease;
-            opacity: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .image-container:hover .image {
-            opacity: 0.3;
-        }
-
-        .image-container:hover .middle {
-            opacity: 1;
-        }
-           </style>
-                <div class="app-content content">
-                    <div class="content-wrapper">
-                        <!--
-                        <div class="content-wrapper-before"></div>-->
-                        <div class="content-header row">
+<div class="app-content content">
+    <div class="content-wrapper">
+        <div class="content-body">
+            <div class="blocks userDetails">
+                <div class="userIcon"><% var srr=user.data.firstname; 
+                     var snerr=user.data.lastname; 
+                     var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> <%=res %> <%=nres %></div>
+                <div class="details">
+                    <h4 class="m-0">Employee Details : <%= user.data.firstname; %> <%= user.data.lastname; %> (Role : <b><%= user.data.role['name']; %></b>)</h4>
+                    <p class="m-0">Here You Can Manage Profiles, Change Password or Even Add New User To Your Organization</p>
+                    <% if (locals.messages) { %>
+                        <div class="alert alert__success " style="color:red; ">
+                            <%= messages.error %>
                         </div>
-                        <div class="content-body">
+                        <% } %>
+                </div>
+                <ul class="d-flex">
+                    <li class="mr-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="la la-calendar-o"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <i class="la la-refresh"></i>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
 
-                            <!-- Table head options start -->
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card"> 
-                                        <div class="card-header">
-                                            <h4 class="card-title">User Details :<span class="user-name"><%= user.data.firstname; %> <%= user.data.lastname; %> (Role : <b><%= user.data.role['name']; %></b>) </span></h4>
-                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                                            <div class="heading-elements">
-                                                <ul class="list-inline mb-0">
-                                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
-                                                </ul>
-                                            </div>
+            <div class="blocks tabContainers mb-0">
+                <ul class="nav nav-pills mb-2" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="pills-productivity-tab" data-toggle="pill" href="#pills-productivity" role="tab" aria-controls="pills-productivity" aria-selected="true">Productivity</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-snapshots-tab" data-toggle="pill" href="#pills-snapshots" role="tab" aria-controls="pills-snapshots" aria-selected="false">Snapshots</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-apps-tab" data-toggle="pill" href="#pills-apps" role="tab" aria-controls="pills-apps" aria-selected="false">Apps</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-activity-tab" data-toggle="pill" href="#pills-activity" role="tab" aria-controls="pills-activity" aria-selected="false">Activity</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-task-tab" data-toggle="pill" href="#pills-task" role="tab" aria-controls="pills-task" aria-selected="false">Task</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-logs-tab" data-toggle="pill" href="#pills-logs" role="tab" aria-controls="pills-logs" aria-selected="false">Logs</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-attendance-tab" data-toggle="pill" href="#pills-attendance" role="tab" aria-controls="pills-attendance" aria-selected="false">Attendance</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-leave-tab" data-toggle="pill" href="#pills-leave" role="tab" aria-controls="pills-leave" aria-selected="false">Leave</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="pills-peofile-tab" data-toggle="pill" href="#pills-peofile" role="tab" aria-controls="pills-peofile" aria-selected="false">Profile</a>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="password-peofile-tab" data-toggle="pill" href="#password-peofile" role="tab" aria-controls="password-peofile" aria-selected="false">Change Password</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-productivity" role="tabpanel" aria-labelledby="pills-productivity-tab">
+                        <div class="d-flex align-items-start">
+                            <div class="userProfilez">
+                                <div class="dp"> <%=res %> <%=nres %></div>
+                                <p><%= user.data.firstname; %> <%= user.data.lastname; %></p>
+                            </div>
+
+                            <div class="productivityContainer flex-fill">
+                                <!-- Bar charts section start -->
+                                <div class="graph-container">
+                                    <svg></svg>
+                                    <div class="tooltip"></div>
+                                </div>
+                                <!-- // Bar charts section end -->
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 col-12">
+                                        <div class="alert alert-success">
+                                            <p>Productivity</p>
+                                            <p class="font-weight-bold"><span>90.00</span> %</p>
                                         </div>
-                        <div class="card-content collapse show">
-                            <div class="card-body">
-             
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-12">
+                                        <div class="alert alert-danger">
+                                            <p>Total Work Time</p>
+                                            <p class="font-weight-bold"><span>50:20:00</span> hh:mm:ss</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-12">
+                                        <div class="alert alert-warning">
+                                            <p>Productivity Hours</p>
+                                            <p class="font-weight-bold"><span>40:20:00</span> hh:mm:ss</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 col-12">
+                                        <div class="alert alert-info">
+                                            <p>Productivity</p>
+                                            <p class="font-weight-bold"><span>10:20:00</span> hh:mm:ss</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Date </th>
+                                                <th>Working Time</th>
+                                                <th>Idle Time</th>
+                                                <th>Productive Time</th>
+                                                <th>Productive</th>
+                                                <th>Key Press</th>
+                                                <th>Mouse Clicked</th>
+                                                <th>Mouse Moved</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                         
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-snapshots" role="tabpanel" aria-labelledby="pills-snapshots-tab">
+                        <div class="d-flex align-items-start">
+                            <div class="userProfilez">
+                                <div class="dp"><%=res %> <%=nres %></div>
+                                <p><%= user.data.firstname; %> <%= user.data.lastname; %></p>
+                            </div>
+                            <div id="style-3" class="snaps scrollbar">
+                                <div class="force-overflow">
+
                                
 
-<div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
 
-                    <div class="card-body">
-                        <% if (locals.messages) { %>
-                            <div class="alert alert__success " style="color:red; ">
-                                <%= messages.error %>
-                            </div>
-                            <% } %>
-                     
+<%  if(user.snapshotdata.length > 0){
+    for(var i=0; i < user.snapshotdata.length; i++) { %>
+                                     <div class="snapHourly">
+                                        <p class="snapTime"><%= user.snapshotdata[i][0].starttime; %></p>
+                                        <div class="demo-gallery">
+                                            <ul id="lightgallery" class="list-unstyled row">
 
-                        <script>
+                                                <%  for(var j=0; j < user.snapshotdata[i][0].image.length; j++) { %>
 
-                            $(document).ready(function(){  
-                            
-                                $('select.country').click(function(){  
-                                 var selectedCountry = $(this).children("option:selected").val();
-                                if(selectedCountry!=""){
-                                    var data = {};
-                                                data.task = selectedCountry;
-                                $.ajax({  
-                                       url:'/api/users/getstate',  
-                                       method:'post',  
-                                       contentType: 'application/json',
-                                       data: JSON.stringify(data), 
-                                       success:function(response){  
-                                    
-                                    $('select[name="state_id"]').empty();
-                                 $.each(response.data,function(key,value){
-                                 $('select[name="state_id"]').append('<option value="'+value.id+'">'+value.name+'</option>');
-                            
-                                                });
-                                        
-                                       },  
-                                       error:function(response){  
-                                           alert('server error occured');  
-                                       }  
-                                   });  
-                                }
-                                });  
-                            });  
-                             </script>
-                        <div class="row">
-                            <div class="col-12">
-                                <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="Snapshots-tab" data-toggle="tab" href="#Snapshots" role="tab" aria-controls="Snapshots" aria-selected="true">Snapshots</a>
-                                    </li> 
-                                    <li class="nav-item">
-                                        <a class="nav-link " id="logsInfo-tab" data-toggle="tab" href="#logsInfo" role="tab" aria-controls="logsInfo" aria-selected="true">Logs</a>
-                                    </li> 
-                                    <li class="nav-item">
-                                        <a class="nav-link " id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
-                                    </li> 
-                                 
-
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="passwordServices-tab" data-toggle="tab" href="#passwordServices" role="tab" aria-controls="passwordServices" aria-selected="false">Change Password</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content ml-1" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="Snapshots" role="tabpanel" aria-labelledby="Snapshots-tab">
-
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead class="thead-dark">
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                        <th scope="col">Time</th>
-                                        <th scope="col">Image</th>
-                                      
-                                    
-                                                    
-                                                    </tr>
-                                                </thead>
-                                                <tbody>   
-                                                    <%  if(user.snapshotdata.length > 0){
-                                                        var s=1; 
-                                   for(var i=0; i < user.snapshotdata.length; i++) { %>
-                                                       <tr>
-                                            <th scope="row"><%= s++; %></th>
-                <td><b><%= moment(user.snapshotdata[i].starttime).format('llll'); %></b></td>
-                <td>  <%= user.snapshotdata[i].image["img"]; %> <%  
-                   
-for(var ih=0; ih < user.snapshotdata[i].image; ih++) { %>
-<img src="<%= user.snapshotdata[i].image.img %>">
-
-<% }  %></td>
-                              
-</tr>
-<% } }else{ %>
-<tr><td colspan="3" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
-
-    <% } %>
-</tbody>
-                                                </table>
-                                           
-                                            </div>
+                                                    <%  var ured = JSON.stringify(user.snapshotdata[i][0].image[j]);
+                                                    var utest = JSON.parse(ured); %>
+                                                <li class="col-md-3 mb-2" data-src="<%= utest[j]; %>">
+                                                    <a href="javascript:void(0)">
+                                                        <img src="<%= utest[j]; %>" class="img-fluid" alt="Thumb-1">
+                                                    </a>
+                                                </li>
+<% }  %>
+                                                
+                                              
+                                            </ul>
                                         </div>
-
-
-                                <div class="tab-content ml-1" id="myTabContent">
-                                    <div class="tab-pane fade show " id="logsInfo" role="tabpanel" aria-labelledby="logsInfo-tab">
-
-                                        <div class="table-responsive">
-
-                                            <table class="table">
-                                                <thead class="thead-dark">
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">Punch IN</th>
-                                                    
-                                       <th scope="col">Punch Out</th>
-                                      
-                                    
-                                                    
-                                                    </tr>
-                                                </thead>
-                                                <tbody>   
-                                                    <%  if(user.logss.length > 0){
-                                                        var s=1; 
-                                   for(var i=0; i < user.logss.length; i++) { %>
-                                                       <tr>
-                                            <th scope="row"><%= s++; %></th>
-                <td><b><%= moment(user.logss[i].punch_in).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
-                <td><b><%= moment(user.logss[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
-                              
-</tr>
-<% } }else{ %>
-<tr><td colspan="3" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
-
-    <% } %>
-</tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                    <div class="tab-pane fade show" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
-                            <form action="/viewdetailprofile" method="post" class="form  needs-validation" novalidate>
-                            <input type="hidden" name="id" value="<%= user.data.id; %>">
-
-                                            <input type="file" style="display: none;" id="profilePicture" name="logo" />
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="firstname" style="font-weight:bold;">Full Name</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                <input type="text" id="firstname" class="form-control" placeholder="Enter Name" name="firstname" required value="<%= user.data.firstname; %>">
-                                        <div class="valid-feedback">Valid.</div>
-                                        <div class="invalid-feedback">Please fill out this field.</div>
-                                    
-                                            </div>
-                                        </div>
-                                        <hr />
-
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="email" style="font-weight:bold;">Email ID</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                <input type="email" id="email" class="form-control" maxlength="12" placeholder="Enter Mobile No." name="email" required value="<%= user.data.email; %>">
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
-                                            </div>
-                                        </div>
-                                        <hr />
-
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="mobile"style="font-weight:bold;">Mobile No.</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                <input type="text" id="mobile" class="form-control currency" maxlength="12" placeholder="Enter Mobile No." name="mobile" required value="<%= user.data.mobile; %>">
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        
-                                        
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="companyname"style="font-weight:bold;">Company Name</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                <input type="text" id="companyname" class="form-control" placeholder="Enter Name" name="companyname" required value="<%= user.data.companyname; %>">
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="country_id"style="font-weight:bold;">Country</label>
-                                            </div>
-                                            <div class="col-md-4 col-6">
-                                                      
-<select name="country_id" required class="form-control country" >
-    <option value="">--Select Country--</option>
-    
-    <%  if(user.country.length > 0){
-        for(var i=0; i < user.country.length; i++) { %>
-<option <% if(user.data.country_id==user.country[i].id) { %> selected <% } %> value="<%= user.country[i].id; %>"><%= user.country[i].name; %></option>
-        <% } }  %>
-
-    </select>
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
-                                            </div>
-
-                                            <div class="col-md-4 col-6">
-                                                      
-                                                <select name="state_id" required class="form-control state" >
-                                                    <option value="">--Select State--</option>
-         <%  if(user.state.length > 0){
-             for(var i=0; i < user.state.length; i++) { %>
-    <option <% if(user.data.state_id==user.state[i].id) { %> selected <% } %> value="<%= user.state[i].id; %>"><%= user.state[i].name; %></option>
-                                                        <% } }  %>            
-                                                  
-                                                    </select>
-                      <div class="valid-feedback">Valid.</div>
-                        <div class="invalid-feedback">Please fill out this field.</div>
-             </div>
-            </div>
-                 <hr />
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="city"style="font-weight:bold;">City</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                <input type="text" id="city" class="form-control" placeholder="Enter Name" name="city" required value="<%= user.data.city; %>">
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
-                                            </div>
-                                        </div>
-                                        <hr />
-
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="address"style="font-weight:bold;">Address</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                <textarea type="text" id="address" class="form-control" placeholder="Enter Address" name="address" required value="<%= user.data.address; %>"><%= user.data.address; %></textarea>
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
-                                            </div>
-                                        </div>
-                                        <hr />
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="zipcode"style="font-weight:bold;">Zip Code</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                <input type="text" id="zipcode" class="form-control" placeholder="Enter Zip Code" name="zipcode" required value="<%= user.data.zipcode; %>">
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
-                                            </div>
-                                        </div>
-                                     
-                                        <div class="form-actions">
-                                            <a type="button" href="/userlist" class="btn btn-danger mr-1">
-                                            <i class="ft-x"></i> Cancel</a>
-                                            <button  onclick="spinner()"  type="submit" class="btn btn-primary pull-right">
-                                            <i class="la la-check-square-o "></i> Update</button>
-                                                        </div>
-                                                   </form>
-
                                     </div>
-                                 
+                                    <% } } %>
+                                </div>
+                             
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-apps" role="tabpanel" aria-labelledby="pills-apps-tab">
+                        <div class="d-flex align-items-start">
+                            <div class="userProfilez">
+                                <div class="dp"><%=res %> <%=nres %></div>
+                                <p><%= user.data.firstname; %> <%= user.data.lastname; %></p>
+                            </div>
+
+                            <div class="productivityContainer flex-fill">
+                                <!-- Bar charts section start -->
+                                <div class="graph-container">
+                                    <svg></svg>
+                                    <div class="tooltip"></div>
+                                </div>
+                                <!-- // Bar charts section end -->
+
+                                <div class="table-responsive">
+                                    <table id="zero_config3" class="table table-striped table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Duration</th>
+                                                <th>Title</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Chrome</td>
+                                                <td>03:50:00</td>
+                                                <td>My Project Desk - Google Chrome</td>
+                                                <td>07-06-2021</td>
+                                            </tr>
+                                           
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-activity" role="tabpanel" aria-labelledby="pills-activity-tab">
+                        <div class="d-flex align-items-start">
+                            <div class="userProfilez">
+                                <div class="dp"><%=res %> <%=nres %></div>
+                                <p><%= user.data.firstname; %> <%= user.data.lastname; %></p>
+                            </div>
+
+                            <div class="productivityContainer flex-fill">
+                                <!-- Bar charts section start -->
+                                <div class="graph-container">
+                                    <svg></svg>
+                                    <div class="tooltip"></div>
+                                </div>
+                                <!-- // Bar charts section end -->
+
+                                <div class="table-responsive">
+                                    <table id="zero_config4" class="table table-striped table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:8%">Activity</th>
+                                                <th style="width:8%">Task</th>
+                                                <th style="width:8%">Project</th>
+                                                <th style="width:8%">Key Press</th>
+                                                <th style="width:8%">Mouse Clicked</th>
+                                                <th style="width:8%">Mouse Moved</th>
+                                                <th style="width:20%">Start Date</th>
+                                                <th style="width:20%">End Date</th>
+                                                <th style="width:12%">Manual</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Task</td>
+                                                <td>Meeting</td>
+                                                <td>Calling</td>
+                                                <td>157</td>
+                                                <td>85</td>
+                                                <td>12199</td>
+                                                <td>07:06:2021 12:33:21</td>
+                                                <td>07:06:2021 13:33:21</td>
+                                                <td></td>
+                                            </tr>
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-task" role="tabpanel" aria-labelledby="pills-task-tab">5</div>
+
+                    <div class="tab-pane fade" id="pills-logs" role="tabpanel" aria-labelledby="pills-logs-tab">
+                        <div class="d-flex align-items-start">
+                            <div class="userProfilez">
+                                <div class="dp"><%=res %> <%=nres %></div>
+                                <p><%= user.data.firstname; %> <%= user.data.lastname; %></p>
+                            </div>
+
+                            <div class="logContainer flex-fill">
+                                <div class="table-responsive">
+                                    <table id="zero_config2" class="table table-striped table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Punch In </th>
+                                                <th>Punch Out</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%  if(user.logss.length > 0){
+                                                var s=1; 
+                           for(var i=0; i < user.logss.length; i++) { %>
+                                               <tr>
+                                   
+        <td><b><%= moment(user.logss[i].punch_in).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
+        <td><b><%= moment(user.logss[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
+                      
+</tr>
+<% } }else{ %>
+<tr><td colspan="2" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
+
+<% } %>
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-attendance" role="tabpanel" aria-labelledby="pills-attendance-tab">
+                        <div class="d-flex align-items-start">
+                            <div class="userProfilez">
+                                <div class="dp"><%=res %> <%=nres %></div>
+                                <p><%= user.data.firstname; %> <%= user.data.lastname; %></p>
+                            </div>
+
+                            <div class="productivityContainer flex-fill">
+                                <div class="table-responsive">
+                                    <table id="zero_config5" class="table table-striped table-bordered no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:8%">Date</th>
+                                                <th style="width:8%">In</th>
+                                                <th style="width:8%">Out</th>
+                                                <th style="width:8%">Duration</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>2021-06-07</td>
+                                                <td>June 7, 2021 8:57 AM</td>
+                                                <td>June 7, 2021 6:57 AM</td>
+                                                <td>09:55:00 hh:mm:ss</td>
+                                            </tr>
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pills-leave" role="tabpanel" aria-labelledby="pills-leave-tab">8</div>
+
+                    <div class="tab-pane fade" id="pills-peofile" role="tabpanel" aria-labelledby="pills-peofile-tab">
+                        <div class="d-flex align-items-start">
+                            <div class="userProfilez">
+                                <div class="dp"><%=res %> <%=nres %></div>
+                                <p><%= user.data.firstname; %> <%= user.data.lastname; %></p>
+                            </div>
+
+                            <div class="productivityContainer flex-fill">
+                                <form action="/viewdetailprofile" method="post" class="form  needs-validation" novalidate>
+                                    <input type="hidden" name="id" value="<%= user.data.id; %>">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p>Basic Information</p>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>First Name</label>
+                                            <input type="text" id="firstname" class="form-control" placeholder="Enter First Name" name="firstname" required value="<%= user.data.firstname; %>">
+                                            <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Last Name</label>
+                                            <input type="text" id="lastname" class="form-control" placeholder="Enter Last Name" name="lastname" required value="<%= user.data.lastname; %>">
+                                            <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Email</label>
+                                            <input type="email" id="email" class="form-control" placeholder="Enter Email" name="email" required value="<%= user.data.email; %>">
+                                            <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Phone</label>
+                                            <input type="text" id="mobile" class="form-control currency" maxlength="12" placeholder="Enter Mobile No." name="mobile" required value="<%= user.data.mobile; %>">
+                                            <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                       
+
+                                        <div class="col-md-12">
+                                            <p>Login Information</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>User Name</label>
+                                            <input type="text" name="cemail" class="form-control" placeholder="User Name" />
+                                            <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Role</label>
+                                            <select class="form-control">
+                                                <% if(user.data.role['name']=="Admin"){ %>
+                                               <option>Admin</option>
+                                               <% } %>
+                                               <% if(user.data.role['name']=="Employee"){ %>
+                                                <option>Employee</option>
+                                                <% } %>
+                                            
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <p>Tracking</p>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="d-flex align-items-center">
+                                                <label class="mr-3">Capture Screenshot</label>
+                                                <!-- <div class="toggle-button-cover">
+                                                <div class="button-cover">
+                                                    <div class="button r" id="button-4">
+                                                        <input type="checkbox" class="checkbox">
+                                                        <div class="knobs"></div>
+                                                        <div class="layer"></div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                                <label class="switch">
+                                                <input type="checkbox" name="is_screenshot" value="<%= user.data.is_screenshot; %>">
+                                                <span class="slider round"></span>
+                                            </label>
+                                            <div class="valid-feedback">Valid.</div>
+                                        <div class="invalid-feedback">Please fill out this field.</div>
+                                            </div>
+                                        </div>
+
+                                      
+
+                                        <div class="col-md-12">
+                                            <input type="submit" class="submitButton" value="Submit">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
 
-                                    <div class="tab-pane fade show " id="passwordServices" role="tabpanel" aria-labelledby="passwordServices-tab">
-                                        <form action="/viewdetailprofile" method="post" class="form  needs-validation" novalidate>
-                                            <input type="hidden" name="id" value="<%= user.data.id; %>">
-                                            <style>
-                                                #register .short{ color:#FF0000; } #register .weak{ color:#E66C2C; } #register .good{ color:#2D98F3; } #register .strong{ color:#006400; }
-  </style>
-                       <script>
+                    <div class="tab-pane fade" id="password-peofile" role="tabpanel" aria-labelledby="password-peofile-tab">
+                        <div class="d-flex align-items-start">
+                            <div class="userProfilez">
+                                <div class="dp"><%=res %> <%=nres %></div>
+                                <p><%= user.data.firstname; %> <%= user.data.lastname; %></p>
+                            </div>
 
-                       $(document).ready(function() {
- 
-    $('#password').keyup(function(){
-        $('#result').html(checkStrength($('#password').val()));
-    })  
- 
-    function checkStrength(password){
- 
-    //initial strength
-    var strength = 0
- 
-    //if the password length is less than 6, return message.
-    if (password.length < 6) {
-        $('#result').removeClass();
-        $('#result').addClass('short');
-        return 'Too short'
-    }
- 
-    //length is ok, lets continue.
- 
-    //if length is 8 characters or more, increase strength value
-    if (password.length > 7) strength += 1
- 
-    //if password contains both lower and uppercase characters, increase strength value
-    if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/))  strength += 1
- 
-    //if it has numbers and characters, increase strength value
-    if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  strength += 1 
- 
-    //if it has one special character, increase strength value
-    if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/))  strength += 1
- 
-    //if it has two special characters, increase strength value
-    if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,",%,&,@,#,$,^,*,?,_,~])/)) strength += 1
- 
-    //now we have calculated strength value, we can return messages
- 
-    //if value is less than 2
-    if (strength < 2 ) {
-        $('#result').removeClass();
-        $('#result').addClass('weak');
-        return 'Weak';
-    } else if (strength == 2 ) {
-        $('#result').removeClass();
-        $('#result').addClass('good');
-        return 'Good';
-    } else {
-        $('#result').removeClass();
-        $('#result').addClass('strong');
-        return 'Strong';
-    }
+                            <div class="productivityContainer flex-fill">
+                                <form action="/viewdetailprofile" method="post" class="form  needs-validation" novalidate>
+                                    <input type="hidden" name="id" value="<%= user.data.id; %>">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p>Change Password</p>
+                                               
+                                            </div>
+                                        </div>
+
+                                        <style>
+                                            #register .short{ color:#FF0000; } #register .weak{ color:#E66C2C; } #register .good{ color:#2D98F3; } #register .strong{ color:#006400; }
+</style>
+                   <script>
+
+                   $(document).ready(function() {
+
+$('#password').keyup(function(){
+    $('#result').html(checkStrength($('#password').val()));
+})  
+
+function checkStrength(password){
+
+//initial strength
+var strength = 0
+
+//if the password length is less than 6, return message.
+if (password.length < 6) {
+    $('#result').removeClass();
+    $('#result').addClass('short');
+    return 'Too short'
+}
+
+//length is ok, lets continue.
+
+//if length is 8 characters or more, increase strength value
+if (password.length > 7) strength += 1
+
+//if password contains both lower and uppercase characters, increase strength value
+if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/))  strength += 1
+
+//if it has numbers and characters, increase strength value
+if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/))  strength += 1 
+
+//if it has one special character, increase strength value
+if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/))  strength += 1
+
+//if it has two special characters, increase strength value
+if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,",%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+
+//now we have calculated strength value, we can return messages
+
+//if value is less than 2
+if (strength < 2 ) {
+    $('#result').removeClass();
+    $('#result').addClass('weak');
+    return 'Weak';
+} else if (strength == 2 ) {
+    $('#result').removeClass();
+    $('#result').addClass('good');
+    return 'Good';
+} else {
+    $('#result').removeClass();
+    $('#result').addClass('strong');
+    return 'Strong';
+}
 }
 });
 </script>    
 
-    <script>
-    function checkPasswordMatch() {
-        var password = $("#password").val();
-        var confirmPassword = $("#ckpassword").val();
-        if (password != confirmPassword){
-            $("#CheckPasswordMatch").html("Passwords does not match!");
-            $("#updatepassword").hide();
-    }else{
-            $("#CheckPasswordMatch").html("Passwords match.");
-            $("#updatepassword").show();
-    }
+<script>
+function checkPasswordMatch() {
+    var password = $("#password").val();
+    var confirmPassword = $("#ckpassword").val();
+    if (password != confirmPassword){
+        $("#CheckPasswordMatch").html("Passwords does not match!");
+        $("#updatepassword").hide();
+}else{
+        $("#CheckPasswordMatch").html("Passwords match.");
+        $("#updatepassword").show();
 }
-    $(document).ready(function () {
-       $("#ckpassword").keyup(checkPasswordMatch);
-    });
-    </script>             
-                                           
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="password" style="font-weight:bold;">New Password </label>
-                                            </div>
-                                            <div class="col-md-8 col-6" id="register">
-                                                <input type="password" id="password" class="form-control" maxlength="10" placeholder="Enter New Password" name="cpassword" required >
-                                                <span id="result"></span>
-                                        <div class="valid-feedback">Valid.</div>
-                                        <div class="invalid-feedback">Please fill out this field.</div>
-                                    
-                                            </div>
+}
+$(document).ready(function () {
+   $("#ckpassword").keyup(checkPasswordMatch);
+});
+</script>         
+                                        <div class="col-md-6">
+                                            <label> New Password</label>
+                                            <input type="password" id="password" class="form-control" maxlength="10" placeholder="Enter New Password" name="cpassword" required >
+                                            <span id="result"></span>
+                                    <div class="valid-feedback">Valid.</div>
+                                    <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
-                                        <hr />
-
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label for="ckpassword" style="font-weight:bold;">Confirm Password</label>
-                                            </div>
-                                            <div class="col-md-8 col-6">
-                                                <input type="password" id="ckpassword" class="form-control" maxlength="10" placeholder="Enter Confirm Password" name="ckpassword" required >
-                                                <div class="registrationFormAlert" style="color:red;" id="CheckPasswordMatch"></div>
-                                                <div class="valid-feedback">Valid.</div>
-                                                <div class="invalid-feedback">Please fill out this field.</div>
-                                            </div>
+                                        <div class="col-md-6">
+                                            <label>Confirm Password</label>
+                                            <input type="password" id="ckpassword" class="form-control" maxlength="10" placeholder="Enter Confirm Password" name="ckpassword" required >
+                                            <div class="registrationFormAlert" style="color:red;" id="CheckPasswordMatch"></div>
+                                            <div class="valid-feedback">Valid.</div>
+                                            <div class="invalid-feedback">Please fill out this field.</div>
                                         </div>
-                                        <hr />
                                         
-                                        
-                                        <div class="form-actions">
-                                            <a type="button" href="/userlist" class="btn btn-danger mr-1">
-                                            <i class="ft-x"></i> Cancel</a>
-                                            <button  onclick="spinner()" id="updatepassword"  type="submit" class="btn btn-primary pull-right">
-                                            <i class="la la-check-square-o "></i> Update</button>
-                                                        </div>
-                                                   </form>
+                                       
 
+                                       
+
+                                      
+
+                                        <div class="col-md-12">
+                                            <input type="submit" class="submitButton" value="Submit">
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-              
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Table head options end -->
         </div>
     </div>
 </div>
+<!-- ////////////////////////////////////////////////////////////////////////////-->
+
 
 
 
