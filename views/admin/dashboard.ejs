@@ -5,296 +5,188 @@
             <%- include('../partials/left'); %>
 
 
-                <div class="app-content content">
-                    <div class="content-wrapper">
-                        <!--
-                        <div class="content-wrapper-before"></div>-->
-                        <div class="content-header row">
-                        </div>
-                        <div class="content-body">
-                            <!-- Chart -->
-                            <div class="row match-height">
-                                <div class="col-12">
-                                    <div class="">
-                                        <div id="gradient-line-chart1" class="height-250 GradientlineShadow1"></div>
-                                    </div>
+             
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <div class="blocks userDetails">
+                    <div class="userIcon">
+                        <!-- <i class="ft-home"></i> -->
+                        <img src="./assets/images/ic_dashboard.png" class="img-fluid" alt="">
+                    </div>
+                    <div class="details">
+                        <h4 class="m-0">Dashboard</h4>
+                        <p class="m-0">View Key indicator At-A-Glance.</p>
+                    </div>
+                    <ul class="d-flex topInputs">
+                        <li>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="la la-calendar-o"></i>
+                                    </span>
                                 </div>
+                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
-                            <!-- Chart -->
-                            <!-- eCommerce statistic -->
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-6 col-md-12">
-                                    <div class="card pull-up ecom-card-1 bg-white">
-                                        <div class="card-content ecom-card2 height-180">
-                                            <h5 class="text-muted danger position-absolute p-1">Progress Stats</h5>
-                                            <div>
-                                                <i class="ft-pie-chart danger font-large-1 float-right p-1"></i>
-                                            </div>
-                                            <div class="progress-stats-container ct-golden-section height-75 position-relative pt-3  ">
-                                                <div id="progress-stats-bar-chart"></div>
-                                                <div id="progress-stats-line-chart" class="progress-stats-shadow"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-6 col-md-12">
-                                    <div class="card pull-up ecom-card-1 bg-white">
-                                        <div class="card-content ecom-card2 height-180">
-                                            <h5 class="text-muted info position-absolute p-1">Activity Stats</h5>
-                                            <div>
-                                                <i class="ft-activity info font-large-1 float-right p-1"></i>
-                                            </div>
-                                            <div class="progress-stats-container ct-golden-section height-75 position-relative pt-3">
-                                                <div id="progress-stats-bar-chart1"></div>
-                                                <div id="progress-stats-line-chart1" class="progress-stats-shadow"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-12">
-                                    <div class="card pull-up ecom-card-1 bg-white">
-                                        <div class="card-content ecom-card2 height-180">
-                                            <h5 class="text-muted warning position-absolute p-1">Sales Stats</h5>
-                                            <div>
-                                                <i class="ft-shopping-cart warning font-large-1 float-right p-1"></i>
-                                            </div>
-                                            <div class="progress-stats-container ct-golden-section height-75 position-relative pt-3">
-                                                <div id="progress-stats-bar-chart2"></div>
-                                                <div id="progress-stats-line-chart2" class="progress-stats-shadow"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/ eCommerce statistic -->
+                        </li>
+                    </ul>
+                </div>
 
-                            <!-- Statistics -->
-                         <div class="row match-height">
-                                <div class="col-xl-4 col-lg-12">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h4 class="card-title" id="heading-multiple-thumbnails">Multiple Thumbnail</h4>
-                                            <a class="heading-elements-toggle">
-                                                <i class="la la-ellipsis-v font-medium-3"></i>
-                                            </a>
-                                            <div class="heading-elements">
-                                                <span class="avatar">
-                              <img src="theme-assets/images/portrait/small/avatar-s-2.png" alt="avatar">
-                          </span>
-                                                <span class="avatar">
-                              <img src="theme-assets/images/portrait/small/avatar-s-3.png" alt="avatar">
-                          </span>
-                                                <span class="avatar">
-                              <img src="theme-assets/images/portrait/small/avatar-s-4.png" alt="avatar">
-                          </span>
-                                            </div>
-                                        </div>
-                                        <div class="card-content">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Content title</h4>
-                                                <p class="card-text">Jelly beans sugar plum cheesecake cookie oat cake soufflé.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.Jelly beans sugar plum
-                                                    cheesecake cookie oat cake soufflé. Tart lollipop carrot cake sugar plum. </p>
-                                                <p class="card-text">Sweet roll marzipan pastry halvah. Cake bear claw sweet. Tootsie roll pie marshmallow lollipop chupa chups donut fruitcake cake.Jelly beans sugar plum cheesecake cookie oat cake soufflé. Tart lollipop carrot
-                                                    cake sugar plum. Marshmallow wafer tiramisu jelly beans.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="blocks">
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <h4 class="m-0">Today's Attendance</h4>
+                                <h5 class="m-0 text-center">17 <small class="d-block">Users</small></h5>
+                            </div>
+                            <div class="chart doughnut">
+                                <div class=" position-relative">
+                                    <canvas id="myCanvas" class="w-100"></canvas>
+                                    <h3><span>Present</span>82.35%</h3>
                                 </div>
-                                <div class="col-xl-4 col-lg-12">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <div class="card-body">
-                                                <h4 class="card-title">Recent products</h4>
-                                                <h6 class="card-subtitle text-muted">Carousel Card With Header & Footer</h6>
+                                <ul>
+                                    <li><data value="1" data-color="#2c9fee">14</data> <span>Present</span></li>
+                                    <li><data value=".2" data-color="#f27b37">3</data> <span>Absent</span></li>
+                                    <li><data value=".0" data-color="#f7e35c">0</data> <span>Leave</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="blocks">
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <h4 class="m-0 mb-2"><i class="la la-sort-asc"></i> Top 5 Users</h4>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Working</th>
+                                        <th scope="col">Productivity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
-                                            <div id="carousel-area" class="carousel slide" data-ride="carousel">
-                                                <ol class="carousel-indicators">
-                                                    <li data-target="#carousel-area" data-slide-to="0" class="active"></li>
-                                                    <li data-target="#carousel-area" data-slide-to="1"></li>
-                                                    <li data-target="#carousel-area" data-slide-to="2"></li>
-                                                </ol>
-                                                <div class="carousel-inner" role="listbox">
-                                                    <div class="carousel-item active">
-                                                        <img src="theme-assets/images/carousel/08.jpg" class="d-block w-100" alt="First slide">
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <img src="theme-assets/images/carousel/03.jpg" class="d-block w-100" alt="Second slide">
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <img src="theme-assets/images/carousel/01.jpg" class="d-block w-100" alt="Third slide">
-                                                    </div>
-                                                </div>
-                                                <a class="carousel-control-prev" href="#carousel-area" role="button" data-slide="prev">
-                                                    <span class="la la-angle-left" aria-hidden="true"></span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                                <a class="carousel-control-next" href="#carousel-area" role="button" data-slide="next">
-                                                    <span class="la la-angle-right icon-next" aria-hidden="true"></span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
+                                            92.20%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
-                                            <div class="card-body">
-                                                <a href="#" class="card-link">Card link</a>
-                                                <a href="#" class="card-link">Another link</a>
+                                            92.20%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
-                                        </div>
-                                        <div class="card-footer border-top-blue-grey border-top-lighten-5 text-muted">
-                                            <span class="float-left">2 days ago</span>
-                                            <span class="tags float-right">
-                      <span class="badge badge-pill badge-primary">Branding</span>
-                                            <span class="badge badge-pill badge-danger">Design</span>
-                                            </span>
-                                        </div>
-                                    </div>
+                                            92.20%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            92.20%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            92.20%
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="blocks">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h4 class="m-0 mb-1">Productivity Trend</h4>
+                                    <ul class="trendTile">
+                                        <li>
+                                            <p>Current Period</p>
+                                            <h4>64.22% <span><i class="la la-caret-down"></i> 0.28%</span></h4>
+                                        </li>
+                                        <li>
+                                            <p>Current Period</p>
+                                            <h4>64.22% <span><i class="la la-caret-down"></i> 0.28%</span></h4>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div class="col-xl-4 col-lg-12">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h4 class="card-title">Recent Buyers</h4>
-                                            <a class="heading-elements-toggle">
-                                                <i class="fa fa-ellipsis-v font-medium-3"></i>
-                                            </a>
-                                            <div class="heading-elements">
-                                                <ul class="list-inline mb-0">
-                                                    <li>
-                                                        <a data-action="reload">
-                                                            <i class="ft-rotate-cw"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="card-content">
-                                            <div id="recent-buyers" class="media-list">
-                                                <a href="#" class="media border-0">
-                                                    <div class="media-left pr-1">
-                                                        <span class="avatar avatar-md avatar-online">
-                                  <img class="media-object rounded-circle" src="theme-assets/images/portrait/small/avatar-s-7.png" alt="Generic placeholder image">
-                                  <i></i>
-                              </span>
-                                                    </div>
-                                                    <div class="media-body w-100">
-                                                        <span class="list-group-item-heading">Kristopher Candy
-  
-                              </span>
-                                                        <ul class="list-unstyled users-list m-0 float-right">
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 1" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-1.jpg" alt="Avatar">
-                                                            </li>
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 2" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-2.jpg" alt="Avatar">
-                                                            </li>
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 3" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-4.jpg" alt="Avatar">
-                                                            </li>
-                                                        </ul>
-                                                        <p class="list-group-item-text mb-0">
-                                                            <span class="blue-grey lighten-2 font-small-3"> #INV-12332 </span>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                                <a href="#" class="media border-0">
-                                                    <div class="media-left pr-1">
-                                                        <span class="avatar avatar-md avatar-away">
-                                  <img class="media-object rounded-circle" src="theme-assets/images/portrait/small/avatar-s-8.png" alt="Generic placeholder image">
-                                  <i></i>
-                              </span>
-                                                    </div>
-                                                    <div class="media-body w-100">
-                                                        <span class="list-group-item-heading">Lawrence Fowler
-  
-                              </span>
-                                                        <ul class="list-unstyled users-list m-0 float-right">
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 1" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-5.jpg" alt="Avatar">
-                                                            </li>
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 2" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-6.jpg" alt="Avatar">
-                                                            </li>
-                                                        </ul>
-                                                        <p class="list-group-item-text mb-0">
-                                                            <span class="blue-grey lighten-2 font-small-3"> #INV-12333 </span>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                                <a href="#" class="media border-0">
-                                                    <div class="media-left pr-1">
-                                                        <span class="avatar avatar-md avatar-busy">
-                                  <img class="media-object rounded-circle" src="theme-assets/images/portrait/small/avatar-s-9.png" alt="Generic placeholder image">
-                                  <i></i>
-                              </span>
-                                                    </div>
-                                                    <div class="media-body w-100">
-                                                        <span class="list-group-item-heading">Linda Olson
-  
-                              </span>
-                                                        <ul class="list-unstyled users-list m-0 float-right">
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 1" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-2.jpg" alt="Avatar">
-                                                            </li>
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 2" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-5.jpg" alt="Avatar">
-                                                            </li>
-                                                        </ul>
-                                                        <p class="list-group-item-text mb-0">
-                                                            <span class="blue-grey lighten-2 font-small-3"> #INV-12334 </span>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                                <a href="#" class="media border-0">
-                                                    <div class="media-left pr-1">
-                                                        <span class="avatar avatar-md avatar-online">
-                                  <img class="media-object rounded-circle" src="theme-assets/images/portrait/small/avatar-s-10.png" alt="Generic placeholder image">
-                                  <i></i>
-                              </span>
-                                                    </div>
-                                                    <div class="media-body w-100">
-                                                        <span class="list-group-item-heading">Roy Clark
-  
-                              </span>
-                                                        <ul class="list-unstyled users-list m-0 float-right">
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 1" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-6.jpg" alt="Avatar">
-                                                            </li>
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 2" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-1.jpg" alt="Avatar">
-                                                            </li>
-                                                        </ul>
-                                                        <p class="list-group-item-text mb-0">
-                                                            <span class="blue-grey lighten-2 font-small-3"> #INV-12335 </span>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                                <a href="#" class="media border-0">
-                                                    <div class="media-left pr-1">
-                                                        <span class="avatar avatar-md avatar-online">
-                                  <img class="media-object rounded-circle" src="theme-assets/images/portrait/small/avatar-s-11.png" alt="Generic placeholder image">
-                                  <i></i>
-                              </span>
-                                                    </div>
-                                                    <div class="media-body w-100">
-                                                        <span class="list-group-item-heading">Kristopher Candy
-  
-                              </span>
-                                                        <ul class="list-unstyled users-list m-0 float-right">
-                                                            <li data-toggle="tooltip" data-popup="tooltip-custom" data-original-title="Product 1" class="avatar avatar-sm pull-up">
-                                                                <img class="media-object rounded-circle no-border-top-radius no-border-bottom-radius" src="theme-assets/images/portfolio/portfolio-5.jpg" alt="Avatar">
-                                                            </li>
-                                                        </ul>
-                                                        <p class="list-group-item-text mb-0">
-                                                            <span class="blue-grey lighten-2 font-small-3"> #INV-12336 </span>
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-sm-8">
+                                    <canvas id="myChart"></canvas>
                                 </div>
                             </div>
-                         
+                        </div>
+
+                        <div class="blocks">
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <h4 class="m-0">Today's Attendance</h4>
+                                <h5 class="m-0 text-center">17 <small class="d-block">Users</small></h5>
+                            </div>
+
+                            <div class="chart doughnut2 d-flex align-items-center justify-content-between">
+                                <div class="cchart w-50 position-relative">
+                                    <canvas id="myCanvas2" class="w-100"></canvas>
+                                    <h3><span>Total Hrs.</span>82.35</h3>
+                                </div>
+                                <ul class="flex-column">
+                                    <li><data value="1.0" data-color="green">35.23</data> <span class="ml-1">Chrome</span></li>
+                                    <li><data value="0.65" data-color="orange">57.58</data> <span class="ml-1">Code</span></li>
+                                    <li><data value="0.55" data-color="red">04.46</data> <span class="ml-1">Msedge</span></li>
+                                    <li><data value="0.45" data-color="blue">03.21</data> <span class="ml-1">Photoshop</span></li>
+                                    <li><data value="0.30" data-color="orange">03.18</data> <span class="ml-1">Code-Insiders</span></li>
+                                    <li><data value="0.10" data-color="pink">02.45</data> <span class="ml-1">Google-Chrome</span></li>
+                                    <li><data value="0.05" data-color="sky">02.19</data> <span class="ml-1">MyZen</span></li>
+                                </ul>
+                            </div>
+                            <!-- <div class="chart doughnut2 d-flex align-items-center justify-content-between">
+                                    <div class="cchart w-50">
+                                        <canvas id="myCanvas2" class="w-100"></canvas>
+                                        <h3><span>Present</span>82.35%</h3>
+                                    </div>
+                                    <ul class="flex-column">
+                                        <li><data value="1.0" data-color="#ec4d4d">14</data> <span>Present</span></li>
+                                        <li><data value="0.2" data-color="#ec64e1">3</data> <span>Absent</span></li>
+                                        <li><data value="0.2" data-color="#7464ec">5</data> <span>Leave</span></li>
+                                        <li><data value="0.4" data-color="#64d1ec">3</data> <span>Leave</span></li>
+                                        <li><data value="0.1" data-color="#64ec91">10</data> <span>Leave</span></li>
+                                        <li><data value="0.2" data-color="#caec64">2</data> <span>Leave</span></li>
+                                        <li><data value="0.5" data-color="#f7e35c">1</data> <span>Leave</span></li>
+                                        <li><data value="0.5" data-color="#ec9e64">4</data> <span>Leave</span></li>
+                                        <li><data value="0.5" data-color="#a03328">6</data> <span>Leave</span></li>
+                                    </ul>
+                                </div> -->
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
            
 
 

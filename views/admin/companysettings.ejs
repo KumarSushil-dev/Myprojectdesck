@@ -1,0 +1,326 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+            <%- include('../partials/left'); %>
+
+
+
+    <!-- Leave Type -->
+    <div class="settingModal">
+        <div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="leaveModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-header align-items-center">
+                        <h5 class="modal-title flex-fill" id="leaveModalLabel">Leave Type</h5>
+                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+                        <ul class="d-flex topInputs">
+                            <li class="mr-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="la la-calendar-o"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Type to Search" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" class="downloadButton btn-success text-white">Add New Break</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 18vw;">Name </th>
+                                        <th style="width: 18vw;">Icon</th>
+                                        <th style="width: 18vw;">Date</th>
+                                        <th style="width: 6vw;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Lunch Break</td>
+                                        <td><img src="./assets/images/ic_lunch_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Batch</td>
+                                        <td><img src="./assets/images/ic_batch_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tea Break</td>
+                                        <td><img src="./assets/images/ic_tea_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="departmentsModal" tabindex="-1" role="dialog" aria-labelledby="departmentsModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-header align-items-center">
+                        <h5 class="modal-title flex-fill" id="departmentsModalLabel">Departments</h5>
+                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+                        <ul class="d-flex topInputs">
+                            <li class="mr-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="la la-calendar-o"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Type to Search" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" class="downloadButton btn-success text-white">Add New Break</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 18vw;">Name </th>
+                                        <th style="width: 18vw;">Icon</th>
+                                        <th style="width: 18vw;">Date</th>
+                                        <th style="width: 6vw;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Lunch Break</td>
+                                        <td><img src="./assets/images/ic_lunch_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Batch</td>
+                                        <td><img src="./assets/images/ic_batch_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tea Break</td>
+                                        <td><img src="./assets/images/ic_tea_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="breakModal" tabindex="-1" role="dialog" aria-labelledby="breakModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-header align-items-center">
+                        <h5 class="modal-title flex-fill" id="breakModalLabel">Breaks</h5>
+                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+                        <ul class="d-flex topInputs">
+                            <li class="mr-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="la la-calendar-o"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Type to Search" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" class="downloadButton btn-success text-white">Add New Break</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 18vw;">Name </th>
+                                        <th style="width: 18vw;">Icon</th>
+                                        <th style="width: 18vw;">Date</th>
+                                        <th style="width: 6vw;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Lunch Break</td>
+                                        <td><img src="./assets/images/ic_lunch_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Batch</td>
+                                        <td><img src="./assets/images/ic_batch_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tea Break</td>
+                                        <td><img src="./assets/images/ic_tea_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-header align-items-center">
+                        <h5 class="modal-title flex-fill" id="taskModalLabel">Task Priority</h5>
+                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+                        <ul class="d-flex topInputs">
+                            <li class="mr-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="la la-calendar-o"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Type to Search" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#" class="downloadButton btn-success text-white">Add New Break</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 18vw;">Name </th>
+                                        <th style="width: 18vw;">Icon</th>
+                                        <th style="width: 18vw;">Date</th>
+                                        <th style="width: 6vw;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Lunch Break</td>
+                                        <td><img src="./assets/images/ic_lunch_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Batch</td>
+                                        <td><img src="./assets/images/ic_batch_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tea Break</td>
+                                        <td><img src="./assets/images/ic_tea_break.png" alt="icon" class="img-fluid"></td>
+                                        <td>28 June 2021</td>
+                                        <td><a href="#" class="btn btn-outline-success">Active</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+             
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <div class="blocks userDetails">
+                    <div class="userIcon">
+                        <img src="/assets/images/ic_settings.png" class="img-fluid" alt="ic_settings" />
+                    </div>
+                    <div class="details">
+                        <h4 class="m-0">Settings</h4>
+                        <p class="m-0">View Key Indicators At-A-Glance.</p>
+                    </div>
+                </div>
+
+                <div class="blocks settingContainers mb-0">
+                    <div class="row no-gutters">
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#" class="d-flex align-items-center settingTiles" data-toggle="modal" data-target="#leaveModal">
+                                <img src="/assets/images/ic_leave.png" class="img-fluid" />
+                                <div class="flex-fill">
+                                    <p><b>Leave Type</b></p>
+                                    <p>Define Custom Leave Types Suitable For your Organization</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#" class="d-flex align-items-center settingTiles" data-toggle="modal" data-target="#departmentsModal">
+                                <img src="/assets/images/ic_department.png" class="img-fluid" />
+                                <div class="flex-fill">
+                                    <p><b>Departments</b></p>
+                                    <p>Define Custom Leave Types Suitable For your Organization</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#" class="d-flex align-items-center settingTiles" data-toggle="modal" data-target="#breakModal">
+                                <img src="/assets/images/ic_breaks.png" class="img-fluid" />
+                                <div class="flex-fill">
+                                    <p><b>Breaks</b></p>
+                                    <p>Define Custom Leave Types Suitable For your Organization</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#" class="d-flex align-items-center settingTiles" data-toggle="modal" data-target="#taskModal">
+                                <img src="/assets/images/ic_task_priority.png" class="img-fluid" />
+                                <div class="flex-fill">
+                                    <p><b>Task Priority</b></p>
+                                    <p>Define Custom Leave Types Suitable For your Organization</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+                <%- include('../partials/footer'); %>

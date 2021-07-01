@@ -157,7 +157,43 @@ app.get('/dashboard', function(req, res) {
     }
 });
 
+// companyprojects
+app.get('/companyprojects', function(req, res) {
 
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/companyprojects', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+
+// companyprojects
+app.get('/companytask', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/companytask', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+
+// companysettings
+app.get('/companysettings', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/companysettings', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+
+        res.render('users/login');
+    }
+});
 
 
 
@@ -2097,15 +2133,11 @@ app.get('/viewdetail/:id', urlencodedParser, function(req, res) {
                             req.flash("error", "Change password succesfully updated for user!");
                             res.locals.messages = req.flash();
                         }
-               
+               console.log(test);
     res.render('admin/viewdetail', { person: sess.companyname, user: test,roleid :sess.roleid  });
-                        res.end;
+    res.end;
                           
-                   
-              
-
-                       
-                    } else {
+                     } else {
                         req.flash("error", "Id not Found Plan.Try Again Later");
             res.locals.messages = req.flash();
             res.redirect(process.env.APP_URL + '/plan');
@@ -2274,7 +2306,7 @@ app.get('/companyuser', urlencodedParser, function(req, res) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                        console.log(datas);
+                       
                         sess = req.session;
 res.render('admin/companyuser', { person: sess.companyname, companyuser: datas,roleid :sess.roleid  });
                         res.end;

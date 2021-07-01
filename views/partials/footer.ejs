@@ -28,19 +28,34 @@
 <!-- END PAGE LEVEL JS-->
 
 
-<script src="./assets/js/lightgallery.js"></script>
+<script src="/assets/js/lightgallery.js"></script>
 <script>
-    lightGallery(document.getElementById('lightgallery'));
+  
+    lightGallery(document.getElementById('lightgallery1'));
+    lightGallery(document.getElementById('lightgallery2'));
+    lightGallery(document.getElementById('lightgallery3'));
+    lightGallery(document.getElementById('lightgallery4'));
+    lightGallery(document.getElementById('lightgallery5'));
+    lightGallery(document.getElementById('lightgallery6'));
+    lightGallery(document.getElementById('lightgallery7'));
+    lightGallery(document.getElementById('lightgallery8'));
+    lightGallery(document.getElementById('lightgallery9'));
+    lightGallery(document.getElementById('lightgallery10'));
+    lightGallery(document.getElementById('lightgallery11'));
+    lightGallery(document.getElementById('lightgallery12'));
 </script>
 <!-- Snap Gallery JS End -->
 
 <!-- Data Table Start -->
 
-<script src="./assets/js/jquery.dataTables.js"></script>
-<script src="./assets/js/datatable-basic.init.js"></script>
+<script src="/assets/js/jquery.dataTables.js"></script>
+<script src="/assets/js/datatable-basic.init.js"></script>
 <script>
     $(document).ready(function() {
-        $('#zero_config').DataTable();
+        $('#zero_config87').DataTable({
+        "ordering": false,
+        "searching": true
+    } );
         $('#zero_config2').DataTable();
         $('#zero_config3').DataTable();
         $('#zero_config4').DataTable();
@@ -60,10 +75,18 @@
             const randomNum = Math.floor(Math.random() * 100 + 1);
             let d = new Date();
             d.setDate(d.getDate() - (i * 30));
+            if(i==1){
             data.push({
                 date: d,
-                amount: randomNum
+                amount: 37
             });
+        }else{
+            data.push({
+                date: d,
+                amount: 0
+            });
+
+        }
         }
 
         return data;
@@ -73,7 +96,7 @@
     let data = createData(12).sort(function(a, b) {
         return a.date - b.date;
     });
-
+console.log(data);
     // what are these and are they things that someone should edit
     const margin = {
         top: 20,
@@ -200,7 +223,117 @@
                 .style('display', 'none')
         });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script>
+    var xValues = [50, 60, 70, 80];
+    var yValues = [25, 50, 75, 100];
 
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 100
+                    }
+                }],
+            }
+        }
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('.chart.doughnut').each(function() {
+            var chartID = $(this).find('canvas').attr('id');
+            var c = document.getElementById(chartID);
+            var width = $('#' + chartID).width();
+            var height = width;
+            var linewidth = width / 10;
+            c.setAttribute('width', width * 2);
+            c.setAttribute('height', height * 2);
+            var ctx = c.getContext('2d');
+            var startingPoint = -0.5;
+            ctx.scale(2, 2);
+            ctx.beginPath();
+            ctx.arc(height / 2, height / 2, width / 3, 0 * Math.PI, 2 * Math.PI);
+            ctx.lineWidth = linewidth;
+            ctx.strokeStyle = '#F2F2F2';
+            ctx.shadowOffsetX = 6;
+            ctx.shadowOffsetY = 6;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = "rgba(0,0,0,0.2)";
+            ctx.stroke();
+            $(this).find('li').each(function() {
+                var start = startingPoint;
+                var dataValue = $(this).find('data').attr('value');
+                var end = startingPoint + (2 * dataValue);
+                var color = $(this).find('data').data('color');
+                ctx.beginPath();
+                ctx.arc(height / 2, height / 2, width / 3, startingPoint * Math.PI, end * Math.PI);
+                ctx.lineWidth = linewidth;
+                ctx.strokeStyle = color;
+                ctx.shadowColor = "rgba(0,0,0,0)";
+                ctx.stroke();
+                $(this).css('color', color);
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.chart.doughnut2').each(function() {
+            var chartID = $(this).find('canvas').attr('id');
+            var c = document.getElementById(chartID);
+            var width = $('#' + chartID).width();
+            var height = width;
+            var linewidth = width / 10;
+            c.setAttribute('width', width * 2);
+            c.setAttribute('height', height * 2);
+            var ctx = c.getContext('2d');
+            var startingPoint = -0.5;
+            ctx.scale(2, 2);
+            ctx.beginPath();
+            ctx.arc(height / 2, height / 2, width / 3, 0 * Math.PI, 2 * Math.PI);
+            ctx.lineWidth = linewidth;
+            ctx.strokeStyle = '#F2F2F2';
+            ctx.shadowOffsetX = 6;
+            ctx.shadowOffsetY = 6;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = "rgba(0,0,0,0.2)";
+            ctx.stroke();
+            $(this).find('li').each(function() {
+                var start = startingPoint;
+                var dataValue = $(this).find('data').attr('value');
+                var end = startingPoint + (2 * dataValue);
+                var color = $(this).find('data').data('color');
+                ctx.beginPath();
+                ctx.arc(height / 2, height / 2, width / 3, startingPoint * Math.PI, end * Math.PI);
+                ctx.lineWidth = linewidth;
+                ctx.strokeStyle = color;
+                ctx.shadowColor = "rgba(0,0,0,0)";
+                ctx.stroke();
+                $(this).css('color', color);
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

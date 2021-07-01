@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savebreakstartid,savebreakstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,activeactivityget } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savebreakstartid,savebreakstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -330,31 +330,41 @@ viewdetail:(req, res) => {
             getstate(body, (err, resultsdatae) => {
                 getsitesettings(body, (err, resultsetting) => {
                     getattendence(body, (err, resultlogs) => {
+                        getapps(body, (err, resultapps) => {
 
-
+                        var twoHoursBefore = new Date();
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 1);
+                     
+                        var endHoursBefore = new Date();
+                        endHoursBefore.setHours(endHoursBefore.getHours() + 1)
                         let x = 60; //minutes interval
                         let times = []; // time array
-                        let tt = 0; // start time
-                     
-                        
+                        let tt=(twoHoursBefore.getHours())*60; // start time
+                     let endt=endHoursBefore.getHours();
+                 
                         //loop to increment the time and push results in array
-                        for (let i=0;tt<24*60; i++) {
+                        for (let i=0;tt<endt*60; i++) {
                             let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
                             let sh=hh+1;
                             let mm = (tt%60); // getting minutes of the hour in 0-55 format
                           times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
                           tt = tt + x;
                         }
-                        body.times=times;
+                       // console.log(times);
+
+                        var new_arr = times.reverse();
+
+
+                        body.times=new_arr;
                         const startdate = new Date();
                         body.startdate=moment(startdate).format('YYYY-MM-DD');
-                    
-                    
-
-        getsnapshotsinfo(body, (err, productivityresults) => {
-       
-
-        if (results) {
+                   
+            getsnapshotsinfo(body, (err, productivityresults) => {
+  getproductivityinfoweb(body, (err, resultsweb) => {
+    getproductivityinfototalweb(body, (err, resultstotalweb) => {
+        getproductivityinfomonth(body, (err, resultstotalwebmonth) => {
+            activeactivitygetweb(body, (err, resultsactiveactivityget) => {
+ if (results) {
         return res.status(200).json({
             success:true,
             data: results,
@@ -362,7 +372,12 @@ viewdetail:(req, res) => {
             state:resultsdatae,
             settings:resultsetting,
             logss:resultlogs,
-            snapshotdata: productivityresults
+            snapshotdata: productivityresults,
+            appslist:resultapps,
+            productivityinfoweb:resultsweb,
+            totalwebresult:resultstotalweb,
+            totalwebresultwebmonth:resultstotalwebmonth,
+            activeactivitygetresult:resultsactiveactivityget
           });
 
         }else{
@@ -375,6 +390,11 @@ viewdetail:(req, res) => {
             });
 
         }
+    });
+    });
+    });
+    });
+    });
     });
     });
     });
@@ -1617,11 +1637,11 @@ if(body.companyname){
 viewdetailprofileservice: (req, res) => {
     const body = req.body;
     body.userid=body.id;
-if(body.companyname){
-   
-    useredit(body, (err, results) => {
+  
+if(body.firstname){
 
-        getcountry(body, (err, resultsdata) => {
+    usereditprofile(body, (err, results) => {
+    getcountry(body, (err, resultsdata) => {
             getstate(body, (err, resultsdatae) => {
                 getsitesettings(body, (err, resultsetting) => {
                     getattendence(body, (err, resultlogs) => {
@@ -1758,13 +1778,16 @@ if(body.companyname){
 
 datatransfer: (req, res) => {
   const body = req.body;
-       console.log(body);
  body.userId=req.decoded.result[0].id;
 var productivitycnt=body.productivityCount;
 var applist=body.applist;
 body.applist=JSON.stringify(applist);
+body.applist= JSON.parse(body.applist);
 body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
             datatransferid(body, (err, results) => {
+                applisttransfer(body, (err, resultstranfer) => {
+
+                   // console.log(resultstranfer);
             if (err) {
                console.log(err);
                 return res.status(401).json({
@@ -1783,6 +1806,7 @@ body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
             });
 
 
+        });
         });
         
 
@@ -1921,8 +1945,7 @@ productivityinfo: (req, res) => {
         if (results) {
 
             if(totalproductinfo){
-
-
+                var totalproductinfo= Math.floor(totalproductinfo / 1000);
                 var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
                 var mstotalworkingDisplays = mstotalworkings > 0 ? (mstotalworkings > 9 ? mstotalworkings : "0"+mstotalworkings) + (mstotalworkings == 1 ? "" : "") : "00";
                  var percentage=(Number(mstotalworkingDisplays)*100)/60;

@@ -1,6 +1,7 @@
 const pool = require("../../config/database");
-const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Break,Usersbreakslogs,Op } = require('../../sequelize');
+const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Break,Usersbreakslogs,Userapplist,Op,sequelize } = require('../../sequelize');
 var p;
+const moment = require("moment");
 
 module.exports = {
     login: async(data, callBack) => {
@@ -20,14 +21,15 @@ module.exports = {
           }); 
     },
     checkiftodaydateexistuserid: async(data, callBack) => {
-        const TODAY_START = new Date().setHours(0, 0, 0, 0);
-var NOW = new Date();
-NOW=NOW.setHours(22);
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        
+        NOW=NOW.setDate(NOW.getDate() + 1);
         await Userattendancelog.findAll({
             where: {
                 punch_in: { 
                   [Op.gt]: TODAY_START,
-                  [Op.lt]: NOW
+                  [Op.lte]: NOW
                 },
                 userId :data.userid
               },
@@ -45,10 +47,42 @@ NOW=NOW.setHours(22);
           }); 
     },
     datatransferid: async(data, callBack) => {
-        await Usersnapshots.create({userId:data.userId,productivityCount:data.productivityCount,productivitytime:data.productivitytime,screenshot:data.screenshot,totalIdleMinutes: data.totalIdleMinutes,totalKeypressCount:data.totalKeypressCount,totalMouseMovement:data.totalMouseMovement,totalClicks:data.totalClicks,capturetime:data.capturetime,applist:data.applist}).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+        await Usersnapshots.create({userId:data.userId,productivityCount:data.productivityCount,productivitytime:data.productivitytime,screenshot:data.screenshot,totalIdleMinutes: data.totalIdleMinutes,totalKeypressCount:data.totalKeypressCount,totalMouseMovement:data.totalMouseMovement,totalClicks:data.totalClicks,capturetime:data.capturetime,applist:"sd"}).then(emailexist => callBack(null, emailexist)).catch(function (err) {
 
             return callBack(err);
           }); 
+    },
+    applisttransfer: async(data, callBack) => {
+
+/*
+    let results = [];
+    for (let i = 0; i < myParams.length; i++) {
+        let x = await User.findByPk(myParams[i].id).then(async (u) => {
+            if (u != null) {
+                await u.update({ sal : u.sal + myParams[i].sal});
+            } else {
+                await User.create({id: myParams[i].id, sal: myParams[i].sal});                    
+            }
+        });
+        results.push(x);
+    }
+    return results; */
+  let resultst = [];
+  let pending = data.applist.length;
+ 
+ for (let i = 0; i < data.applist.length; i++) {
+let x = await Userapplist.create({userId:data.userId, idleTime: data.applist[i].idleTime,count: data.applist[i].count,capturetime:data.capturetime,applist: data.applist[i].windowName});                    
+
+
+resultst.push(x);
+
+
+        if (0 === --pending) {
+            return callBack(null, resultst); 
+            }
+    }
+   
+   
     },
     getproductivityinfo: async(data, callBack) => {
       
@@ -156,6 +190,109 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
       
        
     },
+
+    getproductivityinfomonth: async(data, callBack) => {
+      
+ 
+        let pending = 12;
+        let promises = [];
+      
+        for (let i = 1; i <= 12; i++) {
+           
+   await pool.query('SELECT SUM(productivitytime) as productivitytime FROM `users_snapshotscaptures` WHERE `userId`=? AND MONTH(`capturetime`)=?', [
+                  data.userid,
+                  i
+                 ],(error, results, fields) => {
+           if (error) {
+            console.log("test");
+                      }
+                
+                   if (results.length == 0) {
+                         // promises.push(0);
+                      } else {
+  
+                          if(results[0].productivitytime!== null){
+  
+                          results[0].productivitytime=Number(results[0].productivitytime);
+                          results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
+                          var obj = [];
+  
+  
+  if(results[0].productivitytime){
+  
+
+    var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
+     var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
+      var percentage=(Number(mstotalworkingDisplay)*100)/60;
+      
+
+      percentage=Math.round(percentage);
+     
+  
+  }else{
+    
+      var percentage="0";
+      
+  }
+  
+  
+       obj.push({ "date": i,"amount":percentage });
+                          
+           promises.push(obj);
+                          }
+                      }
+  
+                      if (0 === --pending) {
+                         
+                         return callBack(null, promises); //callback if all queries are processed
+                      }
+  
+                  });
+          }
+  
+        
+         
+      },
+  
+  
+      
+    
+    getproductivityinfoweb: (data, callBack) => {
+      
+        let startdate = new Date();
+        let fromDateMonth=startdate.getMonth();
+        let fromDateyear=startdate.getFullYear();
+
+           pool.query('SELECT id,capturetime,SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage,SUM(totalKeypressCount) as totalKeypressCount,SUM(totalMouseMovement) as totalMouseMovement,SUM(totalClicks) as totalClicks FROM `users_snapshotscaptures` WHERE `userId`=? AND MONTH(`capturetime`)=? AND YEAR(`capturetime`)=? GROUP BY DATE(`capturetime`) ORDER BY DATE(`capturetime`) DESC', [
+                  data.userid,
+                  fromDateMonth,
+                  fromDateyear                
+              ],(error, results, fields) => {
+           if (error) {
+            console.log(error);
+                      }
+                
+                   return callBack(null, results); //callback if all queries are processed
+                  }
+                  );
+      },
+      getproductivityinfototalweb: (data, callBack) => {
+      
+        let startdate = new Date();
+        let fromDateyear=startdate.getFullYear();
+
+           pool.query('SELECT SUM(totalIdleMinutes) as idletimeyear,SUM(productivitytime) as productivitytimeyear,SUM(productivityCount) as productivitypercentageyear FROM `users_snapshotscaptures` WHERE `userId`=? AND YEAR(`capturetime`)=? GROUP BY YEAR(`capturetime`)', [
+                  data.userid,
+                  fromDateyear                  
+              ],(error, results, fields) => {
+           if (error) {
+            console.log(error);
+                      }
+                
+                   return callBack(null, results); //callback if all queries are processed
+                  }
+                  );
+      },
     getsnapshotsinfo: async(data, callBack) => {
       
       let startdate = data.startdate;
@@ -167,7 +304,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
-          await pool.query('SELECT screenshot FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY id ASC LIMIT 0,2', [
+          await pool.query('SELECT screenshot FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY id ASC LIMIT 0,12', [
                 data.userid,
                 startdate,
                 string[0],
@@ -373,15 +510,16 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             }); 
       },
       activeactivityget: async(data, callBack) => {
-        const TODAY_START = new Date().setHours(0, 0, 0, 0);
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
         var NOW = new Date();
-        NOW=NOW.setHours(22);
+        
+        NOW=NOW.setDate(NOW.getDate() + 1);
        
      
         await Usersbreakslogs.findAll({
             where: {starttime: { 
                 [Op.gt]: TODAY_START,
-                [Op.lt]: NOW
+                [Op.lte]: NOW
               },userId:data.userid},
             attributes: ['starttime'],
             include: [ {
@@ -396,9 +534,74 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               return callBack(err);
             }); 
       },
+      activeactivitygetweb: async(data, callBack) => {
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        
+        NOW=NOW.setDate(NOW.getDate() + 1);
+       
+     
+        await Usersbreakslogs.findAll({
+            where: {starttime: { 
+                [Op.gt]: TODAY_START,
+                [Op.lte]: NOW
+              },userId:data.userid},
+            attributes: ['starttime','endtime'],
+            include: [ {
+                    model: Break,
+                    attributes: ['name']
+                },
+            ],
+
+          order:[['id','ASC']],
+            }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      getapps: async(data, callBack) => {
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setDate(NOW.getDate() + 1);
+       // NOW=NOW.setHours(05, 0, 0, 0);
+
+        await Userapplist.findAll({
+            where: {capturetime: { 
+                [Op.gt]: TODAY_START,
+                [Op.lte]: NOW
+              },userId:data.userid},
+            attributes: ['id','applist',[sequelize.fn('sum', sequelize.col('count')), 'count']],
+            group: ['applist'],
+            
+            order: [[sequelize.literal('count'), 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
     useredit: async(data, callBack) => {
      
         await User.update({firstname: data.firstname,mobile: data.mobile,companyname: data.companyname,country_id: data.country_id,state_id: data.state_id,city: data.city,address: data.address,address: data.address,zipcode:data.zipcode},{
+            where: {id: data.userid}
+        }).then(function(){
+            User.findOne({
+                where: {id:data.userid},
+                 include: [ {
+                    model: Roles,
+                    attributes: ['name']
+                },
+            ],
+
+                order:[['id','DESC']]
+                }).then(notes => callBack(null,notes));                      
+             }).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    usereditprofile: async(data, callBack) => {
+     
+        await User.update({firstname: data.firstname,lastname: data.lastname,mobile: data.mobile,email: data.email},{
             where: {id: data.userid}
         }).then(function(){
             User.findOne({
@@ -730,14 +933,15 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
     },
     saveuserpunchout: async(data, callBack) => {
 
-        const TODAY_START = new Date().setHours(0, 0, 0, 0);
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
         var NOW = new Date();
-        NOW=NOW.setHours(22);
+        
+        NOW=NOW.setDate(NOW.getDate() + 1);
        
         await Userattendancelog.update({punch_out: data.puchOutTime},{
             where: {punch_in: { 
                 [Op.gt]: TODAY_START,
-                [Op.lt]: NOW
+                [Op.lte]: NOW
               },userId: data.userid},
             order:[['id','DESC']],
         }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
@@ -747,21 +951,22 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
     }, 
     savebreakstopid: async(data, callBack) => {
 
-        const TODAY_START = new Date().setHours(0, 0, 0, 0);
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
         var NOW = new Date();
-        NOW=NOW.setHours(22);
+        
+        NOW=NOW.setDate(NOW.getDate() + 1);
        
         await Usersbreakslogs.update({endtime: data.endtime},{
             where: {starttime: { 
                 [Op.gt]: TODAY_START,
-                [Op.lt]: NOW
+                [Op.lte]: NOW
               },userId: data.userid,breaks_id:data.type},
             order:[['id','DESC']],
         }).then(function(){
             Usersbreakslogs.findOne({
                 where: {starttime: { 
                     [Op.gt]: TODAY_START,
-                    [Op.lt]: NOW
+                    [Op.lte]: NOW
                   },userId: data.userid,breaks_id:data.type},
                 order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
              }).catch(function (err) {
