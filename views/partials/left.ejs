@@ -38,7 +38,14 @@
             <% if(roleid==2){ %>
     <li class="nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/companyuser"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Employee List</span></a>
                     </li>
-           <li class="nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/companyuser"><i class="la ft-pie-chart"></i><span class="menu-title" data-i18n=""> User Insight (Timeline)</span></a>
+           <li class="nav-item"><a  href="javascript:void(0);"><i class="la ft-pie-chart"></i><span class="menu-title" data-i18n=""> User Insight </span></a>
+            <ul id="folder21">
+
+                <li class="nav-item"><a  href="<%= process.env.APP_URL %>/companyuser"><span class="menu-title" data-i18n="">Timeline</span></a></li>
+
+         
+
+            </ul>
                     </li>
             <li class="nav-item"><a onclick="spinner()" style="color:red;" href="<%= process.env.APP_URL %>/companyprojects"><i class="la ft-credit-card"></i><span class="menu-title" data-i18n=""> Projects</span></a>
                     </li>
