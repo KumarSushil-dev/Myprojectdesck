@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savebreakstartid,savebreakstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -361,6 +361,7 @@ viewdetail:(req, res) => {
                    
             getsnapshotsinfo(body, (err, productivityresults) => {
   getproductivityinfoweb(body, (err, resultsweb) => {
+    
     getproductivityinfototalweb(body, (err, resultstotalweb) => {
         getproductivityinfomonth(body, (err, resultstotalwebmonth) => {
             activeactivitygetweb(body, (err, resultsactiveactivityget) => {
@@ -1404,6 +1405,58 @@ savebreakstop: (req, res) => {
         });
 
     },
+
+// Save Break Stop
+savetaskstop: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+
+       body.endtime=moment(body.taskStopTime).format('YYYY-MM-DD HH:mm:ss');
+       savetaskstopid(body, (err, results) => {
+          
+            if (err) {
+               
+              return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "Connection Error."
+                });
+            }
+
+            if (results) {
+              
+            var re = JSON.stringify(results);
+            var test = JSON.parse(re);
+           
+            var now  = moment(test.endtime).format('DD/MM/YYYY HH:mm:ss');
+            var then = moment(test.starttime).format('DD/MM/YYYY HH:mm:ss');
+            var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
+     
+         
+    var obj = [];
+    obj.push({ "time_invseted_break": ms });
+            return res.status(200).json({
+                success:true,
+                data: obj
+              });
+            }else{
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    detail: "No Time Listed."
+
+                });
+            }
+
+            
+
+
+        });
+
+    },
     // Save Employee Break IN
     savebreakstart: (req, res) => {
 
@@ -1444,6 +1497,58 @@ savebreakstop: (req, res) => {
                 success:true,
                 data: obj,
                 detail: "Save Break Log Succesfully."
+              });
+
+
+
+  
+        });
+      
+
+
+        
+      
+
+    },
+    savetaskstart: (req, res) => {
+
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+
+       body.starttime=moment(body.taskStartTime).format('YYYY-MM-DD HH:mm:ss');
+     
+       savetaskstartid(body, (err, results) => {
+    
+            if (err) {
+                console.log(err);
+              return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "Connection Error."
+                });
+            }
+
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    detail: "No Time Listed."
+
+                });
+            }
+          var re = JSON.stringify(results);
+           var test = JSON.parse(re);
+
+       
+   // const intimee=test.punch_in;
+    const intimee=moment(test.starttime).format('YYYY-MM-DD HH:mm:ss');
+    var obj = [];
+    obj.push({ "savetime": intimee});
+            return res.status(200).json({
+                success:true,
+                data: obj,
+                detail: "Save Task Log Succesfully."
               });
 
 
@@ -1854,12 +1959,65 @@ breaklist: (req, res) => {
     });
 
 },
-activeactivity: (req, res) => {
+tasklist: (req, res) => {
   
     const body = req.body;
     body.userid=req.decoded.result[0].id;
 
-    activeactivityget(body, (err, results) => {
+    tasklistget(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+      
+        if (results.length === 0) {
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Break Found."
+            });
+        }
+
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            detail: "Break List"
+          });
+
+        }else{
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Break List."
+
+            });
+
+        }
+
+    });
+
+},
+activeactivity: (req, res) => {
+  
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    let times = [];
+    const currentMoment = moment().subtract(4, 'days');
+    const endMoment = moment().add(1, 'days');
+    var i=0;
+    while (currentMoment.isBefore(endMoment, 'day')) {
+     // console.log(`Loop at ${currentMoment.format('YYYY-MM-DD')}`);
+      times[i]=currentMoment.format('YYYY-MM-DD');
+      currentMoment.add(1, 'days');
+      i++;
+    }
+    console.log(times);
+    body.times=times;
+    activeactivitygetupdate(body, (err, results) => {
         if (err) {
           return res.status(500).json({
                 success: false,
@@ -1875,7 +2033,7 @@ activeactivity: (req, res) => {
                 detail: "No Activity Break Found."
             });
         }
-
+console.log(results);
         if (results) {
         return res.status(200).json({
             success:true,

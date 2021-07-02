@@ -2133,7 +2133,7 @@ app.get('/viewdetail/:id', urlencodedParser, function(req, res) {
                             req.flash("error", "Change password succesfully updated for user!");
                             res.locals.messages = req.flash();
                         }
-               console.log(test);
+              // console.log(test);
     res.render('admin/viewdetail', { person: sess.companyname, user: test,roleid :sess.roleid  });
     res.end;
                           

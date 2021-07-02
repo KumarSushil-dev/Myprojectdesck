@@ -1,5 +1,5 @@
 const pool = require("../../config/database");
-const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Break,Usersbreakslogs,Userapplist,Op,sequelize } = require('../../sequelize');
+const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Break,Usersbreakslogs,Userapplist,Task,Tasksactivities,Op,sequelize } = require('../../sequelize');
 var p;
 const moment = require("moment");
 
@@ -95,7 +95,7 @@ resultst.push(x);
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
-          await pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+           pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
                 data.userid,
                 startdate,
                 string[0],
@@ -259,9 +259,13 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     
     getproductivityinfoweb: (data, callBack) => {
       
-        let startdate = new Date();
-        let fromDateMonth=startdate.getMonth();
-        let fromDateyear=startdate.getFullYear();
+        let startdate = new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Calcutta'
+          });
+          var dt = new Date(startdate);
+        let fromDateMonth=dt.getMonth()+1;
+        console.log(fromDateMonth);
+        let fromDateyear=dt.getFullYear();
 
            pool.query('SELECT id,capturetime,SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage,SUM(totalKeypressCount) as totalKeypressCount,SUM(totalMouseMovement) as totalMouseMovement,SUM(totalClicks) as totalClicks FROM `users_snapshotscaptures` WHERE `userId`=? AND MONTH(`capturetime`)=? AND YEAR(`capturetime`)=? GROUP BY DATE(`capturetime`) ORDER BY DATE(`capturetime`) DESC', [
                   data.userid,
@@ -278,8 +282,11 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
       },
       getproductivityinfototalweb: (data, callBack) => {
       
-        let startdate = new Date();
-        let fromDateyear=startdate.getFullYear();
+        let startdate = new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Calcutta'
+          });
+          var dt = new Date(startdate);
+        let fromDateyear=dt.getFullYear();
 
            pool.query('SELECT SUM(totalIdleMinutes) as idletimeyear,SUM(productivitytime) as productivitytimeyear,SUM(productivityCount) as productivitypercentageyear FROM `users_snapshotscaptures` WHERE `userId`=? AND YEAR(`capturetime`)=? GROUP BY YEAR(`capturetime`)', [
                   data.userid,
@@ -500,8 +507,21 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
 
     breaklistget: async(data, callBack) => {
 
-        await Break.findAll({
-            where: {userId:data.userid},
+        await Task.findAll({
+            where: {userId:data.userid,projects_id:0},
+            attributes: ['id','name'],
+          order:[['id','ASC']],
+            }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      tasklistget: async(data, callBack) => {
+
+        await Task.findAll({
+            where: {userId:data.userid,projects_id: {
+                [Op.ne]: 0
+              }},
             attributes: ['id','name'],
           order:[['id','ASC']],
             }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
@@ -514,8 +534,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
         var NOW = new Date();
         
         NOW=NOW.setDate(NOW.getDate() + 1);
-       
-     
+           
         await Usersbreakslogs.findAll({
             where: {starttime: { 
                 [Op.gt]: TODAY_START,
@@ -533,6 +552,72 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               // handle error;
               return callBack(err);
             }); 
+      },
+      activeactivitygetupdate: async(data, callBack) => {
+      let pending = data.times.length;
+            let promises = [];
+            
+         
+              for (let i = 0; i <= data.times.length; i++) {
+               
+       pool.query('SELECT `tasks`.`name` as `name`,`tasks_activities`.`starttime` as `starttime`,`tasks_activities`.`endtime` as `endtime` FROM `tasks_activities` INNER JOIN `tasks` AS `tasks` ON `tasks_activities`.`tasks_id` = `tasks`.`id` WHERE `tasks_activities`.`userId`=? and DATE(`tasks_activities`.`starttime`)=?  ORDER BY `tasks_activities`.`id` ASC', 
+      [ data.userid,
+         data.times[i]
+                  ],(error, results, fields) => {
+               if (error) {
+                console.log("test");
+                          }
+                          if (results.length == 0) {
+                            // promises.push(0);
+                         } else {
+                            var obj=[];
+     var objs=[];
+     
+     for (let hd = 0; hd < results.length; hd++) {
+         objs.push({ "activityType": results[hd].name,"starttime": results[hd].starttime,"endtime": results[hd].endtime });
+     
+     }
+     
+     
+      obj.push({ "date": data.times[i],"activitylist":objs });
+                             
+     promises.push(obj);
+                             
+                         }
+                    
+                          if (0 === --pending) {
+                             
+                             return callBack(null, promises); //callback if all queries are processed
+                          }
+      
+                      });
+              }
+      
+
+
+
+
+
+ /*
+            let startdate = new Date();
+            let fromDateMonth=startdate.getMonth();
+            let fromDateyear=startdate.getFullYear();
+    
+               pool.query('SELECT * FROM `users_breakslogs` INNER JOIN `breaks` AS `breaks` ON `users_breakslogs`.`breaks_id` = `breaks`.`id` WHERE `userId`=? AND MONTH(`capturetime`)=? AND YEAR(`capturetime`)=? GROUP BY DATE(`capturetime`) ORDER BY DATE(`capturetime`) DESC', [
+                      data.userid,
+                      fromDateMonth,
+                      fromDateyear                
+                  ],(error, results, fields) => {
+               if (error) {
+                console.log(error);
+                          }
+                    
+                       return callBack(null, results); //callback if all queries are processed
+                      }
+                      );
+*/
+
+
       },
       activeactivitygetweb: async(data, callBack) => {
         const TODAY_START = new Date().setHours(05, 0, 0, 0);
@@ -809,7 +894,16 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
 
 
        
-        await Usersbreakslogs.create({breaks_id:data.type,starttime:data.starttime,userId:data.userid }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+        await Tasksactivities.create({tasks_id:data.type,starttime:data.starttime,userId:data.userid }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    savetaskstartid: async(data, callBack) => {
+
+
+       
+        await Tasksactivities.create({tasks_id:data.type,starttime:data.starttime,userId:data.userid }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
             // handle error;
             return callBack(err);
           }); 
@@ -953,21 +1047,48 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
 
         const TODAY_START = new Date().setHours(05, 0, 0, 0);
         var NOW = new Date();
-        
+        data.status='Y';
         NOW=NOW.setDate(NOW.getDate() + 1);
        
-        await Usersbreakslogs.update({endtime: data.endtime},{
+        await Tasksactivities.update({endtime: data.endtime,status:data.status},{
+            limit: 1,
             where: {starttime: { 
                 [Op.gt]: TODAY_START,
                 [Op.lte]: NOW
-              },userId: data.userid,breaks_id:data.type},
+              },userId: data.userid,tasks_id:data.type,status:'N'},
             order:[['id','DESC']],
         }).then(function(){
-            Usersbreakslogs.findOne({
+            Tasksactivities.findOne({
                 where: {starttime: { 
                     [Op.gt]: TODAY_START,
                     [Op.lte]: NOW
-                  },userId: data.userid,breaks_id:data.type},
+                  },userId: data.userid,tasks_id:data.type},
+                order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
+             }).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    }, 
+    savetaskstopid: async(data, callBack) => {
+
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        
+        NOW=NOW.setDate(NOW.getDate() + 1);
+        data.status='Y';
+        await Tasksactivities.update({endtime: data.endtime,status:data.status},{
+            limit: 1,
+            where: {starttime: { 
+                [Op.gt]: TODAY_START,
+                [Op.lte]: NOW
+              },userId: data.userid,tasks_id:data.type,status:'N'},
+            order:[['id','DESC']],
+        }).then(function(){
+            Tasksactivities.findOne({
+                where: {starttime: { 
+                    [Op.gt]: TODAY_START,
+                    [Op.lte]: NOW
+                  },userId: data.userid,tasks_id:data.type},
                 order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
              }).catch(function (err) {
             // handle error;
