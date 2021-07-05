@@ -15,8 +15,37 @@ select,
 td,
 tr,
 a {
-    font-size: .875rem !important;
+    font-size: .75rem !important;
     margin: 0px;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #8888;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 .form-control {
@@ -58,6 +87,10 @@ a {
     color: #333;
     border-color: transparent;
     background-color: #fffdeb;
+}
+
+.progress-bar {
+    background-color: #579239 !important;
 }
 
 .fname {
@@ -118,7 +151,8 @@ html body .content .content-wrapper {
 
 .topInputs .input-group-text,
 .topInputs .form-control {
-    padding: .5rem .5rem;
+    padding: .5rem .5rem !important;
+    height: 35px !important;
 }
 
 ul {
@@ -483,6 +517,57 @@ html body .content {
     border-radius: 5px;
 }
 
+.addPopup {
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    background: #0008;
+    z-index: 9999;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.addPopup .popContent {
+    background: #fff;
+    max-width: 400px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.addPopup .popContent h5 {
+    font-size: 12px;
+    margin: 0px !important;
+}
+
+.addPopup .popContent a i {
+    font-size: 12px;
+}
+
+.addPopup .popContent button {
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-left: auto;
+}
+
+.addPopup .popContent input[type="submit"] {
+    font-size: 12px;
+    background: #ed4724;
+    border: 1px solid #ed4724;
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.showHide .addPopup {
+    display: flex;
+}
+
 .settingContainers .settingTiles {
     color: #333;
     margin: 15px;
@@ -503,6 +588,15 @@ html body .content {
     width: 50px;
     margin-right: 15px;
 }
+
+
+/* .modal {
+    z-index: 9999;
+}
+
+.settingModal .modal {
+    z-index: 999;
+} */
 
 .settingModal .modal-dialog {
     max-width: 60%;
@@ -597,7 +691,7 @@ html body .content {
     font-size: 14px !important;
 }
 
-.innerLeft .assignList li {
+.assignList li {
     font-size: 12px !important;
     border: 1px solid #fff;
     border-radius: 50%;
@@ -605,12 +699,12 @@ html body .content {
     width: 28px;
 }
 
-.innerLeft .assignList {
+.assignList {
     display: flex;
     border-top: 0px;
 }
 
-.innerLeft .assignList li {
+.assignList li {
     font-size: 10px !important;
     border: 1px solid #fff;
     border-radius: 50%;
@@ -623,23 +717,23 @@ html body .content {
     margin-left: -10px;
 }
 
-.innerLeft .assignList li:nth-child(1) {
+.assignList li:nth-child(1) {
     background: rgb(150, 181, 40);
 }
 
-.innerLeft .assignList li:nth-child(2) {
+.assignList li:nth-child(2) {
     background: rgb(204, 100, 31);
 }
 
-.innerLeft .assignList li:nth-child(3) {
+.assignList li:nth-child(3) {
     background: rgb(20, 131, 172);
 }
 
-.innerLeft .assignList li:nth-child(4) {
+.assignList li:nth-child(4) {
     background: rgb(45, 62, 129);
 }
 
-.innerLeft .assignList li:nth-child(5) {
+.assignList li:nth-child(5) {
     background: rgb(170, 30, 147);
 }
 
@@ -827,6 +921,20 @@ h4 {
     align-items: center;
 }
 
+.chart.doughnut3 ul li {
+    line-height: initial;
+    font-family: helvetica, sans serif;
+    margin-bottom: 0;
+    padding-left: 0;
+    position: relative;
+    border: none;
+    text-align: center;
+    padding: 0px 15px;
+    margin: 0px 10px 0px;
+    display: flex;
+    align-items: center;
+}
+
 .chart.doughnut2 ul li:before {
     content: "• ";
     position: absolute;
@@ -837,8 +945,19 @@ h4 {
     line-height: 1rem;
 }
 
+.chart.doughnut3 ul li:before {
+    content: "• ";
+    position: absolute;
+    left: -11px;
+    top: 7px;
+    vertical-align: middle;
+    font-size: 4rem;
+    line-height: 1rem;
+}
+
 .chart.doughnut ul li data,
-.chart.doughnut2 ul li data {
+.chart.doughnut2 ul li data,
+.chart.doughnut3 ul li data {
     font-weight: 700;
     display: block;
     margin: 0.5rem 0;
@@ -846,13 +965,15 @@ h4 {
 }
 
 .chart.doughnut ul li span,
-.chart.doughnut2 ul li span {
+.chart.doughnut2 ul li span,
+.chart.doughnut3 ul li span {
     color: #777;
     font-size: 0.8rem;
 }
 
 .chart.doughnut h3,
-.chart.doughnut2 h3 {
+.chart.doughnut2 h3,
+.chart.doughnut3 h3 {
     position: absolute;
     top: 42%;
     left: 0;
@@ -867,7 +988,8 @@ h4 {
 }
 
 .chart.doughnut h3 span,
-.chart.doughnut2 h3 span {
+.chart.doughnut2 h3 span,
+.chart.doughnut3 h3 span {
     display: block;
 }
 
@@ -897,3 +1019,347 @@ h4 {
 .trendTile li h4 span i {
     font-size: 12px;
 }
+
+.dashboardSS {
+    overflow-x: auto;
+}
+
+.dashboardSS .ssTile {
+    margin-right: 15px;
+}
+
+.dashboardSS .ssTile:last-child {
+    margin-right: 0px;
+}
+
+#ssModal h5.modal-title {
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+#ssModal h5.modal-title img {
+    width: 20px;
+}
+
+#ssModal .modal-lg {
+    max-width: 1140px;
+}
+
+.ssSoft {
+    border: 1px solid #ccc8;
+}
+
+.ssSoft li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc8;
+}
+
+.ssSoft li:last-child {
+    padding: 10px;
+    border-bottom: none;
+}
+
+.ssPart {
+    height: 300px;
+    overflow: hidden;
+}
+
+#ssModal .ssSoft {
+    height: 435px;
+    overflow-y: auto;
+}
+
+#ssModal .ssSoft img {
+    width: 30px;
+    height: 30px;
+    margin-right: 15px;
+    border-radius: 50%;
+}
+
+#ssModal .ssSoft .ssSoftDetail {
+    flex: 1;
+}
+
+#ssModal .ssSoft .ulHeading h4 {
+    margin: 0px !important;
+    font-size: 14px !important;
+}
+
+#ssModal .ssSoft .ssSoftDetail p {
+    margin: 0px;
+    padding-bottom: 0;
+    font-size: 11px !important;
+}
+
+.ssActivity {
+    border: 1px solid #ccc8;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.ssActivity h4 {
+    margin: 0px !important;
+    font-size: 14px !important;
+}
+
+.activities {
+    padding: 5px;
+}
+
+.activities .activityTile {
+    flex: 1;
+    border-right: 1px solid #ccc8;
+    text-align: center;
+    color: #ed4724;
+}
+
+.activities .activityTile:last-child {
+    flex: 1;
+    border-right: none;
+}
+
+.activities .activityTile span {
+    display: block;
+    color: #333;
+}
+
+.ssFooter li a {
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    font-size: 11px !important;
+    margin: 0px 10px;
+    margin-bottom: 15px;
+    padding: 5px 20px;
+    border-radius: 50px;
+}
+
+.ssFooter {
+    padding: 0px 5px;
+}
+
+.ssFooter li i {
+    font-size: 11px !important;
+}
+
+
+/* Leave Page */
+
+.leavesheader .nav.nav-pills .nav-item .nav-link {
+    line-height: normal;
+    padding: 0.8rem;
+    border-radius: 5px;
+    color: #333;
+}
+
+.leavesheader .nav-pills .nav-link.active {
+    line-height: normal;
+    padding: 0.8rem;
+    border-radius: 2rem;
+    background-color: #ed4724 !important;
+    color: #fff !important;
+}
+
+.leaveTile {
+    box-shadow: 0px 0px 10px 0px #0001;
+    background: #fff;
+}
+
+.leaveTile .tileHeader {
+    padding: 10px;
+    border-bottom: 1px solid #ccc8;
+}
+
+.leaveTile .tileHeader h4 {
+    margin: 0px;
+    text-align: left;
+}
+
+.leaveTile .tileHeader h4 span {
+    display: block;
+    font-size: .75rem;
+    color: #333;
+}
+
+.leaveTile h5 {
+    display: block;
+    color: #666;
+    font-size: .75rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.leaveTile h5 span {
+    display: block;
+    font-size: 2rem !important;
+    color: #666;
+    padding: 5px 0px;
+}
+
+.blocks.leavesbody {
+    padding: 20px;
+}
+
+.leaveTile .leaveTypee {
+    background: #fff;
+}
+
+.leaveTile .leaveTypee h6 {
+    background: #ccc2;
+    padding: 5px;
+    text-align: center;
+    color: #2196F3;
+    font-size: .75rem;
+}
+
+.leaveTile .descriptions {
+    padding: 10px;
+}
+
+.leaveTile .approved {
+    background: #fff;
+}
+
+.leaveTile .approved h6 {
+    background: #ccc2;
+    padding: 5px;
+    text-align: center;
+    color: #1fca16;
+    font-size: .75rem;
+}
+
+.taskTable .alert-success {
+    color: #317029 !important;
+    border-color: #d2f4ce !important;
+    background-color: #dff7dc !important;
+    display: inline-block;
+    padding: 5px;
+    margin-bottom: 0px;
+}
+
+.taskTable .btn.dropdown-toggle {
+    background: none;
+    padding: 0px;
+}
+
+.taskTable .assignList {
+    margin-left: 20px;
+}
+
+.commentInputContainer {
+    border: 1px solid #ccc8;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.commentInputContainer input {
+    border: none;
+}
+
+.commentInputContainer button {
+    border: none;
+    background: #ed4724;
+    height: 35px;
+    color: #fff
+}
+
+.cmntss {
+    padding-top: 15px;
+    border-top: 1px solid #ccc8;
+    margin-bottom: 15px;
+    min-height: 100px;
+}
+
+.cmntss p {
+    color: #ed4724;
+    font-weight: 700;
+}
+
+.attendanceTile {
+    margin-right: 20px !important;
+}
+
+.attendanceTile li {
+    text-align: center;
+}
+
+.attendanceTile p {
+    margin-bottom: 5px !important;
+}
+
+.ssModalPopup .owl-prev,
+.ssModalPopup .owl-next {
+    margin-bottom: 15px !important;
+}
+
+.ssModalPopup .owl-prev span,
+.ssModalPopup .owl-next span {
+    font-size: 14px !important;
+    background: none;
+    padding: 2px 15px !important;
+    border: 1px solid #ccc8;
+    border-radius: 50px;
+    margin-bottom: 15px;
+}
+
+
+/* .ssModalPopup .button:hover {
+    background: none;
+} */
+
+.ssModalPopup .owl-theme .owl-nav [class*=owl-]:hover {
+    background: none;
+    color: #333;
+}
+
+.ssModalPopup .owl-theme .owl-nav [class*=owl-]:focus {
+    outline: none;
+}
+
+.ssModalPopup .owl-prev span:after {
+    content: "Prev";
+    padding-left: 5px;
+    font-size: 12px !important;
+}
+
+.ssModalPopup .owl-next span:before {
+    content: "Next";
+    padding-right: 5px;
+    font-size: 12px !important;
+}
+
+.ssModalPopup .owl-theme .owl-nav {
+    margin-top: -20px;
+    z-index: 999;
+    position: relative;
+}
+
+.ssModalPopup .close span {
+    font-size: 20px !important;
+}
+
+
+/* Daily Attendance */
+
+.firstName {
+    font-size: 10px !important;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    height: 26px;
+    width: 26px;
+    text-align: center;
+    line-height: 26px;
+    color: #fff;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+table td a {
+    color: #2196F3;
+}
+
+
+/* Daily In Out */

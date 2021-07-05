@@ -1,0 +1,1349 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+            <%- include('../partials/left'); %>
+
+
+            
+    <!-- Change Password Popup Start -->
+    <div class="modal fade" id="addRemoveUserModal" tabindex="-1" role="dialog" aria-labelledby="addRemoveUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRemoveUserModalLabel">Add / Remove User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label class="mb-1">Assign To User</label>
+                        <select class="form-control mb-2">
+                            <option>User 1</option>
+                            <option>User 2</option>
+                            <option>User 3</option>
+                            <option>User 4</option>
+                            <option>User 5</option>
+                            <option>User 6</option>
+                        </select>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary border-0" style="background:#ed4724 !important;">Update</button>
+                    </form>
+                </div>
+
+
+                <div class="userListsPopup">
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <div class="blocks userDetails">
+                    <a href="./task.html">
+                        <div class="userIcon">
+                            <img src="./assets/images/ic_daily_attendance.png" class="img-fluid" alt="" />
+                        </div>
+                    </a>
+                    <div class="details">
+                        <h4 class="m-0">Monthly Attendance - June 2021</h4>
+                        <p class="m-0">Attendance Report of Your Organization</p>
+                    </div>
+                    <ul class="d-flex topInputs">
+                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+                        <li class="mr-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="la la-calendar-o"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="la la-refresh"></i>
+                                </span>
+                            </div>
+                        </li>
+                        <!-- <a href="#" data-toggle="modal" data-target="#addProjectModal" class="downloadButton btn-success text-white ml-1 mr-0">
+                            Add New Leave
+                        </a> -->
+                    </ul>
+                </div>
+
+                <div class="blocks tabContainers mb-0 dailyInOutTable">
+                    <div class="table-responsive" style="    border-left: 1px solid #ccc8;
+                    border-right: 1px solid #ccc8;">
+                        <table class="mb-0 table-bordered table" style="min-width: 3000px;">
+                            <thead>
+                                <tr>
+                                    <th class="bt-0" style="padding: .5rem !important; width: 400px !important;">Employee</th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">01 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">02 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">03 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">04 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">05 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">06 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">07 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">08 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">09 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">10 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">11 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">12 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">13 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">14 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">15 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">16 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">17 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">18 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">19 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">20 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">21 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">22 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">23 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">24 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">25 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">26 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">27 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">28 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">29 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">30 </div>
+
+                                    </th>
+                                    <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+                                        <div class="t_date">31 </div>
+
+                                    </th>
+                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Present</th>
+                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Absent</th>
+                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Leave</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" style="padding: .5rem !important;">
+                                        <span class="firstName bg-dark">RC</span> Ritesh Chippa
+
+                                    </th>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle p_0 text-center">
+                                        09:00
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">2</div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;">0</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+                <%- include('../partials/footer'); %>

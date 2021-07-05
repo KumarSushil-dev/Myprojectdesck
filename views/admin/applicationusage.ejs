@@ -1,0 +1,355 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+            <%- include('../partials/left'); %>
+
+
+            
+    <!-- Change Password Popup Start -->
+    <div class="modal fade" id="addRemoveUserModal" tabindex="-1" role="dialog" aria-labelledby="addRemoveUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRemoveUserModalLabel">Add / Remove User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label class="mb-1">Assign To User</label>
+                        <select class="form-control mb-2">
+                            <option>User 1</option>
+                            <option>User 2</option>
+                            <option>User 3</option>
+                            <option>User 4</option>
+                            <option>User 5</option>
+                            <option>User 6</option>
+                        </select>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary border-0" style="background:#ed4724 !important;">Update</button>
+                    </form>
+                </div>
+
+
+                <div class="userListsPopup">
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change Password Popup End -->
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <div class="blocks userDetails">
+                    <a href="./task.html">
+                        <div class="userIcon">
+                            <img src="./assets/images/ic_daily_attendance.png" class="img-fluid" alt="" />
+                        </div>
+                    </a>
+                    <div class="details">
+                        <h4 class="m-0">Organization Application Usage</h4>
+                        <p class="m-0">Here you can View the Application Usage Patterns of your employee on a Timely Basis.</p>
+                    </div>
+                    <ul class="d-flex topInputs">
+                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+                        <li class="mr-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="la la-calendar-o"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="la la-refresh"></i>
+                                </span>
+                            </div>
+                        </li>
+                        <!-- <a href="#" data-toggle="modal" data-target="#addProjectModal" class="downloadButton btn-success text-white ml-1 mr-0">
+                            Add New Leave
+                        </a> -->
+                    </ul>
+                </div>
+
+                <div class="blocks tabContainers mb-0 dailyInOutTable">
+                    <h4>All Used Application Statistics</h4>
+
+                    <canvas id="myChart"></canvas>
+                </div>
+
+                <div class="blocks tabContainers mb-0 dailyInOutTable">
+                    <h4>All Used Application</h4>
+                    <div class="applicationTileContainer d-flex align-items-center flex-wrap">
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="applicationTile d-flex align-items-center">
+                            <div class="tileContent">
+                                <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
+                                <div class="ssSoftDetail">
+                                    <p>Google Chrome</p>
+                                    <p>35:03:17</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+                <%- include('../partials/footer'); %>

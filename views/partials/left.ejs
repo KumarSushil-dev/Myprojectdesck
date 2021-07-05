@@ -19,7 +19,7 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
           
       
-            <li class="active"><a href="<%= process.env.APP_URL %>/dashboard"><i class="ft-home"></i><span class="menu-title" data-i18n="">Dashboard</span></a>
+            <li class="active"><a style="color:red;" href="<%= process.env.APP_URL %>/dashboard"><i class="ft-home"></i><span class="menu-title" data-i18n="">Dashboard</span></a>
               </li>
               <% if(roleid==1){ %>
         <li class=" nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/userlist"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Subscription List</span></a>
@@ -36,6 +36,8 @@
             <% } %>
 
             <% if(roleid==2){ %>
+                <li class="nav-item"><a onclick="spinner()" style="color:red;" href="<%= process.env.APP_URL %>/presence"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Presence</span></a>
+                </li>
     <li class="nav-item"><a onclick="spinner()" href="<%= process.env.APP_URL %>/companyuser"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Employee List</span></a>
                     </li>
            <li class="nav-item"><a  href="javascript:void(0);"><i class="la ft-pie-chart"></i><span class="menu-title" data-i18n=""> User Insight </span></a>
@@ -51,7 +53,9 @@
                     </li>
                     <li class="nav-item"><a onclick="spinner()" style="color:red;" href="<%= process.env.APP_URL %>/companytask"><i class="la ft-layout"></i><span class="menu-title" data-i18n=""> Task</span></a>
                     </li>
-                   
+                    <li class="nav-item"><a onclick="spinner()"  style="color:red;" href="<%= process.env.APP_URL %>/leaves"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Leaves</span></a>
+                        <li class="nav-item"><a onclick="spinner()"  style="color:red;"href="<%= process.env.APP_URL %>/reports"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Reports</span></a>
+                    </li>
                     <li class="nav-item"><a onclick="spinner()" style="color:red;" href="<%= process.env.APP_URL %>/companysettings"><i class="la ft-layers"></i><span class="menu-title" data-i18n=""> Settings</span></a>
                     </li>
                     <% } %>

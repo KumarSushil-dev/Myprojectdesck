@@ -1,0 +1,499 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+            <%- include('../partials/left'); %>
+
+
+            
+    <!-- Change Password Popup Start -->
+    <div class="modal fade" id="addRemoveUserModal" tabindex="-1" role="dialog" aria-labelledby="addRemoveUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRemoveUserModalLabel">Add / Remove User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label class="mb-1">Assign To User</label>
+                        <select class="form-control mb-2">
+                            <option>User 1</option>
+                            <option>User 2</option>
+                            <option>User 3</option>
+                            <option>User 4</option>
+                            <option>User 5</option>
+                            <option>User 6</option>
+                        </select>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary border-0" style="background:#ed4724 !important;">Update</button>
+                    </form>
+                </div>
+
+
+                <div class="userListsPopup">
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change Password Popup End -->
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <div class="blocks userDetails leavesheader">
+                    <div class="userIcon">
+                        <img src="/assets/images/ic_leaves.png" class="img-fluid" alt="" />
+                    </div>
+                    <div class="details mr-3">
+                        <h4 class="m-0">Leave</h4>
+                        <p class="m-0">Approve / Decline Leaves of your Employee</p>
+                    </div>
+
+
+                    <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+
+                    <ul class="nav nav-pills mb-0" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="pills-productivity-tab" data-toggle="pill" href="#pills-productivity" role="tab" aria-controls="pills-productivity" aria-selected="true">Productivity</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="pills-snapshots-tab" data-toggle="pill" href="#pills-snapshots" role="tab" aria-controls="pills-snapshots" aria-selected="false">Snapshots</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="pills-apps-tab" data-toggle="pill" href="#pills-apps" role="tab" aria-controls="pills-apps" aria-selected="false">Apps</a>
+                        </li>
+                    </ul>
+
+                    <a href="#" data-toggle="modal" data-target="#addProjectModal" class="downloadButton btn-success text-white ml-1 mr-0">
+                        Add New Leave
+                    </a>
+                </div>
+
+                <div class="blocks tabContainers leavesbody mb-0">
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-productivity" role="tabpanel" aria-labelledby="pills-productivity-tab">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-snapshots" role="tabpanel" aria-labelledby="pills-snapshots-tab">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="pills-apps" role="tabpanel" aria-labelledby="pills-apps-tab">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="leaveTile">
+                                        <div class="d-flex justify-content-between align-items-center tileHeader">
+                                            <h4>Vikas Solanki<span>Contact@doomshell.com</span></h4>
+                                            <a href="#"><i class="la la-pencil"></i></a>
+                                        </div>
+
+                                        <div class="d-flex justify-content-around align-items-center py-2">
+                                            <h5>Apr<span>28</span>2021</h5>
+                                            <i class="la la-arrow-right"></i>
+                                            <h5>Apr<span>29</span>2021</h5>
+                                        </div>
+
+                                        <div class="leaveTypee">
+                                            <h6>Casual Leave</h6>
+                                            <div class="descriptions">
+                                                <p>test</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="approved">
+                                            <h6>Approved</h6>
+                                            <div class="descriptions">
+                                                <p>Ok you can go ahead</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+                <%- include('../partials/footer'); %>

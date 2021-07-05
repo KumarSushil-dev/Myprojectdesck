@@ -1,4 +1,4 @@
-const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo,companyuser,addcompanyuser,checkemailexist,viewdetail,viewdetailprofileservice,breaklist,activeactivity,savebreakstart,savebreakstop,tasklist,savetaskstart,savetaskstop} = require('../controllers/user.controller');
+const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo,companyuser,addcompanyuser,checkemailexist,viewdetail,viewdetailprofileservice,breaklist,activeactivity,savebreakstart,savebreakstop,tasklist,savetaskstart,savetaskstop,timeline} = require('../controllers/user.controller');
 const { checkToken } = require("../middleware/authjwt.js");
 const express = require('express');
 const router = express.Router();
@@ -40,6 +40,7 @@ router.get("/breaklist",checkToken,  breaklist);
 router.get("/tasklist",checkToken,  tasklist);
 router.get("/activeactivity",checkToken,  activeactivity);
 router.post("/companyuser",checkToken,  companyuser);
+router.post("/timeline",checkToken,  timeline);
 router.post("/addcompanyuser",checkToken,  addcompanyuser);
 /*router.post('/createcalllog/:id', createcalllog);
 router.post('/createsmslog/:id', createsmslog);

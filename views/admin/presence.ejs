@@ -1,0 +1,351 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+            <%- include('../partials/left'); %>
+
+
+            
+    <!-- Change Password Popup Start -->
+    <div class="modal fade" id="addRemoveUserModal" tabindex="-1" role="dialog" aria-labelledby="addRemoveUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRemoveUserModalLabel">Add / Remove User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label class="mb-1">Assign To User</label>
+                        <select class="form-control mb-2">
+                            <option>User 1</option>
+                            <option>User 2</option>
+                            <option>User 3</option>
+                            <option>User 4</option>
+                            <option>User 5</option>
+                            <option>User 6</option>
+                        </select>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary border-0" style="background:#ed4724 !important;">Update</button>
+                    </form>
+                </div>
+
+
+                <div class="userListsPopup">
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change Password Popup End -->
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <div class="blocks userDetails">
+                    <div class="userIcon">
+                        <img src="/assets/images/ic_task.png" class="img-fluid" alt="" />
+                    </div>
+                    <div class="details">
+                        <h4 class="m-0">Presence</h4>
+                        <p class="m-0">View the attendance pattern of your Organization</p>
+                    </div>
+                    <ul class="d-flex topInputs">
+                        <li class="mr-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="la la-calendar-o"></i>
+                                    </span>
+                                </div>
+
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="la la-calendar-o"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="mr-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="la la-calendar-o"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="la la-refresh"></i>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="blocks">
+                    <h4 class="m-0 mb-2">Attendance Change Over Time</h4>
+                    <div class="d-flex">
+                        <div class="attendanceTile">
+                            <ul class="trendTile">
+                                <li>
+                                    <p>Attendance</p>
+                                    <h4>64.22%</h4>
+                                    <p>Last 30 Days</p>
+                                </li>
+                                <li>
+                                    <p>Current Period</p>
+                                    <h4>11</h4>
+                                    <p>Last 30 Days</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="flex-fill">
+                            <div id="container" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="blocks">
+                            <h4 class="m-0 mb-2 pperesnt text-dark"><span>14</span> Persent </h4>
+                            <div class="d-flex flex-wrap">
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="blocks">
+                            <h4 class="m-0 mb-2 aabsent text-dark"><span>3</span> Absent </h4>
+                            <div class="d-flex flex-wrap">
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                                <div class="apTile">
+                                    <div class="appTileContent">
+                                        <span class="firstName bg-danger">DA</span>
+                                        <p>Deepak Athwani</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+   
+
+
+                <%- include('../partials/footer'); %>

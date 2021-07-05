@@ -15,6 +15,7 @@ var $           = require('jquery');
 var {check,validationResult} = require('express-validator');  
 const puppeteer = require("puppeteer"); // will automatically load the node version
 const { encrypt, decrypt } = require("./api/middleware/crpyto.js");
+var daterangepicker = require("daterangepicker");
 //set up express app
 const app = express();
 app.set('view engine', 'ejs');
@@ -45,6 +46,7 @@ const toWords = new ToWords({
 app.locals.encrypt = encrypt;
 app.locals.decrypt = decrypt;
 app.locals.moment = moment;
+app.locals.daterangepicker = daterangepicker;
 app.locals.fs = fs;
 app.locals.toWords = toWords;
 var jsonParser = bodyParser.json({'limit':'500MB'})
@@ -182,6 +184,91 @@ app.get('/companytask', function(req, res) {
     }
 });
 
+// companyprojects
+app.get('/companytaskdetail', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/companytaskdetail', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+// presence
+app.get('/presence', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/presence', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+// leaves
+app.get('/leaves', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/leaves', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+
+        res.render('users/login');
+    }
+});
+// leaves
+app.get('/dailyattendance', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/dailyattendance', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+        res.render('users/login');
+    }
+});
+app.get('/monthlyattendance', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/monthlyattendance', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+        res.render('users/login');
+    }
+});
+app.get('/monthlyinout', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/monthlyinout', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+        res.render('users/login');
+    }
+});
+app.get('/applicationusage', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/applicationusage', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+        res.render('users/login');
+    }
+});
+// reports
+app.get('/reports', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/reports', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+
 
 // companysettings
 app.get('/companysettings', function(req, res) {
@@ -193,6 +280,64 @@ app.get('/companysettings', function(req, res) {
 
         res.render('users/login');
     }
+});
+
+// companysettings
+app.get('/timeline', function(req, res) {
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/timeline',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                       console.log(datas.data);
+                      
+                        sess = req.session;
+res.render('admin/timeline', { person: sess.companyname, companyuser: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+
+
 });
 
 
@@ -2126,6 +2271,7 @@ app.get('/viewdetail/:id', urlencodedParser, function(req, res) {
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
                         sess = req.session;
+                     //  console.log(test.snapshotdata[0][0].image);
                         if(userfound==1){
                             req.flash("error", "User Profile has been succesfully updated.");
                             res.locals.messages = req.flash();

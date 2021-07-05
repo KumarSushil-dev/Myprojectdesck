@@ -50,16 +50,46 @@
 
 <script src="/assets/js/jquery.dataTables.js"></script>
 <script src="/assets/js/datatable-basic.init.js"></script>
+
+<script src="/assets/js/owl.carousel.min.js"></script>
+
+<script>
+    $('.popupCarousel').owlCarousel({
+        loop: true,
+        margin: 0,
+        responsiveClass: true,
+        dots: false,
+        responsive: {
+            0: {
+                items: 1,
+                nav: true
+            },
+        }
+    });
+</script>
+
 <script>
     $(document).ready(function() {
         $('#zero_config87').DataTable({
         "ordering": false,
         "searching": true
     } );
-        $('#zero_config2').DataTable();
-        $('#zero_config3').DataTable();
-        $('#zero_config4').DataTable();
-        $('#zero_config5').DataTable();
+        $('#zero_config2').DataTable({
+        "ordering": false,
+        "searching": true
+    } );
+        $('#zero_config3').DataTable({
+        "ordering": false,
+        "searching": true
+    } );
+        $('#zero_config4').DataTable({
+        "ordering": false,
+        "searching": true
+    } );
+        $('#zero_config5').DataTable({
+        "ordering": false,
+        "searching": true
+    } );
     });
 </script>
 
@@ -334,6 +364,113 @@ console.log(data);
         });
     });
 </script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script type="text/javascript">
+$(function() {
+
+var start = '<%= moment(); %>';
+var end = '<%= moment().add(1, `days`); %>';
+
+function cb(start, end) {
+$('#reportrange').val(start.format('DD-MMMM-Y') + ' - ' + end.format('DD-MMMM-Y'));
+}
+
+$('#reportrange').daterangepicker({
+startDate: start,
+endDate: end,
+locale: {
+format: 'DD-MMMM-Y'
+},
+ranges: {
+'Today': [start, start]
+}
+}, cb);
+
+cb(start, end);
+
+});
+</script>
+ <!-- graph -->
+ <script src="https://code.highcharts.com/highcharts.js"></script>
+ <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+ <script>
+     $(function() {
+         $('#container').highcharts({
+             title: {
+                 text: '',
+                 x: 0
+             },
+             subtitle: {
+                 text: '',
+                 x: 0
+             },
+             navigation: {
+                 buttonOptions: {
+                     enabled: false
+                 }
+             },
+             xAxis: {
+                 categories: ['June 1', 'June 2', 'June 3', 'June 4', 'June 5', 'June 6',
+                     'June 7', 'June 8', 'June 9', 'June 10', 'June 11', 'June 12', 'June 13', 'June 14', 'June 15', 'June 16', 'June 17', 'June 18', 'June 19', 'June 20', 'June 21', 'June 22', 'June 23', 'June 24', 'June 25', 'June 26', 'June 27', 'June 28', 'June 29', 'June 30',
+                 ]
+             },
+             yAxis: {
+                 title: {
+                     text: ''
+                 },
+                 plotLines: [{
+                     value: 0,
+                     width: 1,
+                     color: '#808080'
+                 }]
+             },
+             tooltip: {
+                 borderColor: '#FFDD90',
+                 borderRadius: '3',
+                 borderWidth: '1',
+                 backgroundColor: '#FFFAD3',
+                 formatter: function() {
+                     return '<strong>' + this.y + '</strong>';
+                 }
+             },
+             legend: {
+                 enabled: false
+             },
+             credits: {
+                 enabled: false
+             },
+             plotOptions: {
+                 area: {
+                     fillColor: '#9FDBF7',
+                     lineWidth: 3,
+                     marker: {
+                         enabled: true,
+                         fillColor: '#FFF',
+                         lineColor: '#4ABDF1',
+                         lineWidth: 2
+                     },
+                     shadow: false,
+                     states: {
+                         hover: {
+                             lineWidth: 3
+                         }
+                     },
+                     threshold: null
+                 }
+             },
+             series: [{
+                 name: '',
+                 type: 'area',
+                 color: '#4ABDF1',
+                 data: [4, 3, 2, 6, 17, 12, 16, 6, 8, 7, 3, 0, 10, 14, 12, 15, 9, 4, 3, 1, 17, 16, 12, 8, 0, 4, 16, 9, 12, 10]
+             }]
+         });
+     });
+ </script>
+
 </body>
 
 </html>

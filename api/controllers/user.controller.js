@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,gettimeline } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -326,14 +326,12 @@ viewdetail:(req, res) => {
                 detail: "Connection Error."
             });
         }
-        getcountry(body, (err, resultsdata) => {
-            getstate(body, (err, resultsdatae) => {
-                getsitesettings(body, (err, resultsetting) => {
+      
                     getattendence(body, (err, resultlogs) => {
                         getapps(body, (err, resultapps) => {
 
                         var twoHoursBefore = new Date();
-                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 1);
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
                      
                         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
@@ -369,9 +367,6 @@ viewdetail:(req, res) => {
         return res.status(200).json({
             success:true,
             data: results,
-            country:resultsdata,
-            state:resultsdatae,
-            settings:resultsetting,
             logss:resultlogs,
             snapshotdata: productivityresults,
             appslist:resultapps,
@@ -398,9 +393,7 @@ viewdetail:(req, res) => {
     });
     });
     });
-    });
-    });
-    });
+  
 });
 
 },
@@ -983,6 +976,83 @@ var str=utest[0].format;
 
 
 
+        });
+
+    },
+    timeline: (req, res) => {
+  
+        const body = req.body;
+        body.userid=req.decoded.result[0].id;
+    
+        let x = 60; //minutes interval
+        let times = []; // time array
+        let tt = 0; // start time
+     
+        //loop to increment the time and push results in array
+        for (let i=0;tt<24*60; i++) {
+            let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+            let sh=hh+1;
+            let mm = (tt%60); // getting minutes of the hour in 0-55 format
+          times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
+          tt = tt + x;
+        }
+        body.times=times;
+        const startdate = new Date();
+        body.startdate=moment(startdate).format('YYYY-MM-DD');
+    
+        getuserfortimeline(body, (err, resultss) => {
+            var ured = JSON.stringify(resultss);
+                        var utest = JSON.parse(ured);
+                        let uarray = [];  
+
+                    for (let s=0;s<utest.length; s++) {
+                        var idd=utest[s].id;
+                    uarray[idd]=utest[s].firstname+' '+utest[s].lastname;
+                    } 
+
+        console.log(uarray);    
+        body.user=uarray;
+        gettimeline(body, (err, results) => {
+
+           
+            if (err) {
+              
+              return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "Connection Error."
+                });
+            }
+          
+            if (results.length === 0) {
+                return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "No Productivity Found."
+    
+                });
+            }
+    
+            if (results) {
+    
+               
+            return res.status(200).json({
+                success:true,
+                data: results,
+                detail: "Productivity Info"
+              });
+    
+            }else{
+                return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "No Productivity Listed."
+    
+                });
+    
+            }
+    
+        });
         });
 
     },
@@ -1887,9 +1957,10 @@ datatransfer: (req, res) => {
 var productivitycnt=body.productivityCount;
 var applist=body.applist;
 body.applist=JSON.stringify(applist);
-body.applist= JSON.parse(body.applist);
+
 body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
             datatransferid(body, (err, results) => {
+                body.applist= JSON.parse(body.applist);
                 applisttransfer(body, (err, resultstranfer) => {
 
                    // console.log(resultstranfer);
