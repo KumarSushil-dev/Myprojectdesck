@@ -2309,6 +2309,7 @@ productivityinfo: (req, res) => {
 
 
     getproductivityinfo(body, (err, results,totalproductinfo,totalidle) => {
+  
         if (err) {
           
           return res.status(500).json({
@@ -2330,7 +2331,7 @@ productivityinfo: (req, res) => {
         if (results) {
 
             if(totalproductinfo){
-                var totalproductinfo= Math.floor(totalproductinfo / 1000);
+              //  var totalproductinfo= Math.floor(totalproductinfo / 1000);
                 var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
                 var mstotalworkingDisplays = mstotalworkings > 0 ? (mstotalworkings > 9 ? mstotalworkings : "0"+mstotalworkings) + (mstotalworkings == 1 ? "" : "") : "00";
                  var percentage=(Number(mstotalworkingDisplays)*100)/60;

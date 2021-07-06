@@ -130,8 +130,8 @@ resultst.push(x);
 
                         if(results[0].productivitytime!== null){
 
-                        results[0].productivitytime=Number(results[0].productivitytime);
-                        results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
+                results[0].productivitytime=Number(results[0].productivitytime);
+                results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
                         var obj = [];
                         productivetotal+=results[0].productivitytime;
                         idletotal+=results[0].idletime;
@@ -305,7 +305,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
 }
 
 
-     obj.push({ "userid":userstring[0],"username":userstring[1],"starttime": string[0],"endtime":string[1],"idletime":results[0].idletime,"productivitytime":results[0].productivitytime,"productivitypercentage":percentage+" %" });
+     obj.push({ "userid":userstring[0],"username":userstring[1],"starttime": string[0],"endtime":string[1],"idletime":results[0].idletime,"productivitytime":results[0].productivitytime,"productivitypercentage":percentage });
                         
          promises.push(obj);
          promisestotal.push(obj);
@@ -694,8 +694,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             model: User,
             where: {id:data.userid},
             attributes: ['firstname','lastname']
-          }
-      ]
+          }]
             }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
               // handle error;
               return callBack(err);

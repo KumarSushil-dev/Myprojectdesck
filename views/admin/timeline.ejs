@@ -138,38 +138,108 @@
                                     </div>
                                     </td>
                                     <td class="p-0">
-
-                                        <%  for(var s=0; s < companyuser.data.length; s++) {  
+<table><tr>
+                     <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
                                        
-                                            if(companyuser.data[s][0].starttime=="08:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
+                           if(companyuser.data[s][0].starttime=="08:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
-                                           <% companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                           <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="09:00:00"  && companyuser.data[s][0].username == userstring[1]){ %>
+                           <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+                           <%  } } %>
+     <td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+              <div class="progress">
+               <div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+            <% } %>
+     <% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+       <div class="progress">
+            <div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+            </div><% } %>
 
-                                           <% companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                           <div class="progress">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 4%" aria-valuenow="4" aria-valuemin="0" aria-valuemax="100"></div>
+<% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td>
+    <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+                      
+          if(companyuser.data[s][0].starttime=="09:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
+
+          <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+          <%  } } %>
+<td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+
+<% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td></tr></table>
                                     </td>
                                     <td class="p-0">
-                                        <% var stotal=0;for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="10:00:00"  && companyuser.data[s][0].username == userstring[1]){ %>
 
-                                           <% companyuser.data[s][0].productivitypercentage;  %>  <%  stotal += companyuser.data[s][0].productivitypercentage; } } %>
+<table><tr>
+    <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+                      
+          if(companyuser.data[s][0].starttime=="10:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
-                                           <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="11:00:00"  && companyuser.data[s][0].username == userstring[1]){ %>
+          <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+          <%  } } %>
+<td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
 
-                                           <% companyuser.data[s][0].productivitypercentage; %>  <%  stotal += companyuser.data[s][0].productivitypercentage; } } %>
+<% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td>
+<%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+     
+if(companyuser.data[s][0].starttime=="11:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
+<% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+<%  } } %>
+<td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
 
-                                       <!-- <div class="progress">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>-->
-                                          
+<% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td></tr></table>
+                
                                     </td>
                                     <td class="p-0">
 
