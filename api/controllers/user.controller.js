@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,gettimeline } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,gettimeline,companysettingsid } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -35,6 +35,44 @@ const storage = multer.diskStorage({
     }
 });
 module.exports = {
+
+
+
+// Add Planlist
+companysettings: (req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    companysettingsid(body, (err, results) => {
+        if (err) {
+
+            console.log(err);
+          return res.status(500).json({
+                success: false,
+                data: [],
+                message: "Connection Error."
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Settings Not Added , Try Again later."
+
+            });
+        }
+
+   
+        return res.status(200).json({
+            success: true,
+            data: results,
+            detail: ""
+          });
+       
+
+    });
+
+},
 
 // Get Country List For Signup
 countrylist: (req, res) => {
@@ -329,9 +367,9 @@ viewdetail:(req, res) => {
       
                     getattendence(body, (err, resultlogs) => {
                         getapps(body, (err, resultapps) => {
-
+                         //   console.log(resultapps);
                         var twoHoursBefore = new Date();
-                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 1);
                      
                         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
@@ -348,7 +386,7 @@ viewdetail:(req, res) => {
                           times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
                           tt = tt + x;
                         }
-                       // console.log(times);
+                     // console.log(times);
 
                         var new_arr = times.reverse();
 
@@ -358,6 +396,7 @@ viewdetail:(req, res) => {
                         body.startdate=moment(startdate).format('YYYY-MM-DD');
                    
             getsnapshotsinfo(body, (err, productivityresults) => {
+                console.log(productivityresults);
   getproductivityinfoweb(body, (err, resultsweb) => {
     
     getproductivityinfototalweb(body, (err, resultstotalweb) => {
@@ -381,7 +420,13 @@ viewdetail:(req, res) => {
             return res.status(200).json({
                 success: false,
                 data: [],
-                detail: "No Data Listed."
+                logss:resultlogs,
+            snapshotdata: productivityresults,
+            appslist:resultapps,
+            productivityinfoweb:resultsweb,
+            totalwebresult:resultstotalweb,
+            totalwebresultwebmonth:resultstotalwebmonth,
+            activeactivitygetresult:resultsactiveactivityget
 
             });
 
@@ -396,6 +441,75 @@ viewdetail:(req, res) => {
   
 });
 
+},
+
+// Get Selected User Detail
+snapshotdetail:(req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+   
+    viewdetailid(body, (err, results) => {
+       var twoHoursBefore = new Date();
+        twoHoursBefore.setHours(twoHoursBefore.getHours() - 1);
+        var endHoursBefore = new Date();
+                        endHoursBefore.setHours(endHoursBefore.getHours() + 1)
+                        let x = 60; //minutes interval
+                        let times = []; // time array
+                        let tt=(twoHoursBefore.getHours())*60; // start time
+                     let endt=endHoursBefore.getHours();
+                 
+                        //loop to increment the time and push results in array
+                        for (let i=0;tt<endt*60; i++) {
+                            let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+                            let sh=hh+1;
+                            let mm = (tt%60); // getting minutes of the hour in 0-55 format
+                          times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
+                          tt = tt + x;
+                        }
+                       // console.log(times);
+
+                        var new_arr = times.reverse();
+                      body.times=new_arr;
+                        const startdate = new Date();
+                        body.startdate=moment(startdate).format('YYYY-MM-DD');
+                        getuserfortimeline(body, (err, resultss) => {
+                            var ured = JSON.stringify(resultss);
+                                        var utest = JSON.parse(ured);
+                                        let uarray = [];  
+                
+                                    for (let s=0;s<utest.length; s++) {
+                                        
+                                    uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                                    } 
+                                    body.userid=body.id
+            getsnapshotsinfo(body, (err, productivityresults) => {
+  
+ if (productivityresults) {
+        return res.status(200).json({
+            success:true,
+            data:results,
+            snapshotdata: productivityresults,
+            user: uarray
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: results,
+                snapshotdata: [],
+                user:uarray,
+                detail: "No Data Listed."
+
+            });
+
+        }
+  
+   
+    });
+    });
+    });
+  
 },
 
 // Get Selected User Detail
@@ -979,6 +1093,53 @@ var str=utest[0].format;
         });
 
     },
+    getcompanysettings: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+       getcompanysettingsid(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+                
+
+                return res.status(200).json({
+                    success: true,
+                    data: results
+    
+    
+                });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+
+    },
     timeline: (req, res) => {
   
         const body = req.body;
@@ -1006,32 +1167,25 @@ var str=utest[0].format;
                         let uarray = [];  
 
                     for (let s=0;s<utest.length; s++) {
-                        var idd=utest[s].id;
-                    uarray[idd]=utest[s].firstname+' '+utest[s].lastname;
+                        
+                    uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
                     } 
 
-        console.log(uarray);    
+        
         body.user=uarray;
-        gettimeline(body, (err, results) => {
+        gettimeline(body, (err, results,productivetotal,idletotal) => {
 
            
             if (err) {
               
-              return res.status(500).json({
+              return res.status(200).json({
                     success: false,
                     data: [],
                     detail: "Connection Error."
                 });
             }
           
-            if (results.length === 0) {
-                return res.status(500).json({
-                    success: false,
-                    data: [],
-                    detail: "No Productivity Found."
-    
-                });
-            }
+         
     
             if (results) {
     
@@ -1039,13 +1193,15 @@ var str=utest[0].format;
             return res.status(200).json({
                 success:true,
                 data: results,
+                user: uarray,
                 detail: "Productivity Info"
               });
     
             }else{
-                return res.status(500).json({
+                return res.status(200).json({
                     success: false,
                     data: [],
+                    user:[],
                     detail: "No Productivity Listed."
     
                 });

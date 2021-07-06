@@ -1,0 +1,408 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+            <%- include('../partials/left'); %>
+
+
+            
+    <!-- Change Password Popup Start -->
+    <div class="modal fade" id="addRemoveUserModal" tabindex="-1" role="dialog" aria-labelledby="addRemoveUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addRemoveUserModalLabel">Add / Remove User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label class="mb-1">Assign To User</label>
+                        <select class="form-control mb-2">
+                            <option>User 1</option>
+                            <option>User 2</option>
+                            <option>User 3</option>
+                            <option>User 4</option>
+                            <option>User 5</option>
+                            <option>User 6</option>
+                        </select>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary border-0" style="background:#ed4724 !important;">Update</button>
+                    </form>
+                </div>
+
+
+                <div class="userListsPopup">
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">SS</li>
+                        <li class="flex-fill">
+                            <p><b>Sushil Sharma</b></p>
+                            <p>sushil@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+
+                    <ul class="d-flex align-items-center ">
+                        <li class="userName">RC</li>
+                        <li class="flex-fill">
+                            <p><b>Ritesh Chhipa</b></p>
+                            <p>ritesh@doomshell.com</p>
+                        </li>
+                        <li>
+                            <i class="la la-close"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Change Password Popup End -->
+
+
+
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body snapContainer">
+                <div class="blocks userDetails">
+                    <div class="userIcon">
+                        <img src="/assets/images/ic_screenshot.png" class="img-fluid" />
+                    </div>
+                    <div class="details">
+                        <h4 class="m-0">Snapshots</h4>
+                        <p class="m-0">Here You Can Manage Profiles, Change Password or Even Add New User To Your Organization</p>
+                    </div>
+                    <ul class="d-flex topInputs">
+                        <li class="mr-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="la la-calendar-o"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="la la-refresh"></i>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="blocks tabContainers mb-0">
+                    <div class="d-flex align-items-start">
+                        <div class="userProfilez snapShotLeft">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text rounded-0" id="basic-addon1">
+                                        <i class="la la-search"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control rounded-0" placeholder="Tap to Search" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                            <h4>Employee</h4>
+
+                            <ul class="ssUserList">
+                                <%  if(user.user.length > 0){
+   
+                                    for(var i=0; i < user.user.length; i++) { 
+                                        var userstring = user.user[i].split('_'); 
+                                        var srr=userstring[1].split(' '); 
+
+                                        var res = srr[0].substring(0, 1); var nres = srr[1].substring(0, 1);  %> 
+                                <li><a href="<%= process.env.APP_URL %>/snapshot/<%= userstring[0] %>"><span class="firstName bg-dark"><%=res %><%=nres %></span>  <%= userstring[1]; %></a></li>
+                               <% } } %>
+                            </ul>
+                        </div>
+                        <div id="style-3" class="snaps scrollbar">
+                            <div class="force-overflow">
+                               
+
+<%  if(user.snapshotdata.length > 0){
+    var s=1; 
+    for(var i=0; i < user.snapshotdata.length; i++) {  
+        
+       var d= i; %>
+      
+                                     <div class="snapHourly">
+                        <p class="snapTime"><%= (user.snapshotdata[i][0].starttime); %></p>
+                                        <div class="demo-gallery">
+
+                    <ul class="list-unstyled row">
+                   
+                   <%  for(var j=0; j < user.snapshotdata[i][0].image.length; j++) { %>
+
+                     <li class="col-md-3 mb-2" >
+                      <a href="javascript:void(0)" data-target="#<%= d; %>" data-toggle="modal">
+                     <img src="<%= user.snapshotdata[i][0].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
+                                                    </a>
+                                                </li>
+<% }  %>
+
+
+</ul>
+    <!-- SS Modal Start -->
+    <div class="modal fade bd-example-modal-lg ssModalPopup " id="<%= d; %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg " role="document">
+            <div class="modal-content">
+                <div class="owl-carousel owl-theme owl-loaded popupCarousel">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage">
+       <%  for(var j=0; j < user.snapshotdata[i][0].image.length; j++) {  %>
+                    <div class="owl-item">
+                                <div class="modal-header">
+        <h5 class="modal-title" id="ssModalLabel">Preview - <%= user.data.firstname; %> <%= user.data.lastname; %> - <%= moment(user.snapshotdata[i][0].image[j].date).format('DD-MM-YYYY'); %> |
+                                        <a href="#"><img src="/assets/images/ic_lock.png" alt="" class="img-fluid" /></a>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="ssPart">
+                                                <img src="<%= user.snapshotdata[i][0].image[j].snap; %>" alt="img" class="img-fluid" />
+                                            </div>
+
+                                            <div class="ssActivity">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h4>Activity Detail</h4>
+                                                    <p>Activity Level <span style="color:#ed4724;"> <% var sss= user.snapshotdata[i][0].image[j].productivityCount;%> <%= sss %> %</span></p>
+                                                    <% var ssss= "width:"+user.snapshotdata[i][0].image[j].productivityCount+"%"; %>
+                                                </div>
+                                                <div class="progress m-0 mt-1">
+                                                    <div class="progress-bar" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= user.snapshotdata[i][0].image[j].productivityCount;%>" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+
+                                                <div class="d-flex activities">
+                                                    <div class="activityTile">
+                                                        <span>Duration</span>
+             <%  if(user.snapshotdata[i][0].image[j].duration){ 
+                    var dtotalproductinfos = Number(user.snapshotdata[i][0].image[j].duration);
+                    var dtotalproductinfos= Math.floor(dtotalproductinfos / 1000);
+                    var htotalproductinfos = Math.floor(dtotalproductinfos / 3600);
+                    var mtotalproductinfos = Math.floor(dtotalproductinfos % 3600 / 60);
+                                                        
+                var stotalproductinfos =Math.floor(dtotalproductinfos % 3600 % 60);                                                                           
+                  var totalproductinfoDisplayss = htotalproductinfos > 0 ? (htotalproductinfos > 9 ? htotalproductinfos : "0"+htotalproductinfos) + (htotalproductinfos == 1 ? "" : "") : "00";
+                 var mtotalproductinfoDisplayss = mtotalproductinfos > 0 ? (mtotalproductinfos > 9 ? mtotalproductinfos : "0"+mtotalproductinfos) + (mtotalproductinfos == 1 ? "" : "") : "00";
+                  var stotalproductinfoDisplayss = stotalproductinfos > 0 ? (stotalproductinfos > 9 ? stotalproductinfos : "0"+stotalproductinfos) + (stotalproductinfos == 1 ? "" : "") : "00";
+                          }else{
+                            var totalproductinfoDisplayss = "00";
+                            var mtotalproductinfoDisplayss = "00";
+                            var stotalproductinfoDisplayss = "00";
+
+                          }  %>           
+                                      <%= totalproductinfoDisplayss+':'+mtotalproductinfoDisplayss+':'+stotalproductinfoDisplayss; %>
+                                                    </div>
+                                                    <div class="activityTile">
+                                                        <span>Key Press</span> <%= user.snapshotdata[i][0].image[j].keypress;%>
+                                                    </div>
+                                                    <div class="activityTile">
+                                                        <span>Mouse Click</span> <%= user.snapshotdata[i][0].image[j].totalMouseclick;%>
+                                                    </div>
+                                                    <div class="activityTile">
+                                                        <span>Mouse Move</span> <%= user.snapshotdata[i][0].image[j].totalMouseMovement;%>
+                                                    </div>
+                                                    <div class="activityTile">
+                                                        <span>Activity</span> --
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-5">
+                                            <ul class="ssSoft">
+                                                <li class="ulHeading">
+                                                    <h4>Application Uses</h4>
+                                                </li>
+
+                <% var ssss=user.snapshotdata[i][0].image[j].applist;
+                  var utestapplist = JSON.parse(ssss);
+                //  console.log(utestapplist);
+               %>  <% for(var s=0; s < utestapplist.length; s++) { 
+                         %>
+                                                <li class="d-flex align-items-center">
+                                                    <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                    <div class="ssSoftDetail">
+                                                <p><%= utestapplist[s].windowClass; %></p>
+                                        <p><%= utestapplist[s].windowName; %></p>                            
+                 
+                             <p><%   var  dproductivitytimecnt = Number(utestapplist[s].count);
+                                  var hproductivitytimecnt = Math.floor(dproductivitytimecnt / 3600);
+                                  var mproductivitytimecnt = Math.floor(dproductivitytimecnt % 3600 / 60);
+                                  var sproductivitytimecnt = Math.floor(dproductivitytimecnt % 3600 % 60);
+                                  var productivitytimeDisplaycnt = hproductivitytimecnt > 0 ? (hproductivitytimecnt > 9 ? hproductivitytimecnt : "0"+hproductivitytimecnt) + (hproductivitytimecnt == 1 ? "" : "") : "00";
+                                  var mproductivitytimeDisplaycnt = mproductivitytimecnt > 0 ? (mproductivitytimecnt > 9 ? mproductivitytimecnt : "0"+mproductivitytimecnt) + (mproductivitytimecnt == 1 ? "" : "") : "00";
+                                   var sproductivitytimeDisplaycnt = sproductivitytimecnt > 0 ? (sproductivitytimecnt > 9 ? sproductivitytimecnt : "0"+sproductivitytimecnt) + (sproductivitytimecnt == 1 ? "" : "") : "00";
+                                 var cdurationtimecnt=productivitytimeDisplaycnt+':'+mproductivitytimeDisplaycnt+':'+sproductivitytimeDisplaycnt;
+                                               %>
+                                   Duration : <%= cdurationtimecnt; %> mm:ss</p>
+                                                            
+                                                           
+                                                    </div>
+                                                </li>
+                                        <% } %>        
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                          <% } %>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SS Modal End -->
+</div></div>
+ <% } } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+                <%- include('../partials/footer'); %>

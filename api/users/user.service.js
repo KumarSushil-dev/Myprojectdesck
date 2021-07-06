@@ -1,5 +1,5 @@
 const pool = require("../../config/database");
-const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Break,Usersbreakslogs,Userapplist,Task,Tasksactivities,Projects,Op,sequelize } = require('../../sequelize');
+const { User,Country, State,Plan,Userattendancelog,Emailtemplate,Subscriptions,Sitesettings,Usersnapshots,Roles,Break,Usersbreakslogs,Userapplist,Task,Tasksactivities,Projects,Settings,Op,sequelize } = require('../../sequelize');
 var p;
 const moment = require("moment");
 
@@ -46,8 +46,27 @@ module.exports = {
             return callBack(err);
           }); 
     },
+    getcompanysettingsid: async(data, callBack) => {
+        await Settings.findAll({
+            where: {userId: data.userid}
+        }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
     datatransferid: async(data, callBack) => {
         await Usersnapshots.create({userId:data.userId,productivityCount:data.productivityCount,productivitytime:data.productivitytime,screenshot:data.screenshot,totalIdleMinutes: data.totalIdleMinutes,totalKeypressCount:data.totalKeypressCount,totalMouseMovement:data.totalMouseMovement,totalClicks:data.totalClicks,capturetime:data.capturetime,applist:data.applist}).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+
+            return callBack(err);
+          }); 
+    },
+    companysettingsid: async(data, callBack) => {
+      data.status='Y';
+        await Settings.create({userId:data.userid,name:data.name,type:data.type,status:data.status}).then(function(){
+          Settings.findall({
+              where: {userId: data.userid,status:data.status},
+              order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
+           }).catch(function (err) {
 
             return callBack(err);
           }); 
@@ -193,46 +212,40 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     gettimeline: async(data, callBack) => {
       
       let startdate = data.startdate;
-      let pending = data.user.length;
-      let pendings = data.times.length;
-     
-      const promisestotal = [];
-      
+      let pending = data.times.length*2;
+      let promisestotal = [];
+      let productivetotal =0;
       let idletotal =0;
-      for (let h = 0; h < data.user.length; h++) {
-        pool.query('SELECT `users`.`id` as `id`,`users`.`firstname` as `firstname` FROM `users` AS `users` WHERE `users`.`id`=?   ORDER BY `users`.`id` ASC', 
-        [ data.user[h] ],(error, resulsts, fields) => {
-console.log(error);
-          const uid=resulsts[0].id;
-          var username=resulsts[0].firstname;
-          const promises = [];
-          let productivetotal =0;
-          
-        for (let i = 0; i < data.times.length; i++) {
-
-          
-         
-          const  string = data.times[i].split('-');
-
-           pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ', [
-                  uid,
+      for (let k=0;k<data.user.length; k++) {
+        let promises = [];
+    for (let i = 0; i < data.times.length; i++) {
+      const string = data.times[i].split('-');
+      const userstring = data.user[k].split('_');
+    
+      
+          await pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+            userstring[0],
                 startdate,
                 string[0],
                 string[1]
-            ],(errordf, results) => {
+            ],(error, results, fields) => {
          if (error) {
           console.log("test");
                     }
-             
-                 if (results.length == 0) {
-                       // promises.push(0);
-                    } else {
 
+                   
+                  
+                 if (results.length == 0) {
+                 
+                  //console.log(userstring[1]);
+                 
+                    } else {
+                      var obj = [];
                         if(results[0].productivitytime!== null){
 
                         results[0].productivitytime=Number(results[0].productivitytime);
                         results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
-                        var obj = [];
+                        
                         productivetotal+=results[0].productivitytime;
                         idletotal+=results[0].idletime;
 if(results[0].idletime){
@@ -287,43 +300,34 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
 
 }else{
     var productivitytime ="00:00";
-    var percentage="0 %";
+    var percentage="0";
     
 }
 
 
-      obj.push({ "starttime": string[0],"endtime":string[1],"idletime":idletime,"productivitytime":productivitytime,"productivitypercentage":percentage+" %" });
+     obj.push({ "userid":userstring[0],"username":userstring[1],"starttime": string[0],"endtime":string[1],"idletime":results[0].idletime,"productivitytime":results[0].productivitytime,"productivitypercentage":percentage+" %" });
                         
-       promises.push(obj);
-       console.log(promises);
+         promises.push(obj);
+         promisestotal.push(obj);
+                        }else{
+                         // obj.push({ "username":userstring[1],"starttime": string[0],"endtime":string[1],"idletime":"","productivitytime":"","productivitypercentage":"0 %" });
+                         // promises.push(obj);
+
                         }
                     }
-                  
-                 
-                   
+
+                    if (0 === --pending) {
+                       
+                       return callBack(null, promisestotal,productivetotal,idletotal); //callback if all queries are processed
+                    }
 
                 });
-          
         }
-        const users = Promise.all(promises);
-        promisestotal.push({ "username": username,"activitylist":users,"productivity":productivetotal });
-     
 
-        if (0 === --pending ) {
-         
-          return callBack(null, promisestotal);
-          } 
-                            
-       
-       
-       
-      });
     }
-        
-
-      
        
     },
+   
 
     getproductivityinfomonth: async(data, callBack) => {
       
@@ -441,7 +445,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
       let promises = [];
       let productivetotal =0;
       let idletotal =0;
-     
+     console.log(data.times);
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
@@ -456,14 +460,17 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
                     }
               
                  if (results.length == 0) {
-                       // promises.push(0);
+
+                  var obj=[];
+                  var objs=[];
+                  obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
+                        
+         promises.push(obj);
+                   //   promises.push(0);
                     } else {
 var obj=[];
 var objs=[];
 
-
-
-//
 for (let hd = 0; hd < results.length; hd++) {
   var totalproductinfot=results[hd].productivitytime;
 var totalproductinfo= Math.floor(totalproductinfot / 1000);
@@ -681,8 +688,14 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             where: {userId:data.userid,projects_id: {
                 [Op.ne]: 0
               }},
-            attributes: ['id','name'],
+            attributes: ['id','name','startdate'],
           order:[['id','ASC']],
+          include: [{
+            model: User,
+            where: {id:data.userid},
+            attributes: ['firstname','lastname']
+          }
+      ]
             }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
               // handle error;
               return callBack(err);
@@ -733,7 +746,8 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
      var objs=[];
      
      for (let hd = 0; hd < results.length; hd++) {
-         objs.push({ "activityType": results[hd].name,"starttime": results[hd].starttime,"endtime": results[hd].endtime });
+      
+         objs.push({ "activityType": results[hd].name,"starttime": moment(results[hd].starttime).format('DD-MM-YYYY HH:mm:ss'),"endtime": moment(results[hd].endtime).format('DD-MM-YYYY HH:mm:ss') });
      
      }
      

@@ -270,17 +270,63 @@ app.get('/reports', function(req, res) {
 
 
 
-// companysettings
-app.get('/companysettings', function(req, res) {
 
+
+
+app.get('/companysettings', urlencodedParser, function(req, res) {
     sess = req.session;
+    const token = sess.token;
+    
     if (sess.companyname && sess.token!='') {
-        res.render('admin/companysettings', { person: sess.companyname,roleid :sess.roleid });
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/getcompanysettings',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+           if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        console.log(datas);
+                        sess = req.session;
+                      res.render('admin/companysettings', { person: sess.companyname, csettings: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
     } else {
 
         res.render('users/login');
     }
 });
+
 
 // companysettings
 app.get('/timeline', function(req, res) {
@@ -311,7 +357,7 @@ app.get('/timeline', function(req, res) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                       console.log(datas.data);
+                     //  console.log(datas.data);
                       
                         sess = req.session;
 res.render('admin/timeline', { person: sess.companyname, companyuser: datas,roleid :sess.roleid  });
@@ -891,6 +937,64 @@ var body = req.body;
             res.locals.messages = req.flash();
          
             res.render('admin/plan', { person: sess.companyname,plan: test,roleid :sess.roleid  });
+           
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+    }, 0000);
+    }
+
+});
+
+// Add Plan Post
+app.post('/companysettings', urlencodedParser, (req, res) => {
+sess = req.session;
+const token = sess.token;
+var body = req.body;
+
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+        // this code will only run when time has ellapsed
+        
+            request.post({
+            headers: {
+                    'Authorization': `Bearer ${token}`
+            },
+             url: process.env.APP_URL + '/api/users/companysettings',
+             body: req.body,
+             json: true
+        },
+
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+           
+                req.flash("error", "Add Plan Error.Try Again Later");
+                res.locals.messages = req.flash();
+                res.redirect(process.env.APP_URL + '/companysettings');
+
+            } else if (!error && response.statusCode == 200) {
+                
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var test = JSON.parse(re);
+         
+            sess = req.session;
+            req.flash("error", "Your Company Settings has been added Successfully.");
+            res.locals.messages = req.flash();
+         
+            res.render('admin/companysettings', { person: sess.companyname,csettings: test,roleid :sess.roleid  });
            
             res.end;
 
@@ -2287,6 +2391,72 @@ app.get('/viewdetail/:id', urlencodedParser, function(req, res) {
                         req.flash("error", "Id not Found Plan.Try Again Later");
             res.locals.messages = req.flash();
             res.redirect(process.env.APP_URL + '/plan');
+                        res.end;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+}); 
+
+
+
+app.get('/snapshot/:id', urlencodedParser, function(req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    const token = sess.token;
+    if(ids && sess.token!='') {
+        setTimeout(function() {
+         
+    request.post({
+                 headers: {
+                 'Authorization': `Bearer ${token}`
+                 },
+                url: process.env.APP_URL + '/api/users/snapshotdetail',
+                body: { "id": ids },
+                json: true
+                },
+                function(error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                        sess = req.session;
+                     //  console.log(test.snapshotdata[0][0].image);
+                        if(userfound==1){
+                            req.flash("error", "User Profile has been succesfully updated.");
+                            res.locals.messages = req.flash();
+                        }else if(userfound==2){
+                            req.flash("error", "Change password succesfully updated for user!");
+                            res.locals.messages = req.flash();
+                        }
+              // console.log(test);
+    res.render('admin/snapshot', { person: sess.companyname, user: test,roleid :sess.roleid  });
+    res.end;
+                          
+                     } else {
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+            res.locals.messages = req.flash();
+            res.redirect(process.env.APP_URL + '/snapshot');
                         res.end;
 
 

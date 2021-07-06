@@ -393,18 +393,19 @@
 
 <%  if(user.snapshotdata.length > 0){
     var s=1; 
-    for(var i=0; i < user.snapshotdata.length; i++) { %>
-      
+    for(var i=0; i < user.snapshotdata.length; i++) { 
+         var d= i; %>
+        
                                      <div class="snapHourly">
                         <p class="snapTime"><%= (user.snapshotdata[i][0].starttime); %></p>
                                         <div class="demo-gallery">
 
                     <ul class="list-unstyled row">
-                        <% s++; %>
+                     
                                                 <%  for(var j=0; j < user.snapshotdata[i][0].image.length; j++) { %>
 
                                                  <li class="col-md-3 mb-2" >
-                                                    <a href="javascript:void(0)" data-target="#<%= s; %>" data-toggle="modal">
+                                                    <a href="javascript:void(0)" data-target="#<%= d; %>" data-toggle="modal">
                                                         <img src="<%= user.snapshotdata[i][0].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
                                                     </a>
                                                 </li>
@@ -413,7 +414,7 @@
 
 </ul>
     <!-- SS Modal Start -->
-    <div class="modal fade bd-example-modal-lg ssModalPopup " id="<%= s; %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg ssModalPopup " id="<%= d; %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg " role="document">
             <div class="modal-content">
                 <div class="owl-carousel owl-theme owl-loaded popupCarousel">
