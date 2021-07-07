@@ -159,17 +159,6 @@ app.get('/dashboard', function(req, res) {
     }
 });
 
-// companyprojects
-app.get('/companyprojects', function(req, res) {
-
-    sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/companyprojects', { person: sess.companyname,roleid :sess.roleid });
-    } else {
-
-        res.render('users/login');
-    }
-});
 
 
 // companyprojects
@@ -219,34 +208,9 @@ app.get('/leaves', function(req, res) {
         res.render('users/login');
     }
 });
-// leaves
-app.get('/dailyattendance', function(req, res) {
 
-    sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/dailyattendance', { person: sess.companyname,roleid :sess.roleid });
-    } else {
-        res.render('users/login');
-    }
-});
-app.get('/monthlyattendance', function(req, res) {
 
-    sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/monthlyattendance', { person: sess.companyname,roleid :sess.roleid });
-    } else {
-        res.render('users/login');
-    }
-});
-app.get('/monthlyinout', function(req, res) {
 
-    sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/monthlyinout', { person: sess.companyname,roleid :sess.roleid });
-    } else {
-        res.render('users/login');
-    }
-});
 app.get('/applicationusage', function(req, res) {
 
     sess = req.session;
@@ -674,6 +638,62 @@ app.get('/userupdatestatus/:id/:name', urlencodedParser, function(req, res) {
                       req.flash("error", "Company Status has been Updated Successfully.");
                       res.locals.messages = req.flash();
                       res.render('admin/userlist', { person: sess.companyname,userlist: test,roleid :sess.roleid  });
+                      res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+app.get('/companyprojects/:id', urlencodedParser, function(req, res) {
+    sess = req.session;
+    ids = req.params.id;
+
+    const token = sess.token;
+    if (sess.token!='') {
+        setTimeout(function() {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                url: process.env.APP_URL + '/api/users/companyprojects',
+                body: {"id":ids },
+                json: true
+                },
+
+                function(error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+                  req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200){
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                        sess = req.session;
+                     console.log(test);
+                      
+        res.render('admin/companyprojects', { person: sess.companyname,userlist: test,roleid :sess.roleid });
                       res.end;
 
                     } else {
@@ -2647,6 +2667,228 @@ res.render('admin/companyuser', { person: sess.companyname, companyuser: datas,r
         res.render('users/login');
     }
 });
+
+app.get('/projectsmain', urlencodedParser, function(req, res) {
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/projectsmain',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                       
+                        sess = req.session;
+res.render('admin/projectsmain', { person: sess.companyname, projects: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+
+app.get('/dailyattendance', urlencodedParser, function(req, res) {
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/dailyattendance',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                 
+
+                        sess = req.session;
+res.render('admin/dailyattendance', { person: sess.companyname, dailyattendance: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+app.get('/monthlyattendance', urlencodedParser, function(req, res) {
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/monthlyattendance',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                 
+
+                        sess = req.session;
+res.render('admin/monthlyattendance', { person: sess.companyname, monthlyattendance: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+app.get('/monthlyinout', urlencodedParser, function(req, res) {
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/monthlyinout',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                 
+
+                        sess = req.session;
+res.render('admin/monthlyinout', { person: sess.companyname, monthlyattendance: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+
 // Add User
 
 app.get('/addcompanyuser', function(req, res) {
@@ -2702,6 +2944,67 @@ if(sess.companyname && sess.token!='') {
                 res.locals.messages = req.flash();
              
          res.render('admin/companyuser', { person: sess.companyname,companyuser: test,roleid :sess.roleid  });
+               
+                res.end;
+    
+                }else{
+    
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+    
+    
+                }
+    
+            });
+        }, 0000);
+        }
+    
+    });
+
+// Add Company User
+app.post('/projectsadd', urlencodedParser, (req, res) => {
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
+    body.companyname=sess.companyname;
+    console.log(body);
+if(sess.companyname && sess.token!='') {
+    setTimeout(function() {
+            // this code will only run when time has ellapsed
+            
+        request.post({
+                headers: {
+                        'Authorization': `Bearer ${token}`
+                },
+                 url: process.env.APP_URL + '/api/users/projectsadd',
+                 body: req.body,
+                 json: true
+            },
+    
+            function(error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+                    var resave = JSON.stringify(data);
+                    var tests = JSON.parse(resave);
+                    
+                    req.flash("error", tests.detail);
+                    res.locals.messages = req.flash();
+                    res.redirect(process.env.APP_URL + '/projectsadd');
+    
+                } else if (!error && response.statusCode == 200) {
+                    
+                var data = response.body;
+                var re = JSON.stringify(data);
+                var test = JSON.parse(re);
+             
+                sess = req.session;
+                req.flash("error", "Project has been added Successfully.");
+                res.locals.messages = req.flash();
+             
+                res.render('admin/projectsmain', { person: sess.companyname, projects: test,roleid :sess.roleid  });
                
                 res.end;
     

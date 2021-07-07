@@ -493,6 +493,7 @@
                 <% var ssss=user.snapshotdata[i][0].image[j].applist;
                   var utestapplist = JSON.parse(ssss);
                 //  console.log(utestapplist);
+                if(utestapplist.length > 0){
                %>  <% for(var s=0; s < utestapplist.length; s++) { 
                          %>
                                                 <li class="d-flex align-items-center">
@@ -515,7 +516,7 @@
                                                            
                                                     </div>
                                                 </li>
-                                        <% } %>        
+                                        <% } } %>        
                                             </ul>
                                         </div>
                                     </div>
@@ -707,7 +708,9 @@
                                                <tr>
                                    
         <td><b><%= moment(user.logss[i].punch_in).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
-        <td><b><%= moment(user.logss[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
+        <td><b><% if(user.logss[i].punch_out){ %> 
+            <%= moment(user.logss[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %>
+           <% } %></b></td>
                       
 </tr>
 <% } }else{ %>
@@ -748,13 +751,16 @@
                                    
         <td><b><%= moment(user.logss[i].punch_in).format('DD-MM-YYYY'); %></b></td>
         <td><b><%= moment(user.logss[i].punch_in).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
-        <td><b><%= moment(user.logss[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
+        <td><b> <% if(user.logss[i].punch_out){ %> 
+            <%= moment(user.logss[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %>
+             <% } %></b></td>
        <td><%  
             var now  = moment(user.logss[i].punch_out).format('DD/MM/YYYY HH:mm:ss');
             var then = moment(user.logss[i].punch_in).format('DD/MM/YYYY HH:mm:ss');
             var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");   %>
-                    
-                    <%= ms; %></td>  
+            <% if(user.logss[i].punch_out){ %> 
+                    <%= ms;  %>
+                <% } %></td>  
 </tr>
 <% } }else{ %>
 <tr><td colspan="4" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>

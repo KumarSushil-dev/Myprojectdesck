@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,gettimeline,companysettingsid } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getprojectsmainadd,getcompanyprojects } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -1080,6 +1080,305 @@ var str=utest[0].format;
     
     
                 });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+
+    },
+    projectsmain: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+       getuserfortimelinesecond(body, (err, uarray) => {
+        /*   var ured = JSON.stringify(resultss);
+                                        var utest = JSON.parse(ured);
+                                        let uarray = [];  
+                
+                                    for (let s=0;s<utest.length; s++) {
+                                        
+                                    uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                                    }  */
+                                    
+        getprojectsmain(body, (err, results) => {
+
+
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+                
+
+                return res.status(200).json({
+                    success: true,
+                    data: results,
+                    user:uarray
+    
+    
+                });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+        });
+
+    },
+   
+    companyprojects: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+       getuserfortimelinesecond(body, (err, uarray) => {
+       
+        getcompanyprojects(body, (err, results) => {
+
+            if(err){
+            console.log(err);
+            }
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+                
+
+                return res.status(200).json({
+                    success: true,
+                    data: results,
+                    user:uarray
+    
+    
+                });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+        });
+
+    },
+    projectsadd: (req, res) => {
+        const body = req.body;
+       body.userid=req.decoded.result[0].id;
+       getuserfortimelinesecond(body, (err, uarray) => {
+       getprojectsmainadd(body, (err, results) => {
+    if(err){
+    console.log(err);
+            }
+    if(results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+        return res.status(200).json({
+                    success: true,
+                    data: results,
+                    user:uarray
+           });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+        });
+
+    },
+    dailyattendance: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+     
+       dailyattendanceget(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+                
+
+                return res.status(200).json({
+                    success: true,
+                    data: results
+    
+    
+                });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+
+    },
+    monthlyattendance: (req, res) => {
+
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+       getuserfortimeline(body, (err, resultss) => {
+        var ured = JSON.stringify(resultss);
+                    var utest = JSON.parse(ured);
+                    let uarray = [];  
+
+                for (let s=0;s<utest.length; s++) {
+                    
+                uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                } 
+       monthlyattendanceget(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    detail: "No User Listed."
+
+                });
+            }
+
+          return res.status(200).json({
+                    success: true,
+                    user:uarray,
+                    data: results
+         });
+         });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+
+    },
+    monthlyinout: (req, res) => {
+
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+       getuserfortimeline(body, (err, resultss) => {
+        var ured = JSON.stringify(resultss);
+                    var utest = JSON.parse(ured);
+                    let uarray = [];  
+
+                for (let s=0;s<utest.length; s++) {
+                    
+                uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                } 
+                monthlyinoutget(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    detail: "No User Listed."
+
+                });
+            }
+
+          return res.status(200).json({
+                    success: true,
+                    user:uarray,
+                    data: results
+         });
+         });
     
     
     

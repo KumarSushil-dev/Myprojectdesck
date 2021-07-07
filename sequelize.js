@@ -70,6 +70,8 @@ Usersbreakslogs.belongsTo(Break, { foreignKey: 'breaks_id' });
 Tasksactivities.belongsTo(Task, { foreignKey: 'tasks_id' });
 Task.belongsTo(Projects, { foreignKey: 'projects_id' });
 Task.belongsTo(User, { foreignKey: 'userId' });
+Projects.belongsTo(User, { foreignKey: 'userId' });
+Userattendancelog.belongsTo(User, { foreignKey: 'userId' });
 
 User.hasMany(Subscriptions);
 User.hasMany(Usersnapshots);

@@ -212,7 +212,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     gettimeline: async(data, callBack) => {
       
       let startdate = data.startdate;
-      let pending = data.times.length*2;
+      let pending = data.times.length*data.user.length;
       let promisestotal = [];
       let productivetotal =0;
       let idletotal =0;
@@ -445,7 +445,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
       let promises = [];
       let productivetotal =0;
       let idletotal =0;
-     console.log(data.times);
+    
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
@@ -578,6 +578,21 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                 [Op.or]: [2, 3]
               },
               parent_id: data.userid},
+              order:[['id','DESC']],   
+          }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    getuserfortimelinesecond: async(data, callBack) => {
+
+      await User.findAll({
+        attributes: ['id','firstname','lastname'],
+            where: { 
+                role_id: {
+                [Op.or]: [2, 3]
+              },
+              id: data.userid},
               order:[['id','DESC']],   
           }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
             // handle error;
@@ -1026,6 +1041,48 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             return callBack(err);
           }); 
     },
+    getprojectsmain: async(data, callBack) => {
+        await Projects.findAll({
+            where: {userId: data.userid},
+            include: [{
+              model: User,
+              attributes: ['firstname','lastname']
+            }],
+            order:[['id','DESC']]
+        }).then(getstatelist => callBack(null, getstatelist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    getcompanyprojects: async(data, callBack) => {
+        await Projects.findOne({
+            where: {id: data.id},
+            include: [{
+              model: User,
+              attributes: ['firstname','lastname']
+            }],
+            order:[['id','DESC']]
+        }).then(getstatelist => callBack(null, getstatelist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    getprojectsmainadd: async(data, callBack) => {
+
+     await Projects.create({name: data.name,userId:data.uid,description:data.description,status:'Y'}).then(function(){
+       Projects.findAll({
+        where: {userId: data.userid},
+        include: [{
+            model: User,
+            attributes: ['firstname','lastname']
+          }],
+          order:[['id','DESC']]
+      }).then(notes => callBack(null,notes));                      
+         }).catch(function (err) {
+        // handle error;
+        return callBack(err);
+      }); 
+   },
     getemailtemplate: async(data, callBack) => {
         await Emailtemplate.findAll({
             where: {id: data.lid}
@@ -1267,13 +1324,75 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
     getattendence: async(data, callBack) => {
 
         await Userattendancelog.findAll({
-            where: {userId: data.id},
+            where: {userId: data.userid},
             order:[['id','DESC']],
         }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
             // handle error;
             return callBack(err);
           }); 
-    }, getplan: async(data, callBack) => {
+    },dailyattendanceget: async(data, callBack) => {
+
+      const TODAY_START = new Date().setHours(05, 0, 0, 0);
+      var NOW = new Date();
+      
+      NOW=NOW.setDate(NOW.getDate() + 1);
+      await Userattendancelog.findAll({
+          where: {
+              punch_in: { 
+                [Op.gt]: TODAY_START,
+                [Op.lte]: NOW
+              } }, include: [{
+            model: User,
+            where: {parent_id:data.userid},
+            attributes: ['id','firstname','lastname']
+          }
+      ], order:[['id','DESC']],
+      }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+          // handle error;
+          return callBack(err);
+        }); 
+  },
+  monthlyattendanceget: async(data, callBack) => {
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    await Userattendancelog.findAll({
+      where: {punch_in: { 
+        [Op.gte]: firstDay,
+        [Op.lte]: lastDay
+      }},
+        include: [{
+          model: User,
+          where: {parent_id:data.userid},
+          attributes: ['id','firstname','lastname']
+        }
+    ], order:[['id','DESC']],
+    }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+        // handle error;
+        return callBack(err);
+      }); 
+},
+monthlyinoutget: async(data, callBack) => {
+  var date = new Date();
+  var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  await Userattendancelog.findAll({
+    where: {punch_in: { 
+      [Op.gte]: firstDay,
+      [Op.lte]: lastDay
+    }},
+      include: [{
+        model: User,
+        where: {parent_id:data.userid},
+        attributes: ['id','firstname','lastname']
+      }
+  ], order:[['id','DESC']],
+  }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+      // handle error;
+      return callBack(err);
+    }); 
+},
+   getplan: async(data, callBack) => {
         await Plan.findAll({
             where: {status: 'Y'}
         }).then(planlist => callBack(null, planlist)).catch(function (err) {

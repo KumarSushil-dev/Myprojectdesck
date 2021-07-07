@@ -229,7 +229,7 @@
                     <div class="d-flex align-items-start">
                         <div class="productivityContainer flex-fill">
                             <div class="table-responsive">
-                                <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                <table id="zero_config87" class="table table-striped table-bordered no-wrap">
                                     <thead>
                                         <tr>
                                             <th>User</th>
@@ -242,87 +242,30 @@
                                     </thead>
                                     <tbody>
                                             
-                                               
+                                             
+                                      
+<%  if(dailyattendance.data.length > 0){
+    var s=1; 
+for(var i=0; i < dailyattendance.data.length; i++) { %>
+    <tr role="row" class="odd">
+       <% var res = dailyattendance.data[i].user.firstname.substring(0, 1); var nres = dailyattendance.data[i].user.lastname.substring(0, 1);  %> 
+<td><span class="firstName bg-info"><%= res; %> <%= nres; %></span><a href="<%= process.env.APP_URL %>/viewdetail/<%= dailyattendance.data[i].user.id; %>">
+    <%= dailyattendance.data[i].user.firstname; %> <%= dailyattendance.data[i].user.lastname; %></a></td>
+<td><b><%= moment(dailyattendance.data[i].punch_in).format('DD-MM-YYYY'); %></b></td>
+<td><b><%= moment(dailyattendance.data[i].punch_in).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
+<td><b> <% if(dailyattendance.data[i].punch_out){ %><%= moment(dailyattendance.data[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %> <% } %></b></td>
+<td><%  
+var now  = moment(dailyattendance.data[i].punch_out).format('DD/MM/YYYY HH:mm:ss');
+var then = moment(dailyattendance.data[i].punch_in).format('DD/MM/YYYY HH:mm:ss');
+var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");   %>
+<% if(dailyattendance.data[i].punch_out){ %>
+<%= ms; %> <% } %></td>  
+</tr>
+<% } }else{ %>
+<tr><td colspan="4" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
 
-                                               
-
-                                               
-
-                                               
-
-                                               
-
-                                               
-
-                                               
-
-                                               
-
-                                           
-                                        <tr role="row" class="odd">
-                                            <td><span class="firstName bg-info">SS</span><a href="./timeline.html">Sushil Sharma</a></td>
-                                            <td><b>05-07-2021</b></td>                 
-        <td><b>05-07-2021</b></td>
-        <td><b>05-07-2021 09:34:15</b></td>
-        <td><b>Invalid date</b></td>
-
-</tr><tr role="row" class="even">
-    <td><span class="firstName bg-info">SS</span><a href="./timeline.html">Sushil Sharma</a></td>            
-        <td><b>02-07-2021</b></td>
-        <td><b>02-07-2021 09:29:44</b></td>
-        <td><b>Invalid date</b></td>
-       <td>
-                    
-                    Invalid date</td>  
-</tr><tr role="row" class="odd">
-    <td><span class="firstName bg-info">SS</span><a href="./timeline.html">Sushil Sharma</a></td>                
-        <td><b>02-07-2021</b></td>
-        <td><b>02-07-2021 09:29:44</b></td>
-        <td><b>Invalid date</b></td>
-       <td>
-                    
-                    Invalid date</td>  
-</tr><tr role="row" class="even">
-    <td><span class="firstName bg-info">SS</span><a href="./timeline.html">Sushil Sharma</a></td>              
-        <td><b>30-06-2021</b></td>
-        <td><b>30-06-2021 09:17:34</b></td>
-        <td><b>30-06-2021 18:21:37</b></td>
-       <td>
-                    
-                    09:04:03</td>  
-</tr><tr role="row" class="odd">
-    <td><span class="firstName bg-info">SS</span><a href="./timeline.html">Sushil Sharma</a></td>           
-        <td><b>29-06-2021</b></td>
-        <td><b>29-06-2021 09:19:26</b></td>
-        <td><b>30-06-2021 18:10:51</b></td>
-       <td>
-                    
-                    08:51:25</td>  
-</tr><tr role="row" class="even">
-    <td><span class="firstName bg-info">SS</span><a href="./timeline.html">Sushil Sharma</a></td>                
-        <td><b>28-06-2021</b></td>
-        <td><b>28-06-2021 09:00:00</b></td>
-        <td><b>29-06-2021 19:22:34</b></td>
-       <td>
-                    
-                    10:22:34</td>  
-</tr><tr role="row" class="odd">
-    <td><span class="firstName bg-info">SS</span><a href="./timeline.html">Sushil Sharma</a></td>             
-        <td><b>26-06-2021</b></td>
-        <td><b>26-06-2021 09:05:00</b></td>
-        <td><b>27-06-2021 19:23:00</b></td>
-       <td>
-                    
-                    10:18:00</td>  
-</tr><tr role="row" class="even">
-    <td><span class="firstName bg-info">SS</span><a href="./timeline.html">Sushil Sharma</a></td>             
-        <td><b>25-06-2021</b></td>
-        <td><b>25-06-2021 09:06:00</b></td>
-        <td><b>26-06-2021 20:11:00</b></td>
-       <td>
-                    
-                    11:05:00</td>  
-</tr></tbody>
+<% } %>
+</tbody>
                                 </table>
                             </div>
                         </div>

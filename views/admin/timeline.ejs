@@ -138,7 +138,7 @@
                                     </div>
                                     </td>
                                     <td class="p-0">
-<table><tr>
+<table style="width:100%"><tr>
                      <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
                                        
                            if(companyuser.data[s][0].starttime=="08:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
@@ -163,26 +163,26 @@
 <div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
 </div><% } %>
 </td>
-    <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+    <%  var stotal1=0; for(var s=0; s < companyuser.data.length; s++) {  
                       
           if(companyuser.data[s][0].starttime=="09:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
-          <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+          <% stotal1+=companyuser.data[s][0].productivitypercentage; %> 
           <%  } } %>
-<td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+<td> <% if(stotal1 >0 && stotal1 <= 25){  var ssss="width:"+stotal1+"%"; %>
 <div class="progress">
 <div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
 <% } %>
-<% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+<% if(stotal1 >25 && stotal1 <= 50){  var ssss="width:"+stotal1+"%"; %>
 <div class="progress">
 <div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
 </div><% } %>
 
-<% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+<% if(stotal1 >50 && stotal1 <= 75){  var ssss="width:"+stotal1+"%"; %>
 <div class="progress">
 <div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
 </div><% } %>
-<% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+<% if(stotal1 >75 && stotal1 <= 100){  var ssss="width:"+stotal1+"%"; %>
 <div class="progress">
 <div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
 </div><% } %>
@@ -190,7 +190,7 @@
                                     </td>
                                     <td class="p-0">
 
-<table><tr>
+<table style="width:100%"><tr>
     <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
                       
           if(companyuser.data[s][0].starttime=="10:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
@@ -215,12 +215,94 @@
 <div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
 </div><% } %>
 </td>
-<%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+<%  var stotal1=0; for(var s=0; s < companyuser.data.length; s++) {  
      
 if(companyuser.data[s][0].starttime=="11:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
-<% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+<% stotal1+=companyuser.data[s][0].productivitypercentage; %> 
 <%  } } %>
+<td> <% if(stotal1 >0 && stotal1 <= 25){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal1 >25 && stotal1 <= 50){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+
+<% if(stotal1 >50 && stotal1 <= 75){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal1 >75 && stotal1 <= 100){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td></tr></table>
+                
+                                    </td>
+                                    <td class="p-0">
+
+                                        <table style="width:100%"><tr>
+                                            <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+                                                              
+                                                  if(companyuser.data[s][0].starttime=="12:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
+                                        
+                                                  <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+                                                  <%  } } %>
+                                        <td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+                                        <div class="progress">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <% } %>
+                                        <% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+                                        <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+                                        </div><% } %>
+                                        
+                                        <% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+                                        <div class="progress">
+                                        <div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+                                        </div><% } %>
+                                        <% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+                                        <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+                                        </div><% } %>
+                                        </td>
+                                        <%  var stotal1=0; for(var s=0; s < companyuser.data.length; s++) {  
+                                             
+                                        if(companyuser.data[s][0].starttime=="13:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
+                                        
+                                        <% stotal1+=companyuser.data[s][0].productivitypercentage; %> 
+                                        <%  } } %>
+                                        <td> <% if(stotal1 >0 && stotal1 <= 25){  var ssss="width:"+stotal1+"%"; %>
+                                        <div class="progress">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <% } %>
+                                        <% if(stotal1 >25 && stotal1 <= 50){  var ssss="width:"+stotal1+"%"; %>
+                                        <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+                                        </div><% } %>
+                                        
+                                        <% if(stotal1 >50 && stotal1 <= 75){  var ssss="width:"+stotal1+"%"; %>
+                                        <div class="progress">
+                                        <div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+                                        </div><% } %>
+                                        <% if(stotal1 >75 && stotal1 <= 100){  var ssss="width:"+stotal1+"%"; %>
+                                        <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+                                        </div><% } %>
+                                        </td></tr></table>
+                                                        
+                                    </td>
+                                    <td class="p-0">
+                                        
+<table style="width:100%"><tr>
+    <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+                      
+          if(companyuser.data[s][0].starttime=="14:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
+
+          <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+          <%  } } %>
 <td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
 <div class="progress">
 <div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
@@ -238,71 +320,191 @@ if(companyuser.data[s][0].starttime=="11:00:00" && companyuser.data[s][0].userna
 <div class="progress">
 <div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
 </div><% } %>
+</td>
+<%  var stotal1=0; for(var s=0; s < companyuser.data.length; s++) {  
+     
+if(companyuser.data[s][0].starttime=="15:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
+
+<% stotal1+=companyuser.data[s][0].productivitypercentage; %> 
+<%  } } %>
+<td> <% if(stotal1 >0 && stotal1 <= 25){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal1 >25 && stotal1 <= 50){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+
+<% if(stotal1 >50 && stotal1 <= 75){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal1 >75 && stotal1 <= 100){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
 </td></tr></table>
                 
                                     </td>
                                     <td class="p-0">
-
-                                        <% for(var s=0; s < companyuser.data.length; s++) {  
                                        
-                                            if(companyuser.data[s][0].starttime=="12:00:00"){ %>
+<table style="width:100%"><tr>
+    <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+                      
+          if(companyuser.data[s][0].starttime=="16:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                           <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="13:00:00"){ %>
+          <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+          <%  } } %>
+<td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
 
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                           
-                                      
+<% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td>
+<%  var stotal1=0; for(var s=0; s < companyuser.data.length; s++) {  
+     
+if(companyuser.data[s][0].starttime=="17:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
+
+<% stotal1+=companyuser.data[s][0].productivitypercentage; %> 
+<%  } } %>
+<td> <% if(stotal1 >0 && stotal1 <= 25){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal1 >25 && stotal1 <= 50){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+
+<% if(stotal1 >50 && stotal1 <= 75){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal1 >75 && stotal1 <= 100){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td></tr></table>
+                
                                     </td>
                                     <td class="p-0">
-                                        <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="14:00:00"){ %>
+                                        
+<table style="width:100%"><tr>
+    <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+                      
+          if(companyuser.data[s][0].starttime=="18:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                           <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="15:00:00"){ %>
+          <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+          <%  } } %>
+<td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
 
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
+<% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td>
+<%  var stotal1=0; for(var s=0; s < companyuser.data.length; s++) {  
+     
+if(companyuser.data[s][0].starttime=="19:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
+
+<% stotal1+=companyuser.data[s][0].productivitypercentage; %> 
+<%  } } %>
+<td> <% if(stotal1 >0 && stotal1 <= 25){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal1 >25 && stotal1 <= 50){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+
+<% if(stotal1 >50 && stotal1 <= 75){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal1 >75 && stotal1 <= 100){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td></tr></table>
+                
                                     </td>
                                     <td class="p-0">
-                                        <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="16:00:00"){ %>
+                                        
+<table style="width:100%"><tr>
+    <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  
+                      
+          if(companyuser.data[s][0].starttime=="20:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                           <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="17:00:00"){ %>
+          <% stotal+=companyuser.data[s][0].productivitypercentage; %> 
+          <%  } } %>
+<td> <% if(stotal >0 && stotal <= 25){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal >25 && stotal <= 50){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
 
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                    </td>
-                                    <td class="p-0">
-                                        <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="18:00:00"){ %>
+<% if(stotal >50 && stotal <= 75){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal >75 && stotal <= 100){  var ssss="width:"+stotal+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td>
+<%  var stotal1=0; for(var s=0; s < companyuser.data.length; s++) {  
+     
+if(companyuser.data[s][0].starttime=="21:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
 
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                           <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="19:00:00"){ %>
+<% stotal1+=companyuser.data[s][0].productivitypercentage; %> 
+<%  } } %>
+<td> <% if(stotal1 >0 && stotal1 <= 25){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-danger" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100"></div>
+<% } %>
+<% if(stotal1 >25 && stotal1 <= 50){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-warning" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
 
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                    </td>
-                                    <td class="p-0">
-                                        <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="20:00:00"){ %>
-
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                           <% for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                            if(companyuser.data[s][0].starttime=="21:00:00"){ %>
-
-                                           <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
+<% if(stotal1 >50 && stotal1 <= 75){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-info" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+<% if(stotal1 >75 && stotal1 <= 100){  var ssss="width:"+stotal1+"%"; %>
+<div class="progress">
+<div class="progress-bar bg-success" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= stotal; %>" aria-valuemin="0" aria-valuemax="100">
+</div><% } %>
+</td></tr></table>
+                
                                     </td>
                                     <td class="p-0"></td>
                                 </tr>

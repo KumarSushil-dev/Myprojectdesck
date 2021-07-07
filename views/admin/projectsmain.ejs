@@ -185,27 +185,21 @@
             </div>
         </div>
     </div>
-   
+    <!-- Change Password Popup End -->
+
     <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-body">
                 <div class="blocks userDetails">
-                    <a href="./task.html">
-                        <div class="userIcon">
-                            <img src="./assets/images/ic_daily_attendance.png" class="img-fluid" alt="" />
-                        </div>
-                    </a>
+                    <div class="userIcon">
+                        <img src="./assets/images/ic_task.png" class="img-fluid" alt="" />
+                    </div>
                     <div class="details">
-              <h4 class="m-0">Monthly Attendance - <% var dfd = new Date(); 
-                            
-                            var  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    
-                            %>
-                          <%=months[dfd.getMonth()]; %> <%=dfd.getFullYear(); %></h4>
-                        <p class="m-0">Attendance Report of Your Organization</p>
+                        <h4 class="m-0">Projects</h4>
+                        <p class="m-0">Here You Can Create And Assign New Project Or Edit An Existing Project</p>
                     </div>
                     <ul class="d-flex topInputs">
-                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+                       
                         <li class="mr-1">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -216,103 +210,184 @@
                                 <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                         </li>
-                        <li>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
-                                    <i class="la la-refresh"></i>
-                                </span>
-                            </div>
-                        </li>
-                        <!-- <a href="#" data-toggle="modal" data-target="#addProjectModal" class="downloadButton btn-success text-white ml-1 mr-0">
-                            Add New Leave
-                        </a> -->
+             <li><a  href="javascript:void(0);" class="btn btn-primary dropplan"><i class="la la-plus"></i> Add New Projects  </a></li>
                     </ul>
                 </div>
 
-                <div class="blocks tabContainers mb-0 dailyInOutTable">
-                    <div class="table-responsive" style="    border-left: 1px solid #ccc8;
-                    border-right: 1px solid #ccc8;">
-                        <table class="mb-0 table-bordered table" style="min-width: 3000px;">
-                            <thead>
-                                <tr>
-                                    <th class="bt-0" style="padding: .5rem !important; width: 400px !important;">Employee</th>
-<% var dt = new Date();
-var month = dt.getMonth();
-var year = dt.getFullYear();
-daysInMonth = new Date(year, month, 0).getDate();
 
-if(daysInMonth){
-    for(var g=1; g <= daysInMonth; g++) {  %>
+                <script>
 
-
-        <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
-            <div class="t_date"><%= g; %></div>
-
-        </th>
-
+   
+    
+                    $(document).on('click','.dropplan',function (e){
+                
+                        var df=this.id;
+                  $('#dropplan').modal('show');
+                
+                    e.preventDefault();
+                   
+                    
+                    });
+                    </script>
+                
+                
+                <div class="modal fade" id="dropplan">
+                    <div class="modal-dialog ">
+                      <div class="modal-content">
+                
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                <h5 class="modal-title">Add Projects</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <!-- Modal body -->
+                <div class="modal-body">
+                   
+                        <form action="/projectsadd" method="post" class="form  needs-validation" novalidate>
+                           
+                            <label for="userId" class="mb-1"><b>Owner</b></label>
+                                                                     
+<select name="uid" required="" id="userId" class="form-control country">
+    <option value="">--Select--</option>
+<%  if(projects.user.length > 0){
+for(var i=0; i < projects.user.length; i++) { %>
+<option value="<%= projects.user[i].id; %>"><%= projects.user[i].firstname; %> <%= projects.user[i].lastname; %></option>
 <% } } %>
 
+    </select>
+                <div class="valid-feedback">Valid.</div>
+             <div class="invalid-feedback">Please fill out this field.</div> 
+                         
+                            
+                            <label class="mb-1" for="name"><b>Project Name</b></label>
+                            <input type="text"  name="name" id="name"  placeholder="Enter Project Name" class="form-control mb-1" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div> 
 
-                                  
-                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Present</th>
-                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Absent</th>
-                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Leave</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                            <label class="mb-1" for="desc"><b>Project Description</b></label>
+                            <textarea type="textarea"  name="description" id="desc" placeholder="Enter Name" class="form-control mb-1" required></textarea>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div> 
+                            <button class="btn btn-danger"">Close</button>
+                            <input type="submit" class="btn btn-primary pull-right" value="Save" />
+                        </form>
+                 
+                        </div>
+                
+                        <!-- Modal footer -->
+                
+                
+                
+                      </div>
+                    </div>
+                  </div> 
+                  
+                  <script type="text/javascript">
+                    function spinner() {
+                
+                        document.getElementsByClassName("loader")[0].style.display = "block";
+                    }
+                </script>
+                
+                <script>
+                    // Disable form submissions if there are invalid fields
+                    (function() {
+                      'use strict';
+                      window.addEventListener('load', function() {
+                        // Get the forms we want to add validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                          form.addEventListener('submit', function(event) {
+                            document.getElementsByClassName("loader")[0].style.display = "block";
+                            if (form.checkValidity() === false) {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              document.getElementsByClassName("loader")[0].style.display = "none";
+                            }
+                            form.classList.add('was-validated');
+                          }, false);
+                        });
+                      }, false);
+                    })();
+                    </script>
 
-                                <%  if(monthlyattendance.user.length > 0){
-   
-                    for(var i=0; i < monthlyattendance.user.length; i++) { 
-                          var present =0;
-                          var absent =0;
-                        
-                        var userstring = monthlyattendance.user[i].split('_'); 
-                                        
-                           %> <% var srr=userstring[1].split(' '); 
-                                
-                            var res = srr[0].substring(0, 1); 
-                            var nres = srr[1].substring(0, 1);  %> 
-                                <tr>
-                                    <th class="align-middle" style="padding: .5rem !important;">
-                                    <span class="firstName bg-dark">
-                                    <%=res %><%=nres %></span>
-                                    <a href="<%= process.env.APP_URL %>/viewdetail/<%= userstring[0] %>"> <%= userstring[1]; %></a>
-                                    </th> 
-                       <% if(daysInMonth){  var d = new Date();
-                       var df=d.getDate();
+
+                <div class="blocks tabContainers mb-0">
+                    <div class="d-flex align-items-start">
 
 
-                        for(var g=1; g <= daysInMonth; g++) {  %>
-                            <td class="align-middle p_0 text-center"> <%
-                                 
-                             if(monthlyattendance.data.length > 0){
+                        <div class="productivityContainer taskTable flex-fill">
+                            <div class="table-responsive">
+                                <table id="zero_config" class="table table-striped table-bordered no-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Project </th>
+                                            <th>Owner</th>
+                                            <th>Task Completed</th>
+                                            <th>Created</th>
+                                            <th>Status</th>
+                                           
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody> 
+                                       
+                     <%  if(projects.data.length > 0){
+                        var s=1; 
+                       for(var i=0; i < projects.data.length; i++) { %>
+                       <tr>
+                               
+                      <td><b><%= projects.data[i].name; %></td>
 
-                            for(var s=0; s < monthlyattendance.data.length; s++) {
-                              
-                                var datt=moment(monthlyattendance.data[s].punch_in).format('D');
-                        
-                                if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
-                                    
-                                if(monthlyattendance.data[s].punch_in){
-                    var now  = moment(monthlyattendance.data[s].punch_out).format('DD/MM/YYYY HH:mm:ss');
-                    var then = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
-                    var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
-                    present++;  }   %> <%= ms; %><%  }else { absent++; } } } %> </td> <% } } %>
-                                  
-                                    <td class="align-middle">
-                                        <div style="text-align: center;"><%= present; %></div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div style="text-align: center;"> <% var rem= df-present; %> <%=rem; %></div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div style="text-align: center;"></div>
-                                    </td>
-                                </tr>
-                               <% } } %>
-                            </tbody>
-                        </table>
+                            <td><%= projects.data[i].user.firstname; %> <%= projects.data[i].user.lastname; %>
+                                 </td>
+                                          
+<td>--
+</td>
+
+<td> <%  var str=projects.data[i].user.createdAt; %>
+<%= moment(str).tz('Asia/Calcutta').format('llll') %> </td>
+
+
+
+
+<td>  <% if(projects.data[i].status=="Y"){  %>
+    <a  href="<%= process.env.APP_URL %>/projectupdatestatus/<%= projects.data[i].id %>/N" onclick="return confirm('Do you really want to inactive this Projects and Related Task?');" title="InActivate Company?" style="color:rgb(224, 35, 44)" > <i style="color:green" class="la la-toggle-on"></i></a>
+    
+    <% }else{ %>
+       <a  href="<%= process.env.APP_URL %>/projectupdatestatus/<%= projects.data[i].id %>/Y" onclick="return confirm('Do you really want to activate this Projects and Related Task ?');" title="Activate Company?" style="color:rgb(224, 35, 44)" ><i style="color:red" class="la la-toggle-off "></i></a>
+        <% } %></td>
+    <td>
+        <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="la la-cog"></i>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="<%= process.env.APP_URL %>/companyprojects/<%= projects.data[i].id %>">View detail</a>
+                
+            </div>
+        </div>
+    </td>
+</td>
+
+
+                                           </tr>
+                                           <% } }else{ %>
+                                               <tr>
+
+                                                   <td class=" text-center " colspan="6" style="color:red; ">
+                                                       No Projects Listed Yet
+                                                   </td>
+                                               </tr>
+                                               <% }  %>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -79,11 +79,12 @@
             <div class="content-body">
                 <div class="blocks userDetails">
                     <div class="userIcon">
-                        <img src="./assets/images/ic_task.png" class="img-fluid" alt="" />
+                        <img src="/assets/images/ic_task.png" class="img-fluid" alt="" />
                     </div>
                     <div class="details">
-                        <h4 class="m-0">Calling
-                            <p class="m-0">Created Date:- 29 June 2021 1:26</p>
+                        <h4 class="m-0"><%= userlist.data.name; %>
+                            <p class="m-0">Created Date:-  <%  var str=userlist.data.createdAt; %>
+                                <%= moment(str).tz('Asia/Calcutta').format('llll') %></p>
                     </div>
 
                     <a href="#" data-toggle="modal" data-target="#addProjectModal" class="downloadButton btn-success text-white mr-0">
@@ -134,23 +135,24 @@
                             </div>
                             <ul class="d-flex align-items-center justify-content-between">
                                 <li>Project</li>
-                                <li>Calling</li>
+                                <li><%= userlist.data.name; %></li>
                             </ul>
                             <ul class="d-flex align-items-start justify-content-between flex-column">
                                 <li><b>Description:</b></li>
-                                <li>Zoom Meeting, Google Meeting, Any Desk...</li>
+                                <li><%= userlist.data.description; %></li>
                             </ul>
                             <ul class="d-flex align-items-center justify-content-between">
                                 <li>Owner</li>
-                                <li>Vikas Solanki</li>
+                                <li><%= userlist.data.user.firstname; %> <%= userlist.data.user.lastname; %></li>
                             </ul>
                             <ul class="d-flex align-items-center justify-content-between">
                                 <li>Created Date</li>
-                                <li>Mon, May 31, 2021 1:31 PM</li>
+                                <li><%  var str=userlist.data.createdAt; %>
+                                    <%= moment(str).tz('Asia/Calcutta').format('llll') %></li>
                             </ul>
                             <ul class="d-flex align-items-center justify-content-between">
                                 <li>Status</li>
-                                <li>In Process</li>
+                                <li><% if(userlist.data.status=="Y"){  %> In Process <% }else{ %> InActive<% } %></li>
                             </ul>
                         </div>
 
