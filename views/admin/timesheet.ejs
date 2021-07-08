@@ -1,4 +1,79 @@
+<%- include('../partials/header'); %>
+<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        <%- include('../partials/left'); %>
+    
+        <script src="/theme-assets/js/jquery.avatarme-1.0.min.js"></script>
+        <link rel="stylesheet" href="/theme-assets/css/avatar.css">
 
+        <script>
+            jQuery(function($){
+              var $userName = $('.user-name');
+              if ($userName.length) {
+                $userName.avatarMe({
+                  className: 'avatar-me',
+                  maxChar: 1
+                });
+              }
+            });
+
+            
+            </script>
+        <script type="text/javascript" src="/theme-assets/js/jquery.formatCurrency-1.4.0.min.js"></script>
+        <script> $(function () {
+          $(".currency").blur(function () {
+            $(".currency").html(null), $(this).formatCurrency({
+              colorize: !0,
+              symbol: "",
+              negativeFormat: "-%s%n",
+              roundToDecimalPlace: -1
+            })
+          }).keyup(function (e) {
+            var e = window.event || e,
+              a = e.charCode || e.keyCode;
+            if (110 != a && 229 != a && 190 != a && 46 != a && 45 != a && a > 31 && (96 > a || a > 105) && (48 > a || a > 57) && $(".currency").val(""), void 0 !== e) switch (a) {
+              case 16:
+                break;
+              case 17:
+                break;
+              case 18:
+                break;
+              case 27:
+                this.value = "";
+                break;
+              case 35:
+                break;
+              case 36:
+                break;
+              case 37:
+                break;
+              case 38:
+                break;
+              case 39:
+                break;
+              case 40:
+                break;
+              case 78:
+                break;
+              case 110:
+                break;
+              case 190:
+                break;
+              default:
+                $(this).formatCurrency({
+                  colorize: !0,
+                  negativeFormat: "-%s%n",
+                  roundToDecimalPlace: -1,
+                  eventOnDecimalsEntered: !1
+                })
+            }
+          }).bind("decimalsEntered", function (e, a) {
+            var t = "Please do not enter any cents (0." + a + ")";
+            alert(t), log("Event on decimals entered:" + t)
+          });
+        });
+        </script>
+       
     <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-body">
@@ -188,3 +263,4 @@
         </div>
     </div>
     <!-- ////////////////////////////////////////////////////////////////////////////-->
+    <%- include('../partials/footer'); %>
