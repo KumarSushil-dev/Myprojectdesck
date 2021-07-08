@@ -20,6 +20,10 @@ const Userapplist=sequelize.define('users_applistcaptures',{
          applist: {
           type: DataTypes.STRING,
                   //  allowNull: false
+        },
+        windowclass: {
+          type: DataTypes.STRING,
+                  //  allowNull: false
         }
       
  });

@@ -90,7 +90,10 @@ module.exports = {
   let pending = data.applist.length;
  
  for (let i = 0; i < data.applist.length; i++) {
-let x = await Userapplist.create({userId:data.userId, idleTime: data.applist[i].idleTime,count: data.applist[i].count,capturetime:data.capturetime,applist: data.applist[i].windowName});                    
+  
+    data.applist[i].idleTime=0;
+   
+let x = await Userapplist.create({userId:data.userId, idleTime: data.applist[i].idleTime,count: data.applist[i].count,capturetime:data.capturetime,windowclass:data.applist[i].windowClass,applist: data.applist[i].windowName});                    
 
 
 resultst.push(x);
@@ -461,11 +464,11 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
               
                  if (results.length == 0) {
 
-                  var obj=[];
+               var obj=[];
                   var objs=[];
                   obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                         
-         promises.push(obj);
+         promises.push(obj); 
                    //   promises.push(0);
                     } else {
 var obj=[];

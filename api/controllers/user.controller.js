@@ -369,7 +369,7 @@ viewdetail:(req, res) => {
                         getapps(body, (err, resultapps) => {
                          //   console.log(resultapps);
                         var twoHoursBefore = new Date();
-                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 1);
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
                      
                         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
@@ -450,7 +450,7 @@ snapshotdetail:(req, res) => {
    
     viewdetailid(body, (err, results) => {
        var twoHoursBefore = new Date();
-        twoHoursBefore.setHours(twoHoursBefore.getHours() - 1);
+        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
                         let x = 60; //minutes interval
@@ -2411,11 +2411,12 @@ datatransfer: (req, res) => {
  body.userId=req.decoded.result[0].id;
 var productivitycnt=body.productivityCount;
 var applist=body.applist;
-body.applist=JSON.stringify(applist);
+//body.applist=JSON.stringify(applist);
 
 body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
             datatransferid(body, (err, results) => {
                 body.applist= JSON.parse(body.applist);
+                
                 applisttransfer(body, (err, resultstranfer) => {
 
                    // console.log(resultstranfer);

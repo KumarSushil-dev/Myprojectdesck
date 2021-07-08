@@ -1,15 +1,13 @@
 <div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true" data-img="theme-assets/images/backgrounds/02.jpg">
-    <style>
-.navbar-header .navbar-brand .brand-logo{
-    width: 234px;
-}
-</style>
+  
     <div class="navbar-header">
 
         <ul class="nav navbar-nav flex-row">
-            <li class="nav-item mr-auto" style=" margin-top: -18px;">
-                <a class="navbar-brand" href="#"><img class="brand-logo" alt="Admin logo" style="width: 142px;" src="/theme-assets/images/logo/logo.png" />
-              
+            <li class="nav-item mr-auto d-flex align-items-center">
+                <a class="navbar-brand" href="#">
+                    <img class="brand-logo logoLarge" alt="Chameleon admin logo " src="/assets/images/mpdLogo.png" />
+                    <img class="brand-logo logoIcon" alt="Chameleon admin logo " src="/assets/images/mpdLogoIcon.png" />
+
                 </a>
             </li>
             <li class="nav-item d-md-none"><a class="nav-link close-navbar"><i class="ft-x"></i></a></li>
@@ -36,27 +34,51 @@
             <% } %>
 
             <% if(roleid==2){ %>
-                <li class="nav-item"><a  style="color:red;" href="<%= process.env.APP_URL %>/presence"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Presence</span></a>
+                <li ><a  style="color:red;" href="<%= process.env.APP_URL %>/presence"> <i><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" class="sidebar-menu__entry__icon" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 228.719c-22.879 0-41.597 18.529-41.597 41.18 0 22.652 18.718 41.182 41.597 41.182 22.878 0 41.597-18.529 41.597-41.182 0-22.651-18.719-41.18-41.597-41.18zm124.8 41.179c0-67.946-56.163-123.539-124.8-123.539s-124.8 55.593-124.8 123.539c0 45.303 24.961 85.447 62.396 107.072l20.807-36.032c-24.972-14.417-41.604-40.153-41.604-71.04 0-45.295 37.433-82.358 83.201-82.358 45.771 0 83.201 37.063 83.201 82.358 0 30.887-16.633 56.623-41.604 71.04l20.807 36.032c37.433-21.624 62.396-61.769 62.396-107.072zM256 64C141.597 64 48 156.654 48 269.898 48 346.085 89.592 411.968 152 448l20.799-36.032c-49.919-28.824-83.207-81.324-83.207-142.069 0-90.593 74.891-164.718 166.408-164.718 91.517 0 166.406 74.125 166.406 164.718 0 60.745-33.284 114.271-83.205 142.069L360 448c62.406-36.032 104-101.915 104-178.102C464 156.654 370.403 64 256 64z"></path></svg>
+                </i>
+                <span class="menu-title" data-i18n="">Presence</span></a>
                 </li>
-    <li class="nav-item"><a  href="<%= process.env.APP_URL %>/companyuser"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Employee List</span></a>
+    <li ><a  href="<%= process.env.APP_URL %>/companyuser"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Employee List</span></a>
                     </li>
-           <li class="nav-item"><a  href="javascript:void(0);"><i class="la ft-pie-chart"></i><span class="menu-title" data-i18n=""> User Insight </span></a>
+           <li ><a  href="javascript:void(0);"> <i>
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="sidebar-menu__entry__icon" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 14H15v-1H2V0H1v13.5l.5.5zM3 11.5v-8l.5-.5h2l.5.5v8l-.5.5h-2l-.5-.5zm2-.5V4H4v7h1zm6-9.5v10l.5.5h2l.5-.5v-10l-.5-.5h-2l-.5.5zm2 .5v9h-1V2h1zm-6 9.5v-6l.5-.5h2l.5.5v6l-.5.5h-2l-.5-.5zm2-.5V6H8v5h1z"></path></svg>
+        </i>
+        <span class="menu-title" data-i18n="">Users Insight</span></a>
             <ul id="folder21">
 
-                <li class="nav-item"><a  href="<%= process.env.APP_URL %>/timeline"><span class="menu-title" data-i18n="">Timeline</span></a></li>
+                <li class="nav-item" ><a  href="<%= process.env.APP_URL %>/timeline"><span class="menu-title" data-i18n="">Timeline</span></a></li>
 
                 <li class="nav-item"><a  href="<%= process.env.APP_URL %>/snapshot/32"><span class="menu-title" data-i18n="">Snapshot</span></a></li>
 
+                <li class="nav-item"><a  href="<%= process.env.APP_URL %>/productivity"><span class="menu-title" data-i18n="">Productivity</span></a></li>
+                <li class="nav-item"><a  href="<%= process.env.APP_URL %>/applicationusage"><span class="menu-title" data-i18n="">Applications</span></a></li>
+
             </ul>
                     </li>
-            <li class="nav-item"><a   href="<%= process.env.APP_URL %>/projectsmain"><i class="la ft-credit-card"></i><span class="menu-title" data-i18n=""> Projects</span></a>
+            <li ><a   href="<%= process.env.APP_URL %>/projectsmain"><i class="la ft-credit-card"></i><span class="menu-title" data-i18n=""> Projects</span></a>
                     </li>
-                    <li class="nav-item"><a  style="color:red;" href="<%= process.env.APP_URL %>/companytask"><i class="la ft-layout"></i><span class="menu-title" data-i18n=""> Task</span></a>
+                    <li ><a  style="color:red;" href="<%= process.env.APP_URL %>/companytask"> <i>
+                        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="sidebar-menu__entry__icon" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    </i><span class="menu-title" data-i18n="">Tasks</span></a>
                     </li>
-                    <li class="nav-item"><a   style="color:red;" href="<%= process.env.APP_URL %>/leaves"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Leaves</span></a>
-                        <li class="nav-item"><a   href="<%= process.env.APP_URL %>/reports"><i class="la la-users"></i><span class="menu-title" data-i18n=""> Reports</span></a>
+                    <li ><a   style="color:red;" href="<%= process.env.APP_URL %>/leaves">  <i>
+                        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="sidebar-menu__entry__icon" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg>
+                    </i>
+                    <span class="menu-title" data-i18n="">Leave</span></a>
+                        <li ><a   href="<%= process.env.APP_URL %>/reports"> <i>
+                            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="sidebar-menu__entry__icon" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                        </i>
+                        <span class="menu-title" data-i18n="">Reports</span></a>
                     </li>
-                    <li class="nav-item"><a   href="<%= process.env.APP_URL %>/companysettings"><i class="la ft-layers"></i><span class="menu-title" data-i18n=""> Settings</span></a>
+                    <li ><a   href="<%= process.env.APP_URL %>/timesheet"> <i>
+                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="sidebar-menu__entry__icon" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="#000" stroke-width="2" d="M4.99787498,6.99999999 L4.99787498,0.999999992 L19.4999998,0.999999992 L22.9999998,4.50000005 L23,23 L17,23 M18,1 L18,6 L23,6 M10,23 C13.8659932,23 17,19.8659932 17,16 C17,12.1340068 13.8659932,9 10,9 C6.13400675,9 3,12.1340068 3,16 C3,19.8659932 6.13400675,23 10,23 Z M10,12 L10,16 L13,19"></path></svg>
+                    </i>
+                    <span class="menu-title" data-i18n="">Timesheet</span></a>
+                    </li>
+                    <li ><a   href="<%= process.env.APP_URL %>/companysettings"> <i>
+                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="sidebar-menu__entry__icon" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M13 5H22V7H13zM2 7L9 7 9 9 11 9 11 3 9 3 9 5 2 5zM9 17H22V19H9zM19 11H22V13H19zM17 15L17 9.012 15 9.012 15 11 2 11 2 13 15 13 15 15zM7 21L7 15 5 15 5 17 2 17 2 19 5 19 5 21z"></path></svg>
+                    </i>
+                    <span class="menu-title" data-i18n="">Settings</span></a>
                     </li>
                     <% } %>
 

@@ -393,7 +393,8 @@
 
 <%  if(user.snapshotdata.length > 0){
     var s=1; 
-    for(var i=0; i < user.snapshotdata.length; i++) { 
+    for(var i=0; i < user.snapshotdata.length; i++) {
+        if(user.snapshotdata[i][0].image.length >0){
          var d= i; %>
         
                                      <div class="snapHourly">
@@ -542,7 +543,7 @@
                                            
                                         </div>
                                     </div>
-                                    <% } } %>
+                                    <% } } } %>
                                 </div>
                              
                             </div>

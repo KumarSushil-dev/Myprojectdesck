@@ -209,7 +209,25 @@ app.get('/leaves', function(req, res) {
     }
 });
 
+app.get('/productivity', function(req, res) {
 
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/productivity', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+        res.render('users/login');
+    }
+});
+
+app.get('/timesheet', function(req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token!='') {
+        res.render('admin/timesheet', { person: sess.companyname,roleid :sess.roleid });
+    } else {
+        res.render('users/login');
+    }
+});
 
 app.get('/applicationusage', function(req, res) {
 

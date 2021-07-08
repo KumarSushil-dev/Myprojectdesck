@@ -19,6 +19,10 @@ a {
     margin: 0px;
 }
 
+.apexcharts-toolbar {
+    display: none !important;
+}
+
 
 /* width */
 
@@ -205,7 +209,7 @@ ul {
 .footer {
     position: fixed;
     bottom: 0px;
-    width: calc(100% - 260px) !important;
+    width: calc(100% - 60px) !important;
     z-index: 9;
 }
 
@@ -1632,4 +1636,203 @@ table td a {
 
 .reportTiles a svg {
     width: 120px;
+}
+
+
+/* drawer Menu */
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigation>li>a>i {
+    line-height: inherit;
+    display: inline-block;
+    width: auto !important;
+    height: auto !important;
+    margin-right: 20px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 12%;
+    background: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.main-menu.menu-light .navigation>li>a {
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.main-menu.menu-light .navigation>li.hover a i {
+    background: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-header .navbar-brand .brand-logo.logoLarge {
+    width: 120px;
+    display: none;
+}
+
+.logoIcon {
+    display: block;
+}
+
+.navbar-header .navbar-brand {
+    margin-right: 0;
+    padding: 3px 0;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu {
+    width: 60px;
+}
+
+.main-menu.menu-light .navigation>li a i svg {
+    font-size: 18px;
+    margin-top: 10px;
+    height: 1em !important;
+    width: 1em !important;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .navbar .navbar-container {
+    margin-left: 60px;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .content,
+body.vertical-layout.vertical-menu.menu-expanded .footer {
+    margin-left: 60px;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu:hover {
+    width: 260px;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu:hover .navbar-brand .brand-logo.logoLarge {
+    display: block;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu:hover .navbar-brand .brand-logo.logoIcon {
+    display: none;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu .navigation li.has-sub>a:not(.mm-next):after {
+    top: 4px;
+    position: static;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigation .hover>a>i,
+body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigation:hover>a>i,
+body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigation .open>a>i {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.main-menu.menu-light .navigation>li.active>a {
+    font-weight: 700;
+    color: #2b345f;
+    background: #f4794820;
+    position: relative;
+}
+
+.main-menu.menu-light .navigation>li.active>a:before {
+    content: '';
+    height: 100%;
+    width: 3px;
+    background: #f47948;
+    position: absolute;
+    left: 0px;
+}
+
+.main-menu.menu-light .navigation>li.open .hover>a:before {
+    position: absolute;
+    top: 28%;
+    left: 20px;
+    display: block;
+    width: 7px;
+    height: 7px;
+    content: '';
+    -webkit-transition: all .2s ease;
+    -moz-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+    -webkit-transform: translate(10px, 50%);
+    -moz-transform: translate(10px, 50%);
+    -ms-transform: translate(10px, 50%);
+    -o-transform: translate(10px, 50%);
+    transform: translate(10px, 50%);
+    opacity: 1;
+    border-color: #f47948;
+    border-radius: 50%;
+    background-color: #f47948;
+    z-index: 99;
+}
+
+.main-menu.menu-light .navigation>li ul li>a {
+    padding: 10px 18px 10px 65px;
+}
+
+.main-menu.menu-light .navigation>li ul li:after {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background: #ccc;
+    position: absolute;
+    left: 33px;
+    top: 0px;
+    z-index: 1;
+}
+
+.main-menu.menu-light .navigation>li.open .hover>a {
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu .open ul {
+    display: none !important;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu:hover .open ul {
+    display: block !important;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu .navigation>li>a>i:before {
+    font-size: 18px;
+}
+
+
+/* body.vertical-layout.vertical-menu.menu-expanded .main-menu .navigation li.has-sub>a:not(.mm-next):after {
+    display: none;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu .open .navigation li.has-sub>a:not(.mm-next):after {
+    display: block !important;
+} */
+
+.main-menu.menu-light .navigation li a span {
+    flex: 1
+}
+
+svg .group-container {
+    display: none !important;
+}
+
+.ssUserList li a {
+    color: #333;
+    font-weight: 400;
+}
+
+.ssUserList li .active {
+    background: #f4794840;
+    position: relative;
+}
+
+.ssUserList li .active:before {
+    content: '';
+    width: 4px;
+    background: #f47948;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0;
 }
