@@ -1,6 +1,7 @@
 body.vertical-layout[data-color=bg-gradient-x-purple-blue] .navbar-container,
 body.vertical-layout[data-color=bg-gradient-x-purple-blue] .content-wrapper-before {
     background: #6b6f80 !important;
+    font-family: 'Roboto', sans-serif ; 
 }
 
 p,
@@ -17,6 +18,11 @@ tr,
 a {
     font-size: .75rem !important;
     margin: 0px;
+    font-family: 'Roboto', sans-serif ;
+}
+
+h1, h2, h3, h4, h5, h6, div, p, a, span, table, td, th, b, em, i, ul, li {
+    font-family: 'Roboto', sans-serif ;
 }
 
 .apexcharts-toolbar {
@@ -567,7 +573,7 @@ html body .content {
     top: 0px;
     right: 0px;
     background: #0008;
-    z-index: 9999;
+    z-index: 99999;
     height: 100vh;
     align-items: center;
     justify-content: center;
@@ -788,7 +794,7 @@ html body .content {
 h4 {
     color: #ed4724;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 500;
     margin-top: 20px;
 }
 
@@ -940,7 +946,7 @@ h4 {
 
 .chart.doughnut ul li {
     line-height: 1rem;
-    font-family: helvetica, sans serif;
+    font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
     margin-bottom: 0;
     padding-left: 0;
     position: relative;
@@ -952,7 +958,7 @@ h4 {
 
 .chart.doughnut2 ul li {
     line-height: initial;
-    font-family: helvetica, sans serif;
+    font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
     margin-bottom: 0;
     padding-left: 0;
     position: relative;
@@ -966,7 +972,7 @@ h4 {
 
 .chart.doughnut3 ul li {
     line-height: initial;
-    font-family: helvetica, sans serif;
+    font-family: "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
     margin-bottom: 0;
     padding-left: 0;
     position: relative;
@@ -1646,13 +1652,14 @@ body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigati
     display: inline-block;
     width: auto !important;
     height: auto !important;
-    margin-right: 20px;
+    margin-right: 8px;
     text-align: center;
     vertical-align: middle;
     border-radius: 12%;
     background: none;
     -webkit-box-shadow: none;
     box-shadow: none;
+    color: #999;
 }
 
 .main-menu.menu-light .navigation>li>a {
@@ -1702,7 +1709,7 @@ body.vertical-layout.vertical-menu.menu-expanded .footer {
 }
 
 body.vertical-layout.vertical-menu.menu-expanded .main-menu:hover {
-    width: 260px;
+    width: 220px;
 }
 
 body.vertical-layout.vertical-menu.menu-expanded .main-menu:hover .navbar-brand .brand-logo.logoLarge {
@@ -1726,10 +1733,13 @@ body.vertical-layout.vertical-menu.menu-expanded .main-menu.menu-light .navigati
 }
 
 .main-menu.menu-light .navigation>li.active>a {
-    font-weight: 700;
-    color: #2b345f;
+    font-weight: 400;
+    color: #333;
     background: #f4794820;
     position: relative;
+}
+.main-menu.menu-light .navigation>li.active>a i {
+    color: #333 !important;
 }
 
 .main-menu.menu-light .navigation>li.active>a:before {
@@ -1810,7 +1820,20 @@ body.vertical-layout.vertical-menu.menu-expanded .main-menu .open .navigation li
 } */
 
 .main-menu.menu-light .navigation li a span {
-    flex: 1
+    flex: 1;
+    color: #999;
+    font-weight: 600;
+    display:none;
+}
+
+.main-menu.menu-light .navigation li.active a span {
+    flex: 1;
+    color: #333;
+    font-weight: 600;
+}
+
+body.vertical-layout.vertical-menu.menu-expanded .main-menu:hover .navigation li a span {
+    display: block;
 }
 
 svg .group-container {
@@ -1836,3 +1859,18 @@ svg .group-container {
     left: 0px;
     top: 0;
 }
+
+
+/* Popup Css */
+#leaveModal, #breakModal, #departmentsModal, #taskModal {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+    display: none;
+    background: #0002;
+}
+
+.openPopups #leaveModal, .openPopups1 #departmentsModal, .openPopups2 #breakModal, .openPopups3 #taskModal  {
+    display: block;
+}    

@@ -1,142 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Project desk</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="/theme-assets/css/frontbootstrap.min.css" rel="stylesheet">
-    <link href="/theme-assets/css/all.min.css" rel="stylesheet">
-    <link href="/theme-assets/css/owl.carousel.min.css" rel="stylesheet">
-    <link href="/theme-assets/css/owl.theme.default.min.css" rel="stylesheet">
-    <!-- <link href="/theme-assets/animate.min.css" rel="stylesheet"> -->
-    <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
-    <link href="/theme-assets/css/style.css" rel="stylesheet">
-    <link href="/theme-assets/css/responsive.css" rel="stylesheet">
-</head>
-<body>
-
-    <div class="pageWrapper">
-        <div class="modal fade loginSignPopUp" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content border-0">
-                        <div class="modal-body">
-        
-                            <div class="container" id="container">
-                                <div class="form-container sign-up-container">
-                                    <form method="post" enctype="multipart/form-data" accept-charset="utf-8" class="form" controller="pages" validate="validate" action="/pages/registration">
-                                        <div style="display:none;"><input type="hidden" name="_method" value="POST" /></div>
-                                        <div class="showTitleMobile">
-                                            <h1>Hello, Friend!</h1>
-                                            <p>Enter your personal details and start journey with us</p>
-                                        </div>
-        
-                                        <a href="#" class="showLogin showTitleMobile">Signin</a>
-        
-                                        <div class="input text">
-                                            <input type="text" name="name" class="form-control" placeholder="Your Name" required="required" autocomplete="off" id="name" />
-                                        </div>
-        
-                                        <div class="input email">
-                                            <input type="email" name="email" class="form-control emailcheck" placeholder="Your Email" required="required" autocomplete="off" id="email" />
-                                        </div>
-        
-                                        <div class="input password">
-                                            <input type="password" name="password" class="form-control input1" placeholder="Password" required="required" autocomplete="off" id="password" />
-                                        </div>
-        
-                                        <div class="custom-control custom-checkbox text-left d-flex">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1" required>
-                                            <label class="custom-control-label" for="customCheck1" style="font-size: 12px; text-align: left; margin-left: 10px;">By clicking on "Sign up", you are agreeing to our Terms and Conditions.</label>
-                                        </div>
-        
-                                        <button class="signup">Sign Up</button>
-        
-                                    </form>
-                                </div>
-                                <div class="form-container sign-in-container">
-        
-        
-        
-                                    <form method="post" enctype="multipart/form-data" accept-charset="utf-8" class="form" controller="pages" validate="validate" action="/pages/login">
-                                        <div style="display:none;"><input type="hidden" name="_method" value="POST" /></div>
-                                        <div class="showTitleMobile">
-                                            <h1>Welcome Back!</h1>
-                                            <p>To keep connected with us please login with your personal info</p>
-                                        </div>
-        
-                                        <a href="#" class="showSignUp showTitleMobile">Sign Up</a>
-        
-                                        <!-- <span>or use your account</span> -->
-                                        <div class="input text"><input type="text" name="email" class="form-control emaill" placeholder="Email" autocomplete="off" id="email" /></div>
-                                        <div class="input password"><input type="password" name="password" class="form-control passwordd" placeholder="Password" id="password" /></div>
-                                        <h5 style="display:none; margin-left: -40px; color: red; font-size: 13px;" id="passmsg" class="text">**Invalid email or password, try again</h5>
-                                        <ul class="d-flex justify-content-between align-items-center list-unstyled w-100">
-                                            <li class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                                <label class="custom-control-label" for="customCheck1" style="font-size: 12px; text-align: left; margin-left: 10px;">Remember me</label>
-                                            </li>
-                                            <li><a href="#">Forgot your password?</a></li>
-                                        </ul>
-        
-                                        <button class="logincheck">Sign In</button>
-                                    </form>
-                                </div>
-                                <div class="overlay-container">
-                                    <div class="overlay">
-                                        <div class="overlay-panel overlay-left">
-                                            <h1>Welcome Back!</h1>
-                                            <p>To keep connected with us please login with your personal info</p>
-                                            <button class="ghost" id="signIn">Sign In</button>
-                                        </div>
-                                        <div class="overlay-panel overlay-right">
-                                            <h1>Hello, Friend!</h1>
-                                            <p>Enter your personal details and start journey with us</p>
-                                            <button class="ghost" id="signUp">Sign Up</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!doctype html>
+    <html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/theme-assets/front/css/bootstrap.min.css" type="text/css">
+        <link rel="icon" type="image/png" sizes="32x32" href="/theme-assets/front/images/favicon.png">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/theme-assets/front/css/all.min.css" type="text/css">
+        <link rel="stylesheet" href="/theme-assets/front/css/owl.carousel.min.css" type="text/css">
+        <link rel="stylesheet" href="/theme-assets/front/css/owl.theme.default.min.css" type="text/css">
+        <link rel="stylesheet" href="/theme-assets/front/css/animate.css" type="text/css">
+        <link rel="stylesheet" href="/theme-assets/front/css/style.css" type="text/css">
+        <link rel="stylesheet" href="/theme-assets/front/css/responsive.css" type="text/css">
+        <title>My Project Desk</title>
+    </head>
+    
+    <body class="home">
+<!-- The Modal videoModal -->
+<div class="modal fade" id="motivationVideoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="embed-responsive embed-responsive-21by9">
+                        <iframe class="embed-responsive-item" id="youtubeVidMdl" width="100%" height="315"
+                            src="https://www.youtube.com/embed/aDIrnR9y-j8" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
-            <!---------------------- Login SignUp Popup End -------------------------->
-        
-            <header id="header">
-                <div class="container">
-                    <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand" href="<%= process.env.APP_URL %>/">
-                            <img src="/theme-assets/images/logo_new.png" alt="" class="img-fluid" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="<%= process.env.APP_URL %>">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<%= process.env.APP_URL %>/features">Features</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<%= process.env.APP_URL %>/pricing">Pricing</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<%= process.env.APP_URL %>/workprocess">How it Work</a>
-                                </li>
-                            </ul>
-                            <ul class="navbar-nav mb-2 mb-lg-0 headerButtons">
-                                <li class="nav-item">
-                                    <a class="nav-link loginButton" href="<%= process.env.APP_URL %>/login" >Sign In</a>
-                                    <!--data-bs-toggle="modal" data-bs-target="#exampleModalCenter" -->
-                                </li>
-                              
-                            </ul>
-                        </div>
-                    </nav>
+        </div>
+    </div>
+    <!-- modal-end -->
+    <!-- header-start -->
+    <header>
+        <div class="container">
+            <div class="d-flex justify-content-between">
+                <div class="logo align-self-center">
+                    <a href="<%= process.env.APP_URL %>/">
+                        <img src="/theme-assets/front/images/logo.png" alt="Logo">
+                    </a>
                 </div>
-            </header>
+                <!-- logo -->
+    
+                <nav class="align-self-center">
+                    <ul class="list-inline d-flex">
+                        <li class="list-inline-item align-self-center">
+                            <a href="<%= process.env.APP_URL %>/features">
+                                Features
+    
+                            </a>
+                        </li>
+    
+                        <li class="list-inline-item align-self-center">
+                            <a href="<%= process.env.APP_URL %>/industries">
+                                Industries
+    
+                            </a>
+                        </li>
+    
+                        <li class="list-inline-item align-self-center">
+                            <a href="<%= process.env.APP_URL %>/priceplan">
+                                Pricing
+    
+                            </a>
+                        </li>
+    
+                        <li class="list-inline-item align-self-center">
+                            <a href="javascript:void(0);">
+                                About Us 
+    
+                            </a>
+                        </li>
+    
+                        <li class="list-inline-item align-self-center">
+                            <a href="<%= process.env.APP_URL %>/login">
+                                Login
+    
+                            </a>
+                        </li>
+    
+                        <li class="list-inline-item align-self-center">
+                            <a href="<%= process.env.APP_URL %>/signup" class="site_btn">
+                                Registration
+    
+                            </a>
+                        </li>
+    
+                                               
+    
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+        <!-- header-end -->

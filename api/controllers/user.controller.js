@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getprojectsmainadd,getcompanyprojects } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -369,7 +369,7 @@ viewdetail:(req, res) => {
                         getapps(body, (err, resultapps) => {
                          //   console.log(resultapps);
                         var twoHoursBefore = new Date();
-                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 3);
                      
                         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
@@ -450,7 +450,7 @@ snapshotdetail:(req, res) => {
    
     viewdetailid(body, (err, results) => {
        var twoHoursBefore = new Date();
-        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
+        twoHoursBefore.setHours(twoHoursBefore.getHours() - 3);
         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
                         let x = 60; //minutes interval
@@ -1165,6 +1165,9 @@ var str=utest[0].format;
        getuserfortimelinesecond(body, (err, uarray) => {
        
         getcompanyprojects(body, (err, results) => {
+    projecttasklistget(body, (err, resultsproject) => {
+    getpriority(body, (err, resultspriority) => {
+        getuserfortimeline(body, (err, getuser) => {
 
             if(err){
             console.log(err);
@@ -1180,25 +1183,62 @@ var str=utest[0].format;
             }
 
 
-                
 
                 return res.status(200).json({
                     success: true,
                     data: results,
-                    user:uarray
-    
-    
+                    user:uarray,
+                    project:resultsproject,
+                    priority:resultspriority,
+                    getuse: getuser
                 });
     
-    
-    
-         
+         });
+         });
+         });
+        });
+        });
 
+    },
+    taskview: (req, res) => {
 
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+       getuserfortimelinesecond(body, (err, uarray) => {
+       
+        gettaskview(body, (err, results) => {
+    activitytasklistget(body, (err, resultsproject) => {
    
+        getuserfortimeline(body, (err, getuser) => {
+
+            if(err){
+            console.log(err);
+            }
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    detail: "No User Listed."
+
+                });
+            }
 
 
 
+                return res.status(200).json({
+                    success: true,
+                    data: results,
+                    user:uarray,
+                    task:resultsproject,
+                    getuse: getuser
+                });
+    
+         });
+         });
+       
         });
         });
 
@@ -1237,6 +1277,101 @@ var str=utest[0].format;
 
 
 
+        });
+        });
+
+    },
+    projectsedit: (req, res) => {
+    const body = req.body;
+       body.userid=req.decoded.result[0].id;
+       getuserfortimelinesecond(body, (err, uarray) => {
+       getprojectsmainedit(body, (err, results) => {
+        projecttasklistget(body, (err, resultsproject) => {
+            getpriority(body, (err, resultspriority) => {
+                getuserfortimeline(body, (err, getuser) => {
+    if(err){
+    console.log(err);
+            }
+    if(results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+        return res.status(200).json({
+                    success: true,
+                    data: results,
+                    user:uarray,
+                    project:resultsproject,
+                    priority:resultspriority,
+                    getuse: getuser
+           });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+        });
+        });
+        });
+        });
+
+    },
+    taskadd: (req, res) => {
+    const body = req.body;
+       body.userid=req.decoded.result[0].id;
+       getuserfortimelinesecond(body, (err, uarray) => {
+        taskaddget(body, (err, results) => {
+            body.id=body.projects_id;
+        projecttasklistget(body, (err, resultsproject) => {
+            getpriority(body, (err, resultspriority) => {
+                getuserfortimeline(body, (err, getuser) => {
+    if(err){
+    console.log(err);
+            }
+    if(results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+        return res.status(200).json({
+                    success: true,
+                    data: results,
+                    user:uarray,
+                    project:resultsproject,
+                    priority:resultspriority,
+                    getuse: getuser
+           });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+        });
+        });
         });
         });
 
@@ -2631,18 +2766,17 @@ productivityinfo: (req, res) => {
         if (results) {
 
             if(totalproductinfo){
-              //  var totalproductinfo= Math.floor(totalproductinfo / 1000);
+                
                 var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
                 var mstotalworkingDisplays = mstotalworkings > 0 ? (mstotalworkings > 9 ? mstotalworkings : "0"+mstotalworkings) + (mstotalworkings == 1 ? "" : "") : "00";
-                 var percentage=(Number(mstotalworkingDisplays)*100)/60;
+                var percentagef=(Number(mstotalworkingDisplays)*100)/60;
 
-
-                dtotalproductinfo = Number(totalproductinfo);
-                var htotalproductinfo = Math.floor(dtotalproductinfo / 3600);
-                var mtotalproductinfo = Math.floor(dtotalproductinfo % 3600 / 60);
+            dtotalproductinfo = Number(totalproductinfo);
+             var htotalproductinfo = Math.floor(dtotalproductinfo / 3600);
+            var mtotalproductinfo = Math.floor(dtotalproductinfo % 3600 / 60);
                 
-                var totalproductinfoDisplay = htotalproductinfo > 0 ? (htotalproductinfo > 9 ? htotalproductinfo : "0"+htotalproductinfo) + (htotalproductinfo == 1 ? "" : "") : "00";
-                var mtotalproductinfoDisplay = mtotalproductinfo > 0 ? (mtotalproductinfo > 9 ? mtotalproductinfo : "0"+mtotalproductinfo) + (mtotalproductinfo == 1 ? "" : "") : "00";
+            var totalproductinfoDisplay = htotalproductinfo > 0 ? (htotalproductinfo > 9 ? htotalproductinfo : "0"+htotalproductinfo) + (htotalproductinfo == 1 ? "" : "") : "00";
+            var mtotalproductinfoDisplay = mtotalproductinfo > 0 ? (mtotalproductinfo > 9 ? mtotalproductinfo : "0"+mtotalproductinfo) + (mtotalproductinfo == 1 ? "" : "") : "00";
  
 
 
@@ -2673,10 +2807,10 @@ productivityinfo: (req, res) => {
                 var totalworking="";
                 var totalworkingDisplay="00";
                 var mtotalworkingDisplay="00";
-                var percentage="0";
+                var percentagef="0";
             }
 
-            percentage=Math.round(percentage);
+          var  percentagef=Math.round(percentagef);
 
         return res.status(200).json({
             success:true,
@@ -2684,7 +2818,7 @@ productivityinfo: (req, res) => {
             totalproductivity: totalproductinfoDisplay+':'+mtotalproductinfoDisplay,
             totalidle: totalidleDisplay+':'+mtotalidleDisplay,
             totalworking: totalworkingDisplay+':'+mtotalworkingDisplay,
-            totalproductivitypercentage: percentage+' %',
+            totalproductivitypercentage: percentagef+' %',
             detail: "Productivity Info"
           });
 

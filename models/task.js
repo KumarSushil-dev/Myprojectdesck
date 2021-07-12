@@ -13,6 +13,10 @@ module.exports=(sequelize,DataTypes)=>{
                 type: DataTypes.STRING,
                 allowNull: false
                  }, 
+                 assignmultipleuser: {
+                type: DataTypes.STRING,
+                allowNull: false
+                 }, 
             priority: {
                     type: DataTypes.ENUM('Low', 'Medium', 'Urgent'),
                     allowNull: false

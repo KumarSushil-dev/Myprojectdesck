@@ -54,6 +54,14 @@ module.exports = {
             return callBack(err);
           }); 
     },
+    getpriority: async(data, callBack) => {
+        await Settings.findAll({
+            where: {userId: data.userid,type:'TP',status:'Y'}, order:[['id','ASC']]
+        }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
     datatransferid: async(data, callBack) => {
         await Usersnapshots.create({userId:data.userId,productivityCount:data.productivityCount,productivitytime:data.productivitytime,screenshot:data.screenshot,totalIdleMinutes: data.totalIdleMinutes,totalKeypressCount:data.totalKeypressCount,totalMouseMovement:data.totalMouseMovement,totalClicks:data.totalClicks,capturetime:data.capturetime,applist:data.applist}).then(emailexist => callBack(null, emailexist)).catch(function (err) {
 
@@ -131,12 +139,12 @@ resultst.push(x);
                        // promises.push(0);
                     } else {
 
-                        if(results[0].productivitytime!== null){
+                if(results[0].productivitytime!== null){
 
                 results[0].productivitytime=Number(results[0].productivitytime);
                 results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
                         var obj = [];
-                        productivetotal+=results[0].productivitytime;
+                        productivetotal +=results[0].productivitytime;
                         idletotal+=results[0].idletime;
 if(results[0].idletime){
                         didletime = Number(results[0].idletime);
@@ -225,8 +233,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
       const string = data.times[i].split('-');
       const userstring = data.user[k].split('_');
     
-      
-          await pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+   await pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
             userstring[0],
                 startdate,
                 string[0],
@@ -718,6 +725,44 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               return callBack(err);
             }); 
       },
+      projecttasklistget: async(data, callBack) => {
+
+        await Task.findAll({
+            where: {userId:data.userid,projects_id:data.id },
+            attributes: ['id','name','startdate'],
+          order:[['id','ASC']],
+          include: [{
+            model: User,
+            where: {id:data.userid},
+            attributes: ['firstname','lastname']
+          }]
+            }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      activitytasklistget: async(data, callBack) => {
+
+      await Tasksactivities.findAll({
+      where: {tasks_id:data.id},
+      attributes: ['keypress','mouseclicked','mousemoved','starttime','endtime','manuallyend_time'],
+      include: [ {
+                  model: Task,
+                  attributes: ['name']
+                
+              },
+              {
+                model: User,
+                attributes: ['firstname','lastname']
+              }
+          ],
+           order:[['id','DESC']],
+          }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+              
+      },
       activeactivityget: async(data, callBack) => {
         const TODAY_START = new Date().setHours(05, 0, 0, 0);
         var NOW = new Date();
@@ -1070,11 +1115,61 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             return callBack(err);
           }); 
     },
+    gettaskview: async(data, callBack) => {
+        await Task.findOne({
+            where: {id: data.id},
+            include: [{
+              model: Projects,
+              attributes: ['name']
+          },{
+              model: User,
+              attributes: ['firstname','lastname']
+            }],
+            order:[['id','DESC']]
+        }).then(getstatelist => callBack(null, getstatelist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
     getprojectsmainadd: async(data, callBack) => {
 
      await Projects.create({name: data.name,userId:data.uid,description:data.description,status:'Y'}).then(function(){
        Projects.findAll({
         where: {userId: data.userid},
+        include: [{
+            model: User,
+            attributes: ['firstname','lastname']
+          }],
+          order:[['id','DESC']]
+      }).then(notes => callBack(null,notes));                      
+         }).catch(function (err) {
+        // handle error;
+        return callBack(err);
+      }); 
+   },
+   taskaddget: async(data, callBack) => {
+data.startdate=moment(data.startdate).format('YYYY-MM-DD HH:mm:ss');
+data.enddate=moment(data.enddate).format('YYYY-MM-DD HH:mm:ss');
+var colorsCSV = data.assignmultipleuser.join(",");
+     await Task.create({startdate: data.startdate,assignmultipleuser:colorsCSV,priority: data.priority,name: data.name,projects_id: data.projects_id,userId:data.userid,enddate:data.enddate,status:'Y'}).then(function(){
+       Projects.findOne({
+        where: {id: data.projects_id},
+        include: [{
+            model: User,
+            attributes: ['firstname','lastname']
+          }],
+          order:[['id','DESC']]
+      }).then(notes => callBack(null,notes));                      
+         }).catch(function (err) {
+        // handle error;
+        return callBack(err);
+      }); 
+   },
+   getprojectsmainedit: async(data, callBack) => {
+  await Projects.update({name: data.name,userId:data.uid,description:data.description,status:'Y'},{  where: {id: data.id} 
+}).then(function(){
+       Projects.findOne({
+        where: {id: data.id},
         include: [{
             model: User,
             attributes: ['firstname','lastname']

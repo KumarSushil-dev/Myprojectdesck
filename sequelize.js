@@ -68,6 +68,7 @@ Userapplist.belongsTo(User, { foreignKey: 'userId' });
 Break.belongsTo(User, { foreignKey: 'userId' });
 Usersbreakslogs.belongsTo(Break, { foreignKey: 'breaks_id' });
 Tasksactivities.belongsTo(Task, { foreignKey: 'tasks_id' });
+Tasksactivities.belongsTo(User, { foreignKey: 'userId' });
 Task.belongsTo(Projects, { foreignKey: 'projects_id' });
 Task.belongsTo(User, { foreignKey: 'userId' });
 Projects.belongsTo(User, { foreignKey: 'userId' });

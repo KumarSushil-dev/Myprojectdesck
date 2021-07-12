@@ -36,6 +36,64 @@
                     });
                 });
             </script>
+            <!-- popup Data -->
+    <script>
+        $(document).ready(function () {
+            $("#leaveModalButton").click(function () {
+                $(".settingModal").addClass("openPopups");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#departmentsModalButton").click(function () {
+                $(".settingModal").addClass("openPopups1");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#breakModalButton").click(function () {
+                $(".settingModal").addClass("openPopups2");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#taskModalButton").click(function () {
+                $(".settingModal").addClass("openPopups3");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".close1").click(function () {
+                $(".settingModal").removeClass("openPopups");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".close2").click(function () {
+                $(".settingModal").removeClass("openPopups1");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".close3").click(function () {
+                $(".settingModal").removeClass("openPopups2");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".close4").click(function () {
+                $(".settingModal").removeClass("openPopups3");
+            });
+        });
+    </script>
+    <!-- popup Data -->
     <!-- Leave Type -->
     <div class="addPopup" role="alert">
         <div class="popContent">
@@ -49,8 +107,8 @@
                     <label class="mb-1">Name</label>
                     <input type="text"  name="name" placeholder="Enter Name" class="form-control mb-1" required>
 
-                    <button class="removeClass">Close</button>
-                    <input type="submit" value="Save" />
+                    <a href="#" class="btn removeClass">Close</a>
+                    <input type="submit" style="float:right;" value="Save" />
                 </form>
             </div>
         </div>
@@ -58,10 +116,10 @@
 
     <!-- Leave Type -->
     <div class="settingModal">
-        <div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="leaveModalLabel" aria-hidden="true">
+        <div id="leaveModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close close1" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="modal-header align-items-center">
@@ -121,10 +179,10 @@
             </div>
         </div>
 
-        <div class="modal fade" id="departmentsModal" tabindex="-1" role="dialog" aria-labelledby="departmentsModalLabel" aria-hidden="true">
+        <div  id="departmentsModal" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close close2" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="modal-header align-items-center">
@@ -184,10 +242,10 @@
             </div>
         </div>
 
-        <div class="modal fade" id="breakModal" tabindex="-1" role="dialog" aria-labelledby="breakModalLabel" aria-hidden="true">
+        <div id="breakModal" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close close3" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="modal-header align-items-center">
@@ -247,10 +305,10 @@
             </div>
         </div>
 
-        <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+        <div id="taskModal" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close close4" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="modal-header align-items-center">
@@ -329,7 +387,7 @@
                 <div class="blocks settingContainers mb-0">
                     <div class="row no-gutters">
                         <div class="col-md-4 col-sm-6">
-                            <a href="#" class="d-flex align-items-center settingTiles" data-toggle="modal" data-target="#leaveModal">
+                            <a href="#" class="d-flex align-items-center settingTiles" id="leaveModalButton">
                                 <img src="/assets/images/ic_leave.png" class="img-fluid" />
                                 <div class="flex-fill">
                                     <p><b>Leave Type</b></p>
@@ -338,7 +396,7 @@
                             </a>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <a href="#" class="d-flex align-items-center settingTiles" data-toggle="modal" data-target="#departmentsModal">
+                            <a href="#" class="d-flex align-items-center settingTiles" id="departmentsModalButton">
                                 <img src="/assets/images/ic_department.png" class="img-fluid" />
                                 <div class="flex-fill">
                                     <p><b>Departments</b></p>
@@ -347,7 +405,7 @@
                             </a>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <a href="#" class="d-flex align-items-center settingTiles" data-toggle="modal" data-target="#breakModal">
+                            <a href="#" class="d-flex align-items-center settingTiles" id="breakModalButton">
                                 <img src="/assets/images/ic_breaks.png" class="img-fluid" />
                                 <div class="flex-fill">
                                     <p><b>Breaks</b></p>
@@ -356,7 +414,7 @@
                             </a>
                         </div>
                         <div class="col-md-4 col-sm-6">
-                            <a href="#" class="d-flex align-items-center settingTiles" data-toggle="modal" data-target="#taskModal">
+                            <a href="#" class="d-flex align-items-center settingTiles" id="taskModalButton">
                                 <img src="/assets/images/ic_task_priority.png" class="img-fluid" />
                                 <div class="flex-fill">
                                     <p><b>Task Priority</b></p>
