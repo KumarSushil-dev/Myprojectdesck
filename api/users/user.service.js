@@ -20,6 +20,14 @@ module.exports = {
             return callBack(err);
           }); 
     },
+    checkifdataexist: async(data, callBack) => {
+        await Usersnapshots.findAll({
+            where: {capturetime: data.capturetime}
+        }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
+            return callBack(err);
+
+          }); 
+    },
     checkiftodaydateexistuserid: async(data, callBack) => {
         const TODAY_START = new Date().setHours(05, 0, 0, 0);
         var NOW = new Date();
@@ -206,6 +214,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
      obj.push({ "starttime": string[0],"endtime":string[1],"idletime":idletime,"productivitytime":productivitytime,"productivitypercentage":percentage+" %" });
                         
          promises.push(obj);
+
                         }
                     }
 
@@ -721,6 +730,27 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             attributes: ['firstname','lastname']
           }]
             }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      getcompanytask: async(data, callBack) => {
+
+        await Task.findAll({
+        where: {userId:data.userid,projects_id: {
+                [Op.ne]: 0
+              }},
+          attributes: ['id','name','startdate','assignmultipleuser','enddate','priority'],
+          order:[['id','ASC']],
+          include: [{
+            model: User,
+            where: {id:data.userid},
+            attributes: ['firstname','lastname']
+          },{
+            model: Projects,
+            attributes: ['name']
+        }]
+      }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
               // handle error;
               return callBack(err);
             }); 

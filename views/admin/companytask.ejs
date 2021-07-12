@@ -192,11 +192,11 @@
             <div class="content-body">
                 <div class="blocks userDetails">
                     <div class="userIcon">
-                        <img src="./assets/images/ic_task.png" class="img-fluid" alt="" />
+                        <img src="/assets/images/ic_task.png" class="img-fluid" alt="" />
                     </div>
                     <div class="details">
-                        <h4 class="m-0">Task</h4>
-                        <p class="m-0">Here You Can Create And Assign New Tasks Or Edit An Existing Task</p>
+                    <h4 class="m-0">Task</h4>
+                    <p class="m-0">Here You Can Create And Assign New Tasks Or Edit An Existing Task</p>
                     </div>
                     <ul class="d-flex topInputs">
                         <li class="mr-1">
@@ -251,190 +251,54 @@
                                             <th>Due Date</th>
                                             <th>Priority</th>
                                             <th>Status</th>
-                                            <th></th>
+                                          
                                         </tr>
                                     </thead>
                                     <tbody> 
+                                        <%  if(companytask.data.length > 0){
+                                            var s=1; 
+                       for(var i=0; i < companytask.data.length; i++) { %>
+                                           <tr>
                                         <tr>
-                                            <td><a href="<%= process.env.APP_URL %>/companytaskdetail">Meeting</a></td>
-                                            <td>Calling</td>
-                                            <td>Vikas Solanki</td>
-                                            <td>
-                                                <ul class="assignList">
-                                                    <li>SS</li>
-                                                    <li>YY</li>
-                                                    <li>RC</li>
-                                                    <li>DA</li>
-                                                    <li>20+</li>
-                                                </ul>
-                                            </td>
-                                            <td>07-06-2021 12:22:21</td>
-                                            <td>07-06-2021 01:22:21</td>
-                                            <td>Medium</td>
+                                            <td><a href="<%= process.env.APP_URL %>/taskview/<%= companytask.data[i].id; %>"><%= companytask.data[i].name; %></a></td>
+                                            <td><%= companytask.data[i].project.name; %></td>
+                                            <td><%= companytask.data[i].user.firstname; %> <%= companytask.data[i].user.lastname; %></td>
+                                            <td> <ul class="assignList"><%  var sstr=companytask.data[i].assignmultipleuser;
+                                                var stringarray= sstr.split(',');   
+                                                                                        
+                                            if(companytask.getuse.length > 0){
+                                                                   
+                                           for(var s=0; s < 5; s++) {
+                           var ssss=stringarray.includes(companytask.getuse[s].id);
+                           
+                           
+                                                   if(ssss==false){ %>
+                                                       <% var srr=companytask.getuse[s].firstname; 
+                                                       var snerr=companytask.getuse[s].lastname; 
+                                                       var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> <li><%=res; %> <%=nres; %></li>
+                            <% } }  %>
+                                                      <li><%= companytask.getuse.length; %>+</li> 
+                                                      <% } %>        
+                                                               </ul>
+                                                           </li>
+                                                       </ul>
+                                                       
+                                                       </td>
+                                           
+                    <td> <%=  moment(companytask.data[i].startdate).format('DD-MM-YYYY');  %></td>
+                    <td> <%=  moment(companytask.data[i].enddate).format('DD-MM-YYYY');  %></td>
+                                          
+                    <td><%= companytask.data[i].priority; %></td>
                                             <td><span class="alert alert-success">In Process</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="la la-cog"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            
                                         </tr>
-                                        <tr>
-                                            <td><a href="<%= process.env.APP_URL %>/companytaskdetail">Meeting</a></td>
-                                            <td>Calling</td>
-                                            <td>Vikas Solanki</td>
-                                            <td>
-                                                <ul class="assignList">
-                                                    <li>SS</li>
-                                                    <li>YY</li>
-                                                    <li>RC</li>
-                                                    <li>DA</li>
-                                                    <li>20+</li>
-                                                </ul>
-                                            </td>
-                                            <td>07-06-2021 12:22:21</td>
-                                            <td>07-06-2021 01:22:21</td>
-                                            <td>Medium</td>
-                                            <td><span class="alert alert-success">In Process</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="la la-cog"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="<%= process.env.APP_URL %>/companytaskdetail">Meeting</a></td>
-                                            <td>Calling</td>
-                                            <td>Vikas Solanki</td>
-                                            <td>
-                                                <ul class="assignList">
-                                                    <li>SS</li>
-                                                    <li>YY</li>
-                                                    <li>RC</li>
-                                                    <li>DA</li>
-                                                    <li>20+</li>
-                                                </ul>
-                                            </td>
-                                            <td>07-06-2021 12:22:21</td>
-                                            <td>07-06-2021 01:22:21</td>
-                                            <td>Medium</td>
-                                            <td><span class="alert alert-success">In Process</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="la la-cog"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="<%= process.env.APP_URL %>/companytaskdetail">Meeting</a></td>
-                                            <td>Calling</td>
-                                            <td>Vikas Solanki</td>
-                                            <td>
-                                                <ul class="assignList">
-                                                    <li>SS</li>
-                                                    <li>YY</li>
-                                                    <li>RC</li>
-                                                    <li>DA</li>
-                                                    <li>20+</li>
-                                                </ul>
-                                            </td>
-                                            <td>07-06-2021 12:22:21</td>
-                                            <td>07-06-2021 01:22:21</td>
-                                            <td>Medium</td>
-                                            <td><span class="alert alert-success">In Process</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="la la-cog"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="<%= process.env.APP_URL %>/companytaskdetail">Meeting</a></td>
-                                            <td>Calling</td>
-                                            <td>Vikas Solanki</td>
-                                            <td>
-                                                <ul class="assignList">
-                                                    <li>SS</li>
-                                                    <li>YY</li>
-                                                    <li>RC</li>
-                                                    <li>DA</li>
-                                                    <li>20+</li>
-                                                </ul>
-                                            </td>
-                                            <td>07-06-2021 12:22:21</td>
-                                            <td>07-06-2021 01:22:21</td>
-                                            <td>Medium</td>
-                                            <td><span class="alert alert-success">In Process</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="la la-cog"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="<%= process.env.APP_URL %>/companytaskdetail">Meeting</a></td>
-                                            <td>Calling</td>
-                                            <td>Vikas Solanki</td>
-                                            <td>
-                                                <ul class="assignList">
-                                                    <li>SS</li>
-                                                    <li>YY</li>
-                                                    <li>RC</li>
-                                                    <li>DA</li>
-                                                    <li>20+</li>
-                                                </ul>
-                                            </td>
-                                            <td>07-06-2021 12:22:21</td>
-                                            <td>07-06-2021 01:22:21</td>
-                                            <td>Medium</td>
-                                            <td><span class="alert alert-success">In Process</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="la la-cog"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                        <a class="dropdown-item" href="#">Setting 1</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        <% } }else{ %>
+                                            <tr>
+                                            <td class="text-center" colspan="4" style="color:red; ">
+                                               No Task Listed Yet
+                                             </td>
+                                            </tr>
+                                            <% }  %>
                                     </tbody>
                                 </table>
                             </div>
