@@ -2876,7 +2876,7 @@ productivityinfo: (req, res) => {
 
 
                var totalworking=totalproductinfo+totalidle;
-               dtotalworking = Number(totalworking);
+               dtotalworking = totalworking;
               
                var htotalworking = Math.floor(dtotalworking / 3600);
             

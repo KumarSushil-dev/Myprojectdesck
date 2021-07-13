@@ -257,7 +257,6 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
                   
                  if (results.length == 0) {
                  
-                  //console.log(userstring[1]);
                  
                     } else {
                       var obj = [];
