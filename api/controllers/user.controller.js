@@ -710,7 +710,7 @@ getsubscriptiondetail: (req, res) => {
 
                         
         results.password=undefined;
-        const jsontoken = sign({ result: results },process.env.TOKEN_SECRET, { expiresIn: '9h' });
+        const jsontoken = sign({ result: results },process.env.TOKEN_SECRET, { expiresIn: '720h' });
         const planexpiry='2022-06-14';
         var firstname=test[0].firstname;
         if(test[0].lastname){
@@ -2612,6 +2612,7 @@ body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
 
                 checkifdataexist(body, (err, resultr) => {              
                 if (resultr.length === 0) {
+
                 datatransferid(body, (err, results) => {
                 body.applist= JSON.parse(body.applist);
                 

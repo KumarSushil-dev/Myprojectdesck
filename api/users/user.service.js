@@ -22,7 +22,7 @@ module.exports = {
     },
     checkifdataexist: async(data, callBack) => {
         await Usersnapshots.findAll({
-            where: {capturetime: data.capturetime}
+            where: {capturetime: data.capturetime,userId:data.userId}
         }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
             return callBack(err);
 
