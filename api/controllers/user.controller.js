@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,getpresence } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -1090,6 +1090,41 @@ var str=utest[0].format;
 
 
 
+        });
+
+    },
+       presence: (req, res) => {
+       const body = req.body;
+       body.userid=req.decoded.result[0].id;
+       dailyattendanceget(body, (err, results) => {
+        monthlyattendanceget(body, (err, monthresults) => {
+       
+       getuserfortimeline(body, (err, getuser) => {
+            if (err) {
+                console.log(err);
+            }
+         
+                
+
+                return res.status(200).json({
+                    success: true,
+                    data: results,
+                    getuse:getuser,
+                    monthlyu:monthresults
+    
+                });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+        });
         });
 
     },
@@ -2606,18 +2641,12 @@ datatransfer: (req, res) => {
 var productivitycnt=body.productivityCount;
 var applist=body.applist;
 //body.applist=JSON.stringify(applist);
-
+console.log(applist.length);
 body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
            
-
-                checkifdataexist(body, (err, resultr) => {              
-                if (resultr.length === 0) {
-
-                datatransferid(body, (err, results) => {
+ datatransferid(body, (err, results) => {
                 body.applist= JSON.parse(body.applist);
-                
                 applisttransfer(body, (err, resultstranfer) => {
-
                    // console.log(resultstranfer);
             if (err) {
                console.log(err);
@@ -2639,18 +2668,7 @@ body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
 
         });
     });
-    }else{
-        var obj = [];
-        obj.push({ "productivityCount": productivitycnt });
-        return res.status(200).json({
-            success: true,
-            data: obj,
-            detail: "Data Inserted"
-
-        });
-
-    }
-        });
+ 
    
    
 

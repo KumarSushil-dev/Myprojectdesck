@@ -23,6 +23,7 @@
         "froala-editor": "^4.0.1",
         "fs": "^0.0.1-security",
         "html2canvas": "^1.0.0-rc.7",
+        "in_array": "^1.1.0",
         "jquery": "^3.6.0",
         "jsonwebtoken": "^8.5.1",
         "jspdf": "^2.3.1",

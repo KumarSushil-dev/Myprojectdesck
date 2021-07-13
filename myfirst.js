@@ -16,6 +16,7 @@ var {check,validationResult} = require('express-validator');
 const puppeteer = require("puppeteer"); // will automatically load the node version
 const { encrypt, decrypt } = require("./api/middleware/crpyto.js");
 var daterangepicker = require("daterangepicker");
+var in_array = require('in_array');
 //set up express app
 const app = express();
 app.set('view engine', 'ejs');
@@ -45,6 +46,7 @@ const toWords = new ToWords({
 
 app.locals.encrypt = encrypt;
 app.locals.decrypt = decrypt;
+app.locals.in_array = in_array;
 app.locals.moment = moment;
 app.locals.daterangepicker = daterangepicker;
 app.locals.fs = fs;
@@ -235,12 +237,59 @@ app.get('/companytaskdetail', function(req, res) {
 app.get('/presence', function(req, res) {
 
     sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/presence', { person: sess.companyname,roleid :sess.roleid });
+    const token = sess.token;
+    if(sess.companyname && sess.token!='') {
+        setTimeout(function() {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/presence',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                      console.log(datas);
+                        var sess = req.session;
+                res.render('admin/presence', { person: sess.companyname, companytask: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
     } else {
 
         res.render('users/login');
     }
+
+
+
 });
 
 // leaves

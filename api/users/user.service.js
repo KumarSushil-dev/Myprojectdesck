@@ -133,7 +133,7 @@ resultst.push(x);
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
-           pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+         await  pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
                 data.userid,
                 startdate,
                 string[0],
@@ -151,6 +151,7 @@ resultst.push(x);
 
                 results[0].productivitytime=Number(results[0].productivitytime);
                 results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
+                results[0].idletime=Math.floor(results[0].idletime / 1000);
                         var obj = [];
                         productivetotal +=results[0].productivitytime;
                         idletotal+=results[0].idletime;
@@ -179,7 +180,7 @@ if(results[0].productivitytime){
    getHours=(getHours > 9 ? getHours : "0"+getHours);
    var getstrhr = string[0].split(':');
    var getstrhrs = string[1].split(':');
-
+   var percentage='';
 if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
  
    var getMinutes=today.getMinutes();
@@ -193,7 +194,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     var percentage=(Number(mstotalworkingDisplay)*100)/60;
     }
 
-    percentage=Math.round(percentage);
+    var percentage=Math.round(percentage);
     dproductivitytime = Number(results[0].productivitytime);
     var hproductivitytime = Math.floor(dproductivitytime / 3600);
     var mproductivitytime = Math.floor(dproductivitytime % 3600 / 60);
@@ -263,8 +264,8 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
                         if(results[0].productivitytime!== null){
 
                         results[0].productivitytime=Number(results[0].productivitytime);
-                        results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
-                        
+                      results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
+                      results[0].idletime=Math.floor(results[0].idletime / 1000);
                         productivetotal+=results[0].productivitytime;
                         idletotal+=results[0].idletime;
 if(results[0].idletime){
@@ -372,6 +373,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
   
                           results[0].productivitytime=Number(results[0].productivitytime);
                           results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
+                          
                           var obj = [];
   
   

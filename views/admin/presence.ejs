@@ -199,21 +199,7 @@
                         <p class="m-0">View the attendance pattern of your Organization</p>
                     </div>
                     <ul class="d-flex topInputs">
-                        <li class="mr-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="la la-calendar-o"></i>
-                                    </span>
-                                </div>
-
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="la la-calendar-o"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
+                     
                         <li class="mr-1">
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -233,6 +219,78 @@
                         </li>
                     </ul>
                 </div>
+<%     var date = new Date();
+var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+var alldate=[];
+
+var first=firstDay.getDate();
+var last=lastDay.getDate();
+var  months = ["January", "February", "March", "April", "May", "July", "July", "August", "September", "October", "November", "December"];
+
+var monthName=months[date.getMonth()];
+for (var i=first;i<=last; i++) {
+
+    alldate[i]=i;
+}
+
+
+
+
+var Data = alldate.filter(function (el) {
+    return el != null;
+  });
+
+%>
+
+<% var dt = new Date();
+var month = dt.getMonth();
+var year = dt.getFullYear();
+daysInMonth = new Date(year, month, 0).getDate();
+
+if(companytask.monthlyu.length > 0){
+
+
+if(daysInMonth){
+
+    var presents=[];
+
+    for(var g=1; g <= daysInMonth; g++) { 
+        var present =0;
+
+        if(companytask.monthlyu.length > 0){
+
+            for(var s=0; s < companytask.monthlyu.length; s++) {
+              
+                var datt=moment(companytask.monthlyu[s].punch_in).format('D');
+        
+                if(datt==g){ 
+                    
+                if(companytask.monthlyu[s].punch_in){
+                    present++;
+
+
+                }
+
+            }
+
+        }
+        presents[g]=present;
+
+
+    }
+
+
+
+
+     } }  } 
+     var filtered = presents.filter(function (el) {
+        return el != null;
+      });
+    %>
+
+
+
 
                 <div class="blocks">
                     <h4 class="m-0 mb-2">Attendance Change Over Time</h4>
@@ -241,12 +299,12 @@
                             <ul class="trendTile">
                                 <li>
                                     <p>Attendance</p>
-                                    <h4>64.22%</h4>
+                                    <h4>54.22%</h4>
                                     <p>Last 30 Days</p>
                                 </li>
                                 <li>
                                     <p>Current Period</p>
-                                    <h4>11</h4>
+                                    <h4><%= dt.getDate(); %></h4>
                                     <p>Last 30 Days</p>
                                 </li>
                             </ul>
@@ -261,81 +319,84 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="blocks">
-                            <h4 class="m-0 mb-2 pperesnt text-dark"><span>14</span> Persent </h4>
+                            <h4 class="m-0 mb-2 pperesnt text-dark">
+                                <% var su=0; if(companytask.data.length > 0){
+                                    su += companytask.data.length;
+                                } %>
+                                <span><%= su; %></span> Persent </h4>
                             <div class="d-flex flex-wrap">
-                                <div class="apTile">
+                                <%  if(companytask.data.length > 0){
+                                   var rty=[];
+                                   for(var ss=0; ss < companytask.data.length; ss++) {
+                                    rty[ss]=companytask.data[ss].userId;
+
+                                  } }
+                              %>
+
+
+
+
+            <%  if(companytask.data.length > 0){
+                var s=1; 
+               for(var i=0; i < companytask.data.length; i++) { %>
+           <div class="apTile">
                                     <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
+                                        <span class="firstName bg-danger">
+                                         <% var srr=companytask.data[i].user.firstname; 
+                                            var snerr=companytask.data[i].user.lastname; 
+                                            var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> <%=res %> <%=nres %></span>
+                                        <p><%= companytask.data[i].user.firstname; %> <%= companytask.data[i].user.lastname; %></p>
                                     </div>
                                 </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
+                                <% } }else{ %>
+                                    <div class="apTile">
+                                        <div class="appTileContent">
+                                            <span class="firstName bg-danger">--</span>
+                                            <p>No User</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
-                                    </div>
-                                </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
-                                    </div>
-                                </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
-                                    </div>
-                                </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
-                                    </div>
-                                </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
-                                    </div>
-                                </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
-                                    </div>
-                                </div>
+                                    <% } %>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="blocks">
-                            <h4 class="m-0 mb-2 aabsent text-dark"><span>3</span> Absent </h4>
+                            <h4 class="m-0 mb-2 aabsent text-dark"> <% var sus=0; 
+                                if(companytask.getuse.length > 0){
+                                    for(var i=0; i < companytask.getuse.length; i++) { 
+                                if(!in_array(companytask.getuse[i].id, rty)){
+                                sus ++;
+                             } } } %>
+                            <span><%= sus; %></span> Absent </h4>
                             <div class="d-flex flex-wrap">
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
+                                <%  if(companytask.getuse.length > 0){
+
+                                    
+                                   
+                                   for(var i=0; i < companytask.getuse.length; i++) { 
+                                       if(!in_array(companytask.getuse[i].id, rty)){ %>
+
+                                    <div class="apTile">
+                                        <div class="appTileContent">
+                                            <span class="firstName bg-danger">
+                                             <% var srr=companytask.getuse[i].firstname; 
+                                                var snerr=companytask.getuse[i].lastname; 
+                                                var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> <%=res %> <%=nres %></span>
+                                            <p><%= companytask.getuse[i].firstname; %> <%= companytask.getuse[i].lastname; %></p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
-                                    </div>
-                                </div>
-                                <div class="apTile">
-                                    <div class="appTileContent">
-                                        <span class="firstName bg-danger">DA</span>
-                                        <p>Deepak Athwani</p>
-                                    </div>
-                                </div>
+                                    <% } } }else{ %>
+                                        <div class="apTile">
+                                            <div class="appTileContent">
+                                                <span class="firstName bg-danger">--</span>
+                                                <p>No User</p>
+                                            </div>
+                                        </div>
+                                        <% } %>
+
+
+
+                                        
                             </div>
                         </div>
                     </div>
@@ -349,3 +410,78 @@
 
 
                 <%- include('../partials/footer'); %>
+
+
+
+ <script>
+     $(function() {
+         $('#container').highcharts({
+             title: {
+                 text: '',
+                 x: 0
+             },
+             subtitle: {
+                 text: '',
+                 x: 0
+             },
+             navigation: {
+                 buttonOptions: {
+                     enabled: false
+                 }
+             },
+             xAxis: {
+                 categories: [<%= Data %>]
+             },
+             yAxis: {
+                 title: {
+                     text: ''
+                 },
+                 plotLines: [{
+                     value: 0,
+                     width: 1,
+                     color: '#808080'
+                 }]
+             },
+             tooltip: {
+                 borderColor: '#FFDD90',
+                 borderRadius: '3',
+                 borderWidth: '1',
+                 backgroundColor: '#FFFAD3',
+                 formatter: function() {
+                     return '<strong>' + this.y + '</strong>';
+                 }
+             },
+             legend: {
+                 enabled: false
+             },
+             credits: {
+                 enabled: false
+             },
+             plotOptions: {
+                 area: {
+                     fillColor: '#9FDBF7',
+                     lineWidth: 3,
+                     marker: {
+                         enabled: true,
+                         fillColor: '#FFF',
+                         lineColor: '#4ABDF1',
+                         lineWidth: 2
+                     },
+                     shadow: false,
+                     states: {
+                         hover: {
+                             lineWidth: 3
+                         }
+                     },
+                     threshold: null
+                 }
+             },
+             series: [{
+                 name: '',
+                 type: 'area',
+                 color: '#4ABDF1',
+                 data: [<%= filtered %>]
+             }]
+         });
+     });
+ </script>
