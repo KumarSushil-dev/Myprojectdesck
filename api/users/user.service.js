@@ -257,6 +257,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
                   
                  if (results.length == 0) {
                  
+                  //console.log(userstring[1]);
                  
                     } else {
                       var obj = [];
@@ -707,33 +708,44 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
     },
 
     breaklistget: async(data, callBack) => {
-
-        await Task.findAll({
-            where: {userId:data.userid,projects_id:0},
+      await User.findOne({
+        where: {id:data.userid},
+        order:[['id','DESC']]
+        }).then(function(createduser){
+          Task.findAll({
+            where: {userId:createduser.parent_id,projects_id:0},
             attributes: ['id','name'],
           order:[['id','ASC']],
-            }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+            }).then(notes => callBack(null,notes));                      
+         }).catch(function (err) {
               // handle error;
               return callBack(err);
             }); 
       },
       tasklistget: async(data, callBack) => {
 
-        await Task.findAll({
-            where: {userId:data.userid,projects_id: {
+
+        await User.findOne({
+          where: {id:data.userid},
+          order:[['id','DESC']]
+          }).then(function(createduser){
+            Task.findAll({
+              where: {userId:createduser.parent_id,projects_id: {
                 [Op.ne]: 0
               }},
-            attributes: ['id','name','startdate'],
-          order:[['id','ASC']],
-          include: [{
-            model: User,
-            where: {id:data.userid},
-            attributes: ['firstname','lastname']
-          }]
-            }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
-              // handle error;
-              return callBack(err);
-            }); 
+              attributes: ['id','name','startdate'],
+            order:[['id','ASC']],
+            include: [{
+              model: User,
+              where: {id:createduser.parent_id},
+              attributes: ['firstname','lastname']
+            }]
+              }).then(notes => callBack(null,notes));                      
+           }).catch(function (err) {
+                // handle error;
+                return callBack(err);
+              }); 
+        
       },
       getcompanytask: async(data, callBack) => {
 
