@@ -914,7 +914,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
       gettodayinfo: async(data, callBack) => {
      let startdate = data.startdate;
    
-        pool.query('SELECT `tasks`.`projects_id` as `type`,`tasks`.`name` as `name`,`tasks_activities`.`starttime` as `starttime`,`tasks_activities`.`endtime` as `endtime` FROM `tasks_activities` INNER JOIN `tasks` AS `tasks` ON `tasks_activities`.`tasks_id` = `tasks`.`id` WHERE `tasks_activities`.`userId`=?  and DATE(`tasks_activities`.`starttime`)=?  ORDER BY `tasks_activities`.`id` DESC', 
+        pool.query('SELECT `tasks`.`id` as `id`,`tasks`.`projects_id` as `type`,`tasks`.`name` as `name`,`tasks_activities`.`starttime` as `starttime`,`tasks_activities`.`endtime` as `endtime` FROM `tasks_activities` INNER JOIN `tasks` AS `tasks` ON `tasks_activities`.`tasks_id` = `tasks`.`id` WHERE `tasks_activities`.`userId`=?  and DATE(`tasks_activities`.`starttime`)=?  ORDER BY `tasks_activities`.`id` DESC', 
         [data.userid,
           startdate],(error, results, fields) => {
                  if (error) {
@@ -1543,6 +1543,25 @@ var colorsCSV = data.assignmultipleuser.join(",");
         // handle error;
         return callBack(err);
       }); 
+},monthlyattendancegetnext: async(data, callBack) => {
+  var date = new Date();
+  var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  await Userattendancelog.findAll({
+    where: {punch_in: { 
+      [Op.gte]: firstDay,
+      [Op.lte]: lastDay
+    }},
+      include: [{
+        model: User,
+        where: {id:data.userid},
+        attributes: ['id','firstname','lastname']
+      }
+  ], order:[['id','DESC']],
+  }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+      // handle error;
+      return callBack(err);
+    }); 
 },
 monthlyinoutget: async(data, callBack) => {
   var date = new Date();
