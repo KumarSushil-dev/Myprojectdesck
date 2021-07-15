@@ -396,7 +396,7 @@ viewdetail:(req, res) => {
                         body.startdate=moment(startdate).format('YYYY-MM-DD');
                    
             getsnapshotsinfo(body, (err, productivityresults) => {
-                console.log(productivityresults);
+             //   console.log(productivityresults);
   getproductivityinfoweb(body, (err, resultsweb) => {
     
     getproductivityinfototalweb(body, (err, resultstotalweb) => {
@@ -2641,7 +2641,7 @@ datatransfer: (req, res) => {
 var productivitycnt=body.productivityCount;
 var applist=body.applist;
 //body.applist=JSON.stringify(applist);
-console.log(applist.length);
+//console.log(applist.length);
 body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
            
  datatransferid(body, (err, results) => {
@@ -2771,7 +2771,7 @@ activeactivity: (req, res) => {
       currentMoment.add(1, 'days');
       i++;
     }
-    console.log(times);
+   // console.log(times);
     body.times=times;
     activeactivitygetupdate(body, (err, results) => {
         if (err) {
@@ -2816,7 +2816,7 @@ todayinfo: (req, res) => {
     body.userid=req.decoded.result[0].id;
     const startdate = new Date();
     body.startdate=moment(startdate).format('YYYY-MM-DD');
-    console.log(body);
+  
     gettodayinfo(body, (err, results) => {
         if (err) {
           return res.status(500).json({
@@ -2825,7 +2825,7 @@ todayinfo: (req, res) => {
                 detail: "Connection Error."
             });
         }
-        console.log(results);
+        //console.log(results);
         if (results.length === 0) {
             return res.status(401).json({
                 success: false,
@@ -2852,11 +2852,14 @@ for (let hd = 0; hd < test.length; hd++) {
  }
 }
 
-obj.push({"activitylist":objs});
+const startdater = new Date();
+var dti=moment(startdater).format('DD-MM-YYYY');
+//obj.push({"date": dti,"activitylist":objs});
 
         if (results) {
         return res.status(200).json({
             success:true,
+            date:dti,
             activitylist: objs,
             detail: "Activity Break List"
           });
