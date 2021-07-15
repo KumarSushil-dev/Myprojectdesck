@@ -73,7 +73,7 @@ Task.belongsTo(Projects, { foreignKey: 'projects_id' });
 Task.belongsTo(User, { foreignKey: 'userId' });
 Projects.belongsTo(User, { foreignKey: 'userId' });
 Userattendancelog.belongsTo(User, { foreignKey: 'userId' });
-
+Task.hasMany(Tasksactivities , { foreignKey: 'tasks_id' });
 User.hasMany(Subscriptions);
 User.hasMany(Usersnapshots);
 //Subscriptions.hasMany(User, { foreignKey: 'id' });
