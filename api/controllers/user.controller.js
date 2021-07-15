@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,getpresence } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -2789,11 +2789,75 @@ activeactivity: (req, res) => {
                 detail: "No Activity Break Found."
             });
         }
-console.log(results);
+
         if (results) {
         return res.status(200).json({
             success:true,
             data: results,
+            detail: "Activity Break List"
+          });
+
+        }else{
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "No Activity Break List."
+
+            });
+
+        }
+
+    });
+
+},
+todayinfo: (req, res) => {
+  
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    const startdate = new Date();
+    body.startdate=moment(startdate).format('YYYY-MM-DD');
+    console.log(body);
+    gettodayinfo(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+        console.log(results);
+        if (results.length === 0) {
+            return res.status(401).json({
+                success: false,
+                data: [],
+                detail: "No Activity Break Found."
+            });
+        }
+
+
+var re = JSON.stringify(results);
+var test = JSON.parse(re);
+var objs=[];
+var obj=[];
+     
+for (let hd = 0; hd < test.length; hd++) {
+
+
+ if(results[hd].endtime !== null){
+    objs.push({ "activityType": results[hd].name,"starttime": moment(results[hd].starttime).format('DD-MM-YYYY HH:mm:ss'),"endtime": moment(results[hd].endtime).format('DD-MM-YYYY HH:mm:ss'),"type":results[hd].type,"status":"Y" });
+ }else{
+    objs.push({ "activityType": results[hd].name,"starttime": moment(results[hd].starttime).format('DD-MM-YYYY HH:mm:ss'),"endtime":null,"type":results[hd].type,"status":"N"  });
+
+
+ }
+}
+
+obj.push({"activitylist":objs});
+
+        if (results) {
+        return res.status(200).json({
+            success:true,
+            activitylist: objs,
             detail: "Activity Break List"
           });
 

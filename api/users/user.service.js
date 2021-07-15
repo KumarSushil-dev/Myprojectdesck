@@ -724,7 +724,12 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
       },
       tasklistget: async(data, callBack) => {
 
-
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        
+        NOW=NOW.setDate(NOW.getDate() + 1);
+           
+      
         await User.findOne({
           where: {id:data.userid},
           order:[['id','DESC']]
@@ -734,12 +739,21 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                 [Op.ne]: 0
               }},
               attributes: ['id','name','startdate'],
-            order:[['id','ASC']],
+          
             include: [{
               model: User,
               where: {id:createduser.parent_id},
               attributes: ['firstname','lastname']
-            }]
+            }, {
+              model: Tasksactivities,
+              where: {userId:data.userid,starttime: { 
+                [Op.gt]: TODAY_START,
+                [Op.lte]: NOW
+              }},
+              attributes: ['starttime','endtime','status'],
+             
+            }],   
+            order:[[Tasksactivities, 'id', 'DESC' ]],
               }).then(notes => callBack(null,notes));                      
            }).catch(function (err) {
                 // handle error;
@@ -897,6 +911,23 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
 
 
       },
+      gettodayinfo: async(data, callBack) => {
+     let startdate = data.startdate;
+   
+        pool.query('SELECT `tasks`.`projects_id` as `type`,`tasks`.`name` as `name`,`tasks_activities`.`starttime` as `starttime`,`tasks_activities`.`endtime` as `endtime` FROM `tasks_activities` INNER JOIN `tasks` AS `tasks` ON `tasks_activities`.`tasks_id` = `tasks`.`id` WHERE `tasks_activities`.`userId`=?  and DATE(`tasks_activities`.`starttime`)=?  ORDER BY `tasks_activities`.`id` ASC', 
+        [data.userid,
+          startdate],(error, results, fields) => {
+                 if (error) {
+                  console.log("test");
+                            }
+                          
+    return callBack(null, results);
+                               
+                           
+                           
+                        });
+                
+        },
       activeactivitygetweb: async(data, callBack) => {
         const TODAY_START = new Date().setHours(05, 0, 0, 0);
         var NOW = new Date();

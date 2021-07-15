@@ -1,4 +1,4 @@
-const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo,companyuser,addcompanyuser,checkemailexist,viewdetail,viewdetailprofileservice,breaklist,activeactivity,savebreakstart,savebreakstop,tasklist,savetaskstart,savetaskstop,timeline,snapshotdetail,companysettings,getcompanysettings,dailyattendance,monthlyattendance,monthlyinout,projectsmain,projectsadd,companyprojects,projectsedit,taskadd,taskview,companytask,presence} = require('../controllers/user.controller');
+const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo,companyuser,addcompanyuser,checkemailexist,viewdetail,viewdetailprofileservice,breaklist,activeactivity,savebreakstart,savebreakstop,tasklist,savetaskstart,savetaskstop,timeline,snapshotdetail,companysettings,getcompanysettings,dailyattendance,monthlyattendance,monthlyinout,projectsmain,projectsadd,companyprojects,projectsedit,taskadd,taskview,companytask,presence,todayinfo} = require('../controllers/user.controller');
 const { checkToken } = require("../middleware/authjwt.js");
 const express = require('express');
 const router = express.Router();
@@ -40,6 +40,7 @@ router.get("/productivityinfo",checkToken,  productivityinfo);
 router.get("/breaklist",checkToken,  breaklist);
 router.get("/tasklist",checkToken,  tasklist);
 router.get("/activeactivity",checkToken,  activeactivity);
+router.get("/todayinfo",checkToken,  todayinfo);
 router.post("/companyuser",checkToken,  companyuser);
 router.post("/timeline",checkToken,  timeline);
 router.post("/getcompanysettings",checkToken,  getcompanysettings);
