@@ -748,7 +748,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               where: { userId:data.userid,starttime: { 
                 [Op.gt]: TODAY_START,
                 [Op.lte]: NOW
-              }},required: false,
+              }}, required: false,
               attributes: ['starttime','endtime','status'],
              
             }],   
