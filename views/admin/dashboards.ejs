@@ -1,0 +1,478 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+            <%- include('../partials/left'); %>
+
+
+           
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <div class="blocks userDetails">
+                    <div class="userIcon">
+                        <!-- <i class="ft-home"></i> -->
+                        <img src="/assets/images/ic_dashboard.png" class="img-fluid" alt="">
+                    </div>
+                    <div class="details">
+                        <h4 class="m-0">Dashboard</h4>
+                        <p class="m-0">View Key indicator At-A-Glance.</p>
+                    </div>
+                    <ul class="d-flex topInputs">
+                        <li>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="la la-calendar-o"></i>
+                                    </span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="blocks">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="m-0">Today's Attendance</h4>
+                                <h5 class="m-0 text-center">17 <small class="d-block">Users</small></h5>
+                            </div>
+                            <div class="chart doughnut">
+                                <div class=" position-relative">
+                                    <canvas id="myCanvas" class="w-100"></canvas>
+                                    <h3><span>Present</span>82.35%</h3>
+                                </div>
+
+                                
+                                <ul>
+                                    <li><data value="1" data-color="#2c9fee">14</data> <span>Present</span></li>
+                                    <li><data value=".2" data-color="#f27b37">3</data> <span>Absent</span></li>
+                                    <li><data value=".0" data-color="#f7e35c">0</data> <span>Leave</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="blocks">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="m-0 mb-2 text-success"><i class="la la-sort-asc"></i> Top 5 Users</h4>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Working</th>
+                                        <th scope="col">Productivity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="blocks">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="m-0 mb-1"><i class="la la-sort-down"></i> Bottom 5 Users</h4>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Working</th>
+                                        <th scope="col">Productivity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
+                                        <td>08:55</td>
+                                        <td>
+                                            <div class="progress mb-0">
+                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="blocks">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h4 class="m-0 mb-2">Productivity Trend</h4>
+                                    <ul class="trendTile">
+                                        <li>
+                                            <p>Current Period</p>
+                                            <h4>64.22% <span><i class="la la-caret-down"></i> 0.28%</span></h4>
+                                        </li>
+                                        <li>
+                                            <p>Current Period</p>
+                                            <h4>64.22% <span><i class="la la-caret-down"></i> 0.28%</span></h4>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-8">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="blocks">
+                            <div class="d-flex justify-content-between align-items-center" style="margin-bottom: -30px;">
+                                <h4 class="m-0">Today's Attendance</h4>
+                                <h5 class="m-0 text-center">17 <small class="d-block">Users</small></h5>
+                            </div>
+
+                            <div class="chart doughnut2 d-flex align-items-center justify-content-between" style="margin-bottom: -30px;">
+                                <div class="cchart w-50 position-relative">
+                                    <canvas id="myCanvas2" class="w-100"></canvas>
+                                    <h3><span>Total Hrs.</span>82.35</h3>
+                                </div>
+                                <ul class="flex-column">
+                                    <li><data value="1.0" data-color="green">35.23</data> <span class="ml-1">Chrome</span></li>
+                                    <li><data value="0.65" data-color="orange">57.58</data> <span class="ml-1">Code</span></li>
+                                    <li><data value="0.55" data-color="red">04.46</data> <span class="ml-1">Msedge</span></li>
+                                    <li><data value="0.45" data-color="blue">03.21</data> <span class="ml-1">Photoshop</span></li>
+                                    <li><data value="0.30" data-color="orange">03.18</data> <span class="ml-1">Code-Insiders</span></li>
+                                    <li><data value="0.10" data-color="pink">02.45</data> <span class="ml-1">Google-Chrome</span></li>
+                                    <li><data value="0.05" data-color="sky">02.19</data> <span class="ml-1">MyZen</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="blocks">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="m-0 mb-2">Latest Screenshots</h4>
+                            </div>
+
+
+                            <!-- SS Modal Start -->
+                            <div class="modal fade bd-example-modal-lg " id="ssModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ssModalLabel">Preview - Sushil Sharma - 1 July 2021 |
+                                                <a href="#"><img src="/assets/images/ic_lock.png" alt="" class="img-fluid" /></a>
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <div class="ssPart">
+                                                        <img src="/assets/images/snap.jpg" alt="img" class="img-fluid" />
+                                                    </div>
+
+                                                    <div class="ssActivity">
+                                                        <div class="d-flex align-items-center justify-content-between">
+                                                            <h4>Activity Detail</h4>
+                                                            <p>Activity Level <span style="color:#ed4724;">75%</span></p>
+                                                        </div>
+                                                        <div class="progress m-0 mt-1">
+                                                            <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+
+                                                        <div class="d-flex activities">
+                                                            <div class="activityTile">
+                                                                <span>Duration</span> 05:10
+                                                            </div>
+                                                            <div class="activityTile">
+                                                                <span>Duration</span> 419
+                                                            </div>
+                                                            <div class="activityTile">
+                                                                <span>Duration</span> 26
+                                                            </div>
+                                                            <div class="activityTile">
+                                                                <span>Duration</span> 3084
+                                                            </div>
+                                                            <div class="activityTile">
+                                                                <span>Duration</span> --
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <ul class="ssSoft">
+                                                        <li class="ulHeading">
+                                                            <h4>Application Uses</h4>
+                                                        </li>
+                                                        <li class="d-flex align-items-center">
+                                                            <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                            <div class="ssSoftDetail">
+                                                                <p>Google Chrome</p>
+                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
+                                                                <p>Duration: 03:17 mm:ss</p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="d-flex align-items-center">
+                                                            <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                            <div class="ssSoftDetail">
+                                                                <p>Google Chrome</p>
+                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
+                                                                <p>Duration: 03:17 mm:ss</p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="d-flex align-items-center">
+                                                            <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                            <div class="ssSoftDetail">
+                                                                <p>Google Chrome</p>
+                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
+                                                                <p>Duration: 03:17 mm:ss</p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="d-flex align-items-center">
+                                                            <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                            <div class="ssSoftDetail">
+                                                                <p>Google Chrome</p>
+                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
+                                                                <p>Duration: 03:17 mm:ss</p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="d-flex align-items-center">
+                                                            <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                            <div class="ssSoftDetail">
+                                                                <p>Google Chrome</p>
+                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
+                                                                <p>Duration: 03:17 mm:ss</p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="d-flex align-items-center">
+                                                            <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                            <div class="ssSoftDetail">
+                                                                <p>Google Chrome</p>
+                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
+                                                                <p>Duration: 03:17 mm:ss</p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="d-flex align-items-center">
+                                                            <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                            <div class="ssSoftDetail">
+                                                                <p>Google Chrome</p>
+                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
+                                                                <p>Duration: 03:17 mm:ss</p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="d-flex align-items-center">
+                                                            <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                            <div class="ssSoftDetail">
+                                                                <p>Google Chrome</p>
+                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
+                                                                <p>Duration: 03:17 mm:ss</p>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer ssFooter">
+                                            <ul class="d-flex align-items-center">
+                                                <li><a href="#"><i class="la la-angle-left"></i> Prev</a></li>
+                                                <li><a href="#">Next <i class="la la-angle-right"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SS Modal End -->
+
+
+                            <div class="d-flex dashboardSS">
+                                <a class="ssTile" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                                <a class="ssTile">
+                                    <img src="/assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="blocks">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h4 class="m-0">Projects</h4>
+                                    </div>
+
+                                    <p>Calling</p>
+
+                                    <div class="progress my-1">
+                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p class="text-center"><b class="d-block">0.00 %</b>Complete</p>
+                                        <p class="text-center"><b class="d-block">0/2</b>My Project</p>
+                                        <p class="text-center"><b class="d-block">3:38:17</b>Worked Hours</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="blocks">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h4 class="m-0">Task Hours</h4>
+                                    </div>
+
+                                    <div class="chart doughnut3 d-flex align-items-center justify-content-between">
+                                        <div class="cchart w-50 position-relative">
+                                            <canvas id="myCanvas3" class="w-100"></canvas>
+                                            <h3><span>Total Hrs. </span>03.38</h3>
+                                        </div>
+                                        <ul class="flex-column">
+                                            <li><data value="1.0" data-color="#ffa500">35.23</data> <span class="ml-1">Chrome</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+                <%- include('../partials/footer'); %>

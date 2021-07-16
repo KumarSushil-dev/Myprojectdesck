@@ -82,7 +82,7 @@ app.use('/api/staticpages', urlencodedParser, require('./api/routes/staticpages.
 
 
 app.get('/', (req, res) => {
-    res.render('pages/index');
+    res.render('pages/index',{page: req.url});
   })
        
 // Login 
@@ -93,11 +93,97 @@ app.get('/login', function(req, res) {
     sess = req.session;
 
     if (sess.email) {
-        res.render('admin/dashboard');
+        res.redirect('/dashboard');
     }
 
     res.render('users/login');
 });
+
+
+app.get('/features', function(req, res) {
+
+    res.render('pages/features',{page: req.url});
+});
+
+app.get('/industries', function(req, res) {
+
+    res.render('pages/industries',{page: req.url});
+});
+app.get('/priceplan', function(req, res) {
+
+    res.render('pages/priceplan',{page: req.url});
+});
+
+app.get('/measureemployeeproductivity', function(req, res) {
+
+    res.render('pages/measureemployeeproductivity',{page: req.url});
+});
+
+app.get('/timetracking', function(req, res) {
+
+    res.render('pages/timetracking',{page: req.url});
+});
+
+app.get('/automatedattendence', function(req, res) {
+
+    res.render('pages/automatedattendence',{page: req.url});
+});
+
+app.get('/projecttracking', function(req, res) {
+
+    res.render('pages/projecttracking',{page: req.url});
+});
+
+app.get('/automatedscreenshots', function(req, res) {
+
+    res.render('pages/automatedscreenshots',{page: req.url});
+});
+
+app.get('/engagementtracking', function(req, res) {
+
+    res.render('pages/engagementtracking',{page: req.url});
+});
+
+app.get('/bidashboard', function(req, res) {
+
+    res.render('pages/bidashboard',{page: req.url});
+});
+
+app.get('/kanbantaskmanagment', function(req, res) {
+
+    res.render('pages/kanbantaskmanagment',{page: req.url});
+});
+
+app.get('/vsactivtrack', function(req, res) {
+
+    res.render('pages/vsactivtrack',{page: req.url});
+});
+
+app.get('/vshubstaff', function(req, res) {
+
+    res.render('pages/vshubstaff',{page: req.url});
+});
+
+app.get('/vsdesktime', function(req, res) {
+
+    res.render('pages/vsdesktime',{page: req.url});
+});
+
+app.get('/vstimedoctor', function(req, res) {
+
+    res.render('pages/vstimedoctor',{page: req.url});
+});
+
+app.get('/privacy', function(req, res) {
+
+    res.render('pages/privacy',{page: req.url});
+});
+
+app.get('/termsandconditions', function(req, res) {
+
+    res.render('pages/termsandconditions',{page: req.url});
+});
+
 
 // Logout
 app.get('/logout', (req, res) => {
@@ -137,7 +223,7 @@ app.post('/login', urlencodedParser, (req, res) => {
             sess.token = test.data[0].token;
             sess.companyname = test.companyname;
             sess.roleid = test.roleid;
-            res.render('admin/dashboard', { person: sess.companyname,roleid :sess.roleid  });
+            res.redirect('/dashboard');
             res.end;
             }else{
             res.sendStatus(500);
@@ -150,15 +236,59 @@ app.post('/login', urlencodedParser, (req, res) => {
 
 
 // Dashboard
-app.get('/dashboard', function(req, res) {
+app.get('/dashboard', urlencodedParser, function(req, res) {
 
     sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/dashboard', { person: sess.companyname,roleid :sess.roleid });
-    } else {
+const token = sess.token;
+if(sess.companyname && sess.token!='') {
+  setTimeout(function() {
+      // this code will only run when time has ellapsed
+      request.post({
+          headers: {
+              'Authorization': `Bearer ${token}`
+            },
+              url: process.env.APP_URL + '/api/users/dashboards',
+              body: { "companyname": sess.companyname },
+              json: true
+          },
+     function(error, response, body) {
 
-        res.render('users/login');
-    }
+    
+      if (response.statusCode == 500) {
+              var data = response.body;
+              req.flash("error", "Failed to log in user account: User account not found.");
+              res.locals.messages = req.flash();
+              res.render('users/login');
+      } else if (!error && response.statusCode == 200) {
+                  var data = response.body;
+                  var re = JSON.stringify(data);
+                  var datas = JSON.parse(re);
+ 
+          var sess = req.session;
+          res.render('admin/dashboard', { person: sess.companyname,companytask:datas,roleid :sess.roleid });
+          res.end;
+              } else {
+
+                  //do something with error
+                  // res.redirect('/charge-error');
+                  //or
+                  res.sendStatus(500);
+                  return;
+
+
+              } 
+
+          });
+
+  }, 0000);
+
+
+} else {
+
+  res.render('users/login');
+}
+
+
 });
 
 
@@ -326,10 +456,57 @@ app.get('/timesheet', function(req, res) {
 
 app.get('/applicationusage', function(req, res) {
 
+
+    
     sess = req.session;
+    const token = sess.token;
+    
     if (sess.companyname && sess.token!='') {
-        res.render('admin/applicationusage', { person: sess.companyname,roleid :sess.roleid });
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/applicationusage',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+           if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        console.log(datas);
+                        sess = req.session;
+                      res.render('admin/applicationusage', { person: sess.companyname, applicationusage: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
     } else {
+
         res.render('users/login');
     }
 });

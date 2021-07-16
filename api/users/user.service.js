@@ -597,7 +597,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             where: { 
                 role_id: {
                 [Op.or]: [2, 3]
-              },
+              },status:'Y',
               parent_id: data.userid},
               order:[['id','DESC']],   
           }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
@@ -612,7 +612,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             where: { 
                 role_id: {
                 [Op.or]: [2, 3]
-              },
+              },status:'Y',
               id: data.userid},
               order:[['id','DESC']],   
           }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
@@ -725,8 +725,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
       tasklistget: async(data, callBack) => {
 
         const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        
+        var NOW = new Date(); 
         NOW=NOW.setDate(NOW.getDate() + 1);
            
       
@@ -746,10 +745,10 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               attributes: ['firstname','lastname']
             }, {
               model: Tasksactivities,
-              where: {userId:data.userid,starttime: { 
+              where: { userId:data.userid,starttime: { 
                 [Op.gt]: TODAY_START,
                 [Op.lte]: NOW
-              }},
+              }},required: false,
               attributes: ['starttime','endtime','status'],
              
             }],   
@@ -953,6 +952,126 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               return callBack(err);
             }); 
       },
+      getapplist: async(data, callBack) => {
+      
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setDate(NOW.getDate() + 1);
+    await Userapplist.findAll({
+      where: {capturetime: { 
+        [Op.gt]: TODAY_START,
+        [Op.lte]: NOW
+      }},
+    attributes: ['windowclass',[sequelize.fn('sum', sequelize.col('count')), 'count']],
+    group: ['windowclass'],
+      include: [{
+      model: User,
+      where: {parent_id:data.userid},
+      attributes: ['id']
+            }
+        ],
+            
+        order: [[sequelize.literal('count'), 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      getapplistusage: async(data, callBack) => {
+    await Userapplist.findAll({
+    attributes: ['windowclass',[sequelize.fn('sum', sequelize.col('count')), 'count']],
+    group: ['windowclass'],
+      include: [{
+      model: User,
+      where: {parent_id:data.userid},
+      attributes: ['id']
+            }
+        ],
+            
+        order: [[sequelize.literal('count'), 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+
+      gettodayproductivityasc: async(data, callBack) => {
+      
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setDate(NOW.getDate() + 1);
+    await Usersnapshots.findAll({
+      limit: 5,
+      where: {capturetime: { 
+        [Op.gt]: TODAY_START,
+        [Op.lte]: NOW
+      }},
+    attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes']],
+    group: ['userId'],
+      include: [{
+      model: User,
+      where: {parent_id:data.userid},
+      attributes: ['id','firstname','lastname']
+            }
+        ],
+            
+        order: [[sequelize.literal('productivitytime'), 'ASC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      gettodayproductivity: async(data, callBack) => {
+      
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setDate(NOW.getDate() + 1);
+    await Usersnapshots.findAll({
+      limit: 5,
+      where: {capturetime: { 
+        [Op.gt]: TODAY_START,
+        [Op.lte]: NOW
+      }},
+    attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes']],
+    group: ['userId'],
+      include: [{
+      model: User,
+      where: {parent_id:data.userid},
+      attributes: ['id','firstname','lastname']
+            }
+        ],
+            
+        order: [[sequelize.literal('productivitytime'), 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      getlatestsnapshot: async(data, callBack) => {
+      
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setDate(NOW.getDate() + 1);
+    await Usersnapshots.findAll({
+      limit: 5,
+      where: {capturetime: { 
+        [Op.gt]: TODAY_START,
+        [Op.lte]: NOW
+      }},
+    attributes: ['id','productivityCount','productivitytime','screenshot','totalIdleMinutes','totalKeypressCount','totalMouseMovement','totalClicks','applist','capturetime'],
+      include: [{
+      model: User,
+      where: {parent_id:data.userid},
+      attributes: ['id','firstname','lastname']
+            }
+        ],
+            
+        order: [['id', 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
       getapps: async(data, callBack) => {
         const TODAY_START = new Date().setHours(05, 0, 0, 0);
         var NOW = new Date();
@@ -962,9 +1081,10 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
         await Userapplist.findAll({
             where: {userId:data.userid},
             attributes: ['id','applist','capturetime',[sequelize.fn('sum', sequelize.col('count')), 'count']],
-            group: ['applist'],
+            group: ['windowclass'],
             
-            order: [[sequelize.literal('count'), 'DESC']]
+            order: [['id', 'desc'],[sequelize.literal('count'), 'DESC']
+            ]
             }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
               // handle error;
               return callBack(err);

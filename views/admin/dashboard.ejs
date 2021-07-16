@@ -12,7 +12,7 @@
                 <div class="blocks userDetails">
                     <div class="userIcon">
                         <!-- <i class="ft-home"></i> -->
-                        <img src="./assets/images/ic_dashboard.png" class="img-fluid" alt="">
+                        <img src="/assets/images/ic_dashboard.png" class="img-fluid" alt="">
                     </div>
                     <div class="details">
                         <h4 class="m-0">Dashboard</h4>
@@ -35,19 +35,44 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="blocks">
+                            <% var su=0; 
+                            if(companytask.data.length > 0){
+                                su += companytask.data.length;
+                            } %>
+
+                            <%  if(companytask.data.length > 0){
+                                var rty=[];
+                                for(var ss=0; ss < companytask.data.length; ss++) {
+                                 rty[ss]=companytask.data[ss].userId;
+
+                               } }
+                           %>
+
+                           <% var sus=0; 
+                            if(companytask.getuse.length > 0){
+                                for(var i=0; i < companytask.getuse.length; i++) { 
+                            if(!in_array(companytask.getuse[i].id, rty)){
+                            sus ++;
+                         } } } %>
+                         <% var totals=su+sus; 
+                         
+                         var perc=Math.round(su*100/totals);
+                         var perc2=Math.round(sus*100/totals); %>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h4 class="m-0">Today's Attendance</h4>
-                                <h5 class="m-0 text-center">17 <small class="d-block">Users</small></h5>
+                                <h5 class="m-0 text-center"><%= totals; %> <small class="d-block">Users</small></h5>
                             </div>
                             <div class="chart doughnut">
                                 <div class=" position-relative">
                                     <canvas id="myCanvas" class="w-100"></canvas>
-                                    <h3><span>Present</span>82.35%</h3>
+                                    <h3><span>Present</span><%= perc.toFixed(2); %> %</h3>
                                 </div>
+
+                                
                                 <ul>
-                                    <li><data value="1" data-color="#2c9fee">14</data> <span>Present</span></li>
-                                    <li><data value=".2" data-color="#f27b37">3</data> <span>Absent</span></li>
-                                    <li><data value=".0" data-color="#f7e35c">0</data> <span>Leave</span></li>
+                                    <li ><data value="<%= perc; %>" data-color="#2c9fee"><%= su; %></data> <span>Present</span></li>
+                                    <li  ><data value=".<%= perc2; %>" data-color="#f27b37"><%= sus; %></data> <span>Absent</span></li>
+                                    <li ><data value=".0" data-color="#f7e35c">0</data> <span>Leave</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -59,57 +84,58 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">User</th>
-                                        <th scope="col">Working</th>
+                                        <th scope="col">Total Working</th>
                                         <th scope="col">Productivity</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+
+                <%  if(companytask.getproductivity.length > 0){
+                    var s=1; 
+                    var  dproductivitytime =0;
+                    for(var i=0; i < companytask.getproductivity.length; i++) { 
+                    var str=new Date(); 
+    var totalproductinfo= Math.floor(companytask.getproductivity[i].productivitytime /1000);
+    var totalidle= Math.floor(companytask.getproductivity[i].totalIdleMinutes /1000);
+     var totalworking=totalproductinfo+totalidle;
+                    var dtotalworking = totalworking;
+                   
+                    var htotalworking = Math.floor(dtotalworking / 3600);
+                 
+                    var mtotalworking = Math.floor(dtotalworking % 3600 / 60);
+                    
+                    var totalworkingDisplay = htotalworking > 0 ? (htotalworking > 9 ? htotalworking : "0"+htotalworking) + (htotalworking == 1 ? "" : "") : "00";
+                  
+                    var mtotalworkingDisplay = mtotalworking > 0 ? (mtotalworking > 9 ? mtotalworking : "0"+mtotalworking) + (mtotalworking == 1 ? "" : "") : "00";
+                    
+
+                    var str=new Date(); 
+                    var totalproductinfos= Math.floor(companytask.getproductivity[i].productivitytime /1000);
+
+                    var mstotalworkingsr = Math.floor(totalproductinfos % 3600 / 60);
+                    var mstotalworkingDisplaysrt = mstotalworkingsr > 0 ? (mstotalworkingsr > 9 ? mstotalworkingsr : "0"+mstotalworkingsr) + (mstotalworkingsr == 1 ? "" : "") : "00";
+                    var percentagef=(Number(mstotalworkingDisplaysrt)*100)/Number(mtotalworkingDisplay);
+    
+                    var  percentagef=Math.round(percentagef).toFixed(2);        
+
+                    %>
                                     <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
+                                        <th scope="row"><span class="fname">RC</span><%= companytask.getproductivity[i].user.firstname; %> <%= companytask.getproductivity[i].user.lastname; %></th>
+                                        <td><%= totalworkingDisplay+':'+mtotalworkingDisplay %></td>
                                         <td>
                                             <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
+                                                <div class="progress-bar" role="progressbar" style="width: <%= percentagef; %>%" aria-valuenow="<%= percentagef; %>" aria-valuemin="0" aria-valuemax="100"><%= percentagef; %> %</div>
                                             </div>
 
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <% } }else{ %>
+                                        <tr>
+                                           
+                                    <td colspan="3" class="text-center" style="color:red; ">No User Listed</td>
+                                           
+                                        </tr>      
+      <%  } %>
                                 </tbody>
                             </table>
                         </div>
@@ -126,53 +152,53 @@
                                         <th scope="col">Productivity</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span> Ritesh C.</th>
-                                        <td>08:55</td>
-                                        <td>
-                                            <div class="progress mb-0">
-                                                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92.20%</div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tbody> 
+                                    <%  if(companytask.getproductivityasc.length > 0){
+                                        var s=1; 
+                                        var  dproductivitytime =0;
+                                    for(var i=0; i < companytask.getproductivityasc.length; i++) { 
+                                        var str=new Date(); 
+                        var totalproductinfos= Math.floor(companytask.getproductivityasc[i].productivitytime /1000);
+                        var totalidles= Math.floor(companytask.getproductivityasc[i].totalIdleMinutes /1000);
+                         var totalworkings=totalproductinfos+totalidles;
+                                        var dtotalworkings = totalworkings;
+                                       
+                                        var htotalworkings = Math.floor(dtotalworkings / 3600);
+                                     
+                                        var mtotalworkings = Math.floor(dtotalworkings % 3600 / 60);
+                                        
+                                        var totalworkingDisplays = htotalworkings > 0 ? (htotalworkings > 9 ? htotalworkings : "0"+htotalworkings) + (htotalworkings == 1 ? "" : "") : "00";
+                                      
+                                        var mtotalworkingDisplays = mtotalworkings > 0 ? (mtotalworkings > 9 ? mtotalworkings : "0"+mtotalworkings) + (mtotalworkings == 1 ? "" : "") : "00";
+                                        
+                    
+                                        var str=new Date(); 
+                                        var totalproductinfoss= Math.floor(companytask.getproductivityasc[i].productivitytime /1000);
+                    
+                                        var mstotalworkingsrs = Math.floor(totalproductinfoss % 3600 / 60);
+                                        var mstotalworkingDisplaysrts = mstotalworkingsrs > 0 ? (mstotalworkingsrs > 9 ? mstotalworkingsrs : "0"+mstotalworkingsrs) + (mstotalworkingsrs == 1 ? "" : "") : "00";
+                                        var percentagefs=(Number(mstotalworkingDisplaysrts)*100)/Number(mtotalworkingDisplays);
+                        
+                                        var  percentagefs=Math.round(percentagefs).toFixed(2);        
+                    
+                                        %>
+                                                        <tr>
+                                                            <th scope="row"><span class="fname">RC</span><%= companytask.getproductivityasc[i].user.firstname; %> <%= companytask.getproductivityasc[i].user.lastname; %></th>
+                                                            <td><%= totalworkingDisplays+':'+mtotalworkingDisplays %></td>
+                                                            <td>
+                                                                <div class="progress mb-0">
+                                                                    <div class="progress-bar" role="progressbar" style="width: <%= percentagef; %>%" aria-valuenow="<%= percentagef; %>" aria-valuemin="0" aria-valuemax="100"><%= percentagefs; %> %</div>
+                                                                </div>
+                    
+                                                            </td>
+                                                        </tr>
+                                                        <% } }else{ %>
+                                                            <tr>
+                                                               
+                                                        <td colspan="3" class="text-center" style="color:red; ">No User Listed</td>
+                                                               
+                                                            </tr>      
+                          <%  } %>
                                 </tbody>
                             </table>
                         </div>
@@ -188,10 +214,7 @@
                                             <p>Current Period</p>
                                             <h4>64.22% <span><i class="la la-caret-down"></i> 0.28%</span></h4>
                                         </li>
-                                        <li>
-                                            <p>Current Period</p>
-                                            <h4>64.22% <span><i class="la la-caret-down"></i> 0.28%</span></h4>
-                                        </li>
+                                       
                                     </ul>
                                 </div>
                                 <div class="col-sm-8">
@@ -202,238 +225,256 @@
 
                         <div class="blocks">
                             <div class="d-flex justify-content-between align-items-center" style="margin-bottom: -30px;">
-                                <h4 class="m-0">Today's Attendance</h4>
-                                <h5 class="m-0 text-center">17 <small class="d-block">Users</small></h5>
+                                <h4 class="m-0">App Usage</h4>
+                               
                             </div>
 
                             <div class="chart doughnut2 d-flex align-items-center justify-content-between" style="margin-bottom: -30px;">
                                 <div class="cchart w-50 position-relative">
+
+                                    <%  if(companytask.appgroup.length > 0){
+                                        var s=1; 
+                                        var seeg=0
+                                        var productivitytimeDisplays=0;
+                                        var mproductivitytimeDisplays=0;
+                                        var sproductivitytimeDisplays=0;
+                                       for(var i=0; i < companytask.appgroup.length; i++) { 
+                                       var str=new Date(); %>
+                     <%   var  dproductivitytime = Number(companytask.appgroup[i].count);
+                                       seeg += dproductivitytime;
+                    
+                     
+                                                     %>
+                                      
+                               <%  }
+                               
+                        
+                               }   if(seeg >0){
+
+                                var hproductivitytimes = Math.floor(seeg / 3600);
+                                var mproductivitytimes = Math.floor(seeg % 3600 / 60);
+                                 var sproductivitytimes = Math.floor(seeg % 3600 % 60);
+                                 var productivitytimeDisplays = hproductivitytimes > 0 ? (hproductivitytimes > 9 ? hproductivitytimes : "0"+hproductivitytimes) + (hproductivitytimes == 1 ? "" : "") : "00";
+                                   var mproductivitytimeDisplays = mproductivitytimes > 0 ? (mproductivitytimes > 9 ? mproductivitytimes : "0"+mproductivitytimes) + (mproductivitytimes == 1 ? "" : "") : "00";
+                                  var sproductivitytimeDisplays = sproductivitytimes > 0 ? (sproductivitytimes > 9 ? sproductivitytimes : "0"+sproductivitytimes) + (sproductivitytimes == 1 ? "" : "") : "00";
+                                  var cdurationtime=productivitytimeDisplays+':'+mproductivitytimeDisplays+':'+sproductivitytimeDisplays;
+
+                               } %>
+
+
+
                                     <canvas id="myCanvas2" class="w-100"></canvas>
-                                    <h3><span>Total Hrs.</span>82.35</h3>
+                 <h3><span>Total Hrs.</span><%=  cdurationtimea=productivitytimeDisplays+':'+mproductivitytimeDisplays+':'+sproductivitytimeDisplays; %></h3>
                                 </div>
-                                <ul class="flex-column">
-                                    <li><data value="1.0" data-color="green">35.23</data> <span class="ml-1">Chrome</span></li>
-                                    <li><data value="0.65" data-color="orange">57.58</data> <span class="ml-1">Code</span></li>
-                                    <li><data value="0.55" data-color="red">04.46</data> <span class="ml-1">Msedge</span></li>
-                                    <li><data value="0.45" data-color="blue">03.21</data> <span class="ml-1">Photoshop</span></li>
-                                    <li><data value="0.30" data-color="orange">03.18</data> <span class="ml-1">Code-Insiders</span></li>
-                                    <li><data value="0.10" data-color="pink">02.45</data> <span class="ml-1">Google-Chrome</span></li>
-                                    <li><data value="0.05" data-color="sky">02.19</data> <span class="ml-1">MyZen</span></li>
+
+
+
+                                <ul class="flex-column custmo">
+    <%  if(companytask.appgroup.length > 0){
+         var s=1; 
+         var  dproductivitytime =0;
+        for(var i=0; i < companytask.appgroup.length; i++) { 
+        var str=new Date(); %>
+        <%   var  dproductivitytime = Number(companytask.appgroup[i].count);
+ 
+        var hproductivitytime = Math.floor(dproductivitytime / 3600);
+         var mproductivitytime = Math.floor(dproductivitytime % 3600 / 60);
+          var sproductivitytime = Math.floor(dproductivitytime % 3600 % 60);
+          var productivitytimeDisplay = hproductivitytime > 0 ? (hproductivitytime > 9 ? hproductivitytime : "0"+hproductivitytime) + (hproductivitytime == 1 ? "" : "") : "00";
+
+          
+            var mproductivitytimeDisplay = mproductivitytime > 0 ? (mproductivitytime > 9 ? mproductivitytime : "0"+mproductivitytime) + (mproductivitytime == 1 ? "" : "") : "00";
+           var sproductivitytimeDisplay = sproductivitytime > 0 ? (sproductivitytime > 9 ? sproductivitytime : "0"+sproductivitytime) + (sproductivitytime == 1 ? "" : "") : "00";
+           var cdurationtime=productivitytimeDisplay+':'+mproductivitytimeDisplay+':'+sproductivitytimeDisplay;
+           var remain=dproductivitytime/seeg;
+           var remainpercentage=remain;
+          var srty= companytask.appgroup[i].windowclass.split(".");
+         var rpercen=remainpercentage.toFixed(2);
+                      %>
+        <li><data  class="customi" value="<%= rpercen; %>" data-color="green"><%= cdurationtime; %></data> <span class="ml-1"><%= srty[0].toUpperCase(); %></span></li>
+<%  }
+
+
+} %>
+
+
+                                   
+                                    
                                 </ul>
                             </div>
                         </div>
 
+                        <script>
+                            var colors = ["#e57373", "#ba68c8", "#90caf9", "#4db6ac", "#dce775", "#ffb74d", "#b0bec5", "#81c784"];
+
+var el = document.querySelectorAll('.custmo > li > .customi');
+//OR (If you have the older browser)
+//var el =[].slice.call(document.querySelectorAll('#customizeMenu > .l1'));
+el.forEach(function(item, i){
+    item.setAttribute('data-color' , colors[i]); 
+  //item.style.backgroundColor = colors[i];
+});
+</script>
                         <div class="blocks">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h4 class="m-0 mb-2">Latest Screenshots</h4>
                             </div>
 
+                            
+                           
+                            <div class="d-flex dashboardSS">
+                                <%  if(companytask.getlatestsnapshot.length > 0){
+                         
+                                    for(var i=0; i < companytask.getlatestsnapshot.length; i++) {
+                                         %>
+                                <a class="ssTile" data-toggle="modal" data-target="#<%= companytask.getlatestsnapshot[i].id; %>">
+                                    <img src="<%= companytask.getlatestsnapshot[i].screenshot; %>" alt="" class="img-fluid" style="max-width:160px" />
+                                    <div class="progress" style="height:.5rem">
+                                        <div class="progress-bar" role="progressbar" style="width: <%= companytask.getlatestsnapshot[i].productivityCount; %>%" aria-valuenow="<%= companytask.getlatestsnapshot[i].productivityCount; %>" aria-valuemin="0" aria-valuemax="100"></div>
+                                        
+                                    </div>
+                                </a>
 
-                            <!-- SS Modal Start -->
-                            <div class="modal fade bd-example-modal-lg " id="ssModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="ssModalLabel">Preview - Sushil Sharma - 1 July 2021 |
-                                                <a href="#"><img src="./assets/images/ic_lock.png" alt="" class="img-fluid" /></a>
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
+
+<!-- SS Modal Start -->
+<div class="modal fade bd-example-modal-lg ssModalPopup " id="<%= companytask.getlatestsnapshot[i].id; %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="owl-carousel owl-theme owl-loaded popupCarousel">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage">
+  
+                <div class="owl-item">
+                            <div class="modal-header">
+    <h5 class="modal-title" id="ssModalLabel">Preview - <%= companytask.getlatestsnapshot[i].user.firstname; %> <%= companytask.getlatestsnapshot[i].user.lastname; %> - <%= moment(companytask.getlatestsnapshot[i].capturetime).format('DD-MM-YYYY'); %> |
+                                    <a href="#"><img src="/assets/images/ic_lock.png" alt="" class="img-fluid" /></a>
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="ssPart">
+                                            <img src="<%= companytask.getlatestsnapshot[i].screenshot; %>" alt="img" class="img-fluid" />
                                         </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-md-7">
-                                                    <div class="ssPart">
-                                                        <img src="./assets/images/snap.jpg" alt="img" class="img-fluid" />
-                                                    </div>
 
-                                                    <div class="ssActivity">
-                                                        <div class="d-flex align-items-center justify-content-between">
-                                                            <h4>Activity Detail</h4>
-                                                            <p>Activity Level <span style="color:#ed4724;">75%</span></p>
-                                                        </div>
-                                                        <div class="progress m-0 mt-1">
-                                                            <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
+                                        <div class="ssActivity">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h4>Activity Detail</h4>
+           <p>Activity Level <span style="color:#ed4724;"> <% var sss= companytask.getlatestsnapshot[i].productivityCount;%> <%= sss %> %</span></p>
+                                                <% var ssss= "width:"+companytask.getlatestsnapshot[i]+"%"; %>
+                                            </div>
+                                            <div class="progress m-0 mt-1">
+                                                <div class="progress-bar" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= companytask.getlatestsnapshot[i].productivityCount;%>" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
 
-                                                        <div class="d-flex activities">
-                                                            <div class="activityTile">
-                                                                <span>Duration</span> 05:10
-                                                            </div>
-                                                            <div class="activityTile">
-                                                                <span>Duration</span> 419
-                                                            </div>
-                                                            <div class="activityTile">
-                                                                <span>Duration</span> 26
-                                                            </div>
-                                                            <div class="activityTile">
-                                                                <span>Duration</span> 3084
-                                                            </div>
-                                                            <div class="activityTile">
-                                                                <span>Duration</span> --
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div class="d-flex activities">
+                                                <div class="activityTile">
+                                                    <span>Duration</span>
+         <%  if(companytask.getlatestsnapshot[i].productivitytime){ 
+                var dtotalproductinfos = Number(companytask.getlatestsnapshot[i].productivitytime);
+                var dtotalproductinfos= Math.floor(dtotalproductinfos / 1000);
+                var htotalproductinfos = Math.floor(dtotalproductinfos / 3600);
+                var mtotalproductinfos = Math.floor(dtotalproductinfos % 3600 / 60);
+                                                    
+            var stotalproductinfos =Math.floor(dtotalproductinfos % 3600 % 60);                                                                           
+              var totalproductinfoDisplayss = htotalproductinfos > 0 ? (htotalproductinfos > 9 ? htotalproductinfos : "0"+htotalproductinfos) + (htotalproductinfos == 1 ? "" : "") : "00";
+             var mtotalproductinfoDisplayss = mtotalproductinfos > 0 ? (mtotalproductinfos > 9 ? mtotalproductinfos : "0"+mtotalproductinfos) + (mtotalproductinfos == 1 ? "" : "") : "00";
+              var stotalproductinfoDisplayss = stotalproductinfos > 0 ? (stotalproductinfos > 9 ? stotalproductinfos : "0"+stotalproductinfos) + (stotalproductinfos == 1 ? "" : "") : "00";
+                      }else{
+                        var totalproductinfoDisplayss = "00";
+                        var mtotalproductinfoDisplayss = "00";
+                        var stotalproductinfoDisplayss = "00";
 
+                      }  %>           
+                                  <%= totalproductinfoDisplayss+':'+mtotalproductinfoDisplayss+':'+stotalproductinfoDisplayss; %>
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <ul class="ssSoft">
-                                                        <li class="ulHeading">
-                                                            <h4>Application Uses</h4>
-                                                        </li>
-                                                        <li class="d-flex align-items-center">
-                                                            <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
-                                                            <div class="ssSoftDetail">
-                                                                <p>Google Chrome</p>
-                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
-                                                                <p>Duration: 03:17 mm:ss</p>
-                                                            </div>
-                                                        </li>
-                                                        <li class="d-flex align-items-center">
-                                                            <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
-                                                            <div class="ssSoftDetail">
-                                                                <p>Google Chrome</p>
-                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
-                                                                <p>Duration: 03:17 mm:ss</p>
-                                                            </div>
-                                                        </li>
-                                                        <li class="d-flex align-items-center">
-                                                            <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
-                                                            <div class="ssSoftDetail">
-                                                                <p>Google Chrome</p>
-                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
-                                                                <p>Duration: 03:17 mm:ss</p>
-                                                            </div>
-                                                        </li>
-                                                        <li class="d-flex align-items-center">
-                                                            <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
-                                                            <div class="ssSoftDetail">
-                                                                <p>Google Chrome</p>
-                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
-                                                                <p>Duration: 03:17 mm:ss</p>
-                                                            </div>
-                                                        </li>
-                                                        <li class="d-flex align-items-center">
-                                                            <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
-                                                            <div class="ssSoftDetail">
-                                                                <p>Google Chrome</p>
-                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
-                                                                <p>Duration: 03:17 mm:ss</p>
-                                                            </div>
-                                                        </li>
-                                                        <li class="d-flex align-items-center">
-                                                            <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
-                                                            <div class="ssSoftDetail">
-                                                                <p>Google Chrome</p>
-                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
-                                                                <p>Duration: 03:17 mm:ss</p>
-                                                            </div>
-                                                        </li>
-                                                        <li class="d-flex align-items-center">
-                                                            <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
-                                                            <div class="ssSoftDetail">
-                                                                <p>Google Chrome</p>
-                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
-                                                                <p>Duration: 03:17 mm:ss</p>
-                                                            </div>
-                                                        </li>
-                                                        <li class="d-flex align-items-center">
-                                                            <img src="./assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
-                                                            <div class="ssSoftDetail">
-                                                                <p>Google Chrome</p>
-                                                                <p>Fwd: Today Task Report 29 June 2021 - sushil@doomshell.com</p>
-                                                                <p>Duration: 03:17 mm:ss</p>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                <div class="activityTile">
+                                                    <span>Key Press</span> <%= companytask.getlatestsnapshot[i].keypress;%>
+                                                </div>
+                                                <div class="activityTile">
+                                                    <span>Mouse Click</span> <%= companytask.getlatestsnapshot[i].totalMouseclick;%>
+                                                </div>
+                                                <div class="activityTile">
+                                                    <span>Mouse Move</span> <%= companytask.getlatestsnapshot[i].totalMouseMovement;%>
+                                                </div>
+                                                <div class="activityTile">
+                                                    <span>Activity</span> --
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer ssFooter">
-                                            <ul class="d-flex align-items-center">
-                                                <li><a href="#"><i class="la la-angle-left"></i> Prev</a></li>
-                                                <li><a href="#">Next <i class="la la-angle-right"></i></a></li>
-                                            </ul>
-                                        </div>
+
+                                    </div>
+                                    <div class="col-md-5">
+                                        <ul class="ssSoft">
+                                            <li class="ulHeading">
+                                                <h4>Application Uses</h4>
+                                            </li>
+
+            <% var ssss=companytask.getlatestsnapshot[i].applist;
+              var utestapplist = JSON.parse(ssss);
+            //  console.log(utestapplist);
+            if(utestapplist.length > 0){
+           %>  <% for(var s=0; s < utestapplist.length; s++) { 
+                     %>
+                                            <li class="d-flex align-items-center">
+                                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
+                                                <div class="ssSoftDetail">
+                                            <p><%= utestapplist[s].windowClass; %></p>
+                                    <p><%= utestapplist[s].windowName; %></p>                            
+             
+                         <p><%   var  dproductivitytimecnt = Number(utestapplist[s].count);
+                              var hproductivitytimecnt = Math.floor(dproductivitytimecnt / 3600);
+                              var mproductivitytimecnt = Math.floor(dproductivitytimecnt % 3600 / 60);
+                              var sproductivitytimecnt = Math.floor(dproductivitytimecnt % 3600 % 60);
+                              var productivitytimeDisplaycnt = hproductivitytimecnt > 0 ? (hproductivitytimecnt > 9 ? hproductivitytimecnt : "0"+hproductivitytimecnt) + (hproductivitytimecnt == 1 ? "" : "") : "00";
+                              var mproductivitytimeDisplaycnt = mproductivitytimecnt > 0 ? (mproductivitytimecnt > 9 ? mproductivitytimecnt : "0"+mproductivitytimecnt) + (mproductivitytimecnt == 1 ? "" : "") : "00";
+                               var sproductivitytimeDisplaycnt = sproductivitytimecnt > 0 ? (sproductivitytimecnt > 9 ? sproductivitytimecnt : "0"+sproductivitytimecnt) + (sproductivitytimecnt == 1 ? "" : "") : "00";
+                             var cdurationtimecnt=productivitytimeDisplaycnt+':'+mproductivitytimeDisplaycnt+':'+sproductivitytimeDisplaycnt;
+                                           %>
+                               Duration : <%= cdurationtimecnt; %> mm:ss</p>
+                                                        
+                                                       
+                                                </div>
+                                            </li>
+                                    <% } } %>        
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            <!-- SS Modal End -->
+                        
+                        </div>
+                    
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SS Modal End -->
 
 
-                            <div class="d-flex dashboardSS">
-                                <a class="ssTile" data-toggle="modal" data-target=".bd-example-modal-lg">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
-                                <a class="ssTile">
-                                    <img src="./assets/images/snap.jpg" alt="" class="img-fluid" style="max-width:160px" />
-                                    <div class="progress" style="height:.5rem">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </a>
+
+                                <% } } %>
                             </div>
+                           
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
+                                <%  if(companytask.gettasklistget.length > 0){
+                         
+                                    for(var i=0; i < companytask.gettasklistget.length; i++) {
+                                         %>
                                 <div class="blocks">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h4 class="m-0">Projects</h4>
                                     </div>
 
-                                    <p>Calling</p>
+                                    <p><%= companytask.gettasklistget[i].name; %></p>
 
                                     <div class="progress my-1">
                                         <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -441,10 +482,12 @@
 
                                     <div class="d-flex align-items-center justify-content-between">
                                         <p class="text-center"><b class="d-block">0.00 %</b>Complete</p>
-                                        <p class="text-center"><b class="d-block">0/2</b>My Project</p>
+                                        <p class="text-center"><b class="d-block">0/<%= companytask.gettasklistget.length; %></b>My Project</p>
                                         <p class="text-center"><b class="d-block">3:38:17</b>Worked Hours</p>
                                     </div>
                                 </div>
+
+                                <% }  } %>
                             </div>
                             <div class="col-md-6">
                                 <div class="blocks">

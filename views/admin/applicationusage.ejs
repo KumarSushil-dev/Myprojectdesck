@@ -233,114 +233,75 @@
                 <div class="blocks tabContainers mb-0 dailyInOutTable">
                     <h4>All Used Application</h4>
                     <div class="applicationTileContainer d-flex align-items-center flex-wrap">
+
+                        <%  if(applicationusage.data.length > 0){
+                            var s=1; 
+                            var seeg=0
+                            var productivitytimeDisplays=0;
+                            var mproductivitytimeDisplays=0;
+                            var sproductivitytimeDisplays=0;
+                            var software=[];
+                            var softwareval=[];
+                           for(var i=0; i < applicationusage.data.length; i++) { 
+                           var str=new Date(); %>
+         <%   var  dproductivitytime = Number(applicationusage.data[i].count);
+                           seeg += dproductivitytime;
+                           var srty= applicationusage.data[i].windowclass.split(".");
+                           software[i]=srty[0].split(" ").join("");
+                           softwareval[i]=dproductivitytime;
+         
+                                         %>
+                          
+                   <%  }
+                   
+            
+                   } 
+                 
+                    if(applicationusage.data.length > 0){
+                            var s=1; 
+                            var dproductivitytime =0;
+                           for(var i=0; i < applicationusage.data.length; i++) { 
+                           var str=new Date(); %> 
+
+                           <%   var  dproductivitytime = Number(applicationusage.data[i].count);
+ 
+                           var hproductivitytime = Math.floor(dproductivitytime / 3600);
+                            var mproductivitytime = Math.floor(dproductivitytime % 3600 / 60);
+                             var sproductivitytime = Math.floor(dproductivitytime % 3600 % 60);
+                             var productivitytimeDisplay = hproductivitytime > 0 ? (hproductivitytime > 9 ? hproductivitytime : "0"+hproductivitytime) + (hproductivitytime == 1 ? "" : "") : "00";
+                   
+                             
+                               var mproductivitytimeDisplay = mproductivitytime > 0 ? (mproductivitytime > 9 ? mproductivitytime : "0"+mproductivitytime) + (mproductivitytime == 1 ? "" : "") : "00";
+                              var sproductivitytimeDisplay = sproductivitytime > 0 ? (sproductivitytime > 9 ? sproductivitytime : "0"+sproductivitytime) + (sproductivitytime == 1 ? "" : "") : "00";
+                              var cdurationtime=productivitytimeDisplay+':'+mproductivitytimeDisplay+':'+sproductivitytimeDisplay;
+                              var remain=dproductivitytime/seeg;
+                              var remainpercentage=remain;
+                             var srty= applicationusage.data[i].windowclass.split(".");
+                            var rpercen=remainpercentage.toFixed(2);
+                                         %>
                         <div class="applicationTile d-flex align-items-center">
                             <div class="tileContent">
                                 <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
                                 <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
+                                    <p><%= srty[0].toUpperCase(); %></p>
+                                    <p><%= cdurationtime; %></p>
                                 </div>
                             </div>
                         </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="applicationTile d-flex align-items-center">
-                            <div class="tileContent">
-                                <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid ">
-                                <div class="ssSoftDetail">
-                                    <p>Google Chrome</p>
-                                    <p>35:03:17</p>
-                                </div>
-                            </div>
-                        </div>
+                       
+                        <%  }
+
+
+                    }    var Data = software.filter(function (el) {
+                        return el != null;
+                      });
+    
+                      var Dataval = softwareval.filter(function (el) {
+                        return el != null;
+                      }); 
+                      
+                       %>
+
                     </div>
                 </div>
             </div>
@@ -352,3 +313,39 @@
 
 
                 <%- include('../partials/footer'); %>
+                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+                <script>
+                 
+                    var options = {
+                        chart: {
+                            width: "100%",
+                            height: 300,
+                            type: "bar"
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '20%',
+                                endingShape: 'rounded'
+                            },
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            width: 1,
+                            colors: ["#fff"]
+                        },
+                        series: [{
+                            data: [27, 20, 10, 9, 8, 7, 4, 5, 2, 10, 9, 8, 7, 4, 6, 2, 4, 10, 9, 8, 7, 4, 8, 7, 10, 9, 8, 7, 4, 4]
+                        }],
+                        xaxis: {
+                            categories: ['<%= Data %>'],
+                        }
+                       
+                    };
+            
+                    var chart = new ApexCharts(document.querySelector("#apex-chart"), options);
+            
+                    chart.render();
+                </script>

@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -62,6 +62,33 @@ companysettings: (req, res) => {
             });
         }
 
+   
+        return res.status(200).json({
+            success: true,
+            data: results,
+            detail: ""
+          });
+       
+
+    });
+
+},
+
+// Add Planlist
+applicationusage: (req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    getapplistusage(body, (err, results) => {
+        if (err) {
+            console.log(err);
+          return res.status(500).json({
+                success: false,
+                data: [],
+                message: "Connection Error."
+            });
+        }
+
+       
    
         return res.status(200).json({
             success: true,
@@ -364,12 +391,11 @@ viewdetail:(req, res) => {
                 detail: "Connection Error."
             });
         }
-      
-                    getattendence(body, (err, resultlogs) => {
+                  getattendence(body, (err, resultlogs) => {
                         getapps(body, (err, resultapps) => {
                          //   console.log(resultapps);
                         var twoHoursBefore = new Date();
-                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 3);
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
                      
                         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
@@ -450,7 +476,7 @@ snapshotdetail:(req, res) => {
    
     viewdetailid(body, (err, results) => {
        var twoHoursBefore = new Date();
-        twoHoursBefore.setHours(twoHoursBefore.getHours() - 3);
+        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
                         let x = 60; //minutes interval
@@ -1125,6 +1151,41 @@ var str=utest[0].format;
 
         });
         });
+        });
+
+    },
+    dashboards: (req, res) => {
+       const body = req.body;
+       body.userid=req.decoded.result[0].id;
+       dailyattendanceget(body, (err, results) => {      
+       getuserfortimeline(body, (err, getuser) => {
+        getapplist(body, (err, getapplist) => {
+            gettodayproductivity(body, (err, getproductivity) => {
+                gettodayproductivityasc(body, (err, gettodayproductivityasc) => {
+                     
+                    getlatestsnapshot(body, (err, getlatestsnapshot) => {
+                        tasklistget(body, (err, tasklistget) => {
+            if (err) {
+                console.log(err);
+            }
+            return res.status(200).json({
+                    success: true,
+                    data: results,
+                    getuse:getuser,
+                    appgroup:getapplist,
+                    getproductivity:getproductivity,
+                    getproductivityasc:gettodayproductivityasc,
+                    getlatestsnapshot:getlatestsnapshot,
+                    gettasklistget:tasklistget
+    
+                });
+            });
+        });
+        });
+    });
+        });
+     });
+   
         });
 
     },

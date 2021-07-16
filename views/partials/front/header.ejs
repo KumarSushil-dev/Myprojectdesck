@@ -16,8 +16,11 @@
         <link rel="stylesheet" href="/theme-assets/front/css/responsive.css" type="text/css">
         <title>My Project Desk</title>
     </head>
-    
-    <body class="home">
+    <%  var fullUrl = page; if(fullUrl=="/"){ %>
+    <body  class="home">
+        <% }else{ %>
+            <body>
+       <% } %>
 <!-- The Modal videoModal -->
 <div class="modal fade" id="motivationVideoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

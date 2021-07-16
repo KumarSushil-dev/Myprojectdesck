@@ -182,7 +182,7 @@
                                 <!-- // Bar charts section end -->
                                 <%  if(user.totalwebresult.length > 0){
                var totalproductinfoyear= Math.floor(user.totalwebresult[0].productivitytimeyear / 1000);
-               var totalidleyear= user.totalwebresult[0].idletimeyear;
+               var totalidleyear= Math.floor(user.totalwebresult[0].idletimeyear /1000);
                   if(totalproductinfoyear){
                                                                           
                   var mstotalworkingsyear = Math.floor(totalproductinfoyear % 3600 / 60);
@@ -297,7 +297,7 @@
                          <td><%= moment(user.productivityinfoweb[i].capturetime).format('DD-MM-YYYY'); %></td>
                                                 <td>
         <%   var totalproductinfo= Math.floor(user.productivityinfoweb[i].productivitytime / 1000);
-            var totalidle= user.productivityinfoweb[i].idletime;
+            var totalidle= Math.floor(user.productivityinfoweb[i].idletime / 1000);
                     if(totalproductinfo){
                                                   
                     var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
