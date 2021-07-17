@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -2095,8 +2095,6 @@ var str=utest[0].format;
 
     },
 
-
-    // Save Employee Punch IN
     savepunchin: (req, res) => {
 
         const body = req.body;
@@ -2104,19 +2102,7 @@ var str=utest[0].format;
        body.userid=req.decoded.result[0].id;
 
        body.punchInTime=moment(body.punchInTime).format('YYYY-MM-DD HH:mm:ss');
-       checkiftodaydateexistuserid(body, (err, resultsd) => {
-
-        if (err) {
-             
-            return res.status(500).json({
-                success: false,
-                data: [],
-                detail: "Connection Error."
-
-            });
-        }
-
-        if (resultsd.length === 0) {
+            
 
 
         saveuserpunch(body, (err, results) => {
@@ -2155,16 +2141,54 @@ var str=utest[0].format;
 
         });
         });
-        }else{
+       
+      
+
+    },
+    // Save Employee Punch IN
+    getinitialinfo: (req, res) => {
+
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+
+
+       checkiftodaydateexistuserid(body, (err, resultsd) => {
+
+
+            if (resultsd) {
+
+                
+          var re = JSON.stringify(resultsd);
+           var test = JSON.parse(re);
+         
+   // const intimee=test.punch_in;
+    const intimee=moment(test.punch_in).format('YYYY-MM-DD HH:mm:ss');
+   var  startdate = new Date();
+    var now  = moment(startdate).format('DD/MM/YYYY HH:mm:ss');
+    var then = moment(test.punch_in).format('DD/MM/YYYY HH:mm:ss');
+    var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
+    var obj = [];
+    obj.push({ "intime": intimee, "duration":ms  });
             return res.status(200).json({
-                success: false,
-                data: [],
-                detail: "User Already Punch IN Today."
+                success:true,
+                data: obj,
+                detail: "Punch In Listed."
+              });
+            }else{
+              var obj = [];
+              obj.push({ "intime": 0, "duration":0  });
+              return res.status(200).json({
+                  success: false,
+                  data: obj,
+                  detail: "No Punch In Listed."
 
-            });
+              });
+          }
 
-
-        }
+     
+      
+       
         });
 
     },
@@ -2280,7 +2304,9 @@ savetaskstop: (req, res) => {
        body.userid=req.decoded.result[0].id;
 
        body.starttime=moment(body.breakStartTime).format('YYYY-MM-DD HH:mm:ss');
-     
+       body.endtimes=moment(body.breakStartTime).format('YYYY-MM-DD HH:mm:ss');
+       savetaskstopidmanually(body, (err, resultsmanu) => {
+
        savebreakstartid(body, (err, results) => {
     
             if (err) {
@@ -2318,7 +2344,7 @@ savetaskstop: (req, res) => {
 
   
         });
-      
+    });
 
 
         
@@ -2332,7 +2358,11 @@ savetaskstop: (req, res) => {
        body.userid=req.decoded.result[0].id;
 
        body.starttime=moment(body.taskStartTime).format('YYYY-MM-DD HH:mm:ss');
-     
+       body.endtimes=moment(body.taskStartTime).format('YYYY-MM-DD HH:mm:ss');
+       savetaskstopidmanually(body, (err, resultsmanu) => {
+
+
+
        savetaskstartid(body, (err, results) => {
     
             if (err) {
@@ -2371,7 +2401,7 @@ savetaskstop: (req, res) => {
   
         });
       
-
+    });
 
         
       

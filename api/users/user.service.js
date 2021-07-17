@@ -33,14 +33,14 @@ module.exports = {
         var NOW = new Date();
         
         NOW=NOW.setDate(NOW.getDate() + 1);
-        await Userattendancelog.findAll({
+        await Userattendancelog.findOne({
             where: {
                 punch_in: { 
                   [Op.gt]: TODAY_START,
                   [Op.lte]: NOW
-                },
+                }, punch_out:null,
                 userId :data.userid
-              },
+              }, order:[['id','DESC']]
         }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
             // handle error;
             return callBack(err);
@@ -1609,6 +1609,33 @@ var colorsCSV = data.assignmultipleuser.join(",");
                   },userId: data.userid,tasks_id:data.type},
                 order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
              }).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    }, 
+    savetaskstopidmanually: async(data, callBack) => {
+
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        
+        NOW=NOW.setDate(NOW.getDate() + 1);
+        data.status='Y';
+
+        await Tasksactivities.findOne({
+          where: {starttime: { 
+              [Op.gt]: TODAY_START,
+              [Op.lte]: NOW
+            },userId: data.userid,endtime:null,status:'N'},
+          order:[['id','DESC']]}).then(function(createdUser){
+    
+          Tasksactivities.update({endtime: data.endtimes,status:data.status},{
+            limit: 1,
+            where: {starttime: { 
+                [Op.gt]: TODAY_START,
+                [Op.lte]: NOW
+              },userId: data.userid,id:createdUser.id,endtime:null,status:'N'},
+            order:[['id','DESC']],
+        }).then(notes => callBack(null,notes)); }).catch(function (err) {
             // handle error;
             return callBack(err);
           }); 

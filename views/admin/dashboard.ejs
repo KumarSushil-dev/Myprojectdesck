@@ -119,8 +119,12 @@
                     var  percentagef=Math.round(percentagef).toFixed(2);        
 
                     %>
-                                    <tr>
-                                        <th scope="row"><span class="fname">RC</span><%= companytask.getproductivity[i].user.firstname; %> <%= companytask.getproductivity[i].user.lastname; %></th>
+                         <tr>  <% var srr=companytask.getproductivity[i].user.firstname; 
+                                  var snerr=companytask.getproductivity[i].user.lastname; 
+
+        var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> 
+
+                                        <th scope="row"><span class="fname"><%=res %><%=nres %></span><%= companytask.getproductivity[i].user.firstname; %> <%= companytask.getproductivity[i].user.lastname; %></th>
                                         <td><%= totalworkingDisplay+':'+mtotalworkingDisplay %></td>
                                         <td>
                                             <div class="progress mb-0">
@@ -183,8 +187,13 @@
                     
                                         %>
                                                         <tr>
-                                                            <th scope="row"><span class="fname">RC</span><%= companytask.getproductivityasc[i].user.firstname; %> <%= companytask.getproductivityasc[i].user.lastname; %></th>
-                                                            <td><%= totalworkingDisplays+':'+mtotalworkingDisplays %></td>
+                <% var srr=companytask.getproductivityasc[i].user.firstname; 
+                   var snerr=companytask.getproductivityasc[i].user.lastname; 
+                          
+                  var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> 
+                          
+    <th scope="row"><span class="fname"><%=res %><%=nres %></span><%= companytask.getproductivityasc[i].user.firstname; %> <%= companytask.getproductivityasc[i].user.lastname; %></th>
+            <td><%= totalworkingDisplays+':'+mtotalworkingDisplays %></td>
                                                             <td>
                                                                 <div class="progress mb-0">
                                                                     <div class="progress-bar" role="progressbar" style="width: <%= percentagef; %>%" aria-valuenow="<%= percentagef; %>" aria-valuemin="0" aria-valuemax="100"><%= percentagefs; %> %</div>
@@ -249,7 +258,13 @@
                                <%  }
                                
                         
-                               }   if(seeg >0){
+                               }  
+                               
+                               var productivitytimeDisplays="00";
+                               var mproductivitytimeDisplays="00";
+                               var sproductivitytimeDisplays="00";
+                               
+                               if(seeg >0){
 
                                 var hproductivitytimes = Math.floor(seeg / 3600);
                                 var mproductivitytimes = Math.floor(seeg % 3600 / 60);
