@@ -60,7 +60,7 @@
                         <div class="innerLeft">
                             <div class="d-flex align-items-center justify-content-between mt-1 mb-1">
                                 <h5>Task Detail</h5>
-                                <a href="#"><i class="la la-pencil"></i> Edit</a>
+                               <!--<a href="#"><i class="la la-pencil"></i> Edit</a>--> 
                             </div>
                             <ul class="d-flex align-items-center justify-content-between">
                                 <li>Project</li>
@@ -81,7 +81,7 @@
                             </ul>
                             <div class="d-flex align-items-center justify-content-between mt-1 mb-1">
                                 <h5>Task Detail</h5>
-                                <a href="#" data-toggle="modal" data-target="#addRemoveUserModal"><i class="la la-user-plus"></i> Assign User</a>
+                               <!-- <a href="#" data-toggle="modal" data-target="#addRemoveUserModal"><i class="la la-user-plus"></i> Assign User</a>-->
                             </div>
                             <ul class="d-flex align-items-center justify-content-between">
                                 <li>Assigned To</li>
@@ -150,12 +150,10 @@ var ssss=stringarray.includes(userlist.getuse[s].id);
                                         <tr>
                                             <th>Type </th>
                                             <th>Created By</th>
-                                            <th>Key Press</th>
-                                            <th>Mouse Clicked</th>
-                                            <th>Mouse Moved</th>
+                                          
                                             <th>Start Date</th>
                                             <th>End Date</th>
-                                            <th>Manual</th>
+                                            <th>Duration</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -165,12 +163,16 @@ var ssss=stringarray.includes(userlist.getuse[s].id);
                         <tr>
                         <td>TASK</td>
                         <td><%= userlist.task[i].user.firstname; %> <%= userlist.task[i].user.lastname; %></td>
-                        <td><%= userlist.task[i].keypress; %></td>
-                        <td><%= userlist.task[i].mouseclicked; %></td>
-                        <td><%= userlist.task[i].mousemoved; %></td>
+                       
                         <td> <%= moment(userlist.task[i].starttime).format('DD-MM-YYYY');  %></td>
                         <td> <%= moment(userlist.task[i].endtime).format('DD-MM-YYYY');  %></td>
-                        <td> <%= userlist.task[i].manuallyend_time;  %></td>
+                        <td>     <%  
+                            var now  = moment(userlist.task[i].endtime).format('DD/MM/YYYY HH:mm:ss');
+                            var then = moment(userlist.task[i].starttime).format('DD/MM/YYYY HH:mm:ss');
+                            var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");   %>
+                            <% if(userlist.task[i].endtime){ %> 
+                                    <%= ms;  %>
+                                <% } %></td>
                        </tr>
                         <% } }else{ %>
                             <tr>

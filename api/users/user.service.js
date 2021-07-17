@@ -1047,6 +1047,52 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               return callBack(err);
             }); 
       },
+      gettodayproductivitytrytotal: async(data, callBack) => {
+      
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setDate(NOW.getDate() + 1);
+    await Usersnapshots.findAll({
+    
+      where: {capturetime: { 
+        [Op.gt]: TODAY_START,
+        [Op.lte]: NOW
+      }},
+    attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes']],
+                
+        order: [[sequelize.literal('productivitytime'), 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+
+      gettodayproductivitytry: async(data, callBack) => {
+      
+        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        var NOW = new Date();
+        NOW=NOW.setDate(NOW.getDate() + 1);
+    await Usersnapshots.findAll({
+    
+      where: {capturetime: { 
+        [Op.gt]: TODAY_START,
+        [Op.lte]: NOW
+      }},
+    attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes'],[sequelize.fn('sum', sequelize.col('totalKeypressCount')), 'totalKeypressCount'],[sequelize.fn('sum', sequelize.col('totalMouseMovement')), 'totalMouseMovement'],[sequelize.fn('sum', sequelize.col('totalClicks')), 'totalClicks']],
+    group: ['userId'],
+      include: [{
+      model: User,
+      where: {parent_id:data.userid},
+      attributes: ['id','firstname','lastname']
+            }
+        ],
+            
+        order: [[sequelize.literal('productivitytime'), 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
       getlatestsnapshot: async(data, callBack) => {
       
         const TODAY_START = new Date().setHours(05, 0, 0, 0);
@@ -1080,7 +1126,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
 
         await Userapplist.findAll({
             where: {userId:data.userid},
-            attributes: ['id','applist','capturetime',[sequelize.fn('sum', sequelize.col('count')), 'count']],
+            attributes: ['id','applist','windowclass','capturetime',[sequelize.fn('sum', sequelize.col('count')), 'count']],
             group: ['windowclass'],
             
             order: [['id', 'desc'],[sequelize.literal('count'), 'DESC']
@@ -1660,7 +1706,7 @@ var colorsCSV = data.assignmultipleuser.join(",");
               punch_in: { 
                 [Op.gt]: TODAY_START,
                 [Op.lte]: NOW
-              } }, include: [{
+              } },  group: ['userId'], include: [{
             model: User,
             where: {parent_id:data.userid},
             attributes: ['id','firstname','lastname']

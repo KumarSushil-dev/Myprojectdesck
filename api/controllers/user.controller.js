@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -97,6 +97,35 @@ applicationusage: (req, res) => {
           });
        
 
+    });
+
+},
+
+// Add Planlist
+gettodayproductivitytr: (req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    gettodayproductivitytry(body, (err, results) => {
+        gettodayproductivitytrytotal(body, (err, resultstotal) => {
+        if (err) {
+            console.log(err);
+          return res.status(500).json({
+                success: false,
+                data: [],
+                message: "Connection Error."
+            });
+        }
+
+       
+   
+        return res.status(200).json({
+            success: true,
+            data: results,
+            datatotal:resultstotal,
+            detail: ""
+          });
+       
+        });
     });
 
 },
@@ -438,21 +467,23 @@ viewdetail:(req, res) => {
             productivityinfoweb:resultsweb,
             totalwebresult:resultstotalweb,
             totalwebresultwebmonth:resultstotalwebmonth,
-            activeactivitygetresult:resultsactiveactivityget
+            activeactivitygetresult:resultsactiveactivityget,
+            timesarr:new_arr
           });
 
         }else{
 
             return res.status(200).json({
-                success: false,
-                data: [],
-                logss:resultlogs,
+            success: false,
+            data: [],
+            logss:resultlogs,
             snapshotdata: productivityresults,
             appslist:resultapps,
             productivityinfoweb:resultsweb,
             totalwebresult:resultstotalweb,
             totalwebresultwebmonth:resultstotalwebmonth,
-            activeactivitygetresult:resultsactiveactivityget
+            activeactivitygetresult:resultsactiveactivityget,
+            timesarr:new_arr
 
             });
 
@@ -515,7 +546,8 @@ snapshotdetail:(req, res) => {
             success:true,
             data:results,
             snapshotdata: productivityresults,
-            user: uarray
+            user: uarray,
+            timesarr:new_arr
           });
 
         }else{
@@ -525,6 +557,7 @@ snapshotdetail:(req, res) => {
                 data: results,
                 snapshotdata: [],
                 user:uarray,
+                timesarr:new_arr,
                 detail: "No Data Listed."
 
             });

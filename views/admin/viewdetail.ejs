@@ -181,7 +181,7 @@
                                                                           
                   var mstotalworkingsyear = Math.floor(totalproductinfoyear % 3600 / 60);
                 var mstotalworkingDisplaysyear = mstotalworkingsyear > 0 ? (mstotalworkingsyear > 9 ? mstotalworkingsyear : "0"+mstotalworkingsyear) + (mstotalworkingsyear == 1 ? "" : "") : "00";
-                  var percentageyear=(Number(mstotalworkingDisplaysyear)*100)/60;
+                 
                                                         
                                                         
                   var  dtotalproductinfoyear = Number(totalproductinfoyear);
@@ -191,9 +191,10 @@
                                                                         
                 var totalproductinfoDisplayyear = htotalproductinfoyear > 0 ? (htotalproductinfoyear > 9 ? htotalproductinfoyear : "0"+htotalproductinfoyear) + (htotalproductinfoyear == 1 ? "" : "") : "00";
                      var mtotalproductinfoDisplayyear = mtotalproductinfoyear > 0 ? (mtotalproductinfoyear > 9 ? mtotalproductinfoyear : "0"+mtotalproductinfoyear) + (mtotalproductinfoyear == 1 ? "" : "") : "00";
+
                      var stotalproductinfoDisplayyear = stotalproductinfoyear > 0 ? (stotalproductinfoyear > 9 ? stotalproductinfoyear : "0"+stotalproductinfoyear) + (stotalproductinfoyear == 1 ? "" : "") : "00";                                    
                                                         
-                                                        
+                                            
                                                         
                  var totalworkingyear=totalproductinfoyear+totalidleyear;
              var dtotalworkingyear = Number(totalworkingyear);
@@ -210,7 +211,10 @@
 
                     
                       var stotalworkingDisplayyear = stotalworkingyear > 0 ? (stotalworkingyear > 9 ? stotalworkingyear : "0"+stotalworkingyear) + (stotalworkingyear == 1 ? "" : "") : "00";
-                                                                      
+                       
+                      var percentageyear=(Number(mstotalworkingDisplaysyear)*100)/Number(mtotalworkingDisplayyear);    
+
+
                  var  dtotalidleyear = Number(totalidleyear);
                      var htotalidleyear = Math.floor(dtotalidleyear / 3600);
                         var mtotalidleyear = Math.floor(dtotalidleyear % 3600 / 60);
@@ -296,7 +300,7 @@
                                                   
                     var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
                     var mstotalworkingDisplays = mstotalworkings > 0 ? (mstotalworkings > 9 ? mstotalworkings : "0"+mstotalworkings) + (mstotalworkings == 1 ? "" : "") : "00";
-                    var percentage=(Number(mstotalworkingDisplays)*100)/60;
+                 
                                 
                                 
                     var  dtotalproductinfo = Number(totalproductinfo);
@@ -317,12 +321,15 @@
                          var htotalworking = Math.floor(dtotalworking / 3600);
                                             
                          var mtotalworking = Math.floor(dtotalworking % 3600 / 60);
-                         var stotalworking = Math.floor(dtotalworking % 3600 % 60);                     
+                  var stotalworking = Math.floor(dtotalworking % 3600 % 60);                     
                      var totalworkingDisplay = htotalworking > 0 ? (htotalworking > 9 ? htotalworking : "0"+htotalworking) + (htotalworking == 1 ? "" : "") : "00";
                                              
                       var mtotalworkingDisplay = mtotalworking > 0 ? (mtotalworking > 9 ? mtotalworking : "0"+mtotalworking) + (mtotalworking == 1 ? "" : "") : "00";
 
-                      var stotalworkingDisplay = stotalworking > 0 ? (stotalworking > 9 ? stotalworking : "0"+stotalworking) + (stotalworking == 1 ? "" : "") : "00";               
+                      var stotalworkingDisplay = stotalworking > 0 ? (stotalworking > 9 ? stotalworking : "0"+stotalworking) + (stotalworking == 1 ? "" : "") : "00";       
+                      
+                      var percentage=(Number(mstotalworkingDisplays)*100)/Number(mtotalworkingDisplay);
+
             var  dtotalidle = Number(totalidle);
             var htotalidle = Math.floor(dtotalidle / 3600);
             var mtotalidle = Math.floor(dtotalidle % 3600 / 60);
@@ -385,23 +392,56 @@
                                
 
 
-<%  if(user.snapshotdata.length > 0){
+<%  var arrt=[];
+ for (let i = 0; i < user.timesarr.length; i++) {
+    var string = user.timesarr[i].split('-');
+    if(user.snapshotdata.length > 0){
+        var s=1; 
+        for(var s=0; s < user.snapshotdata.length; s++) {
+
+
+if(string[0]==user.snapshotdata[s][0].starttime){
+
+    arrt[i]=user.snapshotdata[s][0];
+}
+        }
+    }
+}
+
+
+if(arrt.length > 0){
     var s=1; 
-    for(var i=0; i < user.snapshotdata.length; i++) {
-        if(user.snapshotdata[i][0].image.length >0){
+    for(var i=0; i < arrt.length; i++) {
+        if(arrt[i].image.length >0){
          var d= i; %>
         
                                      <div class="snapHourly">
-                        <p class="snapTime"><%= (user.snapshotdata[i][0].starttime); %></p>
+                        <p class="snapTime"><%= (arrt[i].starttime); %></p>
                                         <div class="demo-gallery">
 
                     <ul class="list-unstyled row">
                      
-                                                <%  for(var j=0; j < user.snapshotdata[i][0].image.length; j++) { %>
+                  <%  for(var j=0; j < arrt[i].image.length; j++) { 
+                    var color="";
+                    if(arrt[i].image[j].productivityCount >0 &&  arrt[i].image[j].productivityCount <= 25){
+                     var color="background-color: red !important;";
+                    }else if(arrt[i].image[j].productivityCount >25 &&  arrt[i].image[j].productivityCount <= 50){
+                     var color="background-color: orange !important;";
+                 }else if(arrt[i].image[j].productivityCount >50 &&  arrt[i].image[j].productivityCount <= 75){
+                     var color="background-color: blue !important;";
+                 }else if(arrt[i].image[j].productivityCount >75 &&  arrt[i].image[j].productivityCount <= 100){
+                     var color="background-color: #579239 !important;";
+                 }
+                      
+                      %>
 
                                                  <li class="col-md-3 mb-2" >
                                                     <a href="javascript:void(0)" data-target="#<%= d; %>" data-toggle="modal">
-                                                        <img src="<%= user.snapshotdata[i][0].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
+                                                        <img src="<%= arrt[i].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
+                                                        <div class="progress" style="height:.5rem">
+                                                            <div class="progress-bar" role="progressbar" style="<%= color; %>;width: <%= arrt[i].image[j].productivityCount; %>%" aria-valuenow="<%= arrt[i].image[j].productivityCount; %>" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            
+                                                        </div>
                                                     </a>
                                                 </li>
 <% }  %>
@@ -415,10 +455,10 @@
                 <div class="owl-carousel owl-theme owl-loaded popupCarousel">
                     <div class="owl-stage-outer">
                         <div class="owl-stage">
-       <%  for(var j=0; j < user.snapshotdata[i][0].image.length; j++) {  %>
+       <%  for(var j=0; j < arrt[i].image.length; j++) {  %>
                     <div class="owl-item">
                                 <div class="modal-header">
-        <h5 class="modal-title" id="ssModalLabel">Preview - <%= user.data.firstname; %> <%= user.data.lastname; %> - <%= moment(user.snapshotdata[i][0].image[j].date).format('DD-MM-YYYY'); %> |
+        <h5 class="modal-title" id="ssModalLabel">Preview - <%= user.data.firstname; %> <%= user.data.lastname; %> - <%= moment(arrt[i].image[j].date).format('DD-MM-YYYY'); %> |
                                         <a href="#"><img src="/assets/images/ic_lock.png" alt="" class="img-fluid" /></a>
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -429,24 +469,24 @@
                                     <div class="row">
                                         <div class="col-md-7">
                                             <div class="ssPart">
-                                                <img src="<%= user.snapshotdata[i][0].image[j].snap; %>" alt="img" class="img-fluid" />
+                                                <img src="<%= arrt[i].image[j].snap; %>" alt="img" class="img-fluid" />
                                             </div>
 
                                             <div class="ssActivity">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <h4>Activity Detail</h4>
-                                                    <p>Activity Level <span style="color:#ed4724;"> <% var sss= user.snapshotdata[i][0].image[j].productivityCount;%> <%= sss %> %</span></p>
-                                                    <% var ssss= "width:"+user.snapshotdata[i][0].image[j].productivityCount+"%"; %>
+                                                    <p>Activity Level <span style="color:#ed4724;"> <% var sss= arrt[i].image[j].productivityCount;%> <%= sss %> %</span></p>
+                                                    <% var ssss= "width:"+arrt[i].image[j].productivityCount+"%"; %>
                                                 </div>
                                                 <div class="progress m-0 mt-1">
-                                                    <div class="progress-bar" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= user.snapshotdata[i][0].image[j].productivityCount;%>" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= arrt[i].image[j].productivityCount;%>" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
 
                                                 <div class="d-flex activities">
                                                     <div class="activityTile">
                                                         <span>Duration</span>
-             <%  if(user.snapshotdata[i][0].image[j].duration){ 
-                    var dtotalproductinfos = Number(user.snapshotdata[i][0].image[j].duration);
+             <%  if(arrt[i].image[j].duration){ 
+                    var dtotalproductinfos = Number(arrt[i].image[j].duration);
                     var dtotalproductinfos= Math.floor(dtotalproductinfos / 1000);
                     var htotalproductinfos = Math.floor(dtotalproductinfos / 3600);
                     var mtotalproductinfos = Math.floor(dtotalproductinfos % 3600 / 60);
@@ -464,13 +504,13 @@
                                       <%= totalproductinfoDisplayss+':'+mtotalproductinfoDisplayss+':'+stotalproductinfoDisplayss; %>
                                                     </div>
                                                     <div class="activityTile">
-                                                        <span>Key Press</span> <%= user.snapshotdata[i][0].image[j].keypress;%>
+                                                        <span>Key Press</span> <%= arrt[i].image[j].keypress;%>
                                                     </div>
                                                     <div class="activityTile">
-                                                        <span>Mouse Click</span> <%= user.snapshotdata[i][0].image[j].totalMouseclick;%>
+                                                        <span>Mouse Click</span> <%= arrt[i].image[j].totalMouseclick;%>
                                                     </div>
                                                     <div class="activityTile">
-                                                        <span>Mouse Move</span> <%= user.snapshotdata[i][0].image[j].totalMouseMovement;%>
+                                                        <span>Mouse Move</span> <%= arrt[i].image[j].totalMouseMovement;%>
                                                     </div>
                                                     <div class="activityTile">
                                                         <span>Activity</span> --
@@ -485,7 +525,7 @@
                                                     <h4>Application Uses</h4>
                                                 </li>
 
-                <% var ssss=user.snapshotdata[i][0].image[j].applist;
+                <% var ssss=arrt[i].image[j].applist;
                   var utestapplist = JSON.parse(ssss);
                 //  console.log(utestapplist);
                 if(utestapplist.length > 0){
@@ -494,7 +534,9 @@
                                                 <li class="d-flex align-items-center">
                                                     <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
                                                     <div class="ssSoftDetail">
-                                                <p><%= utestapplist[s].windowClass; %></p>
+                                        <p>
+                                      <% var appli=utestapplist[s].windowClass.split("."); %>
+                                        <%= appli[0].toUpperCase(); %></p>
                                         <p><%= utestapplist[s].windowName; %></p>                            
                  
                              <p><%   var  dproductivitytimecnt = Number(utestapplist[s].count);
@@ -563,6 +605,7 @@
                                                 <th>#</th>
                                                 <th>Name</th>
                                                 <th>Duration</th>
+                                                <th>Title</th>
                                                 <th>Date</th>
                                             </tr>
                                         </thead>
@@ -570,10 +613,11 @@
                                             <%  if(user.appslist.length > 0){
                                                 var s=1; 
                                                 for(var i=0; i < user.appslist.length; i++) { 
-                                                    var str=new Date(); if(user.appslist[i].applist!=""){ %>
+                                                    var str=new Date(); if(user.appslist[i].applist!=""){ var applistse=user.appslist[i].windowclass.split(".");%>
                                             <tr>
                                                 <td><%= s++; %></td>
-                                                <td><%= user.appslist[i].applist; %></td>
+                                                <td><%= applistse[0]; %></td>
+                                                
                                                 <td>
                               <%   var  dproductivitytime = Number(user.appslist[i].count);
                                       var hproductivitytime = Math.floor(dproductivitytime / 3600);
@@ -588,6 +632,7 @@
                                                     
                                                     
                                                     <%= cdurationtime; %></td>
+                                                    <td><%= user.appslist[i].applist; %></td>
                                                 <td> <%= moment(user.appslist[i].capturetime).format('DD-MM-YYYY') %></td>
                                             </tr>
                                             <% } } }else{ %>
@@ -627,12 +672,10 @@
                                                 <th style="width:8%">Activity</th>
                                                 <th style="width:8%">Task</th>
                                                 <th style="width:8%">Project</th>
-                                                <th style="width:8%">Key Press</th>
-                                                <th style="width:8%">Mouse Clicked</th>
-                                                <th style="width:8%">Mouse Moved</th>
+                                              
                                                 <th style="width:20%">Start Date</th>
                                                 <th style="width:20%">End Date</th>
-                                                <th style="width:12%">Manual</th>
+                                                <th style="width:12%">Duration</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -646,14 +689,20 @@
                     <td><% if(user.activeactivitygetresult[i].task.projects_id !== 0){ %> 
                         <%= user.activeactivitygetresult[i].task.project.name;  %>
                                 <% } %></td> 
-                                        <td>--</td>
-                                        <td>--</td>
-                                        <td>--</td>
+                                       
                                        
                         <td>
                         <%= moment(user.activeactivitygetresult[i].starttime).format('DD-MM-YYYY HH:mm:ss'); %></td>
-                        <td> <%= moment(user.activeactivitygetresult[i].endtime).format('DD-MM-YYYY HH:mm:ss'); %></td>
-                        <td>--</td>
+                        <td> <% if(user.activeactivitygetresult[i].endtime){ %> <%= moment(user.activeactivitygetresult[i].endtime).format('DD-MM-YYYY HH:mm:ss'); %>
+                             <% } %></td>
+<td>
+                             <%  
+            var now  = moment(user.activeactivitygetresult[i].endtime).format('DD/MM/YYYY HH:mm:ss');
+            var then = moment(user.activeactivitygetresult[i].starttime).format('DD/MM/YYYY HH:mm:ss');
+            var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");   %>
+            <% if(user.activeactivitygetresult[i].endtime){ %> 
+                    <%= ms;  %>
+                <% } %></td>
                                                 <% } }else{ %>
                                                     <tr>
     

@@ -1,4 +1,4 @@
-const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo,companyuser,addcompanyuser,checkemailexist,viewdetail,viewdetailprofileservice,breaklist,activeactivity,savebreakstart,savebreakstop,tasklist,savetaskstart,savetaskstop,timeline,snapshotdetail,companysettings,getcompanysettings,dailyattendance,monthlyattendance,monthlyinout,projectsmain,projectsadd,companyprojects,projectsedit,taskadd,taskview,companytask,presence,attendancerecord,todayinfo,dashboards,applicationusage,getinitialinfo} = require('../controllers/user.controller');
+const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo,companyuser,addcompanyuser,checkemailexist,viewdetail,viewdetailprofileservice,breaklist,activeactivity,savebreakstart,savebreakstop,tasklist,savetaskstart,savetaskstop,timeline,snapshotdetail,companysettings,getcompanysettings,dailyattendance,monthlyattendance,monthlyinout,projectsmain,projectsadd,companyprojects,projectsedit,taskadd,taskview,companytask,presence,attendancerecord,todayinfo,dashboards,applicationusage,getinitialinfo,gettodayproductivitytr} = require('../controllers/user.controller');
 const { checkToken } = require("../middleware/authjwt.js");
 const express = require('express');
 const router = express.Router();
@@ -36,6 +36,7 @@ router.post("/editprofile",checkToken,  editprofile);
 router.post("/viewdetail",checkToken,  viewdetail);
 router.post("/snapshotdetail",checkToken,  snapshotdetail);
 router.post("/datatransfer",checkToken,  datatransfer);
+router.post("/gettodayproductivitytr",checkToken,  gettodayproductivitytr);
 router.get("/productivityinfo",checkToken,  productivityinfo);
 router.post("/dashboards",checkToken,  dashboards);
 router.get("/breaklist",checkToken,  breaklist);

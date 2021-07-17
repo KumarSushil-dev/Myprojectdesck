@@ -94,26 +94,39 @@
                     var s=1; 
                     var  dproductivitytime =0;
                     for(var i=0; i < companytask.getproductivity.length; i++) { 
+
+                        var totalworkingDisplay="00";
+                        var mtotalworkingDisplay="00";
+                        var stotalworkingDisplay="00";
+     
+                 
+                        var totalproductinfo=0;
+                        var totalidle=0;
+                        var totalworking=0;
+
+
                     var str=new Date(); 
     var totalproductinfo= Math.floor(companytask.getproductivity[i].productivitytime /1000);
     var totalidle= Math.floor(companytask.getproductivity[i].totalIdleMinutes /1000);
      var totalworking=totalproductinfo+totalidle;
-                    var dtotalworking = totalworking;
+                    var dtotalworking = Number(totalworking);
                    
                     var htotalworking = Math.floor(dtotalworking / 3600);
                  
                     var mtotalworking = Math.floor(dtotalworking % 3600 / 60);
-                    
+                    var stotalworking = Math.floor(dtotalworking % 3600 % 60);  
                     var totalworkingDisplay = htotalworking > 0 ? (htotalworking > 9 ? htotalworking : "0"+htotalworking) + (htotalworking == 1 ? "" : "") : "00";
                   
                     var mtotalworkingDisplay = mtotalworking > 0 ? (mtotalworking > 9 ? mtotalworking : "0"+mtotalworking) + (mtotalworking == 1 ? "" : "") : "00";
-                    
+
+                    var stotalworkingDisplay = stotalworking > 0 ? (stotalworking > 9 ? stotalworking : "0"+stotalworking) + (stotalworking == 1 ? "" : "") : "00";
 
                     var str=new Date(); 
                     var totalproductinfos= Math.floor(companytask.getproductivity[i].productivitytime /1000);
 
                     var mstotalworkingsr = Math.floor(totalproductinfos % 3600 / 60);
                     var mstotalworkingDisplaysrt = mstotalworkingsr > 0 ? (mstotalworkingsr > 9 ? mstotalworkingsr : "0"+mstotalworkingsr) + (mstotalworkingsr == 1 ? "" : "") : "00";
+
                     var percentagef=(Number(mstotalworkingDisplaysrt)*100)/Number(mtotalworkingDisplay);
     
                     var  percentagef=Math.round(percentagef).toFixed(2);        
@@ -125,7 +138,7 @@
         var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> 
 
                                         <th scope="row"><span class="fname"><%=res %><%=nres %></span><%= companytask.getproductivity[i].user.firstname; %> <%= companytask.getproductivity[i].user.lastname; %></th>
-                                        <td><%= totalworkingDisplay+':'+mtotalworkingDisplay %></td>
+                                        <td><%= totalworkingDisplay+':'+mtotalworkingDisplay+':'+stotalworkingDisplay; %></td>
                                         <td>
                                             <div class="progress mb-0">
                                                 <div class="progress-bar" role="progressbar" style="width: <%= percentagef; %>%" aria-valuenow="<%= percentagef; %>" aria-valuemin="0" aria-valuemax="100"><%= percentagef; %> %</div>
@@ -160,7 +173,18 @@
                                     <%  if(companytask.getproductivityasc.length > 0){
                                         var s=1; 
                                         var  dproductivitytime =0;
-                                    for(var i=0; i < companytask.getproductivityasc.length; i++) { 
+
+                                    for(var i=0; i < companytask.getproductivityasc.length; i++) {
+                                        
+                                        
+                        var totalworkingDisplays="00";
+                        var mtotalworkingDisplays="00";
+                        var stotalworkingDisplays="00";
+     
+                 
+                        var totalproductinfo=0;
+                        var totalidle=0;
+                        var totalworking=0;
                                         var str=new Date(); 
                         var totalproductinfos= Math.floor(companytask.getproductivityasc[i].productivitytime /1000);
                         var totalidles= Math.floor(companytask.getproductivityasc[i].totalIdleMinutes /1000);
@@ -170,17 +194,21 @@
                                         var htotalworkings = Math.floor(dtotalworkings / 3600);
                                      
                                         var mtotalworkings = Math.floor(dtotalworkings % 3600 / 60);
-                                        
+                                        var stotalworkings = Math.floor(dtotalworkings % 3600 % 60);  
                                         var totalworkingDisplays = htotalworkings > 0 ? (htotalworkings > 9 ? htotalworkings : "0"+htotalworkings) + (htotalworkings == 1 ? "" : "") : "00";
                                       
                                         var mtotalworkingDisplays = mtotalworkings > 0 ? (mtotalworkings > 9 ? mtotalworkings : "0"+mtotalworkings) + (mtotalworkings == 1 ? "" : "") : "00";
                                         
                     
+                                        var stotalworkingDisplays = stotalworkings > 0 ? (stotalworkings > 9 ? stotalworkings : "0"+stotalworkings) + (stotalworking == 1 ? "" : "") : "00";
                                         var str=new Date(); 
                                         var totalproductinfoss= Math.floor(companytask.getproductivityasc[i].productivitytime /1000);
                     
                                         var mstotalworkingsrs = Math.floor(totalproductinfoss % 3600 / 60);
+
                                         var mstotalworkingDisplaysrts = mstotalworkingsrs > 0 ? (mstotalworkingsrs > 9 ? mstotalworkingsrs : "0"+mstotalworkingsrs) + (mstotalworkingsrs == 1 ? "" : "") : "00";
+
+
                                         var percentagefs=(Number(mstotalworkingDisplaysrts)*100)/Number(mtotalworkingDisplays);
                         
                                         var  percentagefs=Math.round(percentagefs).toFixed(2);        
@@ -193,7 +221,7 @@
                   var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> 
                           
     <th scope="row"><span class="fname"><%=res %><%=nres %></span><%= companytask.getproductivityasc[i].user.firstname; %> <%= companytask.getproductivityasc[i].user.lastname; %></th>
-            <td><%= totalworkingDisplays+':'+mtotalworkingDisplays %></td>
+            <td><%= totalworkingDisplays+':'+mtotalworkingDisplays+':'+stotalworkingDisplays; %></td>
                                                             <td>
                                                                 <div class="progress mb-0">
                                                                     <div class="progress-bar" role="progressbar" style="width: <%= percentagef; %>%" aria-valuenow="<%= percentagef; %>" aria-valuemin="0" aria-valuemax="100"><%= percentagefs; %> %</div>

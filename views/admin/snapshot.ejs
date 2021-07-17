@@ -250,25 +250,59 @@
                             <div class="force-overflow">
                                
 
-<%  if(user.snapshotdata.length > 0){
+<%  var arrt=[];
+for (let i = 0; i < user.timesarr.length; i++) {
+   var string = user.timesarr[i].split('-');
+   if(user.snapshotdata.length > 0){
+       var s=1; 
+       for(var s=0; s < user.snapshotdata.length; s++) {
+
+
+if(string[0]==user.snapshotdata[s][0].starttime){
+
+   arrt[i]=user.snapshotdata[s][0];
+}
+       }
+   }
+}
+
+
+
+if(arrt.length > 0){
     var s=1; 
-    for(var i=0; i < user.snapshotdata.length; i++) {
-        if(user.snapshotdata[i][0].image.length >0){  
+    for(var i=0; i < arrt.length; i++) {
+        if(arrt[i].image.length >0){  
         
        var d= i; %>
       
                                      <div class="snapHourly">
-                        <p class="snapTime"><%= (user.snapshotdata[i][0].starttime); %></p>
+                        <p class="snapTime"><%= (arrt[i].starttime); %></p>
                                         <div class="demo-gallery">
 
                     <ul class="list-unstyled row">
                    
-                   <%  for(var j=0; j < user.snapshotdata[i][0].image.length; j++) { %>
+                   <%  for(var j=0; j < arrt[i].image.length; j++) { 
+
+                    var color="";
+                       if(arrt[i].image[j].productivityCount >0 &&  arrt[i].image[j].productivityCount <= 25){
+                        var color="background-color: red !important;";
+                       }else if(arrt[i].image[j].productivityCount >25 &&  arrt[i].image[j].productivityCount <= 50){
+                        var color="background-color: orange !important;";
+                    }else if(arrt[i].image[j].productivityCount >50 &&  arrt[i].image[j].productivityCount <= 75){
+                        var color="background-color: blue !important;";
+                    }else if(arrt[i].image[j].productivityCount >75 &&  arrt[i].image[j].productivityCount <= 100){
+                        var color="background-color: #579239 !important;";
+                    }
+                       
+                       %>
 
                      <li class="col-md-3 mb-2" >
                       <a href="javascript:void(0)" data-target="#<%= d; %>" data-toggle="modal">
-                     <img src="<%= user.snapshotdata[i][0].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
-                                                    </a>
+                     <img src="<%= arrt[i].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
+                     <div class="progress" style="height:.5rem">
+                        <div class="progress-bar" role="progressbar" style="<%= color; %>;width: <%= arrt[i].image[j].productivityCount; %>%" aria-valuenow="<%= arrt[i].image[j].productivityCount; %>" aria-valuemin="0" aria-valuemax="100"></div>
+                        
+                    </div> </a>
                                                 </li>
 <% }  %>
 
@@ -281,10 +315,10 @@
                 <div class="owl-carousel owl-theme owl-loaded popupCarousel">
                     <div class="owl-stage-outer">
                         <div class="owl-stage">
-       <%  for(var j=0; j < user.snapshotdata[i][0].image.length; j++) {  %>
+       <%  for(var j=0; j < arrt[i].image.length; j++) {  %>
                     <div class="owl-item">
                                 <div class="modal-header">
-        <h5 class="modal-title" id="ssModalLabel">Preview - <%= user.data.firstname; %> <%= user.data.lastname; %> - <%= moment(user.snapshotdata[i][0].image[j].date).format('DD-MM-YYYY'); %> |
+        <h5 class="modal-title" id="ssModalLabel">Preview - <%= user.data.firstname; %> <%= user.data.lastname; %> - <%= moment(arrt[i].image[j].date).format('DD-MM-YYYY'); %> |
                                         <a href="#"><img src="/assets/images/ic_lock.png" alt="" class="img-fluid" /></a>
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -295,24 +329,24 @@
                                     <div class="row">
                                         <div class="col-md-7">
                                             <div class="ssPart">
-                                                <img src="<%= user.snapshotdata[i][0].image[j].snap; %>" alt="img" class="img-fluid" />
+                                                <img src="<%= arrt[i].image[j].snap; %>" alt="img" class="img-fluid" />
                                             </div>
 
                                             <div class="ssActivity">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <h4>Activity Detail</h4>
-                                                    <p>Activity Level <span style="color:#ed4724;"> <% var sss= user.snapshotdata[i][0].image[j].productivityCount;%> <%= sss %> %</span></p>
-                                                    <% var ssss= "width:"+user.snapshotdata[i][0].image[j].productivityCount+"%"; %>
+                                                    <p>Activity Level <span style="color:#ed4724;"> <% var sss= arrt[i].image[j].productivityCount;%> <%= sss %> %</span></p>
+                                                    <% var ssss= "width:"+arrt[i].image[j].productivityCount+"%"; %>
                                                 </div>
                                                 <div class="progress m-0 mt-1">
-                                                    <div class="progress-bar" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= user.snapshotdata[i][0].image[j].productivityCount;%>" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div class="progress-bar" role="progressbar" style="<%= ssss; %>" aria-valuenow="<%= arrt[i].image[j].productivityCount;%>" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
 
                                                 <div class="d-flex activities">
                                                     <div class="activityTile">
                                                         <span>Duration</span>
-             <%  if(user.snapshotdata[i][0].image[j].duration){ 
-                    var dtotalproductinfos = Number(user.snapshotdata[i][0].image[j].duration);
+             <%  if(arrt[i].image[j].duration){ 
+                    var dtotalproductinfos = Number(arrt[i].image[j].duration);
                     var dtotalproductinfos= Math.floor(dtotalproductinfos / 1000);
                     var htotalproductinfos = Math.floor(dtotalproductinfos / 3600);
                     var mtotalproductinfos = Math.floor(dtotalproductinfos % 3600 / 60);
@@ -330,13 +364,13 @@
                                       <%= totalproductinfoDisplayss+':'+mtotalproductinfoDisplayss+':'+stotalproductinfoDisplayss; %>
                                                     </div>
                                                     <div class="activityTile">
-                                                        <span>Key Press</span> <%= user.snapshotdata[i][0].image[j].keypress;%>
+                                                        <span>Key Press</span> <%= arrt[i].image[j].keypress;%>
                                                     </div>
                                                     <div class="activityTile">
-                                                        <span>Mouse Click</span> <%= user.snapshotdata[i][0].image[j].totalMouseclick;%>
+                                                        <span>Mouse Click</span> <%= arrt[i].image[j].totalMouseclick;%>
                                                     </div>
                                                     <div class="activityTile">
-                                                        <span>Mouse Move</span> <%= user.snapshotdata[i][0].image[j].totalMouseMovement;%>
+                                                        <span>Mouse Move</span> <%= arrt[i].image[j].totalMouseMovement;%>
                                                     </div>
                                                     <div class="activityTile">
                                                         <span>Activity</span> --
@@ -351,7 +385,7 @@
                                                     <h4>Application Uses</h4>
                                                 </li>
 
-                <% var ssss=user.snapshotdata[i][0].image[j].applist;
+                <% var ssss=arrt[i].image[j].applist;
                   var utestapplist = JSON.parse(ssss);
                 //  console.log(utestapplist);
                 if(utestapplist.length > 0){
@@ -360,7 +394,9 @@
                                                 <li class="d-flex align-items-center">
                                                     <img src="/assets/images/ic_chrome.png" alt="logo" class="img-fluid " />
                                                     <div class="ssSoftDetail">
-                                                <p><%= utestapplist[s].windowClass; %></p>
+                                                <p>
+                                                    <% var appli=utestapplist[s].windowClass.split("."); %>
+                                                    <%= appli[0].toUpperCase(); %></p>
                                         <p><%= utestapplist[s].windowName; %></p>                            
                  
                              <p><%   var  dproductivitytimecnt = Number(utestapplist[s].count);

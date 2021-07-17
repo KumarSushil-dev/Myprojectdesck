@@ -434,14 +434,61 @@ app.get('/leaves', function(req, res) {
     }
 });
 
-app.get('/productivity', function(req, res) {
+
+
+app.get('/productivity', urlencodedParser, function(req, res) {
 
     sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/productivity', { person: sess.companyname,roleid :sess.roleid });
-    } else {
-        res.render('users/login');
-    }
+const token = sess.token;
+if(sess.companyname && sess.token!='') {
+  setTimeout(function() {
+      // this code will only run when time has ellapsed
+      request.post({
+          headers: {
+              'Authorization': `Bearer ${token}`
+            },
+              url: process.env.APP_URL + '/api/users/gettodayproductivitytr',
+              body: { "companyname": sess.companyname },
+              json: true
+          },
+     function(error, response, body) {
+
+    
+      if (response.statusCode == 500) {
+              var data = response.body;
+              req.flash("error", "Failed to log in user account: User account not found.");
+              res.locals.messages = req.flash();
+              res.render('users/login');
+      } else if (!error && response.statusCode == 200) {
+                  var data = response.body;
+                  var re = JSON.stringify(data);
+                  var datas = JSON.parse(re);
+
+          var sess = req.session;
+          res.render('admin/productivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid });
+          res.end;
+              } else {
+
+                  //do something with error
+                  // res.redirect('/charge-error');
+                  //or
+                  res.sendStatus(500);
+                  return;
+
+
+              } 
+
+          });
+
+  }, 0000);
+
+
+} else {
+
+  res.render('users/login');
+}
+
+
 });
 
 app.get('/timesheet', function(req, res) {
@@ -2741,7 +2788,7 @@ app.get('/viewdetail/:id', urlencodedParser, function(req, res) {
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
                         sess = req.session;
-                     //  console.log(test.snapshotdata[0][0].image);
+                    //console.log(test.timesarr);
                         if(userfound==1){
                             req.flash("error", "User Profile has been succesfully updated.");
                             res.locals.messages = req.flash();

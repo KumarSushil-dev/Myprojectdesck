@@ -294,7 +294,9 @@
                                          
                                                  if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
                                                      
-                                                 if(monthlyattendance.data[s].punch_in){
+                                    if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
+
+
                                      var now  = moment(monthlyattendance.data[s].punch_out).format('DD/MM/YYYY HH:mm:ss');
                                      var then = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
                                      var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
