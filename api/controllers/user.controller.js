@@ -424,7 +424,7 @@ viewdetail:(req, res) => {
                         getapps(body, (err, resultapps) => {
                          //   console.log(resultapps);
                         var twoHoursBefore = new Date();
-                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 3);
                      
                         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
@@ -3152,7 +3152,9 @@ productivityinfo: (req, res) => {
             }
 
           var  percentagef=Math.round(percentagef);
-
+if(percentagef >100){
+    percentagef="100";
+    }
         return res.status(200).json({
             success:true,
             data: results,

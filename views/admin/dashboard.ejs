@@ -129,8 +129,12 @@
 
                     var percentagef=(Number(mstotalworkingDisplaysrt)*100)/Number(mtotalworkingDisplay);
     
-                    var  percentagef=Math.round(percentagef).toFixed(2);        
+                    var percentagef=Math.round(percentagef).toFixed(2);  
+                if(percentagef >100){
 
+                    percentagef="100";
+                } 
+                percentagef=percentagef;
                     %>
                          <tr>  <% var srr=companytask.getproductivity[i].user.firstname; 
                                   var snerr=companytask.getproductivity[i].user.lastname; 
@@ -211,8 +215,12 @@
 
                                         var percentagefs=(Number(mstotalworkingDisplaysrts)*100)/Number(mtotalworkingDisplays);
                         
-                                        var  percentagefs=Math.round(percentagefs).toFixed(2);        
-                    
+                                 var  percentagefs=Math.round(percentagefs).toFixed(2);        
+                                 if(percentagefs >100){
+
+                                    percentagefs="100";
+                                } 
+                                percentagefs=percentagefs;
                                         %>
                                                         <tr>
                 <% var srr=companytask.getproductivityasc[i].user.firstname; 

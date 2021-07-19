@@ -238,6 +238,10 @@
                                                                     }
                                                         
              var  percentageyear=Math.round(percentageyear);
+
+             if(percentageyear >100){
+                percentageyear="100";
+              } 
                                                          %>
 
 <% } %>
@@ -354,7 +358,10 @@
                                                 var percentage="0";
                                             }
                                 
-                                            var   percentage=Math.round(percentage);
+                                            var  percentage=Math.round(percentage);
+                                            if(percentage >100){
+                                                percentage="100";
+                                              }
                                  %>
                                  <%= totalworkingDisplay+':'+mtotalworkingDisplay+':'+stotalworkingDisplay; %> </td>
                                  <td><%= totalidleDisplay+':'+mtotalidleDisplay+':'+stotalidleDisplay; %> </td>
@@ -436,7 +443,8 @@ if(arrt.length > 0){
                       %>
 
                                                  <li class="col-md-3 mb-2" >
-                                                    <a href="javascript:void(0)" data-target="#<%= d; %>" data-toggle="modal">
+                                                    <a href="javascript:void(0)"  class="tagimga"  data-target="#<%= d; %>" data-toggle="modal"> 
+                                                    <span class="tagimg"><%=  moment(arrt[i].image[j].date).format('H:mm a'); %></span>
                                                         <img src="<%= arrt[i].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
                                                         <div class="progress" style="height:.5rem">
                                                             <div class="progress-bar" role="progressbar" style="<%= color; %>;width: <%= arrt[i].image[j].productivityCount; %>%" aria-valuenow="<%= arrt[i].image[j].productivityCount; %>" aria-valuemin="0" aria-valuemax="100"></div>

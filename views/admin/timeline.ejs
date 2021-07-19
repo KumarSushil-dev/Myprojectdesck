@@ -110,7 +110,12 @@
                             <%  var mstotalworking = Math.floor(productivitytime % 3600 / 60);
                                 var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
                                     var percentage=(Number(mstotalworkingDisplay)*100)/60; 
-                                    percentage=Math.round(percentage); %>
+                                    percentage=Math.round(percentage); 
+                                    if(percentage >100){
+                                        percentage="100";
+                                      } 
+                                    
+                                    %>
                                     <%= percentage+' %'; %>
                                 
                                 </td>

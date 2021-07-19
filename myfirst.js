@@ -2863,7 +2863,7 @@ app.get('/snapshot/:id', urlencodedParser, function(req, res) {
                             res.locals.messages = req.flash();
                         }
               // console.log(test);
-    res.render('admin/snapshot', { person: sess.companyname, user: test,roleid :sess.roleid  });
+    res.render('admin/snapshot', { person: sess.companyname, user: test,roleid :sess.roleid,uid:ids  });
     res.end;
                           
                      } else {
@@ -3035,7 +3035,7 @@ app.get('/companyuser', urlencodedParser, function(req, res) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                       
+                       console.log(datas);
                         sess = req.session;
 res.render('admin/companyuser', { person: sess.companyname, companyuser: datas,roleid :sess.roleid  });
                         res.end;

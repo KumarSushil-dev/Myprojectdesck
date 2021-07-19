@@ -131,9 +131,9 @@ resultst.push(x);
       let idletotal =0;
      
         for (let i = 0; i < data.times.length; i++) {
-          const  string = data.times[i].split('-');
+        const  string = data.times[i].split('-');
 
-         await  pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+        await  pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
                 data.userid,
                 startdate,
                 string[0],
@@ -144,7 +144,10 @@ resultst.push(x);
                     }
               
                  if (results.length == 0) {
-                       // promises.push(0);
+                  var obj = [];
+                  obj.push({ "starttime": string[0],"endtime":string[1],"idletime":0,"productivitytime":0,"productivitypercentage":"0 %" });
+                        
+                  promises.push(obj);
                     } else {
 
                 if(results[0].productivitytime!== null){
@@ -195,6 +198,9 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     }
 
     var percentage=Math.round(percentage);
+    if(percentage >100){
+      percentage="100";
+      }
     dproductivitytime = Number(results[0].productivitytime);
     var hproductivitytime = Math.floor(dproductivitytime / 3600);
     var mproductivitytime = Math.floor(dproductivitytime % 3600 / 60);
@@ -308,6 +314,9 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     }
 
     percentage=Math.round(percentage);
+    if(percentage >100){
+      percentage="100";
+      }
     dproductivitytime = Number(results[0].productivitytime);
     var hproductivitytime = Math.floor(dproductivitytime / 3600);
     var mproductivitytime = Math.floor(dproductivitytime % 3600 / 60);
@@ -386,6 +395,9 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
       
 
       percentage=Math.round(percentage);
+      if(percentage >100){
+        percentage="100";
+        }
      
   
   }else{
@@ -499,6 +511,9 @@ var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
 var mstotalworkingDisplays = mstotalworkings > 0 ? (mstotalworkings > 9 ? mstotalworkings : "0"+mstotalworkings) + (mstotalworkings == 1 ? "" : "") : "00";
  var percentage=(Number(mstotalworkingDisplays)*100)/60;
  var percentage=Math.round(percentage);
+ if(percentage >100){
+  percentage="100";
+  }
  var applist = JSON.stringify(results[hd].applist);
 
     objs.push({"snap": results[hd].screenshot,"duration":results[hd].productivitytime,"keypress":results[hd].totalKeypressCount,"totalMouseclick":results[hd].totalClicks,"totalMouseMovement":results[hd].totalMouseMovement,"productivityCount":results[hd].productivityCount,"applist":results[hd].applist,"date":results[hd].capturetime  });
@@ -583,8 +598,12 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                 model: Usersnapshots,
                 attributes: ['capturetime']
             },
+            {
+                model: Userattendancelog,
+                attributes: ['punch_in']
+            },
           ],  
-          order: [[{model: Usersnapshots}, 'id', 'desc']]   
+          order: [['firstname','ASC']]   
           }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
             // handle error;
             return callBack(err);
@@ -599,7 +618,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                 [Op.or]: [2, 3]
               },status:'Y',
               parent_id: data.userid},
-              order:[['id','DESC']],   
+              order:[['firstname','ASC']],   
           }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
             // handle error;
             return callBack(err);
@@ -1711,7 +1730,7 @@ var colorsCSV = data.assignmultipleuser.join(",");
             where: {parent_id:data.userid},
             attributes: ['id','firstname','lastname']
           }
-      ], order:[['id','DESC']],
+      ], order:[[{model: User},'firstname','ASC']],
       }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
           // handle error;
           return callBack(err);
@@ -1731,7 +1750,7 @@ var colorsCSV = data.assignmultipleuser.join(",");
           where: {parent_id:data.userid},
           attributes: ['id','firstname','lastname']
         }
-    ], order:[['id','DESC']],
+    ], order:[[{model: User},'firstname','ASC']],
     }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
         // handle error;
         return callBack(err);
@@ -1750,7 +1769,7 @@ var colorsCSV = data.assignmultipleuser.join(",");
         where: {id:data.userid},
         attributes: ['id','firstname','lastname']
       }
-  ], order:[['id','DESC']],
+  ], order:[[{model: User},'firstname','ASC']],
   }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
       // handle error;
       return callBack(err);
@@ -1770,7 +1789,7 @@ monthlyinoutget: async(data, callBack) => {
         where: {parent_id:data.userid},
         attributes: ['id','firstname','lastname']
       }
-  ], order:[['id','DESC']],
+  ], order:[[{model: User},'firstname','ASC']],
   }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
       // handle error;
       return callBack(err);
@@ -1858,7 +1877,8 @@ monthlyinoutget: async(data, callBack) => {
     getselectedcompanydetail: async(data, callBack) => {
         await User.findOne({
             attributes: ['plan_id','country_id','state_id'],
-            where: {id:data.userid,status: 'Y'}
+            where: {id:data.userid,status: 'Y'},
+            order:[['firstname','ASC']],
         }).then(getcountrylist => callBack(null, getcountrylist)).catch(function (err) {
             // handle error;
             return callBack(err);

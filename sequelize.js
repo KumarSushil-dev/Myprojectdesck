@@ -76,6 +76,7 @@ Userattendancelog.belongsTo(User, { foreignKey: 'userId' });
 Task.hasMany(Tasksactivities , { foreignKey: 'tasks_id' });
 User.hasMany(Subscriptions);
 User.hasMany(Usersnapshots);
+User.hasMany(Userattendancelog);
 //Subscriptions.hasMany(User, { foreignKey: 'id' });
 //Subscriptions.hasMany(Plan, { foreignKey: 'id' });
 //Location.belongsTo(User, { foreignKey: 'user_id' });

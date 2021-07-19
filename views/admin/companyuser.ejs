@@ -77,7 +77,7 @@
                                                     </a></li>
                                                 </ul>
                                             </div>
-                                        </div>
+                                        </div><hr>
                                         <div class="card-content collapse show">
                                             <div class="card-body">
                                                 <% if (locals.messages) { %>
@@ -91,9 +91,8 @@
                                                 <table class="table">
                                                     <thead class="thead-dark">
                                                         <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Name</th>
-                                                        
+                                           <th scope="col">#</th>
+                                           <th scope="col">Name</th>
                                            <th scope="col" style="width: 19%;">Email</th>
                                           
                                                             <th scope="col">Role</th>
@@ -108,11 +107,11 @@
                                                              var s=1; 
                                         for(var i=0; i < companyuser.data.length; i++) { %>
                                                             <tr>
-                                                 <th scope="row"><%= s++; %></th>
-                                             <td><b><a href="<%= process.env.APP_URL %>/viewdetail/<%= companyuser.data[i].id %>"><%= companyuser.data[i].firstname; %> <%= companyuser.data[i].lastname; %></a></b><% if(companyuser.data[i].status=="Y"){  %>
-                                                <i class="la la-check-circle-o" style="color: green;
+                         <th scope="row"><%= s++; %></th>
+                  <td><b><a href="<%= process.env.APP_URL %>/viewdetail/<%= companyuser.data[i].id %>"><%= companyuser.data[i].firstname; %> <%= companyuser.data[i].lastname; %></a></b><% if(companyuser.data[i].status=="Y"){  %>
+                  <i class="la la-check-circle-o" style="color: green;
                                                    font-weight: bold;
-                                                   font-size: 14px;">verified</i> <% } %></td>
+                                                   font-size: 10px;">verified</i> <% } %></td>
 
                                              <td><a href="mailto:<%= companyuser.data[i].email; %>"><%= companyuser.data[i].email; %></a>
                                                   </td>
@@ -123,7 +122,10 @@
  <% if(companyuser.data[i].users_snapshotscaptures.length > 0){  %>
   <td> <%  var str=companyuser.data[i].users_snapshotscaptures[0]['capturetime']; %>
       <%= moment(str).tz('Asia/Calcutta').format('llll') %> </td>
-  <% }else{ %>  
+  <% }else if(companyuser.data[i].users_attendancelogs.length > 0){  %>
+    <td> <%  var str=companyuser.data[i].users_attendancelogs[0]['punch_in']; %>
+        <%= moment(str).tz('Asia/Calcutta').format('llll') %> </td>
+    <% }else{ %>  
           <td> -- </td>
           
           <% } %> 

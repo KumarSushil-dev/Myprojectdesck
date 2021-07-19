@@ -230,10 +230,33 @@
                                         <i class="la la-search"></i>
                                     </span>
                                 </div>
-                                <input type="text" class="form-control rounded-0" placeholder="Tap to Search" aria-label="Username" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control rounded-0" id="search" placeholder="Enter Text to Search" aria-label="Username" aria-describedby="basic-addon1">
                             </div>
                             <h4>Employee</h4>
+<script>
+$( function() {
 
+    $( '#search' ).keyup( function() {
+   
+   var searchString = $(this).val();
+
+   $("ul.ssUserList li").each(function(index, value) {
+       
+       currentName = $(value).text()
+       if( currentName.toUpperCase().indexOf(searchString.toUpperCase()) > -1) {
+          $(value).show();
+       } else {
+           $(value).hide();
+       }
+       
+   });
+   
+});
+
+
+});
+
+</script>
                             <ul class="ssUserList">
                                 <%  if(user.user.length > 0){
    
@@ -242,7 +265,7 @@
                                         var srr=userstring[1].split(' '); 
 
                                         var res = srr[0].substring(0, 1); var nres = srr[1].substring(0, 1);  %> 
-                                <li><a href="<%= process.env.APP_URL %>/snapshot/<%= userstring[0] %>"><span class="firstName bg-dark"><%=res %><%=nres %></span>  <%= userstring[1]; %></a></li>
+            <li onclick="return spinner();" <% if(userstring[0]==uid){ %> style="background-color: lightsteelblue;" <% } %> ><a href="<%= process.env.APP_URL %>/snapshot/<%= userstring[0] %>"><span class="firstName bg-dark"><%=res %><%=nres %></span>  <%= userstring[1]; %></a></li>
                                <% } } %>
                             </ul>
                         </div>
@@ -297,8 +320,9 @@ if(arrt.length > 0){
                        %>
 
                      <li class="col-md-3 mb-2" >
-                      <a href="javascript:void(0)" data-target="#<%= d; %>" data-toggle="modal">
-                     <img src="<%= arrt[i].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
+                      <a class="tagimga" href="javascript:void(0)" data-target="#<%= d; %>" data-toggle="modal">
+                       
+                    <span class="tagimg"><%=  moment(arrt[i].image[j].date).format('H:mm a'); %></span> <img src="<%= arrt[i].image[j].snap; %>" class="img-fluid" alt="Thumb-1">
                      <div class="progress" style="height:.5rem">
                         <div class="progress-bar" role="progressbar" style="<%= color; %>;width: <%= arrt[i].image[j].productivityCount; %>%" aria-valuenow="<%= arrt[i].image[j].productivityCount; %>" aria-valuemin="0" aria-valuemax="100"></div>
                         
