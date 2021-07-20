@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -748,9 +748,11 @@ getsubscriptiondetail: (req, res) => {
         var re = JSON.stringify(results);
                 var test = JSON.parse(re);
                 var confirm_pass = test[0].password;
-
-               
-             
+                body.parent_id=test[0].parent_id;
+                checksubscription(body, (err, resultschecksubscription) => {    
+                    var ress = JSON.stringify(resultschecksubscription);
+                    var testss = JSON.parse(ress);
+                    var expiry_date = testss.expiry_date;
  bcrypt.compare(body.password, confirm_pass, (err, data) => {
                     if (err) {
                        
@@ -769,9 +771,14 @@ getsubscriptiondetail: (req, res) => {
 
                         
         results.password=undefined;
-        const jsontoken = sign({ result: results },process.env.TOKEN_SECRET, { expiresIn: '720h' });
-        const planexpiry='2022-06-14';
-        var firstname=test[0].firstname;
+     const jsontoken = sign({ result: results },process.env.TOKEN_SECRET, { expiresIn: '720h' });
+        const planexpiry=moment(expiry_date).format('YYYY-MM-DD');
+
+        var startdate =new Date();
+      startdate = moment(startdate).format('YYYY-MM-DD');
+      var checkexist = moment(startdate).isBefore(planexpiry);
+if(checkexist==true){
+            var firstname=test[0].firstname;
         if(test[0].lastname){
          firstname=test[0].firstname +' '+ test[0].lastname;
         }
@@ -786,6 +793,29 @@ getsubscriptiondetail: (req, res) => {
                         roleid: test[0].role_id,
                         detail: "Logged IN"
     });
+
+
+}else{
+
+    var firstname=test[0].firstname;
+    if(test[0].lastname){
+     firstname=test[0].firstname +' '+ test[0].lastname;
+    }
+    var obj = [];
+    obj.push({ "token": null,"planExpiryDate":planexpiry });
+
+                return res.status(200).json({
+                    success: true,
+                    data: obj,
+                    companyname: test[0].companyname,
+                    name: firstname,
+                    roleid: test[0].role_id,
+                    detail: "User Plan Expired, Contact To Adminstrator"
+});
+
+
+
+}
 }else{
 
     return res.status(401).json({
@@ -796,6 +826,7 @@ getsubscriptiondetail: (req, res) => {
     });
 }
 
+ });
  });
    });
 
@@ -2768,6 +2799,9 @@ var applist=body.applist;
 //console.log(applist.length);
 body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
            
+checkifdataexist(body, (err, resultschek) => {
+
+ if(resultschek.length === 0) {
  datatransferid(body, (err, results) => {
                 body.applist= JSON.parse(body.applist);
                 applisttransfer(body, (err, resultstranfer) => {
@@ -2792,8 +2826,21 @@ body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
 
         });
     });
- 
-   
+}else{
+
+    var obj = [];
+    obj.push({ "productivityCount": 0 });
+    return res.status(200).json({
+        success: true,
+        data: obj,
+        detail: "Data Already Inserted"
+
+    });
+
+
+}
+
+});
    
 
 },
@@ -3106,11 +3153,39 @@ productivityinfo: (req, res) => {
 
         if (results) {
 
+
+
+            var re = JSON.stringify(results);
+            var test = JSON.parse(re);
+            
+            var obj=[];
+             
+            var arrt=[];
+            for (let i = 0; i < times.length; i++) {
+               var string = times[i].split('-');
+               if(test.length > 0){
+                   var s=1; 
+                   for (let s = 0; s < test.length; s++) {
+            
+            
+            if(string[0]==test[s][0].starttime){
+                
+          
+               var objs=[];
+    objs.push({ "starttime": test[s][0].starttime,"endtime": test[s][0].endtime,"idletime": test[s][0].idletime,"productivitytime":test[s][0].productivitytime,"productivitypercentage":test[s][0].productivitypercentage });
+    obj.push(objs);
+            }
+                   }
+               }
+            }
+                 
+
+
             if(totalproductinfo){
                 
                 var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
                 var mstotalworkingDisplays = mstotalworkings > 0 ? (mstotalworkings > 9 ? mstotalworkings : "0"+mstotalworkings) + (mstotalworkings == 1 ? "" : "") : "00";
-                var percentagef=(Number(mstotalworkingDisplays)*100)/60;
+              
 
             dtotalproductinfo = Number(totalproductinfo);
              var htotalproductinfo = Math.floor(dtotalproductinfo / 3600);
@@ -3132,7 +3207,7 @@ productivityinfo: (req, res) => {
                var totalworkingDisplay = htotalworking > 0 ? (htotalworking > 9 ? htotalworking : "0"+htotalworking) + (htotalworking == 1 ? "" : "") : "00";
              
                var mtotalworkingDisplay = mtotalworking > 0 ? (mtotalworking > 9 ? mtotalworking : "0"+mtotalworking) + (mtotalworking == 1 ? "" : "") : "00";
-              
+               var percentagef=(Number(mstotalworkingDisplays)*100)/Number(mtotalworkingDisplay);
                dtotalidle = Number(totalidle);
                var htotalidle = Math.floor(dtotalidle / 3600);
                var mtotalidle = Math.floor(dtotalidle % 3600 / 60);
@@ -3155,9 +3230,17 @@ productivityinfo: (req, res) => {
 if(percentagef >100){
     percentagef="100";
     }
+
+
+
+
+
+
+
+
         return res.status(200).json({
             success:true,
-            data: results,
+            data: obj,
             totalproductivity: totalproductinfoDisplay+':'+mtotalproductinfoDisplay,
             totalidle: totalidleDisplay+':'+mtotalidleDisplay,
             totalworking: totalworkingDisplay+':'+mtotalworkingDisplay,
@@ -3208,6 +3291,19 @@ if(percentagef >100){
                 body.country_id=resultsdata.country_id;
                 body.state_id=resultsdata.state_id;
                 body.parent_id=body.userid;
+
+                getuserfortotal(body, (err, getusertotal) => {
+        
+            var ressuser = JSON.stringify(getusertotal);
+            var testssd = JSON.parse(ressuser);
+            var totalcountuser = testssd.count;
+     console.log(totalcountuser);
+                checksubscription(body, (err, resultschecksubscription) => {    
+                    var ress = JSON.stringify(resultschecksubscription);
+                    var testss = JSON.parse(ress);
+                    var totaluser = testss.totaluser;
+                    console.log(totaluser);
+
             addcompanyuserid(body, (err, results) => {
            
             if (err) {
@@ -3274,7 +3370,9 @@ if(results) {
         }
 
         });
+          });
         });
+    });
     }else{
 
         return res.status(500).json({

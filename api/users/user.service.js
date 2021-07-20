@@ -12,6 +12,14 @@ module.exports = {
             return callBack(err);
           }); 
     },
+    checksubscription: async(data, callBack) => {
+        await Subscriptions.findOne({
+            where: {userId: data.parent_id,status:'Y'}, order:[['id','DESC']]
+        }).then(loginsuccessr => callBack(null, loginsuccessr)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
     checkifemailexist: async(data, callBack) => {
         await User.findAll({
             where: {email: data.email}
@@ -21,7 +29,7 @@ module.exports = {
           }); 
     },
     checkifdataexist: async(data, callBack) => {
-        await Usersnapshots.findAll({
+        await Usersnapshots.findOne({
             where: {capturetime: data.capturetime,userId:data.userId}
         }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
             return callBack(err);
@@ -624,6 +632,19 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             return callBack(err);
           }); 
     },
+    getuserfortotal: async(data, callBack) => {
+
+      await User.findAll({
+        attributes: [[sequelize.fn('count', sequelize.col('id')), 'count']],
+            where: { 
+              role_id: 2,
+              parent_id: data.parent_id},
+              order:[['firstname','ASC']],   
+          }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
     getuserfortimelinesecond: async(data, callBack) => {
 
       await User.findAll({
@@ -1088,7 +1109,11 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
 
       gettodayproductivitytry: async(data, callBack) => {
       
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
+        let startdate = new Date().toLocaleString('en-US', {
+          timeZone: 'Asia/Calcutta'
+        });
+
+        const TODAY_START = new Date().setHours(5, 0, 0, 0);
         var NOW = new Date();
         NOW=NOW.setDate(NOW.getDate() + 1);
     await Usersnapshots.findAll({
