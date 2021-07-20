@@ -2800,8 +2800,9 @@ var applist=body.applist;
 body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
            
 checkifdataexist(body, (err, resultschek) => {
-
- if(resultschek.length === 0) {
+    var re = JSON.stringify(resultschek);
+    var test = JSON.parse(re);
+ if(test.length === 0) {
  datatransferid(body, (err, results) => {
                 body.applist= JSON.parse(body.applist);
                 applisttransfer(body, (err, resultstranfer) => {
