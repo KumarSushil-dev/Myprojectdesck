@@ -290,9 +290,9 @@
                  
                                              for(var s=0; s < monthlyattendance.data.length; s++) {
                                                
-                                                 var datt=moment(monthlyattendance.data[s].punch_in).format('D');
+                                  var datt=moment(monthlyattendance.data[s].punch_in).format('D');
                                          
-                                                 if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
+                                    if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
                                                      
                                     if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
 
@@ -304,7 +304,7 @@
                                      
                              <div class="inout d-flex justify-content-around border-0">
                                <div class="w_50t"><%= moment(monthlyattendance.data[s].punch_in).format('HH:mm A') %></div>
-                                 <div class="w_50t"><%= moment(monthlyattendance.data[s].punch_out).format('HH:mm A') %></div>
+                                 <div class="w_50t"><%  if(monthlyattendance.data[s].punch_out !== null){ %> <%=  moment(monthlyattendance.data[s].punch_out).format('HH:mm A') %>  <% } %></div>
                                     </div>
                                      
                                     <%  }else { absent++; } } } %>

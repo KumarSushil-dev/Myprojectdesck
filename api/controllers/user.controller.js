@@ -424,7 +424,7 @@ viewdetail:(req, res) => {
                         getapps(body, (err, resultapps) => {
                          //   console.log(resultapps);
                         var twoHoursBefore = new Date();
-                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 3);
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 2);
                      
                         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
@@ -507,7 +507,7 @@ snapshotdetail:(req, res) => {
    
     viewdetailid(body, (err, results) => {
        var twoHoursBefore = new Date();
-        twoHoursBefore.setHours(twoHoursBefore.getHours() - 5);
+        twoHoursBefore.setHours(twoHoursBefore.getHours() - 3);
         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
                         let x = 60; //minutes interval

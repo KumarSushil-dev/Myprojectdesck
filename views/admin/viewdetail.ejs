@@ -212,7 +212,7 @@
                     
                       var stotalworkingDisplayyear = stotalworkingyear > 0 ? (stotalworkingyear > 9 ? stotalworkingyear : "0"+stotalworkingyear) + (stotalworkingyear == 1 ? "" : "") : "00";
                        
-                      var percentageyear=(Number(mstotalworkingDisplaysyear)*100)/Number(mtotalworkingDisplayyear);    
+            var percentageyear=(Number(dtotalproductinfoyear)*100)/Number(dtotalworkingyear);    
 
 
                  var  dtotalidleyear = Number(totalidleyear);
@@ -332,7 +332,7 @@
 
                       var stotalworkingDisplay = stotalworking > 0 ? (stotalworking > 9 ? stotalworking : "0"+stotalworking) + (stotalworking == 1 ? "" : "") : "00";       
                       
-                      var percentage=(Number(mstotalworkingDisplays)*100)/Number(mtotalworkingDisplay);
+                      var percentage=(Number(totalproductinfo)*100)/Number(dtotalworking);
 
             var  dtotalidle = Number(totalidle);
             var htotalidle = Math.floor(dtotalidle / 3600);

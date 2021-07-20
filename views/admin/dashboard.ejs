@@ -127,7 +127,7 @@
                     var mstotalworkingsr = Math.floor(totalproductinfos % 3600 / 60);
                     var mstotalworkingDisplaysrt = mstotalworkingsr > 0 ? (mstotalworkingsr > 9 ? mstotalworkingsr : "0"+mstotalworkingsr) + (mstotalworkingsr == 1 ? "" : "") : "00";
 
-                    var percentagef=(Number(mstotalworkingDisplaysrt)*100)/Number(mtotalworkingDisplay);
+                    var percentagef=(Number(totalproductinfos)*100)/Number(dtotalworking);
     
                     var percentagef=Math.round(percentagef).toFixed(2);  
                 if(percentagef >100){
@@ -213,7 +213,7 @@
                                         var mstotalworkingDisplaysrts = mstotalworkingsrs > 0 ? (mstotalworkingsrs > 9 ? mstotalworkingsrs : "0"+mstotalworkingsrs) + (mstotalworkingsrs == 1 ? "" : "") : "00";
 
 
-                                        var percentagefs=(Number(mstotalworkingDisplaysrts)*100)/Number(mtotalworkingDisplays);
+                var percentagefs=(Number(totalproductinfoss)*100)/Number(dtotalworkings);
                         
                                  var  percentagefs=Math.round(percentagefs).toFixed(2);        
                                  if(percentagefs >100){

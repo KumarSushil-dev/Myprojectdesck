@@ -80,20 +80,20 @@
      var res = srr[0].substring(0, 1); var nres = srr[1].substring(0, 1);  %> 
         <tr>
             <th class="p-0">
-                <span class="firstName bg-dark"><%=res %><%=nres %></span><a href="<%= process.env.APP_URL %>/viewdetail/<%= userstring[0] %>"> <%= userstring[1]; %></a></th>
+     <span class="firstName bg-dark"><%=res %><%=nres %></span><a href="<%= process.env.APP_URL %>/viewdetail/<%= userstring[0] %>"> <%= userstring[1]; %></a></th>
                                     <td style="padding-left: .5rem !important;">
                                         
-                                        <%   for(var s=0; s < companyuser.data.length; s++) {  
+                     <%   for(var s=0; s < companyuser.data.length; s++) {  
                                        
-                                            if(companyuser.data[s][0].username == userstring[1]){ %>
+                           if(companyuser.data[s][0].username == userstring[1]){ %>
     
-                                           <% productivitytime +=companyuser.data[s][0].productivitytime;
-                                           idle +=companyuser.data[s][0].idletime;   %>  <%  } } %>
+                         <% productivitytime +=companyuser.data[s][0].productivitytime;
+                              idle +=companyuser.data[s][0].idletime;   %>  <%  } } %>
 
 
 
 
-                                        <% var total=productivitytime+idle;  
+                          <% var total=productivitytime+idle;  
                                         
                         didletime = Number(total);
                         var hidletime = Math.floor(didletime / 3600);
@@ -109,7 +109,7 @@
                                     <td style="padding-left: .5rem !important;"> 
                             <%  var mstotalworking = Math.floor(productivitytime % 3600 / 60);
                                 var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
-                                    var percentage=(Number(mstotalworkingDisplay)*100)/60; 
+                         var percentage=(Number(productivitytime)*100)/Number(didletime); 
                                     percentage=Math.round(percentage); 
                                     if(percentage >100){
                                         percentage="100";
