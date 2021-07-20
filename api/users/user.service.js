@@ -195,14 +195,15 @@ if(results[0].productivitytime){
 if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
  
    var getMinutes=today.getMinutes();
+   var gsec=today.getSeconds();
    getMinutes=(getMinutes > 9 ? getMinutes : "0"+getMinutes);
    var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
    var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
-   var percentage=(Number(mstotalworkingDisplay)*100)/getMinutes;
+   var percentage=(Number(results[0].productivitytime)*100)/gsec;
     }else{
   var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
    var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
-    var percentage=(Number(mstotalworkingDisplay)*100)/60;
+    var percentage=(Number(results[0].productivitytime)*100)/3600;
     }
 
     var percentage=Math.round(percentage);

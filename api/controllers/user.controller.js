@@ -3208,7 +3208,10 @@ productivityinfo: (req, res) => {
                var totalworkingDisplay = htotalworking > 0 ? (htotalworking > 9 ? htotalworking : "0"+htotalworking) + (htotalworking == 1 ? "" : "") : "00";
              
                var mtotalworkingDisplay = mtotalworking > 0 ? (mtotalworking > 9 ? mtotalworking : "0"+mtotalworking) + (mtotalworking == 1 ? "" : "") : "00";
-               var percentagef=(Number(mstotalworkingDisplays)*100)/Number(mtotalworkingDisplay);
+
+               var percentagef=(Number(dtotalproductinfo)*100)/Number(dtotalworking);
+
+               
                dtotalidle = Number(totalidle);
                var htotalidle = Math.floor(dtotalidle / 3600);
                var mtotalidle = Math.floor(dtotalidle % 3600 / 60);
