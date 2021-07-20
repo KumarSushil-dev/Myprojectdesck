@@ -222,7 +222,7 @@
                                                    var sidleinfoDisplays = sidleinfos > 0 ? (sidleinfos > 9 ? sidleinfos : "0"+sidleinfos) + (sidleinfos == 1 ? "" : "") : "00";
            
            
-                                         var percentagefs=(Number(mproductinfoDisplays)*100)/Number(mtotalworkingDisplays);
+                                         var percentagefs=(Number(dproductinfos)*100)/Number(dtotalworkings);
                                    
                                          var percentagefs=Math.round(percentagefs).toFixed(2);  
                                          
@@ -351,7 +351,7 @@
                                         var sidleinfoDisplay = sidleinfo > 0 ? (sidleinfo > 9 ? sidleinfo : "0"+sidleinfo) + (sidleinfo == 1 ? "" : "") : "00";
 
 
-                                     var percentagef=(Number(mproductinfoDisplay)*100)/Number(mtotalworkingDisplay);
+                               var percentagef=(Number(dproductinfo)*100)/Number(dtotalworking);
                         
                                    var  percentagef=Math.round(percentagef).toFixed(2);   
                                    if(percentagef >100){
