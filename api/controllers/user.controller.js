@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -749,10 +749,17 @@ getsubscriptiondetail: (req, res) => {
                 var test = JSON.parse(re);
                 var confirm_pass = test[0].password;
                 body.parent_id=test[0].parent_id;
-                checksubscription(body, (err, resultschecksubscription) => {    
+                role_id=test[0].role_id;
+              
+                checksubscription(body, (err, resultschecksubscription) => {   
+                    
+                    if(role_id==3){ 
                     var ress = JSON.stringify(resultschecksubscription);
                     var testss = JSON.parse(ress);
                     var expiry_date = testss.expiry_date;
+                    }else{
+                        var expiry_date = "2021-12-09" 
+                    }
  bcrypt.compare(body.password, confirm_pass, (err, data) => {
                     if (err) {
                        
@@ -804,12 +811,9 @@ if(checkexist==true){
     var obj = [];
     obj.push({ "token": null,"planExpiryDate":planexpiry });
 
-                return res.status(200).json({
+                return res.status(401).json({
                     success: true,
-                    data: obj,
-                    companyname: test[0].companyname,
-                    name: firstname,
-                    roleid: test[0].role_id,
+                    data: [],
                     detail: "User Plan Expired, Contact To Adminstrator"
 });
 
@@ -828,6 +832,9 @@ if(checkexist==true){
 
  });
  });
+
+
+ 
    });
 
     },
@@ -1976,7 +1983,7 @@ var str=utest[0].format;
     userupdatestatus: (req, res) => {
         const body = req.body;
 
-      
+        
         const salt = genSaltSync(10);
         body.password=randomstring.generate(7);
         body.passwords = hashSync(body.password, salt);
@@ -2026,6 +2033,133 @@ var str=utest[0].format;
         });
 
 
+    },
+
+    userupdatestatusteam: (req, res) => {
+        const body = req.body;
+
+        body.userid=req.decoded.result[0].id;
+if(body.name=='Y'){
+
+    body.parent_id=body.userid;
+
+    getuserfortotal(body, (err, getusertotal) => {
+
+        var ressuser = JSON.stringify(getusertotal);
+        var testssd = JSON.parse(ressuser);
+        var totalcountuser = testssd[0].count;
+ //console.log(totalcountuser);
+checksubscription(body, (err, resultschecksubscriptions) => {
+//console.log(resultschecksubscriptions);
+       var ress = JSON.stringify(resultschecksubscriptions);
+       var testssy = JSON.parse(ress);
+     //  console.log(testss); 
+        var totaluser = testssy.totaluser;
+        if (totaluser =="") {
+            getusercompany(body, (err, resultsd) => {
+            return res.status(200).json({
+                success: false,
+                data: resultsd,
+                detail: "According to Selected Plan, Plan Expired."
+    
+            });
+        });
+        }
+
+        console.log(totalcountuser);
+      console.log(totaluser);
+        if(totalcountuser < totaluser){
+
+            userupdatestatusteambyid(body, (err, results) => {
+                if (err) {
+                console.log(err);
+                return;
+                }
+              
+    
+                if (results) {
+                 
+                    getplan(body, (err, resultsf) => {
+                        if (err) {
+                            console.log(err);
+                            return;
+            
+                        }
+        
+                        return res.status(200).json({
+                            success: true,
+                            data: results,
+                            plan:resultsf,
+                         detail: "Employee Status has been Updated Successfully"
+           
+                        });
+            
+            
+            
+                    });
+                  
+                    
+    
+    
+            
+    
+            }
+    
+            });
+        }else{
+            getusercompany(body, (err, resultsd) => {
+            return res.status(200).json({
+                success: false,
+                data: resultsd,
+                detail: "According to Selected Plan, Account has exceeded its Active user limit."
+            });
+            });
+
+        }
+
+    });
+
+});
+}else{
+        userupdatestatusteambyid(body, (err, results) => {
+            if (err) {
+            console.log(err);
+            return;
+            }
+           
+
+            if (results) {
+             
+                getplan(body, (err, resultsf) => {
+                    if (err) {
+                        console.log(err);
+                        return;
+        
+                    }
+    
+                    return res.status(200).json({
+                        success: true,
+                        data: results,
+                        plan:resultsf,
+                        detail: "Employee Status has been Updated Successfully"
+           
+        
+                    });
+        
+        
+        
+                });
+              
+                
+
+
+        
+
+        }
+
+        });
+
+    }
     },
     
     planupgrades: (req, res) => {
@@ -3300,14 +3434,23 @@ if(percentagef >100){
         
             var ressuser = JSON.stringify(getusertotal);
             var testssd = JSON.parse(ressuser);
-            var totalcountuser = testssd.count;
-     console.log(totalcountuser);
+            var totalcountuser = testssd[0].count;
+       //  console.log(totalcountuser);
                 checksubscription(body, (err, resultschecksubscription) => {    
                     var ress = JSON.stringify(resultschecksubscription);
                     var testss = JSON.parse(ress);
                     var totaluser = testss.totaluser;
-                    console.log(totaluser);
 
+                    if (totaluser =="") {
+                        return res.status(200).json({
+                            success: false,
+                            data: resultsd,
+                            detail: "According to Selected Plan, Plan Expired."
+                
+                        });
+                    }
+                //    console.log(totaluser);
+                    if(totalcountuser < totaluser){
             addcompanyuserid(body, (err, results) => {
            
             if (err) {
@@ -3321,7 +3464,7 @@ if(percentagef >100){
             }
 
             if (!results){
-                return res.status(500).json({
+                return res.status(200).json({
                     success: false,
                     data: '',
                     detail: "Add User Error , Please Try Again."
@@ -3363,7 +3506,7 @@ if(results) {
                     }
 
 
-                    res.status(200).json({ message: "Mail send", message_id: info.messageId,   data: resultsd });
+                    res.status(200).json({ detail: "Company New User has been added Successfully", message_id: info.messageId,   data: resultsd });
                 });
     
     
@@ -3374,6 +3517,24 @@ if(results) {
         }
 
         });
+
+    }else{
+
+
+        body.lid=3;
+       
+            getusercompany(body, (err, resultsd) => {
+
+
+        return res.status(200).json({
+            success: false,
+            data: resultsd,
+            detail: "According to Selected Plan, Account has exceeded its user limit."
+
+        });
+    });
+    }
+
           });
         });
     });

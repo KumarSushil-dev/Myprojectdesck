@@ -97,6 +97,7 @@
                                           
                                                             <th scope="col">Role</th>
                                                             <th scope="col">Last Activity Time</th>
+                                                            <th scope="col">Status</th>
                                                             <th scope="col">Screenshots</th>
                                                            
                                                         
@@ -129,9 +130,14 @@
           <td> -- </td>
           
           <% } %> 
-
-
-  
+          <td>
+          <% if(companyuser.data[i].status=="Y"){  %>
+            <a  href="<%= process.env.APP_URL %>/userupdatestatusteam/<%= companyuser.data[i].id %>/N" onclick="return confirm('Do you really want to inactive this Employee?');" title="InActivate Employee?" style="color:rgb(224, 35, 44)" > <i style="color:green" class="la la-toggle-on"></i></a>
+            
+            <% }else{ %>
+               <a  href="<%= process.env.APP_URL %>/userupdatestatusteam/<%= companyuser.data[i].id %>/Y" onclick="return confirm('Do you really want to activate this Employee?');" title="Activate Employee?" style="color:rgb(224, 35, 44)" ><i style="color:red" class="la la-toggle-off "></i></a>
+                <% } %>
+            </td>
  <td>
     Enable
  </td>

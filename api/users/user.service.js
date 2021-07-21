@@ -20,6 +20,14 @@ module.exports = {
             return callBack(err);
           }); 
     },
+    checksubscriptiontall: async(data, callBack) => {
+      await Subscriptions.findAll({
+          where: {userId: data.parent_id,status:'Y'}, order:[['id','DESC']]
+      }).then(loginsuccessr => callBack(null, loginsuccessr)).catch(function (err) {
+          // handle error;
+          return callBack(err);
+        }); 
+  },
     checkifemailexist: async(data, callBack) => {
         await User.findAll({
             where: {email: data.email}
@@ -201,9 +209,11 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
    var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
    var percentage=(Number(results[0].productivitytime)*100)/gsec;
     }else{
+
+     var totalproductivity= Number(results[0].productivitytime)+Number(results[0].idletime);
   var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
    var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
-    var percentage=(Number(results[0].productivitytime)*100)/3600;
+    var percentage=(Number(results[0].productivitytime)*100)/totalproductivity;
     }
 
     var percentage=Math.round(percentage);
@@ -638,7 +648,10 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
       await User.findAll({
         attributes: [[sequelize.fn('count', sequelize.col('id')), 'count']],
             where: { 
-              role_id: 2,
+              role_id: {
+                [Op.or]: [2, 3]
+              },
+              status:'Y',
               parent_id: data.parent_id},
               order:[['firstname','ASC']],   
           }).then(getuserlist => callBack(null, getuserlist)).catch(function (err) {
@@ -1301,6 +1314,41 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
              
         
             },
+
+            userupdatestatusteambyid: async(data, callBack) => {
+   
+        
+              await User.update({status: data.name},{
+                  where: {id: data.id}
+              }).then(function(){
+                  User.findAll({
+                    where: { 
+                        role_id: {
+                        [Op.or]: [2, 3]
+                      },
+                      parent_id: data.userid},   
+                      include: [ {
+                          model: Roles,
+                          attributes: ['name']
+                      },
+                      {
+                        model: Usersnapshots,
+                        attributes: ['capturetime']
+                    },
+                    {
+                        model: Userattendancelog,
+                        attributes: ['punch_in']
+                    },
+                  ],  
+      order: [['firstname','ASC']]}).then(notes => callBack(null,notes));                      
+                   }).catch(function (err) {
+                  // handle error;
+                  return callBack(err);
+                }); 
+      
+           
+      
+          },
             updatepaymentid: async(data, callBack) => {
    
         
