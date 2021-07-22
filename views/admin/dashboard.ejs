@@ -135,6 +135,9 @@
                     percentagef="100";
                 } 
                 percentagef=percentagef;
+                if(percentagef=="NaN"){
+                    percentagef="0";
+                  }
                     %>
                          <tr>  <% var srr=companytask.getproductivity[i].user.firstname; 
                                   var snerr=companytask.getproductivity[i].user.lastname; 
@@ -221,6 +224,9 @@
                                     percentagefs="100";
                                 } 
                                 percentagefs=percentagefs;
+                                if(percentagefs=="NaN"){
+                                    percentagefs="0";
+                                  }
                                         %>
                                                         <tr>
                 <% var srr=companytask.getproductivityasc[i].user.firstname; 
@@ -341,6 +347,9 @@
            var remainpercentage=remain;
           var srty= companytask.appgroup[i].windowclass.split(".");
          var rpercen=remainpercentage.toFixed(2);
+         if(rpercen=="NaN"){
+            rpercen="0";
+          }
                       %>
         <li><data  class="customi" value="<%= rpercen; %>" data-color="green"><%= cdurationtime; %></data> <span class="ml-1"><%= srty[0].toUpperCase(); %></span></li>
 <%  }
@@ -443,10 +452,10 @@ el.forEach(function(item, i){
                                   <%= totalproductinfoDisplayss+':'+mtotalproductinfoDisplayss+':'+stotalproductinfoDisplayss; %>
                                                 </div>
                                                 <div class="activityTile">
-                                                    <span>Key Press</span> <%= companytask.getlatestsnapshot[i].keypress;%>
+                                                    <span>Key Press</span> <%= companytask.getlatestsnapshot[i].totalKeypressCount;%>
                                                 </div>
                                                 <div class="activityTile">
-                                                    <span>Mouse Click</span> <%= companytask.getlatestsnapshot[i].totalMouseclick;%>
+                                                    <span>Mouse Click</span> <%= companytask.getlatestsnapshot[i].totalClicks;%>
                                                 </div>
                                                 <div class="activityTile">
                                                     <span>Mouse Move</span> <%= companytask.getlatestsnapshot[i].totalMouseMovement;%>

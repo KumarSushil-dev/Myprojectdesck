@@ -38,22 +38,23 @@ module.exports = {
     },
     checkifdataexist: async(data, callBack) => {
         await Usersnapshots.findAll({
-            where: {screenshot: data.screenshot,userId:data.userId}
+            where: {capturetime:data.capturetime,userId:data.userId}
         }).then(emailexist => callBack(null, emailexist)).catch(function (err) {
             return callBack(err);
 
           }); 
     },
     checkiftodaydateexistuserid: async(data, callBack) => {
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        
-        NOW=NOW.setDate(NOW.getDate() + 1);
+      const startdate = new Date();
+      var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+      var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+
+
         await Userattendancelog.findOne({
             where: {
                 punch_in: { 
                   [Op.gt]: TODAY_START,
-                  [Op.lte]: NOW
+                  [Op.lte]: TODAY_END
                 }, punch_out:null,
                 userId :data.userid
               }, order:[['id','DESC']]
@@ -208,6 +209,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
    var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
    var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
    var percentage=(Number(results[0].productivitytime)*100)/gsec;
+   
     }else{
 
      var totalproductivity= Number(results[0].productivitytime)+Number(results[0].idletime);
@@ -219,6 +221,10 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     var percentage=Math.round(percentage);
     if(percentage >100){
       percentage="100";
+      }
+
+      if(percentage=="NaN"){
+        percentage="0";
       }
     dproductivitytime = Number(results[0].productivitytime);
     var hproductivitytime = Math.floor(dproductivitytime / 3600);
@@ -232,7 +238,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
 
 }else{
     var productivitytime ="00:00";
-    var percentage="0 %";
+    var percentage="0";
     
 }
 
@@ -335,6 +341,9 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     percentage=Math.round(percentage);
     if(percentage >100){
       percentage="100";
+      }
+      if(percentage=="NaN"){
+        percentage="0";
       }
     dproductivitytime = Number(results[0].productivitytime);
     var hproductivitytime = Math.floor(dproductivitytime / 3600);
@@ -501,9 +510,82 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
-          await pool.query('SELECT * FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY id ASC LIMIT 0,12', [
+          await pool.query('SELECT * FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY capturetime ASC LIMIT 0,12', [
                 data.userid,
                 startdate,
+                string[0],
+                string[1]
+            ],(error, results, fields) => {
+         if (error) {
+          console.log("test");
+                    }
+              
+                 if (results.length == 0) {
+
+               var obj=[];
+                  var objs=[];
+                  obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
+                        
+         promises.push(obj); 
+                   //   promises.push(0);
+                    } else {
+var obj=[];
+var objs=[];
+
+for (let hd = 0; hd < results.length; hd++) {
+  var totalproductinfot=results[hd].productivitytime;
+var totalproductinfo= Math.floor(totalproductinfot / 1000);
+var mstotalworkings = Math.floor(totalproductinfo % 3600 / 60);
+var mstotalworkingDisplays = mstotalworkings > 0 ? (mstotalworkings > 9 ? mstotalworkings : "0"+mstotalworkings) + (mstotalworkings == 1 ? "" : "") : "00";
+ var percentage=(Number(mstotalworkingDisplays)*100)/60;
+ var percentage=Math.round(percentage);
+ if(percentage >100){
+  percentage="100";
+  }
+
+  if(percentage=="NaN"){
+    percentage="0";
+  }
+ var applist = JSON.stringify(results[hd].applist);
+
+    objs.push({"snap": results[hd].screenshot,"duration":results[hd].productivitytime,"keypress":results[hd].totalKeypressCount,"totalMouseclick":results[hd].totalClicks,"totalMouseMovement":results[hd].totalMouseMovement,"productivityCount":results[hd].productivityCount,"applist":results[hd].applist,"date":results[hd].capturetime  });
+
+}
+
+
+obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
+                        
+         promises.push(obj);
+                        
+                    }
+
+                    if (0 === --pending) {
+                       
+                       return callBack(null, promises); //callback if all queries are processed
+                    }
+
+                });
+        }
+
+      
+       
+    },
+    getsnapshotsinfosearch: async(data, callBack) => {
+      
+      let startdate = data.startdate;
+      let enddate = data.enddate;
+      let pending = data.times.length;
+      let promises = [];
+      let productivetotal =0;
+      let idletotal =0;
+    
+        for (let i = 0; i < data.times.length; i++) {
+          const  string = data.times[i].split('-');
+
+          await pool.query('SELECT * FROM `users_snapshotscaptures` WHERE `userId`=? AND `capturetime` > ? AND `capturetime` <= ?  AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY capturetime ASC LIMIT 0,12', [
+                data.userids,
+                startdate,
+                enddate,
                 string[0],
                 string[1]
             ],(error, results, fields) => {
@@ -777,11 +859,11 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             }); 
       },
       tasklistget: async(data, callBack) => {
-
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date(); 
-        NOW=NOW.setDate(NOW.getDate() + 1);
-           
+        const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
+      
       
         await User.findOne({
           where: {id:data.userid},
@@ -801,7 +883,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               model: Tasksactivities,
               where: { userId:data.userid,starttime: { 
                 [Op.gt]: TODAY_START,
-                [Op.lte]: NOW
+                [Op.lte]: TODAY_END
               }}, required: false,
               attributes: ['starttime','endtime','status'],
              
@@ -874,15 +956,16 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               
       },
       activeactivityget: async(data, callBack) => {
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        
-        NOW=NOW.setDate(NOW.getDate() + 1);
+        const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
+      
            
         await Usersbreakslogs.findAll({
             where: {starttime: { 
                 [Op.gt]: TODAY_START,
-                [Op.lte]: NOW
+                [Op.lte]: TODAY_END
               },userId:data.userid},
             attributes: ['starttime'],
             include: [ {
@@ -982,10 +1065,10 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                 
         },
       activeactivitygetweb: async(data, callBack) => {
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        
-        NOW=NOW.setDate(NOW.getDate() + 1);
+      const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
         
         await Tasksactivities.findAll({
             where: {userId:data.userid},
@@ -1008,13 +1091,14 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
       },
       getapplist: async(data, callBack) => {
       
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        NOW=NOW.setDate(NOW.getDate() + 1);
+        const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
     await Userapplist.findAll({
       where: {capturetime: { 
         [Op.gt]: TODAY_START,
-        [Op.lte]: NOW
+        [Op.lte]: TODAY_END
       }},
     attributes: ['windowclass',[sequelize.fn('sum', sequelize.col('count')), 'count']],
     group: ['windowclass'],
@@ -1051,14 +1135,15 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
 
       gettodayproductivityasc: async(data, callBack) => {
       
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        NOW=NOW.setDate(NOW.getDate() + 1);
+        const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
     await Usersnapshots.findAll({
       limit: 5,
       where: {capturetime: { 
         [Op.gt]: TODAY_START,
-        [Op.lte]: NOW
+        [Op.lte]: TODAY_END
       }},
     attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes']],
     group: ['userId'],
@@ -1077,14 +1162,15 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
       },
       gettodayproductivity: async(data, callBack) => {
       
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        NOW=NOW.setDate(NOW.getDate() + 1);
+        const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
     await Usersnapshots.findAll({
       limit: 5,
       where: {capturetime: { 
         [Op.gt]: TODAY_START,
-        [Op.lte]: NOW
+        [Op.lte]: TODAY_END
       }},
     attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes']],
     group: ['userId'],
@@ -1103,14 +1189,33 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
       },
       gettodayproductivitytrytotal: async(data, callBack) => {
       
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        NOW=NOW.setDate(NOW.getDate() + 1);
+        const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
     await Usersnapshots.findAll({
     
       where: {capturetime: { 
         [Op.gt]: TODAY_START,
-        [Op.lte]: NOW
+        [Op.lte]: TODAY_END
+      }},
+    attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes']],
+                
+        order: [[sequelize.literal('productivitytime'), 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      gettodayproductivitytrytotalsearch: async(data, callBack) => {
+      
+     
+
+    await Usersnapshots.findAll({
+    
+      where: {capturetime: { 
+        [Op.gt]: data.startdate,
+        [Op.lte]: data.enddate
       }},
     attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes']],
                 
@@ -1123,18 +1228,41 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
 
       gettodayproductivitytry: async(data, callBack) => {
       
-        let startdate = new Date().toLocaleString('en-US', {
-          timeZone: 'Asia/Calcutta'
-        });
+       
 
-        const TODAY_START = new Date().setHours(5, 0, 0, 0);
-        var NOW = new Date();
-        NOW=NOW.setDate(NOW.getDate() + 1);
+        const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
     await Usersnapshots.findAll({
     
       where: {capturetime: { 
         [Op.gt]: TODAY_START,
-        [Op.lte]: NOW
+        [Op.lte]: TODAY_END
+      }},
+    attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes'],[sequelize.fn('sum', sequelize.col('totalKeypressCount')), 'totalKeypressCount'],[sequelize.fn('sum', sequelize.col('totalMouseMovement')), 'totalMouseMovement'],[sequelize.fn('sum', sequelize.col('totalClicks')), 'totalClicks']],
+    group: ['userId'],
+      include: [{
+      model: User,
+      where: {parent_id:data.userid},
+      attributes: ['id','firstname','lastname']
+            }
+        ],
+            
+        order: [[sequelize.literal('productivitytime'), 'DESC']]
+            }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+              // handle error;
+              return callBack(err);
+            }); 
+      },
+      gettodayproductivitytrysearch: async(data, callBack) => {
+      
+     
+    await Usersnapshots.findAll({
+    
+      where: {capturetime: { 
+        [Op.gt]: data.startdate,
+        [Op.lte]: data.enddate
       }},
     attributes: [[sequelize.fn('sum', sequelize.col('productivitytime')), 'productivitytime'],[sequelize.fn('sum', sequelize.col('totalIdleMinutes')), 'totalIdleMinutes'],[sequelize.fn('sum', sequelize.col('totalKeypressCount')), 'totalKeypressCount'],[sequelize.fn('sum', sequelize.col('totalMouseMovement')), 'totalMouseMovement'],[sequelize.fn('sum', sequelize.col('totalClicks')), 'totalClicks']],
     group: ['userId'],
@@ -1153,14 +1281,15 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
       },
       getlatestsnapshot: async(data, callBack) => {
       
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        NOW=NOW.setDate(NOW.getDate() + 1);
+        const startdate = new Date();
+        var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+        var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  
     await Usersnapshots.findAll({
       limit: 5,
       where: {capturetime: { 
         [Op.gt]: TODAY_START,
-        [Op.lte]: NOW
+        [Op.lte]: TODAY_END
       }},
     attributes: ['id','productivityCount','productivitytime','screenshot','totalIdleMinutes','totalKeypressCount','totalMouseMovement','totalClicks','applist','capturetime'],
       include: [{
@@ -1177,9 +1306,8 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             }); 
       },
       getapps: async(data, callBack) => {
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        NOW=NOW.setDate(NOW.getDate() + 1);
+      
+      
        // NOW=NOW.setHours(05, 0, 0, 0);
 
         await Userapplist.findAll({
@@ -1684,15 +1812,15 @@ var colorsCSV = data.assignmultipleuser.join(",");
     },
     saveuserpunchout: async(data, callBack) => {
 
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        
-        NOW=NOW.setDate(NOW.getDate() + 1);
+      const startdate = new Date();
+      var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+      var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+
        
         await Userattendancelog.update({punch_out: data.puchOutTime},{
             where: {punch_in: { 
                 [Op.gt]: TODAY_START,
-                [Op.lte]: NOW
+                [Op.lte]: TODAY_END
               },userId: data.userid},
             order:[['id','DESC']],
         }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
@@ -1702,23 +1830,23 @@ var colorsCSV = data.assignmultipleuser.join(",");
     }, 
     savebreakstopid: async(data, callBack) => {
 
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        data.status='Y';
-        NOW=NOW.setDate(NOW.getDate() + 1);
+      const startdate = new Date();
+      var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+      var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+
        
         await Tasksactivities.update({endtime: data.endtime,status:data.status},{
             limit: 1,
             where: {starttime: { 
                 [Op.gt]: TODAY_START,
-                [Op.lte]: NOW
+                [Op.lte]: TODAY_END
               },userId: data.userid,tasks_id:data.type,status:'N'},
             order:[['id','DESC']],
         }).then(function(){
             Tasksactivities.findOne({
                 where: {starttime: { 
                     [Op.gt]: TODAY_START,
-                    [Op.lte]: NOW
+                    [Op.lte]: TODAY_END
                   },userId: data.userid,tasks_id:data.type},
                 order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
              }).catch(function (err) {
@@ -1728,23 +1856,24 @@ var colorsCSV = data.assignmultipleuser.join(",");
     }, 
     savetaskstopid: async(data, callBack) => {
 
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        
-        NOW=NOW.setDate(NOW.getDate() + 1);
+      const startdate = new Date();
+      var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+      var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+
+       
         data.status='Y';
         await Tasksactivities.update({endtime: data.endtime,status:data.status},{
             limit: 1,
             where: {starttime: { 
                 [Op.gt]: TODAY_START,
-                [Op.lte]: NOW
+                [Op.lte]: TODAY_END
               },userId: data.userid,tasks_id:data.type,status:'N'},
             order:[['id','DESC']],
         }).then(function(){
             Tasksactivities.findOne({
                 where: {starttime: { 
                     [Op.gt]: TODAY_START,
-                    [Op.lte]: NOW
+                    [Op.lte]: TODAY_END
                   },userId: data.userid,tasks_id:data.type},
                 order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
              }).catch(function (err) {
@@ -1753,17 +1882,17 @@ var colorsCSV = data.assignmultipleuser.join(",");
           }); 
     }, 
     savetaskstopidmanually: async(data, callBack) => {
+      const startdate = new Date();
+      var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+      var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
 
-        const TODAY_START = new Date().setHours(05, 0, 0, 0);
-        var NOW = new Date();
-        
-        NOW=NOW.setDate(NOW.getDate() + 1);
+       
         data.status='Y';
 
         await Tasksactivities.findOne({
           where: {starttime: { 
               [Op.gt]: TODAY_START,
-              [Op.lte]: NOW
+              [Op.lte]: TODAY_END
             },userId: data.userid,endtime:null,status:'N'},
           order:[['id','DESC']]}).then(function(createdUser){
     
@@ -1771,7 +1900,7 @@ var colorsCSV = data.assignmultipleuser.join(",");
             limit: 1,
             where: {starttime: { 
                 [Op.gt]: TODAY_START,
-                [Op.lte]: NOW
+                [Op.lte]: TODAY_END
               },userId: data.userid,id:createdUser.id,endtime:null,status:'N'},
             order:[['id','DESC']],
         }).then(notes => callBack(null,notes)); }).catch(function (err) {
@@ -1790,15 +1919,15 @@ var colorsCSV = data.assignmultipleuser.join(",");
           }); 
     },dailyattendanceget: async(data, callBack) => {
 
-      const TODAY_START = new Date().setHours(05, 0, 0, 0);
-      var NOW = new Date();
-      
-      NOW=NOW.setDate(NOW.getDate() + 1);
+      const startdate = new Date();
+      var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+      var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+
       await Userattendancelog.findAll({
           where: {
               punch_in: { 
                 [Op.gt]: TODAY_START,
-                [Op.lte]: NOW
+                [Op.lte]: TODAY_END
               } },  group: ['userId'], include: [{
             model: User,
             where: {parent_id:data.userid},

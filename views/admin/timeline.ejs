@@ -51,10 +51,7 @@
                                     <th style="width:200px">User</th>
                                     <th style="width:120px">Worked Hrs.</th>
                                     <th style="width:120px">Productivity</th>
-                                    <th>00 AM</th>
-                                    <th>02 AM</th>
-                                    <th>04 AM</th>
-                                    <th>06 AM</th>
+                                    
                                     <th>08 AM</th>
                                     <th>10 AM</th>
                                     <th>12 AM</th>
@@ -114,28 +111,16 @@
                                     if(percentage >100){
                                         percentage="100";
                                       } 
-                                    
+                                      if(idletime=="00:00:00"){
+                                      var  percentage="0";
+                                      }
+                                   // console.log(percentage);
                                     %>
                                     <%= percentage+' %'; %>
                                 
                                 </td>
-                                    <td class="p-0"> 
-                                        
-                                </td>
-                                    <td class="p-0"></td>
-                                    <td class="p-0"></td>
-                                    <td class="p-0">  <%  for(var s=0; s < companyuser.data.length; s++) {  
-                                       
-                                        if(companyuser.data[s][0].starttime=="06:00:00" && companyuser.data[s][0].username == userstring[1]){ %>
-
-                                       <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                       <% for(var s=0; s < companyuser.data.length; s++) {  
+                               
                                    
-                                        if(companyuser.data[s][0].starttime=="07:00:00"  && companyuser.data[s][0].username == userstring[1]){ %>
-
-                                       <%= companyuser.data[s][0].productivitypercentage; %>  <%  } } %>
-                                    </div>
-                                    </td>
                                     <td class="p-0">
 <table style="width:100%"><tr>
                      <%  var stotal=0; for(var s=0; s < companyuser.data.length; s++) {  

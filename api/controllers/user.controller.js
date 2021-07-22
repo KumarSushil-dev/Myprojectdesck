@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall,getproductivitysid,gettodayproductivitytrysearch,gettodayproductivitytrytotalsearch,getsnapshotsinfosearch,getsnapshotmoredetail } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -71,6 +71,44 @@ companysettings: (req, res) => {
        
 
     });
+
+},
+getproductivity: (req, res) => {
+  
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+
+    body.startdate=moment(body.startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss');  
+    body.enddate=moment(body.enddate).endOf('day').format('YYYY-MM-DD HH:mm:ss');    
+    
+   var startdates=body.startdate;
+   var enddates=body.enddate;
+   console.log(body);
+    gettodayproductivitytrysearch(body, (err, results) => {
+        gettodayproductivitytrytotalsearch(body, (err, resultstotal) => {
+        if (err) {
+            console.log(err);
+          return res.status(500).json({
+                success: false,
+                data: [],
+                message: "Connection Error."
+            });
+        }
+
+       
+   
+        return res.status(200).json({
+            success: true,
+            data: results,
+            datatotal:resultstotal,
+            startdates:startdates,
+            enddates:enddates,
+            detail: ""
+          });
+       
+        });
+    });
+
 
 },
 
@@ -507,7 +545,7 @@ snapshotdetail:(req, res) => {
    
     viewdetailid(body, (err, results) => {
        var twoHoursBefore = new Date();
-        twoHoursBefore.setHours(twoHoursBefore.getHours() - 3);
+        twoHoursBefore.setHours(twoHoursBefore.getHours() - 1);
         var endHoursBefore = new Date();
                         endHoursBefore.setHours(endHoursBefore.getHours() + 1)
                         let x = 60; //minutes interval
@@ -540,14 +578,19 @@ snapshotdetail:(req, res) => {
                                     } 
                                     body.userid=body.id
             getsnapshotsinfo(body, (err, productivityresults) => {
-  
+             var startdates=moment.unix(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss');  
+              var enddates=moment.unix(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss');    
+                                   
  if (productivityresults) {
         return res.status(200).json({
             success:true,
             data:results,
             snapshotdata: productivityresults,
             user: uarray,
-            timesarr:new_arr
+            timesarr:new_arr,
+            startdates:startdates,
+            enddates:enddates,
+            duration:1
           });
 
         }else{
@@ -558,6 +601,185 @@ snapshotdetail:(req, res) => {
                 snapshotdata: [],
                 user:uarray,
                 timesarr:new_arr,
+                startdates:startdates,
+                enddates:enddates,
+                duration:1,
+                detail: "No Data Listed."
+
+            });
+
+        }
+  
+   
+    });
+    });
+    });
+  
+},
+
+
+// Get Selected User Detail
+snapshotmoredetail:(req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    body.userids=body.id;
+    
+    var ids=body.id;
+    var duration=body.duration;
+    var startdateunix=body.startdateunix;
+    var enddateunix=body.enddateunix;
+    viewdetailid(body, (err, results) => {
+    var twoHoursBefore = new Date();
+    var sst=Number(duration)+Number(1);
+    twoHoursBefore.setHours(twoHoursBefore.getHours() - sst);
+    var endHoursBefore = new Date();
+                        endHoursBefore.setHours(endHoursBefore.getHours() + 1)
+                        let x = 60; //minutes interval
+                        let times = []; // time array
+                        let tt=(twoHoursBefore.getHours())*60; // start time
+                     let endt=endHoursBefore.getHours();
+                 
+                        //loop to increment the time and push results in array
+                        for (let i=0;tt<endt*60; i++) {
+                            let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+                            let sh=hh+1;
+                            let mm = (tt%60); // getting minutes of the hour in 0-55 format
+                          times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
+                          tt = tt + x;
+                        }
+                       // console.log(times);
+
+                        var new_arr = times.reverse();
+                      body.times=new_arr;
+                  
+                        getuserfortimeline(body, (err, resultss) => {
+                            var ured = JSON.stringify(resultss);
+                                        var utest = JSON.parse(ured);
+                                        let uarray = [];  
+                
+                                    for (let s=0;s<utest.length; s++) {
+                                        
+                                    uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                                    } 
+                                  
+
+         body.startdate=moment.unix(startdateunix).startOf('day').format('YYYY-MM-DD HH:mm:ss');  
+         body.enddate=moment.unix(enddateunix).endOf('day').format('YYYY-MM-DD HH:mm:ss');    
+                                    
+            var startdates=body.startdate;
+           var enddates=body.enddate;
+           //console.log(body);
+            getsnapshotsinfosearch(body, (err, productivityresults) => {
+  
+ if (productivityresults) {
+        return res.status(200).json({
+            success:true,
+            data:results,
+            snapshotdata: productivityresults,
+            user: uarray,
+            timesarr:new_arr,
+            startdates:startdates,
+            enddates:enddates,
+            ids:ids,
+           duration:duration
+          });
+         
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: results,
+                snapshotdata: [],
+                user:uarray,
+                timesarr:new_arr,
+                startdates:startdates,
+                enddates:enddates,
+                ids:ids,
+                duration:duration,
+                detail: "No Data Listed."
+
+            });
+
+        }
+  
+   
+    });
+    });
+    });
+  
+},
+// Get Selected User Detail
+getsnapshot:(req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    body.userids=body.id;
+    var ids=body.id;
+    viewdetailid(body, (err, results) => {
+    var twoHoursBefore = new Date();
+    twoHoursBefore.setHours(twoHoursBefore.getHours() - 1);
+    var endHoursBefore = new Date();
+                        endHoursBefore.setHours(endHoursBefore.getHours() + 1)
+                        let x = 60; //minutes interval
+                        let times = []; // time array
+                        let tt=(twoHoursBefore.getHours())*60; // start time
+                     let endt=endHoursBefore.getHours();
+                 
+                        //loop to increment the time and push results in array
+                        for (let i=0;tt<endt*60; i++) {
+                            let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+                            let sh=hh+1;
+                            let mm = (tt%60); // getting minutes of the hour in 0-55 format
+                          times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
+                          tt = tt + x;
+                        }
+                       // console.log(times);
+
+                        var new_arr = times.reverse();
+                      body.times=new_arr;
+                  
+                        getuserfortimeline(body, (err, resultss) => {
+                            var ured = JSON.stringify(resultss);
+                                        var utest = JSON.parse(ured);
+                                        let uarray = [];  
+                
+                                    for (let s=0;s<utest.length; s++) {
+                                        
+                                    uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                                    } 
+                                  
+
+         body.startdate=moment(body.startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss');  
+         body.enddate=moment(body.enddate).endOf('day').format('YYYY-MM-DD HH:mm:ss');    
+                                    
+            var startdates=body.startdate;
+           var enddates=body.enddate;
+            getsnapshotsinfosearch(body, (err, productivityresults) => {
+  
+ if (productivityresults) {
+        return res.status(200).json({
+            success:true,
+            data:results,
+            snapshotdata: productivityresults,
+            user: uarray,
+            timesarr:new_arr,
+            startdates:startdates,
+            enddates:enddates,
+            ids:ids,
+            duration:1,
+          });
+
+        }else{
+
+            return res.status(200).json({
+                success: false,
+                data: results,
+                snapshotdata: [],
+                user:uarray,
+                timesarr:new_arr,
+                startdates:startdates,
+                enddates:enddates,
+                ids:ids,
+                duration:1,
                 detail: "No Data Listed."
 
             });

@@ -367,31 +367,6 @@ console.log(data);
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-<script type="text/javascript">
-$(function() {
-
-var start = '<%= moment(); %>';
-var end = '<%= moment().add(1, `days`); %>';
-
-function cb(start, end) {
-$('#reportrange').val(start.format('DD-MMMM-Y') + ' - ' + end.format('DD-MMMM-Y'));
-}
-
-$('#reportrange').daterangepicker({
-startDate: start,
-endDate: end,
-locale: {
-format: 'DD-MMMM-Y'
-},
-ranges: {
-'Today': [start, start]
-}
-}, cb);
-
-cb(start, end);
-
-});
-</script>
  <!-- graph -->
  <script src="https://code.highcharts.com/highcharts.js"></script>
  <script src="https://code.highcharts.com/modules/exporting.js"></script>

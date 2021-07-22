@@ -939,6 +939,123 @@ app.post('/planupgrade', urlencodedParser, (req, res) => {
 
 });
 
+app.post('/getproductivity', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    console.log(body);
+    if (sess.companyname && sess.token!='') {
+    
+    request.post({
+        headers: {
+            'Authorization': `Bearer ${token}`
+          },
+            url: process.env.APP_URL + '/api/users/getproductivity',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+            req.flash("error", "Productivity Cannot Upgarded ,Please Try Again.");
+            res.locals.messages = req.flash();
+              
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        var sess = req.session;
+            res.render('admin/getproductivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid,startdates:startdates,enddates:enddates  });
+
+            } else if (!error && response.statusCode == 200) {
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var datas = JSON.parse(re);
+       console.log(datas.startdates);
+            var sess = req.session;
+res.render('admin/getproductivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+    }else {
+
+        res.render('users/login');
+    }
+
+});
+
+app.post('/getsnapshot', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    console.log(body);
+    if (sess.companyname && sess.token!='') {
+    
+    request.post({
+        headers: {
+            'Authorization': `Bearer ${token}`
+          },
+            url: process.env.APP_URL + '/api/users/getsnapshot',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+            req.flash("error", "Productivity Cannot Upgarded ,Please Try Again.");
+            res.locals.messages = req.flash();
+              
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        var sess = req.session;
+            res.render('admin/getsnapshot', { person: sess.companyname,user: datas,roleid :sess.roleid,startdates:startdates,enddates:enddates,uid:datas.ids });
+
+            } else if (!error && response.statusCode == 200) {
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var datas = JSON.parse(re);
+            console.log(datas.startdates);
+            console.log(datas.enddates);
+            var sess = req.session;
+res.render('admin/getsnapshot', { person: sess.companyname, user: datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates,uid:datas.ids });
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+    }else {
+
+        res.render('users/login');
+    }
+
+});
+
 
 
 
@@ -2937,6 +3054,74 @@ app.get('/snapshot/:id', urlencodedParser, function(req, res) {
                         req.flash("error", "Id not Found Plan.Try Again Later");
             res.locals.messages = req.flash();
             res.redirect(process.env.APP_URL + '/snapshot');
+                        res.end;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+}); 
+
+app.get('/snapshotmore/:id/:duration/:startdate/:enddate', urlencodedParser, function(req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    duration = req.params.duration;
+    startdateunix = req.params.startdate;
+    enddateunix = req.params.enddate;
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    const token = sess.token;
+    if(ids && sess.token!='') {
+        setTimeout(function() {
+         
+    request.post({
+                 headers: {
+                 'Authorization': `Bearer ${token}`
+                 },
+                url: process.env.APP_URL + '/api/users/snapshotmoredetail',
+                body: { "id": ids,"duration":duration,"startdateunix":startdateunix,"enddateunix":enddateunix },
+                json: true
+                },
+                function(error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                        sess = req.session;
+                     //  console.log(test.snapshotdata[0][0].image);
+                        if(userfound==1){
+                            req.flash("error", "User Profile has been succesfully updated.");
+                            res.locals.messages = req.flash();
+                        }else if(userfound==2){
+                            req.flash("error", "Change password succesfully updated for user!");
+                            res.locals.messages = req.flash();
+                        }
+              // console.log(test);
+              res.render('admin/getsnapshot', { person: sess.companyname, user: test,roleid :sess.roleid,startdates:test.startdates,enddates:test.enddates,uid:test.ids });
+
+    res.end;
+                          
+                     } else {
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+            res.locals.messages = req.flash();
+            res.redirect(process.env.APP_URL + '/dashboard');
                         res.end;
 
 

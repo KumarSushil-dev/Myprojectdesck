@@ -25,14 +25,15 @@ const sequelize = new Sequelize(process.env.MYSQL_DB, process.env.DB_USER, proce
   host: process.env.DB_HOST,
   dialect: 'mysql',
   pool: {
-    max: 10,
+    max: 1000,
     min: 0,
-    acquire: 30000,
-    idle: 10000
+    acquire: 300000,
+    idle: 100000
   },
   dialectOptions: {
     multipleStatements: true
-  }
+  },
+  timezone: '+05:30',
 })
 
 const User = UserModel(sequelize, Sequelize)

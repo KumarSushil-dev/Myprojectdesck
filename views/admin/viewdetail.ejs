@@ -174,9 +174,24 @@
 
 
                                 <!-- // Bar charts section end -->
-                                <%  if(user.totalwebresult.length > 0){
+                                <%   var totalworkingyear="";
+                                var totalworkingDisplayyear="00";
+                          var mtotalworkingDisplayyear="00";
+                          var stotalworkingDisplayyear="00";
+                          var totalproductinfoDisplayyear="00";
+                          var mtotalproductinfoDisplayyear="00";
+                          var stotalproductinfoDisplayyear="00";
+                          var totalidleDisplayyear="00";
+                          var mtotalidleDisplayyear="00";
+                          var stotalidleDisplayyear="00";
+                             var percentageyear="0";
+                              if(user.totalwebresult.length > 0){
+                                    var totalproductinfoyear=0;
+                                    if(user.totalwebresult[0].productivitytimeyear!=""){
                var totalproductinfoyear= Math.floor(user.totalwebresult[0].productivitytimeyear / 1000);
+            }
                var totalidleyear= Math.floor(user.totalwebresult[0].idletimeyear /1000);
+             
                   if(totalproductinfoyear){
                                                                           
                   var mstotalworkingsyear = Math.floor(totalproductinfoyear % 3600 / 60);
@@ -242,9 +257,9 @@
              if(percentageyear >100){
                 percentageyear="100";
               } 
-                                                         %>
-
-<% } %>
+              if(percentageyear =="NaN"){
+                percentageyear="0";
+              }                                         } %>
 
 
                                 <div class="row">
