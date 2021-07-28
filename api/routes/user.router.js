@@ -1,4 +1,4 @@
-const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo,companyuser,addcompanyuser,checkemailexist,viewdetail,viewdetailprofileservice,breaklist,activeactivity,savebreakstart,savebreakstop,tasklist,savetaskstart,savetaskstop,timeline,snapshotdetail,companysettings,getcompanysettings,dailyattendance,monthlyattendance,monthlyinout,projectsmain,projectsadd,companyprojects,projectsedit,taskadd,taskview,companytask,presence,attendancerecord,todayinfo,dashboards,applicationusage,getinitialinfo,gettodayproductivitytr,userupdatestatusteam,getproductivity,getsnapshot,snapshotmoredetail} = require('../controllers/user.controller');
+const {countrylist,getselectedstate,getSearch,statelist,loginuser,signupuser,signupuserweb,getallusers,savepunchin,savepunchout,userupdatestatus,userdeletesuper,activationverification,planupgrades,getDetail,addsubscriptions,billingdetail,billingcompany,getsubscription,getsubscriptiondetail,editprofile,usereditservice,updatepayment,datatransfer,productivityinfo,companyuser,addcompanyuser,checkemailexist,viewdetail,viewdetailprofileservice,breaklist,activeactivity,savebreakstart,savebreakstop,tasklist,savetaskstart,savetaskstop,timeline,snapshotdetail,companysettings,getcompanysettings,dailyattendance,monthlyattendance,monthlyinout,projectsmain,projectsadd,companyprojects,projectsedit,taskadd,taskview,companytask,presence,attendancerecord,todayinfo,dashboards,applicationusage,getinitialinfo,gettodayproductivitytr,userupdatestatusteam,getproductivity,getsnapshot,snapshotmoredetail,getdailyattendance,getmonthlyattendance,getmonthlyinout} = require('../controllers/user.controller');
 const { checkToken } = require("../middleware/authjwt.js");
 const express = require('express');
 const router = express.Router();
@@ -56,7 +56,10 @@ router.post("/projectsadd",checkToken,  projectsadd);
 router.post("/projectsedit",checkToken,  projectsedit);
 router.post("/companysettings",checkToken,  companysettings);
 router.post("/dailyattendance",checkToken,  dailyattendance);
+router.post("/getdailyattendance",checkToken,  getdailyattendance);
 router.post("/monthlyattendance",checkToken,  monthlyattendance);
+router.post("/getmonthlyattendance",checkToken,  getmonthlyattendance);
+router.post("/getmonthlyinout",checkToken,  getmonthlyinout);
 router.post("/monthlyinout",checkToken,  monthlyinout);
 router.post("/projectsmain",checkToken,  projectsmain);
 router.post("/companyprojects",checkToken,  companyprojects);

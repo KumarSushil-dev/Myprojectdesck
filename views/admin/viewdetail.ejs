@@ -816,9 +816,8 @@ if(arrt.length > 0){
             <%= moment(user.logss[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %>
              <% } %></b></td>
        <td><%  
-            var now  = moment(user.logss[i].punch_out).format('DD/MM/YYYY HH:mm:ss');
-            var then = moment(user.logss[i].punch_in).format('DD/MM/YYYY HH:mm:ss');
-            var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");   %>
+           
+            ms = moment.utc(user.logss[i].duration*1000).format("HH:mm");   %>
             <% if(user.logss[i].punch_out){ %> 
                     <%= ms;  %>
                 <% } %></td>  

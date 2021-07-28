@@ -12,6 +12,11 @@ module.exports=(sequelize,DataTypes)=>{
           punch_out: {
            type: DataTypes.DATE,
          //  allowNull: false
+          },
+          duration : {
+            type: DataTypes.INTEGER,
+            //allowNull: false
+
           }
           
      });

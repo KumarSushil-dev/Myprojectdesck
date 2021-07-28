@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall,getproductivitysid,gettodayproductivitytrysearch,gettodayproductivitytrytotalsearch,getsnapshotsinfosearch,getsnapshotmoredetail } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,getdailyattendancesearch,dailyattendancegetupdated,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall,getproductivitysid,gettodayproductivitytrysearch,gettodayproductivitytrytotalsearch,getsnapshotsinfosearch,getsnapshotmoredetail,deletemultipleentry,getlastpunchin,monthlyattendancegetsearch,monthlyinoutgetsearch } = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -668,7 +668,7 @@ snapshotmoredetail:(req, res) => {
                                     
             var startdates=body.startdate;
            var enddates=body.enddate;
-           //console.log(body);
+          console.log(body);
             getsnapshotsinfosearch(body, (err, productivityresults) => {
   
  if (productivityresults) {
@@ -1831,7 +1831,7 @@ var str=utest[0].format;
 
        body.userid=req.decoded.result[0].id;
      
-       dailyattendanceget(body, (err, results) => {
+       dailyattendancegetupdated(body, (err, results) => {
             if (err) {
 
                 console.log(err);
@@ -1855,6 +1855,61 @@ var str=utest[0].format;
                 return res.status(200).json({
                     success: true,
                     data: results
+    
+    
+                });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+
+    },
+    getdailyattendance: (req, res) => {
+
+        
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+       body.startdate=moment(body.startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss');  
+       body.enddate=moment(body.enddate).endOf('day').format('YYYY-MM-DD HH:mm:ss');    
+       
+      var startdates=body.startdate;
+      var enddates=body.enddate;
+       getdailyattendancesearch(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    startdates:startdates,
+            enddates:enddates,
+                    detail: "No User Listed."
+
+                });
+            }
+
+
+                
+
+                return res.status(200).json({
+                    success: true,
+                    data: results,
+                    startdates:startdates,
+                  enddates:enddates,
     
     
                 });
@@ -1923,6 +1978,63 @@ var str=utest[0].format;
         });
 
     },
+    getmonthlyattendance: (req, res) => {
+
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+      
+      var startdates=body.startdate;
+     console.log(body);
+       getuserfortimeline(body, (err, resultss) => {
+        var ured = JSON.stringify(resultss);
+                    var utest = JSON.parse(ured);
+                    let uarray = [];  
+
+                for (let s=0;s<utest.length; s++) {
+                    
+                uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                } 
+       monthlyattendancegetsearch(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    startdates:startdates,
+                    detail: "No User Listed."
+
+                });
+            }
+
+          return res.status(200).json({
+                    success: true,
+                    user:uarray,
+                    startdates:startdates,
+                    data: results
+         });
+         });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+
+    },
     monthlyinout: (req, res) => {
 
         const body = req.body;
@@ -1959,6 +2071,61 @@ var str=utest[0].format;
           return res.status(200).json({
                     success: true,
                     user:uarray,
+                    data: results
+         });
+         });
+    
+    
+    
+         
+
+
+   
+
+
+
+        });
+
+    },
+    getmonthlyinout: (req, res) => {
+
+        const body = req.body;
+
+       body.userid=req.decoded.result[0].id;
+       var startdates=body.startdate;
+       getuserfortimeline(body, (err, resultss) => {
+        var ured = JSON.stringify(resultss);
+                    var utest = JSON.parse(ured);
+                    let uarray = [];  
+
+                for (let s=0;s<utest.length; s++) {
+                    
+                uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                } 
+                monthlyinoutgetsearch(body, (err, results) => {
+            if (err) {
+
+                console.log(err);
+              
+            }
+
+
+            
+            if (results.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:uarray,
+                    startdates:startdates,
+                    detail: "No User Listed."
+
+                });
+            }
+
+          return res.status(200).json({
+                    success: true,
+                    user:uarray,
+                    startdates:startdates,
                     data: results
          });
          });
@@ -2551,7 +2718,7 @@ checksubscription(body, (err, resultschecksubscriptions) => {
    // const intimee=test.punch_in;
     const intimee=moment(test.punch_in).format('YYYY-MM-DD HH:mm:ss');
     var obj = [];
-    obj.push({ "intime": intimee, "ScreenShortInterval": testgetscrren.screenshot_freq });
+    obj.push({ "intime": intimee, "ScreenShortInterval": testgetscrren.screenshot_freq,"punchOutTimeMin": testgetscrren.idle_threshold_punchout,"is_auto_punchout":testgetscrren.is_auto_punchout});
             return res.status(200).json({
                 success:true,
                 data: obj
@@ -2836,6 +3003,20 @@ savetaskstop: (req, res) => {
        body.userid=req.decoded.result[0].id;
 
        body.puchOutTime=moment(body.puchOutTime).format('YYYY-MM-DD HH:mm:ss');
+       getlastpunchin(body, (err, testresult) => {
+
+        var ress = JSON.stringify(testresult);
+        var testss = JSON.parse(ress);
+        var punch_in = testss.punch_in;
+     
+    punch_in= moment(punch_in).format('YYYY-MM-DD HH:mm:ss');
+    
+      var trr2= moment(body.puchOutTime).format('X');
+      var trr1=  moment(punch_in).format('X');
+   
+body.duration=Math.abs(trr2)-Math.abs(trr1);
+
+
         saveuserpunchout(body, (err, results) => {
             if (err) {
                
@@ -2865,6 +3046,7 @@ savetaskstop: (req, res) => {
 
 
         });
+    });
 
     },
 
@@ -3158,7 +3340,7 @@ body.capturetime=moment(body.capturetime).format('YYYY-MM-DD HH:mm:ss')
 checkifdataexist(body, (err, resultschek) => {
     var re = JSON.stringify(resultschek);
     var test = JSON.parse(re);
- if(test.length === 0) {
+ if(test.length === 0 && applist !="[]") {
  datatransferid(body, (err, results) => {
                 body.applist= JSON.parse(body.applist);
                 applisttransfer(body, (err, resultstranfer) => {
@@ -3171,6 +3353,8 @@ checkifdataexist(body, (err, resultschek) => {
 
                 });
             }
+
+            deletemultipleentry(body, (err, resultyu) => {
             var obj = [];
             obj.push({ "productivityCount": productivitycnt });
             return res.status(200).json({
@@ -3180,7 +3364,7 @@ checkifdataexist(body, (err, resultschek) => {
 
             });
 
-
+        });
         });
     });
 }else{
@@ -3427,13 +3611,13 @@ var obj=[];
 for (let hd = 0; hd < test.length; hd++) {
 
 
- if(results[hd].punch_out != "Invalid Date"){
+ if(results[hd].punch_out){
 
-    var now  = moment(results[hd].punch_out).format('DD/MM/YYYY HH:mm:ss');
-    var then = moment(results[hd].punch_in).format('DD/MM/YYYY HH:mm:ss');
-    var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
 
-    objs.push({ "date": moment(results[hd].punch_in).format('DD-MM-YYYY'),"punchIn": moment(results[hd].punch_in).format('DD-MM-YYYY HH:mm:ss'),"punchOut": moment(results[hd].punch_out).format('DD-MM-YYYY HH:mm:ss'),"duration":ms });
+  
+    var duration = moment.utc(results[hd].duration*1000).format("HH:mm");
+    
+    objs.push({ "date": moment(results[hd].punch_in).format('DD-MM-YYYY'),"punchIn": moment(results[hd].punch_in).format('DD-MM-YYYY HH:mm:ss'),"punchOut": moment(results[hd].punch_out).format('DD-MM-YYYY HH:mm:ss'),"duration":duration });
  }else{
 
     var startdater = new Date();

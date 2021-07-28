@@ -5,227 +5,123 @@
             <%- include('../partials/left'); %>
 
 
+   <script>
+            $(document).ready(function() {
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"
+                ];
+                let qntYears = 1;
+                let selectYear = $("#year");
+                let selectMonth = $("#month");
+                let selectDay = $("#day");
+                let currentYear = new Date().getFullYear();
+              
+                for (var y = 0; y < qntYears; y++) {
+                  let date = new Date(currentYear);
+                  let yearElem = document.createElement("option");
+                  yearElem.value = currentYear
+                  yearElem.textContent = currentYear;
+                  selectYear.append(yearElem);
+                  currentYear--;
+                }
+              
+                for (var m = 0; m < 12; m++) {
+                  let month = monthNames[m];
+                  let monthElem = document.createElement("option");
+                  monthElem.value = m;
+                  monthElem.textContent = month;
+                  selectMonth.append(monthElem);
+                }
+              
+                var d = new Date();
+                var month = d.getMonth();
+                var year = d.getFullYear();
+                var day = d.getDate();
+              
+                selectYear.val(year);
+                selectYear.on("change", AdjustDays);
+                selectMonth.val(month);
+                selectMonth.on("change", AdjustDays);
+              
+                AdjustDays();
+                selectDay.val(day)
+              
+                function AdjustDays() {
+                  var year = selectYear.val();
+                  var month = parseInt(selectMonth.val()) + 1;
+                  selectDay.empty();
+              
+                  //get the last day, so the number of days in that month
+                  var days = new Date(year, month, 0).getDate();
+              
+                  //lets create the days of that month
+                  for (var d = 1; d <= days; d++) {
+                    var dayElem = document.createElement("option");
+                    dayElem.value = d;
+                    dayElem.textContent = d;
+                    selectDay.append(dayElem);
+                  }
+                }
+              });
+                              
             
-    <!-- Change Password Popup Start -->
-    <div class="modal fade" id="addRemoveUserModal" tabindex="-1" role="dialog" aria-labelledby="addRemoveUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addRemoveUserModalLabel">Add / Remove User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <label class="mb-1">Assign To User</label>
-                        <select class="form-control mb-2">
-                            <option>User 1</option>
-                            <option>User 2</option>
-                            <option>User 3</option>
-                            <option>User 4</option>
-                            <option>User 5</option>
-                            <option>User 6</option>
-                        </select>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary border-0" style="background:#ed4724 !important;">Update</button>
-                    </form>
-                </div>
-
-
-                <div class="userListsPopup">
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-   
+            </script>
+        
+        <script>
+          $(document).ready(function() {
+          $("#btnExport").click(function(e) {
+            e.preventDefault();
+            document.getElementsByClassName("loader")[0].style.display = "block";
+            //getting data from our table
+            var data_type = 'data:application/vnd.ms-excel';
+            var table_div = document.getElementById('table_wrapper2');
+            var table_html = table_div.outerHTML.replace(/ /g, '%20');
+            var getmonn = document.getElementById('getmonn').innerHTML;
+            var a = document.createElement('a');
+            a.href = data_type + ', ' + table_html;
+            a.download = getmonn + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+            a.click();
+            document.getElementsByClassName("loader")[0].style.display = "none";
+          });
+        
+        
+        });
+        </script>
     <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-body">
                 <div class="blocks userDetails">
-                    <a href="./task.html">
+                    <a href="#">
                         <div class="userIcon">
-                            <img src="./assets/images/ic_daily_attendance.png" class="img-fluid" alt="" />
+                            <img src="/assets/images/ic_daily_attendance.png" class="img-fluid" alt="" />
                         </div>
                     </a>
                     <div class="details">
-              <h4 class="m-0">Monthly Attendance - <% var dfd = new Date(); 
-                            
-                            var  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    
-                            %>
-                          <%=months[dfd.getMonth()]; %> <%=dfd.getFullYear(); %></h4>
+              <h4 class="m-0"  id="getmonn">Monthly Attendance - <% var dfd = new Date(); var  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];%><%=months[dfd.getMonth()]; %> <%=dfd.getFullYear(); %></h4>
                         <p class="m-0">Attendance Report of Your Organization</p>
                     </div>
                     <ul class="d-flex topInputs">
-                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
+                        <a href="javascript:void(0);" onclick="spinner()"  id="btnExport" class="downloadButton"><i class="la la-download"></i> Export to xls</a>
+                    
+                        <form action="/getmonthlyattendance"  method="post" class="form-horizontal">
+                 
                         <li class="mr-1">
                             <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="la la-calendar-o"></i>
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
+                               
+                               <% var selectr= moment().format("DD-MM-YYYY");
+                               var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
+
+<select id="year" name="startyear"></select>
+<select id="month" name="startdate"></select>
+                
+              <div class="input-group-prepend">
+                <input class="input-group-text la la-search" onclick="spinner()" type="submit" id="button-addon2">
+            </div>
                             </div>
                         </li>
-                        <li>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
-                                    <i class="la la-refresh"></i>
-                                </span>
-                            </div>
-                        </li>
-                        <!-- <a href="#" data-toggle="modal" data-target="#addProjectModal" class="downloadButton btn-success text-white ml-1 mr-0">
-                            Add New Leave
-                        </a> -->
+                        
+                      </form>
+                      
                     </ul>
                 </div>
 
@@ -262,12 +158,14 @@ if(daysInMonth){
                             <tbody>
 
                                 <%  if(monthlyattendance.user.length > 0){
-   
+                                    var  startdate = new Date();
+                                    var nows  = moment(startdate).format('D');
+                                    
+                             
                     for(var i=0; i < monthlyattendance.user.length; i++) { 
                           var present =0;
                           var absent =0;
-                        
-                        var userstring = monthlyattendance.user[i].split('_'); 
+                          var userstring = monthlyattendance.user[i].split('_'); 
                                         
                            %> <% var srr=userstring[1].split(' '); 
                                 
@@ -281,11 +179,11 @@ if(daysInMonth){
                                     </th> 
                        <% if(daysInMonth){  var d = new Date();
                        var df=d.getDate();
-
+                     
 
                         for(var g=1; g <= daysInMonth; g++) {  %>
                             <td class="align-middle p_0 text-center"> <%
-                                 
+                                 var y=0;
                              if(monthlyattendance.data.length > 0){
 
                             for(var s=0; s < monthlyattendance.data.length; s++) {
@@ -293,12 +191,94 @@ if(daysInMonth){
                                 var datt=moment(monthlyattendance.data[s].punch_in).format('D');
                         
                                 if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
-                                    
+                                   var ms=''; 
                                 if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
-                    var now  = moment(monthlyattendance.data[s].punch_out).format('DD/MM/YYYY HH:mm:ss');
-                    var then = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
-                    var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
-                    present++;  }   %> <%= ms; %><%  }else { absent++; } } } %> </td> <% } } %>
+                      ms = moment.utc(monthlyattendance.data[s].duration*1000).format("HH:mm");
+                      }   if(ms!=""){  present++; y=1;%> <%= ms; %><% }  }else {  %> <%  } } } 
+                      if(y==0 && g< nows ){  absent++;%><span style="color:red;">A</span><% } %> </td> <% } } %>
+                                  
+                                    <td class="align-middle">
+                                        <div style="text-align: center;"><%= present; %></div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;"> <% var rem= df-present; %> <%=rem; %></div>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div style="text-align: center;"></div>
+                                    </td>
+                                </tr>
+                               <% } } %>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <div class="table-responsive" id="table_wrapper2" style="display:none;">
+                        <table class="mb-0 table-bordered table" style="min-width: 3000px;">
+                            <thead>
+                                <tr>
+                                    <th class="bt-0" style="padding: .5rem !important; width: 400px !important;">Employee</th>
+<% var dt = new Date();
+var month = dt.getMonth();
+var year = dt.getFullYear();
+daysInMonth = new Date(year, month, 0).getDate();
+
+if(daysInMonth){
+    for(var g=1; g <= daysInMonth; g++) {  %>
+
+
+        <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+            <div class="t_date"><%= g; %></div>
+
+        </th>
+
+<% } } %>
+
+
+                                  
+                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Present</th>
+                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Absent</th>
+                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Leave</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <%  if(monthlyattendance.user.length > 0){
+                                    var  startdate = new Date();
+                                    var nows  = moment(startdate).format('D');
+                                    
+                              
+                    for(var i=0; i < monthlyattendance.user.length; i++) { 
+                          var present =0;
+                          var absent =0;
+                          var userstring = monthlyattendance.user[i].split('_'); 
+                                        
+                           %> <% var srr=userstring[1].split(' '); 
+                                
+                            var res = srr[0].substring(0, 1); 
+                            var nres = srr[1].substring(0, 1);  %> 
+                                <tr>
+                        <th class="align-middle" style="padding: .5rem !important;">
+                     <%= userstring[1]; %></th> 
+                       <% if(daysInMonth){  var d = new Date();
+                       var df=d.getDate();
+                     
+
+                        for(var g=1; g <= daysInMonth; g++) {  %>
+                            <td class="align-middle p_0 text-center"> <%
+                                 var y=0;
+                             if(monthlyattendance.data.length > 0){
+
+                            for(var s=0; s < monthlyattendance.data.length; s++) {
+                              
+                                var datt=moment(monthlyattendance.data[s].punch_in).format('D');
+                        
+                                if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
+                                   var ms=''; 
+                                if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
+                      ms = moment.utc(monthlyattendance.data[s].duration*1000).format("HH:mm");
+                      }   if(ms!=""){  present++; y=1;%> <%= ms; %><% }  }else {  %> <%  } } } 
+                      if(y==0 && g< nows ){  absent++;%><span style="color:red;">A</span><% } %> </td> <% } } %>
                                   
                                     <td class="align-middle">
                                         <div style="text-align: center;"><%= present; %></div>

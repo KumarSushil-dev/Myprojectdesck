@@ -44,6 +44,18 @@ module.exports = {
 
           }); 
     },
+    deletemultipleentry: async(data, callBack) => {
+      pool.query('DELETE FROM `users_snapshotscaptures` where id IN(SELECT * FROM (SELECT id FROM `users_snapshotscaptures` WHERE userId=? GROUP BY `screenshot` HAVING COUNT(screenshot) > 1 ) a )', [
+        data.userId                 
+    ],(error, results, fields) => {
+ if (error) {
+  console.log(error);
+            }
+      
+         return callBack(null, results); //callback if all queries are processed
+        }
+        );
+  },
     checkiftodaydateexistuserid: async(data, callBack) => {
       const startdate = new Date();
       var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
@@ -510,7 +522,7 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
-          await pool.query('SELECT * FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY capturetime ASC LIMIT 0,12', [
+          await pool.query('SELECT * FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY capturetime DESC LIMIT 0,12', [
                 data.userid,
                 startdate,
                 string[0],
@@ -582,7 +594,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
         for (let i = 0; i < data.times.length; i++) {
           const  string = data.times[i].split('-');
 
-          await pool.query('SELECT * FROM `users_snapshotscaptures` WHERE `userId`=? AND `capturetime` > ? AND `capturetime` <= ?  AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY capturetime ASC LIMIT 0,12', [
+          await pool.query('SELECT * FROM `users_snapshotscaptures` WHERE `userId`=? AND `capturetime` > ? AND `capturetime` <= ?  AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ? ORDER BY capturetime DESC LIMIT 0,12', [
                 data.userids,
                 startdate,
                 enddate,
@@ -1817,11 +1829,11 @@ var colorsCSV = data.assignmultipleuser.join(",");
       var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
 
        
-        await Userattendancelog.update({punch_out: data.puchOutTime},{
+        await Userattendancelog.update({punch_out: data.puchOutTime,duration:data.duration},{
             where: {punch_in: { 
                 [Op.gt]: TODAY_START,
                 [Op.lte]: TODAY_END
-              },userId: data.userid},
+              },userId: data.userid,punch_out:null},
             order:[['id','DESC']],
         }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
             // handle error;
@@ -1834,7 +1846,7 @@ var colorsCSV = data.assignmultipleuser.join(",");
       var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
       var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
 
-       
+      data.status='Y';
         await Tasksactivities.update({endtime: data.endtime,status:data.status},{
             limit: 1,
             where: {starttime: { 
@@ -1911,13 +1923,26 @@ var colorsCSV = data.assignmultipleuser.join(",");
     getattendence: async(data, callBack) => {
 
         await Userattendancelog.findAll({
+          attributes: [[sequelize.fn('MIN', sequelize.col('punch_in')),'punch_in'],[sequelize.fn('MAX', sequelize.col('punch_out')),'punch_out'],[sequelize.fn('sum', sequelize.col('duration')), 'duration']],
             where: {userId: data.userid},
+            group: [sequelize.fn('DATE', sequelize.col('punch_in'))],
             order:[['id','DESC']],
         }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
             // handle error;
             return callBack(err);
           }); 
-    },dailyattendanceget: async(data, callBack) => {
+    },
+    getlastpunchin: async(data, callBack) => {
+
+      await Userattendancelog.findOne({
+          where: {userId: data.userid,punch_out:null},
+          order:[['id','DESC']],
+      }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+          // handle error;
+          return callBack(err);
+        }); 
+  }
+    ,dailyattendanceget: async(data, callBack) => {
 
       const startdate = new Date();
       var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
@@ -1939,15 +1964,61 @@ var colorsCSV = data.assignmultipleuser.join(",");
           return callBack(err);
         }); 
   },
+  dailyattendancegetupdated: async(data, callBack) => {
+
+    const startdate = new Date();
+    var TODAY_START= moment(startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss')
+    var TODAY_END= moment(startdate).endOf('day').format('YYYY-MM-DD HH:mm:ss')
+
+    await Userattendancelog.findAll({
+      attributes: [[sequelize.fn('MIN', sequelize.col('punch_in')),'punch_in'],[sequelize.fn('MAX', sequelize.col('punch_out')),'punch_out'],[sequelize.fn('sum', sequelize.col('duration')), 'duration']],
+        where: {
+            punch_in: { 
+              [Op.gt]: TODAY_START,
+              [Op.lte]: TODAY_END
+            } }, group: ['userId'], include: [{
+          model: User,
+          where: {parent_id:data.userid},
+          attributes: ['id','firstname','lastname']
+        }
+    ], order:[[{model: User},'firstname','ASC']],
+    }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+        // handle error;
+        return callBack(err);
+      }); 
+},
+getdailyattendancesearch: async(data, callBack) => {
+
+  const startdate = new Date();
+ 
+  await Userattendancelog.findAll({
+    attributes: [[sequelize.fn('MIN', sequelize.col('punch_in')),'punch_in'],[sequelize.fn('MAX', sequelize.col('punch_out')),'punch_out'],[sequelize.fn('sum', sequelize.col('duration')), 'duration']],
+      where: {
+          punch_in: { 
+            [Op.gt]: data.startdate,
+            [Op.lte]: data.enddate
+          } }, group: ['userId'], include: [{
+        model: User,
+        where: {parent_id:data.userid},
+        attributes: ['id','firstname','lastname']
+      }
+  ], order:[[{model: User},'firstname','ASC']],
+  }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+      // handle error;
+      return callBack(err);
+    }); 
+},
   monthlyattendanceget: async(data, callBack) => {
     var date = new Date();
     var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     await Userattendancelog.findAll({
+      attributes: [[sequelize.fn('MIN', sequelize.col('punch_in')),'punch_in'],[sequelize.fn('MAX', sequelize.col('punch_out')),'punch_out'],[sequelize.fn('sum', sequelize.col('duration')), 'duration'],'userId'],
       where: {punch_in: { 
         [Op.gte]: firstDay,
         [Op.lte]: lastDay
       }},
+      group: [['userId'],[sequelize.fn('DATE', sequelize.col('punch_in'))]],
         include: [{
           model: User,
           where: {parent_id:data.userid},
@@ -1958,21 +2029,46 @@ var colorsCSV = data.assignmultipleuser.join(",");
         // handle error;
         return callBack(err);
       }); 
+}, monthlyattendancegetsearch: async(data, callBack) => {
+  var date = new Date();
+  data.startdate=Number(data.startdate);
+  data.startyear=Number(data.startyear);
+  var firstDay = new Date(data.startyear, data.startdate, 1);
+  var lastDay = new Date(data.startyear, data.startdate + 1, 0);
+  await Userattendancelog.findAll({
+    attributes: [[sequelize.fn('MIN', sequelize.col('punch_in')),'punch_in'],[sequelize.fn('MAX', sequelize.col('punch_out')),'punch_out'],[sequelize.fn('sum', sequelize.col('duration')), 'duration'],'userId'],
+    where: {punch_in: { 
+      [Op.gte]: firstDay,
+      [Op.lte]: lastDay
+    }},
+    group: [['userId'],[sequelize.fn('DATE', sequelize.col('punch_in'))]],
+      include: [{
+        model: User,
+        where: {parent_id:data.userid},
+        attributes: ['id','firstname','lastname']
+      }
+  ], order:[[{model: User},'firstname','ASC']],
+  }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+      // handle error;
+      return callBack(err);
+    }); 
 },monthlyattendancegetnext: async(data, callBack) => {
   var date = new Date();
   var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
   var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   await Userattendancelog.findAll({
+    attributes: [[sequelize.fn('MIN', sequelize.col('punch_in')),'punch_in'],[sequelize.fn('MAX', sequelize.col('punch_out')),'punch_out'],[sequelize.fn('sum', sequelize.col('duration')), 'duration']],
     where: {punch_in: { 
       [Op.gte]: firstDay,
       [Op.lte]: lastDay
     }},
+    group: [sequelize.fn('DATE', sequelize.col('punch_in'))],
       include: [{
         model: User,
         where: {id:data.userid},
         attributes: ['id','firstname','lastname']
       }
-  ], order:[[{model: User},'firstname','ASC']],
+  ], order:[['id','desc']],
   }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
       // handle error;
       return callBack(err);
@@ -1983,10 +2079,34 @@ monthlyinoutget: async(data, callBack) => {
   var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
   var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   await Userattendancelog.findAll({
+    attributes: [[sequelize.fn('MIN', sequelize.col('punch_in')),'punch_in'],[sequelize.fn('MAX', sequelize.col('punch_out')),'punch_out'],[sequelize.fn('sum', sequelize.col('duration')), 'duration'],'userId'],
     where: {punch_in: { 
       [Op.gte]: firstDay,
       [Op.lte]: lastDay
-    }},
+    }},   group: [['userId'],[sequelize.fn('DATE', sequelize.col('punch_in'))]],
+      include: [{
+        model: User,
+        where: {parent_id:data.userid},
+        attributes: ['id','firstname','lastname']
+      }
+  ], order:[[{model: User},'firstname','ASC']],
+  }).then(attendancelog => callBack(null, attendancelog)).catch(function (err) {
+      // handle error;
+      return callBack(err);
+    }); 
+},
+monthlyinoutgetsearch: async(data, callBack) => {
+  data.startdate=Number(data.startdate);
+  data.startyear=Number(data.startyear);
+  var firstDay = new Date(data.startyear, data.startdate, 1);
+  var lastDay = new Date(data.startyear, data.startdate + 1, 0);
+
+  await Userattendancelog.findAll({
+    attributes: [[sequelize.fn('MIN', sequelize.col('punch_in')),'punch_in'],[sequelize.fn('MAX', sequelize.col('punch_out')),'punch_out'],[sequelize.fn('sum', sequelize.col('duration')), 'duration'],'userId'],
+    where: {punch_in: { 
+      [Op.gte]: firstDay,
+      [Op.lte]: lastDay
+    }},   group: [['userId'],[sequelize.fn('DATE', sequelize.col('punch_in'))]],
       include: [{
         model: User,
         where: {parent_id:data.userid},

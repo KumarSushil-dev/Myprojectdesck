@@ -105,6 +105,32 @@ app.get('/features', function(req, res) {
     res.render('pages/features',{page: req.url});
 });
 
+
+app.get('/aboutus', function(req, res) {
+
+    res.render('pages/aboutus',{page: req.url});
+});
+
+app.get('/faq', function(req, res) {
+
+    res.render('pages/faq',{page: req.url});
+});
+
+app.get('/reseller', function(req, res) {
+
+    res.render('pages/reseller',{page: req.url});
+});
+
+app.get('/securitycompliance', function(req, res) {
+
+    res.render('pages/securitycompliance',{page: req.url});
+});
+
+app.get('/becomeaffiliate', function(req, res) {
+
+    res.render('pages/becomeaffiliate',{page: req.url});
+});
+
 app.get('/industries', function(req, res) {
 
     res.render('pages/industries',{page: req.url});
@@ -3113,7 +3139,7 @@ app.get('/snapshotmore/:id/:duration/:startdate/:enddate', urlencodedParser, fun
                             req.flash("error", "Change password succesfully updated for user!");
                             res.locals.messages = req.flash();
                         }
-              // console.log(test);
+             console.log(test.startdates);
               res.render('admin/getsnapshot', { person: sess.companyname, user: test,roleid :sess.roleid,startdates:test.startdates,enddates:test.enddates,uid:test.ids });
 
     res.end;
@@ -3423,6 +3449,126 @@ res.render('admin/dailyattendance', { person: sess.companyname, dailyattendance:
     }
 });
 
+
+app.post('/getdailyattendance', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+   // console.log(body);
+    if (sess.companyname && sess.token!='') {
+    
+    request.post({
+        headers: {
+            'Authorization': `Bearer ${token}`
+          },
+            url: process.env.APP_URL + '/api/users/getdailyattendance',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+            req.flash("error", "dailyattendance Cannot Upgarded ,Please Try Again.");
+            res.locals.messages = req.flash();
+              
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        var sess = req.session;
+            res.render('admin/getdailyattendance', { person: sess.companyname,dailyattendance:datas,roleid :sess.roleid,startdates:startdates,enddates:enddates  });
+
+            } else if (!error && response.statusCode == 200) {
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var datas = JSON.parse(re);
+       console.log(datas.startdates);
+            var sess = req.session;
+res.render('admin/getdailyattendance', { person: sess.companyname,dailyattendance:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+    }else {
+
+        res.render('users/login');
+    }
+
+});
+
+app.post('/getmonthlyattendance', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+   // console.log(body);
+    if (sess.companyname && sess.token!='') {
+    
+    request.post({
+        headers: {
+            'Authorization': `Bearer ${token}`
+          },
+            url: process.env.APP_URL + '/api/users/getmonthlyattendance',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+            req.flash("error", "Monthlyattendance Cannot Upgarded ,Please Try Again.");
+            res.locals.messages = req.flash();
+              
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        var sess = req.session;
+            res.render('admin/getmonthlyattendance', { person: sess.companyname,monthlyattendance:datas,roleid :sess.roleid,startdates:startdates });
+
+            } else if (!error && response.statusCode == 200) {
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var datas = JSON.parse(re);
+       console.log(datas.startdates);
+            var sess = req.session;
+res.render('admin/getmonthlyattendance', { person: sess.companyname,monthlyattendance:datas,roleid :sess.roleid,startdates:datas.startdates });
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+    }else {
+
+        res.render('users/login');
+    }
+
+});
+
+
+
+
 app.get('/monthlyattendance', urlencodedParser, function(req, res) {
     sess = req.session;
     const token = sess.token;
@@ -3532,6 +3678,66 @@ res.render('admin/monthlyinout', { person: sess.companyname, monthlyattendance: 
         res.render('users/login');
     }
 });
+
+
+app.post('/getmonthlyinout', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+   // console.log(body);
+    if (sess.companyname && sess.token!='') {
+    
+    request.post({
+        headers: {
+            'Authorization': `Bearer ${token}`
+          },
+            url: process.env.APP_URL + '/api/users/getmonthlyinout',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+            req.flash("error", "Monthly In out attendance Cannot Upgarded ,Please Try Again.");
+            res.locals.messages = req.flash();
+              
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        var sess = req.session;
+            res.render('admin/getmonthlyinout', { person: sess.companyname,monthlyattendance:datas,roleid :sess.roleid,startdates:startdates });
+
+            } else if (!error && response.statusCode == 200) {
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var datas = JSON.parse(re);
+       console.log(datas.startdates);
+            var sess = req.session;
+res.render('admin/getmonthlyinout', { person: sess.companyname,monthlyattendance:datas,roleid :sess.roleid,startdates:datas.startdates });
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+    }else {
+
+        res.render('users/login');
+    }
+
+});
+
 
 
 // Add User

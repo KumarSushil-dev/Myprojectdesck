@@ -126,7 +126,7 @@ header ul li a{ display: inline-block; font-size: 17px; transition: .5s; -o-tran
 .home header ul li a{color: #000; }
 header nav ul li{ margin-left: 15px;}
 .home header ul li a:hover{ color: #000;}
-header ul li a:hover{ color: #f87456 !important;}
+header ul li a:hover{ color: #f87456;}
  header ul li a.site_btn{/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f87456+0,fab25f+100 */
     background: #f87456; /* Old browsers */
     background: -moz-linear-gradient(left,  #f87456 0%, #fab25f 100%); /* FF3.6-15 */
@@ -854,6 +854,139 @@ footer .copyright p a:hover{ color: #fff;}
         /*  */
 
 
+        /* ==========aboutPg_sec========
+================================== */
+#aboutPg_sec{ padding: 50px 0px;}
+#aboutPg_sec hgroup{ margin-bottom: 15px !important;}
+#aboutPg_sec ul li{ margin-bottom: 10px; text-align: left; padding-left: 20px; position: relative;}
+#aboutPg_sec ul li:after{ content: ''; display: block; position: absolute; left: 0px; top: 8px; height: 8px; width: 8px; background-color: #ff315f;}
+#aboutPg_sec .aboutPgImg{ width: 90%; position: relative;}
+#aboutPg_sec .aboutPgImg .about_quote{ position: absolute; bottom: -40px; right: 0px; background-color: #ff315f;  width: 260px; z-index: 999;}
+#aboutPg_sec .aboutPgImg .about_quote h6{ text-align: center; color: #fff; font-size: 18px; margin: 0px;  line-height: 28px;}
+#aboutPg_sec .aboutPgImg .about_quote .about_quoteinner{padding: 32px 15px; position: relative;}
+#aboutPg_sec .aboutPgImg .about_quoteinner .shadowDown{ position: absolute; right: 100%; bottom: -3px;    padding: 0px 25px 0px 25px;
+    background-color: transparent;
+    background-image: linear-gradient(
+220deg
+, #e7234d 48%, #FFFFFF00 26%); height: 43px;}
+
+
+
+#aboutPg_sec .aboutPgImg .about_quoteinner span{ position: absolute; left: 15px; top: -32px;}
+#aboutPg_sec .aboutPgImg .about_quoteinner span:before{ color: #fff; font-size: 50px;}
+#aboutPg_sec hgroup h2{ text-align: left;}
+#aboutPg_sec hgroup h2:after{ margin: inherit;}
+#aboutPg_sec  .dotsdv{    width: 280px;
+    height: 380px;
+    position: absolute;
+    top: -50px;
+    right: -60px;
+    z-index: 9;
+
+    background-image: url(../images/dot-pattern.png);
+    background-repeat: repeat;
+    background-position: 0 0;
+    opacity: 0.2;}
+    #aboutPg_sec .aboutPgImg img{ position: relative; z-index: 99;}
+
+
+/* =========missionVissionSec====
+==================================== */
+#missionVissionSec{ background-color: #eee; padding: 30px 0px; }
+#missionVissionSec hgroup{ margin-bottom: 15px;}
+
+#missionVissionSec .missionVisonInner{ padding-right: 35px;}
+#missionVissionSec .missionDv{ padding: 20px 0px;}
+#missionVissionSec h2{ text-align: left; margin-bottom: 0px;}
+#missionVissionSec h2:after{ margin: inherit;}
+#missionVissionSec .vissionDv .missionVisonInner{ padding-left: 35px;}
+
+/* =========faqPg========
+============================= */
+#faqPg{ padding: 50px 0px;}
+#faqPg .accordion-item{ margin-bottom: 15px; border-top: 1px solid rgba(0,0,0,.125) !important;}
+#faqPg .accordion-item ol{ margin-top: 15px;}
+#faqPg .accordion-item ol li{ margin-bottom: 8px;}
+
+
+/* ===========whyAffiliateSec=========
+======================================= */
+#whyAffiliateSec h2 { text-align: left;}
+#whyAffiliateSec{ padding: 50px 0px;}
+
+
+/* =======howToAffiliateSec======= */
+#howToAffiliateSec{ padding: 50px 0px; background-color: #0383c9;}
+#howToAffiliateSec h6{ text-align: center;}
+#howToAffiliateSec .howToAffiliateBxImg{ width: 35%; margin: auto; margin-bottom: 20px; position: relative;}
+#howToAffiliateSec .howToAffiliateBxImg img{ filter: invert(1);}
+#howToAffiliateSec h4{ color: #fff; text-align: center; font-weight: 400;}
+#howToAffiliateSec hgroup{ margin-bottom: 50px;}
+#howToAffiliateSec hgroup h6{ color: #fff;}
+#howToAffiliateSec hgroup h2{ color: #fff;}
+#howToAffiliateSec hgroup h2:after{ background: #fff !important; display: none;}
+#howToAffiliateSec .howToAffiliateBx{ position: relative;}
+#howToAffiliateSec .howToAffiliateBx .howToAffiliateBxImg:after{ content: '1'; display: block; color: #fff; opacity: .2; font-size: 90px; position: absolute; right: -40px; top: -50px;}
+#howToAffiliateSec .row .col-md-4:nth-child(2) .howToAffiliateBx .howToAffiliateBxImg:after{ content: '2';}
+#howToAffiliateSec .row .col-md-4:last-child .howToAffiliateBx .howToAffiliateBxImg:after{ content: '3';}
+
+
+#howToAffiliateSec .row .col-md-3:first-child .howToAffiliateBx .howToAffiliateBxImg:after{ content: '1';}
+#howToAffiliateSec .row .col-md-3:nth-child(2) .howToAffiliateBx .howToAffiliateBxImg:after{ content: '2';}
+#howToAffiliateSec .row .col-md-3:nth-child(3) .howToAffiliateBx .howToAffiliateBxImg:after{ content: '3';}
+#howToAffiliateSec .row .col-md-3:last-child .howToAffiliateBx .howToAffiliateBxImg:after{ content: '4';}
+
+/* ========uniquBenfitsSec=======
+====================================== */
+#uniquBenfitsSec{ padding: 50px 0px;}
+#uniquBenfitsSec h4{ font-size: 20px; font-weight: bold;}
+#uniquBenfitsSec ul li{ margin-bottom: 20px;}
+#uniquBenfitsSec ul li { text-align: justify; font-size: 16px;}
+.affiliateFaq hgroup h2, .affiliateFaq hgroup h6{ text-align: center !important;}
+.affiliateFaq hgroup h2:after{ margin: auto !important;}
+
+
+/* ==========securityPg========
+==================================== */
+#securityPg{ padding: 50px 0px;}
+#securityPg h2{ text-align: left;}
+#securityPg hgroup{ margin-bottom: 20px;}
+
+
+/* =========partneringWithSec=====
+======================================= */
+#partneringWithSec{ padding: 50px 0px;}
+#partneringWithSec hgroup h2{ text-align: left !important;}
+#partneringWithSec hgroup h2:after{ margin: inherit !important;}
+
+
+
+/* ==========contact_pg_sec============
+=========================================== */
+
+#partnerShipSec {
+    padding: 50px 0px;
+}
+#partnerShipSec hgroup h2, #partnerShipSec hgroup h6{ text-align: left;}
+#partnerShipSec hgroup h2:after{ margin: inherit;}
+
+/* =========processSec=======
+=================================== */
+
+#processSec{ background-color: #dcf3ff; padding: 50px 0px;}
+#processSec hgroup h2, #processSec hgroup h6, #processSec hgroup p{ text-align: center;}
+
+
+/* ===========affiliateFrmSec=========
+====================================== */
+#affiliateFrmSec{  background: url(../images/affiliateFrmBnr.jpg) no-repeat center bottom; background-size: cover; background-attachment: fixed;}
+#affiliateFrmSec .affiliateFrmSecInner{ padding: 50px 0px; background: -moz-linear-gradient(top, rgba(0,183,248,0.89) 0%, rgba(0,129,239,0.89) 100%);
+    background: -webkit-linear-gradient(top, rgba(0,183,248,0.89) 0%,rgba(0,129,239,0.89) 100%);
+    background: linear-gradient(to bottom, rgba(0,183,248,0.89) 0%,rgba(0,129,239,0.89) 100%);}
+
+input[type="submit"]{ border: none;}
+#affiliateFrmSec input[type="submit"]{ width: 100%;}
+#affiliateFrmSec hgroup h2, #affiliateFrmSec hgroup p{ text-align: center; color: #fff;}
 
     /* ========flaticon======
     ============================ */

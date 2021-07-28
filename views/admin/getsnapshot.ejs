@@ -274,7 +274,7 @@ if(arrt.length > 0){
 
                                                 <div class="d-flex activities">
                                                     <div class="activityTile">
-                                                        <span>Duration</span>
+                                                        <span>Productivity</span>
              <%  if(arrt[i].image[j].duration){ 
                     var dtotalproductinfos = Number(arrt[i].image[j].duration);
                     var dtotalproductinfos= Math.floor(dtotalproductinfos / 1000);
@@ -338,7 +338,7 @@ if(arrt.length > 0){
                                    var sproductivitytimeDisplaycnt = sproductivitytimecnt > 0 ? (sproductivitytimecnt > 9 ? sproductivitytimecnt : "0"+sproductivitytimecnt) + (sproductivitytimecnt == 1 ? "" : "") : "00";
                                  var cdurationtimecnt=productivitytimeDisplaycnt+':'+mproductivitytimeDisplaycnt+':'+sproductivitytimeDisplaycnt;
                                                %>
-                                   Duration : <%= cdurationtimecnt; %> mm:ss</p>
+                                   Duration : <%= cdurationtimecnt; %> hh:mm:ss</p>
                                                             
                                                            
                                                     </div>
@@ -360,7 +360,7 @@ if(arrt.length > 0){
     </div>
     <!-- SS Modal End -->
 </div></div>
- <% } } } %>
+ <% } }   %>
 
 
 
@@ -377,6 +377,7 @@ if(arrt.length > 0){
 
 <ul class="list-unstyled row"><li></li>
     </ul></div></div>
+    <% } %>
                             </div>
                         </div>
                     </div>
