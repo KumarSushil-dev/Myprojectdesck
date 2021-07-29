@@ -3354,7 +3354,7 @@ checkifdataexist(body, (err, resultschek) => {
                 });
             }
 
-            deletemultipleentry(body, (err, resultyu) => {
+          
             var obj = [];
             obj.push({ "productivityCount": productivitycnt });
             return res.status(200).json({
@@ -3364,7 +3364,7 @@ checkifdataexist(body, (err, resultschek) => {
 
             });
 
-        });
+     
         });
     });
 }else{

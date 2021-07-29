@@ -285,12 +285,7 @@ if(sess.companyname && sess.token!='') {
      function(error, response, body) {
 
     
-      if (response.statusCode == 500) {
-              var data = response.body;
-              req.flash("error", "Failed to log in user account: User account not found.");
-              res.locals.messages = req.flash();
-              res.render('users/login');
-      } else if (!error && response.statusCode == 200) {
+       if (!error && response.statusCode == 200) {
                   var data = response.body;
                   var re = JSON.stringify(data);
                   var datas = JSON.parse(re);
@@ -303,7 +298,8 @@ if(sess.companyname && sess.token!='') {
                   //do something with error
                   // res.redirect('/charge-error');
                   //or
-                  res.sendStatus(500);
+                  res.render('users/login');
+                  res.end;
                   return;
 
 
