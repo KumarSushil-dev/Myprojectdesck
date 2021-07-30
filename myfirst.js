@@ -254,7 +254,7 @@ app.post('/login', urlencodedParser, (req, res) => {
             sess.token = test.data[0].token;
             sess.companyname = test.companyname;
             sess.roleid = test.roleid;
-            if(test.roleid==3){
+            if(test.roleid==2){
                 res.redirect('/presence');
                 }else{
                 res.redirect('/userlist');  
