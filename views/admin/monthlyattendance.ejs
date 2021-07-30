@@ -222,7 +222,7 @@ if(daysInMonth){
 var month = dt.getMonth();
 var year = dt.getFullYear();
 daysInMonth = new Date(year, month, 0).getDate();
-
+daysInMonth=daysInMonth+1;
 if(daysInMonth){
     for(var g=1; g <= daysInMonth; g++) {  %>
 
