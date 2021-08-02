@@ -2330,6 +2330,75 @@ res.end;
  //  res.render('users/login');
 });
 
+
+
+// Add Plan 
+app.get('/updatepayment/:id/:names', function(req, res) {
+    
+     
+    sess = req.session;
+    const token = sess.token;
+    ids = req.params.id;
+    plan_id = req.params.names;
+
+    if(sess.companyname !="" && sess.token!='') {
+    setTimeout(function() {
+         
+    request.post({
+                 headers: {
+                 'Authorization': `Bearer ${token}`
+                 },
+                url: process.env.APP_URL + '/api/users/updatepaymente',
+                body: { "orderid": ids,"plan_id":plan_id },
+                json: true
+                },
+                function(error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Id not Found updatepayment.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/orderinvoice?userfound=2');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+               
+                
+                        sess = req.session;
+                       
+                          
+                sess = req.session;
+                   
+                res.redirect(process.env.APP_URL + '/orderinvoice?userfound=1');
+                        res.end;
+
+                       
+                    } else {
+                        req.flash("error", "Id not Found updatepayment.Try Again Later");
+            res.locals.messages = req.flash();
+            res.redirect(process.env.APP_URL + '/orderinvoice?userfound=2');
+                        res.end;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+
+
+
+
+     //  res.render('users/login');
+    });
+
 // Add Plan Post
 app.post('/staticpagesadd', urlencodedParser, (req, res) => {
 sess = req.session;
@@ -2845,7 +2914,8 @@ app.get('/getinvoice/:id', urlencodedParser, function(req, res) {
                        rzp.orders.create(options, function(err, order) {
 
                         res.render('admin/getinvoice', { person: sess.companyname, getinvoicedata: test,roleid :sess.roleid,order:order });  
-                        console.log(order);
+                       // console.log(order);
+                      //  console.log(test);
                       });
               
 

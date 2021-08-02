@@ -831,7 +831,10 @@ getsubscription: (req, res) => {
 // Get Selected User Detail
 updatepayment: (req, res) => {
     const body = req.body;
-
+  body.userid=req.decoded.result[0].id;
+  body.payment_id=randomstring.generate(7);
+  body.signature_razorpay=randomstring.generate();
+  body.order_id=body.orderid;
     updatepaymentid(body, (err, results) => {
         if (err) {
           return res.status(500).json({
@@ -2718,7 +2721,7 @@ checksubscription(body, (err, resultschecksubscriptions) => {
    // const intimee=test.punch_in;
     const intimee=moment(test.punch_in).format('YYYY-MM-DD HH:mm:ss');
     var obj = [];
-    obj.push({ "intime": intimee, "ScreenShortInterval": testgetscrren.screenshot_freq,"punchOutTimeMin": testgetscrren.idle_threshold_punchout,"is_auto_punchout":testgetscrren.is_auto_punchout});
+    obj.push({ "intime": intimee, "ScreenShortInterval": testgetscrren.screenshot_freq,"punchOutTimeMin": testgetscrren.idle_threshold,"logOutTimeMin": testgetscrren.idle_threshold_punchout,"is_auto_punchout":testgetscrren.is_auto_punchout});
             return res.status(200).json({
                 success:true,
                 data: obj

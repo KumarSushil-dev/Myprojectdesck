@@ -236,24 +236,24 @@ for (var i=first;i<=last; i++) {
 
 
 
-
+if(alldate.length > 0){
 var Data = alldate.filter(function (el) {
     return el != null;
   });
-
+}
 %>
 
 <% var dt = new Date();
 var month = dt.getMonth();
 var year = dt.getFullYear();
 daysInMonth = new Date(year, month, 0).getDate();
-
+var presents=[];
 if(companytask.monthlyu.length > 0){
 
 
 if(daysInMonth){
 
-    var presents=[];
+
 
     for(var g=1; g <= daysInMonth; g++) { 
         var present =0;
@@ -283,10 +283,15 @@ if(daysInMonth){
 
 
 
-     } }  } 
+     } 
+    } 
+     } 
+     console.log(presents.length);
+     if(presents.length > 0){
      var filtered = presents.filter(function (el) {
         return el != null;
       });
+    }
     %>
 
 
@@ -369,7 +374,8 @@ if(daysInMonth){
                              } } } %>
                             <span><%= sus; %></span> Absent </h4>
                             <div class="d-flex flex-wrap">
-                                <%  if(companytask.getuse.length > 0){
+                                <% 
+                            if(companytask.getuse.length > 0){
 
                                     
                                    
@@ -381,7 +387,8 @@ if(daysInMonth){
                                             <span class="firstName bg-danger">
                                              <% var srr=companytask.getuse[i].firstname; 
                                                 var snerr=companytask.getuse[i].lastname; 
-                                                var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> <%=res %> <%=nres %></span>
+                                                if(srr){
+                                                var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> <%=res %> <%=nres %> <% } %> </span>
                                             <p><%= companytask.getuse[i].firstname; %> <%= companytask.getuse[i].lastname; %></p>
                                         </div>
                                     </div>

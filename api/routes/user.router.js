@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/countrylist', countrylist);
 router.post("/getstate",  getselectedstate);
 router.post("/checkemailexist",  checkemailexist);
-router.post("/updatepayment",  updatepayment);
+router.post("/updatepaymente", checkToken, updatepayment);
 router.post("/getSearch",  getSearch);
 router.post("/getDetail",  getDetail);
 router.post("/getsubscription",  getsubscription);

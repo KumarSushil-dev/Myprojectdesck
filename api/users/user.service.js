@@ -885,7 +885,7 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               where: {userId:createduser.parent_id,projects_id: {
                 [Op.ne]: 0
               }},
-              attributes: ['id','name','startdate'],
+              attributes: ['id','name','startdate','priority'],
           
             include: [{
               model: User,
@@ -1493,18 +1493,18 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
    
         
                 await Subscriptions.update({payment_id: data.payment_id,signature_razorpay:data.signature_razorpay,status:'Y'},{
-                    where: {id: data.id,order_id: data.order_id}
+                    where: {userId: data.userid,order_id: data.order_id}
                 }).then(function(){
                     User.update({plan_id: data.plan_id},{
-                        where: {id: data.user_id}
+                        where: {id: data.userid}
                     }).then(function(){
                         Subscriptions.findOne({
-                            where: {id: data.id},
+                            where: {userId: data.userid,order_id: data.order_id},
                             order:[['id','DESC']],
                                 include: [{
                                   model: User,
                                   attributes: ['companyname','email'],
-                                  where: {role_id:2,id:data.user_id,status:'Y'}
+                                  where: {role_id:2,id:data.userid,status:'Y'}
                                 }, {
                                     model: Plan,
                                     attributes: ['id','name','price']
@@ -2181,7 +2181,13 @@ monthlyinoutgetsearch: async(data, callBack) => {
             include: [{
                 model: User,
                 attributes: ['companyname','email','address','zipcode','mobile']
-              }],
+              },
+              {
+                model: Plan,
+                attributes: ['name','price']
+              }
+              
+            ],
 
         }).then(getcountrylist => callBack(null, getcountrylist)).catch(function (err) {
             // handle error;
