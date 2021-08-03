@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require('express');
 const request = require('request');
 var Firebase = require('firebase');
+const https = require('https')
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -22,6 +23,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use('/assets', express.static('assets'));
+app.use(express.static(__dirname + '/static', { dotfiles: 'allow' }))
 app.use('/theme-assets', express.static('theme-assets'));
 app.use('/jquery', express.static('node_modules/jquery/dist/'));
 app.use('/uploads', express.static('uploads'));
@@ -4070,6 +4072,19 @@ if(sess.companyname && sess.token!='') {
     });
 
 
-app.listen(process.env.APP_PORT || 4000, function() {
-    console.log('now listen for new request', process.env.APP_PORT);
-});
+
+https
+  .createServer(
+    {
+      key: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/cert.pem'),
+      ca: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/fullchain.pem'),
+    },
+    app
+  )
+  .listen(443, () => {
+    console.log('Listening...')
+  })
+
+
+
