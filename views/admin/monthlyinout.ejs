@@ -112,11 +112,16 @@
                                <% var selectr= moment().format("DD-MM-YYYY");
                                var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
 
-<select id="year" name="startyear"></select>
-<select id="month" name="startdate"></select>
+<select id="year" name="startyear"  class="form-control"></select>
+<select id="month" name="startdate"  class="form-control"></select>
                 
               <div class="input-group-prepend">
-                <input class="input-group-text la la-search" onclick="spinner()" type="submit" id="button-addon2">
+                <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
+                color: #fff;" >
+                    <i style="font-size: 1.2rem;margin-top: 5px;
+                    font-weight: bolder;
+                    margin-top: 5px;" class="la la-search fa-lg"></i> 
+                </button>
             </div>
                             </div>
                         </li>
@@ -137,7 +142,7 @@
                                     var month = dt.getMonth();
                                     var year = dt.getFullYear();
                                     daysInMonth = new Date(year, month, 0).getDate();
-                                    daysInMonth=daysInMonth+1;
+                                   
                                     if(daysInMonth){
                                         for(var g=1; g <= daysInMonth; g++) {  %>
 
@@ -150,9 +155,8 @@
                                         </div>
                                     </th>
                                   <% } } %>
-                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Present</th>
-                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Absent</th>
-                                    <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Leave</th>
+                            <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Present</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -214,14 +218,9 @@
                                      </td> <% } } %>
                                                    
                                                      <td class="align-middle">
-                                                         <div style="text-align: center;"><%= present; %></div>
+                                         <div style="text-align: center;"><%= present; %></div>
                                                      </td>
-                                                     <td class="align-middle">
-                                                         <div style="text-align: center;"> <% var rem= df-present; %> <%=rem; %></div>
-                                                     </td>
-                                                     <td class="align-middle">
-                                                         <div style="text-align: center;"></div>
-                                                     </td>
+                                                     
                                                  </tr>
                                                 <% } } %>
 
@@ -244,7 +243,7 @@
                                     var month = dt.getMonth();
                                     var year = dt.getFullYear();
                                     daysInMonth = new Date(year, month, 0).getDate();
-                                    daysInMonth=daysInMonth+1;
+                            
                                     if(daysInMonth){
                                         for(var g=1; g <= daysInMonth; g++) {  %>
 
@@ -254,8 +253,7 @@
                                     </th>
                                   <% } } %>
                                     <th  >Total Present</th>
-                                    <th  >Total Absent</th>
-                                    <th  >Total Leave</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -302,18 +300,14 @@
                                      
                              <%= moment(monthlyattendance.data[s].punch_in).format('HH:mm A') %> / <%  if(monthlyattendance.data[s].punch_out !== null){ %> <%=  moment(monthlyattendance.data[s].punch_out).format('HH:mm A') %>  <% } %>
                                      
-                                    <%  }else { absent++; } } } %>
+                                    <%  }else {  } } } 
+                                if(y==0){ absent++; %>A<% } %>
                                      </td> <% } } %>
                                                    
                                                      <td >
                                                         <%= present; %>
                                                      </td>
-                                                     <td >
-                                                        <% var rem= df-present; %> <%=rem; %>
-                                                     </td>
-                                                     <td >
-                                                         
-                                                     </td>
+                                                    
                                                  </tr>
                                                 <% } } %>
 

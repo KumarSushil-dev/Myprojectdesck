@@ -114,11 +114,16 @@
                                var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss"); 
                                %>
 
-<select id="year" name="startyear"></select>
-<select id="month" name="startdate"></select>
+<select id="year" name="startyear" class="form-control"></select>
+<select id="month" name="startdate" class="form-control" ></select>
                 
               <div class="input-group-prepend">
-                <input class="input-group-text la la-search" onclick="spinner()" type="submit" id="button-addon2">
+                <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
+                color: #fff;" >
+                    <i style="font-size: 1.2rem;margin-top: 5px;
+                    font-weight: bolder;
+                    margin-top: 5px;" class="la la-search fa-lg"></i> 
+                </button>
             </div>
                             </div>
                         </li>
@@ -134,17 +139,17 @@
                         <table class="mb-0 table-bordered table"  style="min-width: 3000px;">
                             <thead>
                                 <tr>
-                                    <th class="bt-0" style="padding: .5rem !important; width: 400px !important;">Employee</th>
+                                    <th class="bt-0" style="padding: .5rem !important; width: 200px !important;">Employee</th>
 <% var dt = new Date();
 var month = dt.getMonth();
 var year = dt.getFullYear();
 daysInMonth = new Date(year, month, 0).getDate();
-daysInMonth=daysInMonth+1;
+
 if(daysInMonth){
     for(var g=1; g <= daysInMonth; g++) {  %>
 
 
-        <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+        <th class="bt-0 p_0" style="width:60px !important; text-align:center;">
             <div class="t_date"><%= g; %></div>
 
         </th>
@@ -182,7 +187,7 @@ if(daysInMonth){
                                     </th> 
                        <% if(daysInMonth){  var d = new Date();
                        var df=d.getDate();
-                     
+                       var getmonth=d.getMonth();
 
                         for(var g=1; g <= daysInMonth; g++) {  %>
                             <td class="align-middle p_0 text-center"> <%
@@ -195,16 +200,27 @@ if(daysInMonth){
                         
                                 if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
                                    var ms=''; 
-                                if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
-                      ms = moment.utc(monthlyattendance.data[s].duration*1000).format("HH:mm");
-                      }   if(ms!=""){  present++; y=1;%> <%= ms; %><% }  }else {  %> <%  } } } 
-                      if(y==0 && g< nows ){  absent++;%><span style="color:red;">A</span><% } %> </td> <% } } %>
+if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
+    ms = moment.utc(monthlyattendance.data[s].duration*1000).format("HH:mm");
+        }
+if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out== null && g== nows){
+
+    var startdater = new Date();
+    var now  = moment(startdater).format('DD/MM/YYYY HH:mm:ss');
+    var then = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
+    ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
+
+
+             }
+                                      
+                if(ms!=""){  present++; y=1;%> <%= ms; %><% }  }else {  %> <%  } } } 
+                      if(y==0){  absent++;%><span style="color:red;">A</span><% } %>  </td> <% } } %>
                                   
                                     <td class="align-middle">
                                         <div style="text-align: center;"><%= present; %></div>
                                     </td>
                                     <td class="align-middle">
-                                        <div style="text-align: center;"> <% var rem= df-present; %> <%=rem; %></div>
+                                        <div style="text-align: center;"> <% var rem= absent; %> <%=rem; %></div>
                                     </td>
                                     <td class="align-middle">
                                         <div style="text-align: center;"></div>
@@ -220,17 +236,17 @@ if(daysInMonth){
                         <table class="mb-0 table-bordered table" style="min-width: 3000px;">
                             <thead>
                                 <tr>
-                                    <th class="bt-0" style="padding: .5rem !important; width: 400px !important;">Employee</th>
+                                    <th class="bt-0" style="padding: .5rem !important; width: 200px !important;">Employee</th>
 <% var dt = new Date();
 var month = dt.getMonth();
 var year = dt.getFullYear();
 daysInMonth = new Date(year, month, 0).getDate();
-daysInMonth=daysInMonth+1;
+
 if(daysInMonth){
     for(var g=1; g <= daysInMonth; g++) {  %>
 
 
-        <th class="bt-0 p_0" style="width:300px !important; text-align:center;">
+        <th class="bt-0 p_0" style="width:60px !important; text-align:center;">
             <div class="t_date"><%= g; %></div>
 
         </th>
@@ -280,14 +296,24 @@ if(daysInMonth){
                                    var ms=''; 
                                 if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
                       ms = moment.utc(monthlyattendance.data[s].duration*1000).format("HH:mm");
-                      }   if(ms!=""){  present++; y=1;%> <%= ms; %><% }  }else {  %> <%  } } } 
-                      if(y==0 && g< nows ){  absent++;%><span style="color:red;">A</span><% } %> </td> <% } } %>
+                      } 
+                      
+                      if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out== null && g== nows){
+
+                        var startdater = new Date();
+                        var now  = moment(startdater).format('DD/MM/YYYY HH:mm:ss');
+                        var then = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
+                        ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
+                    
+                    
+                                 }  if(ms!=""){  present++; y=1;%> <%= ms; %><% }  }else {  %> <%  } } } 
+                      if(y==0 ){  absent++;%><span style="color:red;">A</span><% } %> </td> <% } } %>
                                   
                                     <td class="align-middle">
                                         <div style="text-align: center;"><%= present; %></div>
                                     </td>
                                     <td class="align-middle">
-                                        <div style="text-align: center;"> <% var rem= df-present; %> <%=rem; %></div>
+            <div style="text-align: center;"><% var rem= absent; %> <%= rem; %></div>
                                     </td>
                                     <td class="align-middle">
                                         <div style="text-align: center;"></div>

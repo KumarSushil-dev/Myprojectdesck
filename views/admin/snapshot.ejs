@@ -259,8 +259,15 @@
                                    var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
                      <input type="text"  required class="form-control date" placeholder="<%= selectr %> - <%= selectr %>" aria-label="Username" id="allselecteddate" aria-describedby="basic-addon1">
                    <input type="hidden" id="search_checkin" value="<%= selectrmon %>" name="startdate" class="form-control" placeholder="Use this hidden">
-                   <input type="hidden" id="search_checkout" value="<%= selectrmon %>" name="enddate" class="form-control" placeholder="Use this hidden"> <div class="input-group-prepend">
-                    <input class="input-group-text la la-search" onclick="spinner()" type="submit" id="button-addon2">
+                   <input type="hidden" id="search_checkout" value="<%= selectrmon %>" name="enddate" class="form-control" placeholder="Use this hidden">
+                   
+                   <div class="input-group-prepend">
+                   <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
+                color: #fff;" >
+                    <i style="font-size: 1.2rem;margin-top: 5px;
+                    font-weight: bolder;
+                    margin-top: 5px;" class="la la-search fa-lg"></i> 
+                </button>
                 </div>
                                 </div>
                             </li>

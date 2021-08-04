@@ -286,8 +286,16 @@
                                 var selectrs2= moment(enddates).format("YYYY-MM-DD HH:mm:ss"); %>
                  <input type="text"  required class="form-control date" placeholder="<%= selectr %> - <%= selectr %>" value="<%= selectr; %> - <%= selectrs; %>"  aria-label="Username" id="allselecteddate" aria-describedby="basic-addon1">
                <input type="hidden" id="search_checkin" value="<%= selectr2 %>" name="startdate" class="form-control" placeholder="Use this hidden">
-               <input type="hidden" id="search_checkout" value="<%= selectrs2 %>" name="enddate" class="form-control" placeholder="Use this hidden"> <div class="input-group-prepend">
-                <input class="input-group-text la la-search" onclick="spinner()" type="submit" id="button-addon2">
+               <input type="hidden" id="search_checkout" value="<%= selectrs2 %>" name="enddate" class="form-control" placeholder="Use this hidden">
+               
+                <div class="input-group-prepend">
+
+               <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
+                color: #fff;" >
+                    <i style="font-size: 1.2rem;margin-top: 5px;
+                    font-weight: bolder;
+                    margin-top: 5px;" class="la la-search fa-lg"></i> 
+                </button>
             </div>
                             </div>
                         </li>
@@ -338,7 +346,7 @@ for(var i=0; i < dailyattendance.data.length; i++) {
 <%= duration; %> <% } %></td>  
 </tr>
 <% } }else{ %>
-<tr><td colspan="4" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
+<tr><td colspan="5" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
 
 <% } %>
 </tbody>

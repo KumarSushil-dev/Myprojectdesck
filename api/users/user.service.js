@@ -396,6 +396,130 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
     }
        
     },
+
+    gettimelinesearch: async(data, callBack) => {
+      
+      let startdate = data.startdate;
+      let pending = data.times.length*data.user.length;
+      let promisestotal = [];
+      let productivetotal =0;
+      let idletotal =0;
+    for (let k=0;k<data.user.length; k++) {
+    let promises = [];
+    for (let i = 0; i < data.times.length; i++) {
+      const string = data.times[i].split('-');
+      const userstring = data.user[k].split('_');
+    
+   await pool.query('SELECT SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage FROM `users_snapshotscaptures` WHERE `userId`=? AND DATE(`capturetime`)=? AND cast(`capturetime` as time) >= ? AND cast(`capturetime` as time) <= ?', [
+            userstring[0],
+                startdate,
+                string[0],
+                string[1]
+            ],(error, results, fields) => {
+         if (error) {
+          console.log("test");
+                    }
+
+                   
+                  
+                 if (results.length == 0) {
+                 
+                  //console.log(userstring[1]);
+                 
+                    } else {
+                      var obj = [];
+                        if(results[0].productivitytime!== null){
+
+                        results[0].productivitytime=Number(results[0].productivitytime);
+                      results[0].productivitytime=Math.floor(results[0].productivitytime / 1000);
+                      results[0].idletime=Math.floor(results[0].idletime / 1000);
+                        productivetotal+=results[0].productivitytime;
+                        idletotal+=results[0].idletime;
+if(results[0].idletime){
+                        didletime = Number(results[0].idletime);
+                        var hidletime = Math.floor(didletime / 3600);
+                        var midletime = Math.floor(didletime % 3600 / 60);
+                        var sidletime = Math.floor(didletime % 3600 % 60);
+                        var idletimeDisplay = hidletime > 0 ? (hidletime > 9 ? hidletime : "0"+hidletime) + (hidletime == 1 ? "" : "") : "00";
+                        var midletimeDisplay = midletime > 0 ? (midletime > 9 ? midletime : "0"+midletime) + (midletime == 1 ? "" : "") : "00";
+                        var sidletimeDisplay = sidletime > 0 ? (sidletime > 9 ? sidletime : "0"+sidletime) + (sidletime == 1 ? "" : "") : "00";
+                      
+
+   var idletime=idletimeDisplay+':'+midletimeDisplay+':'+sidletimeDisplay;
+
+
+}else{
+    var idletime ="00:00";
+   
+}
+
+if(results[0].productivitytime){
+
+    var today = new Date();
+   var getHours=today.getHours()% 12;
+   getHours=(getHours > 9 ? getHours : "0"+getHours);
+   var getstrhr = string[0].split(':');
+   var getstrhrs = string[1].split(':');
+
+if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
+ 
+   var getMinutes=today.getMinutes();
+   getMinutes=(getMinutes > 9 ? getMinutes : "0"+getMinutes);
+   var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
+   var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
+   var percentage=(Number(mstotalworkingDisplay)*100)/getMinutes;
+    }else{
+  var mstotalworking = Math.floor(results[0].productivitytime % 3600 / 60);
+   var mstotalworkingDisplay = mstotalworking > 0 ? (mstotalworking > 9 ? mstotalworking : "0"+mstotalworking) + (mstotalworking == 1 ? "" : "") : "00";
+    var percentage=(Number(mstotalworkingDisplay)*100)/60;
+    }
+
+    percentage=Math.round(percentage);
+    if(percentage >100){
+      percentage="100";
+      }
+      if(percentage=="NaN"){
+        percentage="0";
+      }
+    dproductivitytime = Number(results[0].productivitytime);
+    var hproductivitytime = Math.floor(dproductivitytime / 3600);
+    var mproductivitytime = Math.floor(dproductivitytime % 3600 / 60);
+    var sproductivitytime = Math.floor(dproductivitytime % 3600 % 60);
+    var productivitytimeDisplay = hproductivitytime > 0 ? (hproductivitytime > 9 ? hproductivitytime : "0"+hproductivitytime) + (hproductivitytime == 1 ? "" : "") : "00";
+    var mproductivitytimeDisplay = mproductivitytime > 0 ? (mproductivitytime > 9 ? mproductivitytime : "0"+mproductivitytime) + (mproductivitytime == 1 ? "" : "") : "00";
+    var sproductivitytimeDisplay = sproductivitytime > 0 ? (sproductivitytime > 9 ? sproductivitytime : "0"+sproductivitytime) + (sproductivitytime == 1 ? "" : "") : "00";
+  var productivitytime=productivitytimeDisplay+':'+mproductivitytimeDisplay+':'+sproductivitytimeDisplay;
+
+
+}else{
+    var productivitytime ="00:00";
+    var percentage="0";
+    
+}
+
+
+     obj.push({ "userid":userstring[0],"username":userstring[1],"starttime": string[0],"endtime":string[1],"idletime":results[0].idletime,"productivitytime":results[0].productivitytime,"productivitypercentage":percentage });
+                        
+         promises.push(obj);
+         promisestotal.push(obj);
+                        }else{
+                         // obj.push({ "username":userstring[1],"starttime": string[0],"endtime":string[1],"idletime":"","productivitytime":"","productivitypercentage":"0 %" });
+                         // promises.push(obj);
+
+                        }
+                    }
+
+                    if (0 === --pending) {
+                       
+                       return callBack(null, promisestotal,productivetotal,idletotal); //callback if all queries are processed
+                    }
+
+                });
+        }
+
+    }
+       
+    },
    
 
     getproductivityinfomonth: async(data, callBack) => {
@@ -491,6 +615,29 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
                   }
                   );
       },
+      getproductivityinfowebsearch: (data, callBack) => {
+      
+      
+          var dt = new Date(data.startdate);
+        let fromDateMonth=dt.getMonth()+1;
+        //console.log(fromDateMonth);
+        let fromDateyear=dt.getFullYear();
+
+           pool.query('SELECT id,capturetime,SUM(totalIdleMinutes) as idletime,SUM(productivitytime) as productivitytime,SUM(productivityCount) as productivitypercentage,SUM(totalKeypressCount) as totalKeypressCount,SUM(totalMouseMovement) as totalMouseMovement,SUM(totalClicks) as totalClicks FROM `users_snapshotscaptures` WHERE `userId`=? AND `capturetime` > ? AND `capturetime` <= ? AND MONTH(`capturetime`)=? AND YEAR(`capturetime`)=? GROUP BY DATE(`capturetime`) ORDER BY DATE(`capturetime`) DESC', [
+                  data.userid,
+                  data.startdate,
+                  data.enddate,
+                  fromDateMonth,
+                  fromDateyear                
+              ],(error, results, fields) => {
+           if (error) {
+            console.log(error);
+                      }
+                
+                   return callBack(null, results); //callback if all queries are processed
+                  }
+                  );
+      },
       getproductivityinfototalweb: (data, callBack) => {
       
         let startdate = new Date().toLocaleString('en-US', {
@@ -501,6 +648,27 @@ if(getHours == getstrhr[0] && getHours < getstrhrs[0]){
 
            pool.query('SELECT SUM(totalIdleMinutes) as idletimeyear,SUM(productivitytime) as productivitytimeyear,SUM(productivityCount) as productivitypercentageyear FROM `users_snapshotscaptures` WHERE `userId`=? AND YEAR(`capturetime`)=? GROUP BY YEAR(`capturetime`)', [
                   data.userid,
+                  fromDateyear                  
+              ],(error, results, fields) => {
+           if (error) {
+            console.log(error);
+                      }
+                
+                   return callBack(null, results); //callback if all queries are processed
+                  }
+                  );
+      },
+
+      getproductivityinfototalwebsearch: (data, callBack) => {
+      
+      
+          var dt = new Date(data.startdate);
+        let fromDateyear=dt.getFullYear();
+
+           pool.query('SELECT SUM(totalIdleMinutes) as idletimeyear,SUM(productivitytime) as productivitytimeyear,SUM(productivityCount) as productivitypercentageyear FROM `users_snapshotscaptures` WHERE `userId`=? AND `capturetime` > ? AND `capturetime` <= ?  AND YEAR(`capturetime`)=? GROUP BY YEAR(`capturetime`)', [
+                  data.userid,
+                  data.startdate,
+                  data.enddate,
                   fromDateyear                  
               ],(error, results, fields) => {
            if (error) {
@@ -1101,6 +1269,32 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               return callBack(err);
             }); 
       },
+
+      activeactivitygetwebsearch: async(data, callBack) => {
+     
+          
+          await Tasksactivities.findAll({
+              where: {starttime: { 
+                [Op.gt]: data.startdate,
+                [Op.lte]: data.enddate
+              },userId:data.userid},
+              attributes: ['starttime','endtime'],
+              include: [ {
+                      model: Task,
+                      attributes: ['name','projects_id'],
+                      include: [ {
+                        model: Projects,
+                        attributes: ['name']
+                    },
+                ]
+                  },
+              ],
+               order:[['id','DESC']],
+              }).then(getsubscriptions => callBack(null, getsubscriptions)).catch(function (err) {
+                // handle error;
+                return callBack(err);
+              }); 
+        },
       getapplist: async(data, callBack) => {
       
         const startdate = new Date();
@@ -1334,6 +1528,27 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
               return callBack(err);
             }); 
       },
+
+      getappssearch: async(data, callBack) => {
+      
+      
+        // NOW=NOW.setHours(05, 0, 0, 0);
+ 
+         await Userapplist.findAll({
+             where: {capturetime: { 
+              [Op.gt]: data.startdate,
+              [Op.lte]: data.enddate
+            },userId:data.userids},
+             attributes: ['id','applist','windowclass','capturetime',[sequelize.fn('sum', sequelize.col('count')), 'count']],
+             group: ['windowclass'],
+             
+             order: [['id', 'desc'],[sequelize.literal('count'), 'DESC']
+             ]
+             }).then(getuserapplist => callBack(null, getuserapplist)).catch(function (err) {
+               // handle error;
+               return callBack(err);
+             }); 
+       },
     useredit: async(data, callBack) => {
      
         await User.update({firstname: data.firstname,mobile: data.mobile,companyname: data.companyname,country_id: data.country_id,state_id: data.state_id,city: data.city,address: data.address,address: data.address,zipcode:data.zipcode},{

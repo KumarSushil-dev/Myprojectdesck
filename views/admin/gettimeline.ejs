@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-                        <script>
+      <script>
     
     $(function () {
     var currentDate = moment().format("DD-MM-YYYY");
@@ -72,12 +72,14 @@
                             <li class="mr-1">
                                 <div class="input-group">
                                    
-                                   <% var selectr= moment().format("DD-MM-YYYY");
-                                   var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
-                     <input type="text"  required class="form-control date" placeholder="<%= selectr %> - <%= selectr %>" aria-label="Username" id="allselecteddate" aria-describedby="basic-addon1">
-                   <input type="hidden" id="search_checkin" value="<%= selectrmon %>" name="startdate" class="form-control" placeholder="Use this hidden">
-                   <input type="hidden" id="search_checkout" value="<%= selectrmon %>" name="enddate" class="form-control" placeholder="Use this hidden">
-                   
+                                    <% var selectr= moment(startdates).format("DD-MM-YYYY");
+                                    var selectrs= moment(enddates).format("DD-MM-YYYY");
+                                    
+                                    var selectr2= moment(startdates).format("YYYY-MM-DD HH:mm:ss");
+                                    var selectrs2= moment(enddates).format("YYYY-MM-DD HH:mm:ss"); %>
+                     <input type="text"  required class="form-control date" placeholder="<%= selectr %> - <%= selectr %>" value="<%= selectr; %> - <%= selectrs; %>"  aria-label="Username" id="allselecteddate" aria-describedby="basic-addon1">
+                   <input type="hidden" id="search_checkin" value="<%= selectr2 %>" name="startdate" class="form-control" placeholder="Use this hidden">
+                   <input type="hidden" id="search_checkout" value="<%= selectrs2 %>" name="enddate" class="form-control" placeholder="Use this hidden">
                    <div class="input-group-prepend">
                    <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
                 color: #fff;" >

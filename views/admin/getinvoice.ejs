@@ -19,9 +19,9 @@
  
 
 
- <form method="post" action="https://www.doomshell.com/process-order" name="paytm">
-  <table border="1">
- <tbody>
+<form method="post" action="https://www.doomshell.com/process-order" name="paytm">
+<table border="1">
+<tbody>
 <input type="hidden" name="amount" value="<%= getinvoicedata.data[0].payment_detail; %>">
 <input type="hidden" name="orderId" value="<%= getinvoicedata.data[0].order_id; %>">
 <input type="hidden" name="redirect_url" value="<%= process.env.APP_URL %>/updatepayment/<%= getinvoicedata.data[0].order_id; %>/<%= getinvoicedata.data[0].plan_id;  %>">

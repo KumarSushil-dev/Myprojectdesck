@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,getdailyattendancesearch,dailyattendancegetupdated,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall,getproductivitysid,gettodayproductivitytrysearch,gettodayproductivitytrytotalsearch,getsnapshotsinfosearch,getsnapshotmoredetail,deletemultipleentry,getlastpunchin,monthlyattendancegetsearch,monthlyinoutgetsearch } = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,getdailyattendancesearch,dailyattendancegetupdated,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall,getproductivitysid,gettodayproductivitytrysearch,gettodayproductivitytrytotalsearch,getsnapshotsinfosearch,getsnapshotmoredetail,deletemultipleentry,getlastpunchin,monthlyattendancegetsearch,monthlyinoutgetsearch,gettimelinesearch ,getappssearch,getproductivityinfowebsearch,activeactivitygetwebsearch,getproductivityinfototalwebsearch} = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -519,6 +519,113 @@ viewdetail:(req, res) => {
             appslist:resultapps,
             productivityinfoweb:resultsweb,
             totalwebresult:resultstotalweb,
+            totalwebresultwebmonth:resultstotalwebmonth,
+            activeactivitygetresult:resultsactiveactivityget,
+            timesarr:new_arr
+
+            });
+
+        }
+    });
+    });
+    });
+    });
+    });
+    });
+    });
+  
+});
+
+},
+
+
+// Get Selected User Detail
+getviewdetail:(req, res) => {
+    const body = req.body;
+    body.userid=body.id
+    body.userids=body.id;
+    
+    var ids=body.id;
+    body.startdate=moment(body.startdate).startOf('day').format('YYYY-MM-DD HH:mm:ss');  
+         body.enddate=moment(body.enddate).endOf('day').format('YYYY-MM-DD HH:mm:ss');    
+                                    
+            var startdates=body.startdate;
+           var enddates=body.enddate;
+    
+    viewdetailid(body, (err, results) => {
+        if (err) {
+          return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Connection Error."
+            });
+        }
+                  getattendence(body, (err, resultlogs) => {
+                    getappssearch(body, (err, resultapps) => {
+                         //   console.log(resultapps);
+                        var twoHoursBefore = new Date();
+                        twoHoursBefore.setHours(twoHoursBefore.getHours() - 2);
+                     
+                        var endHoursBefore = new Date();
+                        endHoursBefore.setHours(endHoursBefore.getHours() + 1)
+                        let x = 60; //minutes interval
+                        let times = []; // time array
+                        let tt=(twoHoursBefore.getHours())*60; // start time
+                     let endt=endHoursBefore.getHours();
+                 
+                        //loop to increment the time and push results in array
+                        for (let i=0;tt<endt*60; i++) {
+                            let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+                            let sh=hh+1;
+                            let mm = (tt%60); // getting minutes of the hour in 0-55 format
+                          times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
+                          tt = tt + x;
+                        }
+                     // console.log(times);
+
+                        var new_arr = times.reverse();
+
+
+                        body.times=new_arr;
+                       
+                   
+                        getsnapshotsinfosearch(body, (err, productivityresults) => {
+             //   console.log(productivityresults);
+             getproductivityinfowebsearch(body, (err, resultsweb) => {
+    
+                getproductivityinfototalwebsearch(body, (err, resultstotalweb) => {
+        getproductivityinfomonth(body, (err, resultstotalwebmonth) => {
+            activeactivitygetwebsearch(body, (err, resultsactiveactivityget) => {
+ if (results) {
+        return res.status(200).json({
+            success:true,
+            data: results,
+            logss:resultlogs,
+            ids:ids,
+            snapshotdata: productivityresults,
+            appslist:resultapps,
+            productivityinfoweb:resultsweb,
+            totalwebresult:resultstotalweb,
+            startdates:startdates,
+            enddates:enddates,
+            totalwebresultwebmonth:resultstotalwebmonth,
+            activeactivitygetresult:resultsactiveactivityget,
+            timesarr:new_arr
+          });
+
+        }else{
+
+            return res.status(200).json({
+            success: false,
+            data: [],
+            ids:ids,
+            logss:resultlogs,
+            snapshotdata: productivityresults,
+            appslist:resultapps,
+            productivityinfoweb:resultsweb,
+            totalwebresult:resultstotalweb,
+            startdates:startdates,
+            enddates:enddates,
             totalwebresultwebmonth:resultstotalwebmonth,
             activeactivitygetresult:resultsactiveactivityget,
             timesarr:new_arr
@@ -2265,6 +2372,85 @@ var str=utest[0].format;
 
     },
 
+    gettimelineport: (req, res) => {
+  
+        const body = req.body;
+        body.userid=req.decoded.result[0].id;
+        body.startdate=moment(body.startdate).startOf('day').format('YYYY-MM-DD');  
+        body.enddate=moment(body.enddate).endOf('day').format('YYYY-MM-DD');    
+        
+       var startdates=body.startdate;
+       var enddates=body.enddate;
+       let x = 60; //minutes interval
+       let times = []; // time array
+       let tt = 0; // start time
+     
+        //loop to increment the time and push results in array
+        for (let i=0;tt<24*60; i++) {
+            let hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+            let sh=hh+1;
+            let mm = (tt%60); // getting minutes of the hour in 0-55 format
+          times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00") + '-' + ("0" + (sh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' +("00"); // pushing data in array in [00:00 - 12:00 AM/PM format]
+          tt = tt + x;
+        }
+        body.times=times;
+      //  const startdate = new Date();
+      //  body.startdate=moment(startdate).format('YYYY-MM-DD');
+        getuserfortimeline(body, (err, resultss) => {
+            var ured = JSON.stringify(resultss);
+                        var utest = JSON.parse(ured);
+                        let uarray = [];  
+
+                    for (let s=0;s<utest.length; s++) {
+                        
+                    uarray[s]=utest[s].id+'_'+utest[s].firstname+' '+utest[s].lastname;
+                    } 
+
+        
+        body.user=uarray;
+        gettimelinesearch(body, (err, results,productivetotal,idletotal) => {
+
+           
+            if (err) {
+              
+              return res.status(200).json({
+                    success: false,
+                    data: [],
+                    detail: "Connection Error."
+                });
+            }
+          
+         
+    
+            if (results) {
+    
+            return res.status(200).json({
+                success:true,
+                data: results,
+                user: uarray,
+                startdates:startdates,
+                enddates:enddates,
+                detail: "Timeline Info"
+              });
+    
+            }else{
+                return res.status(200).json({
+                    success: false,
+                    data: [],
+                    user:[],
+                    startdates:startdates,
+                    enddates:enddates,
+                    detail: "No Timeline Listed."
+    
+                });
+    
+            }
+    
+        });
+        });
+
+    },
+
   // Get All User
   billingdetail: (req, res) => {
 
@@ -2753,11 +2939,11 @@ checksubscription(body, (err, resultschecksubscriptions) => {
            var test = JSON.parse(re);
          
    // const intimee=test.punch_in;
-    const intimee=moment(test.punch_in).format('YYYY-MM-DD HH:mm:ss');
-   var  startdate = new Date();
-    var now  = moment(startdate).format('DD/MM/YYYY HH:mm:ss');
-    var then = moment(test.punch_in).format('DD/MM/YYYY HH:mm:ss');
-    var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
+const intimee=moment(test.punch_in).format('YYYY-MM-DD HH:mm:ss');
+var  startdate = new Date();
+var now  = moment(startdate).format('DD/MM/YYYY HH:mm:ss');
+var then = moment(test.punch_in).format('DD/MM/YYYY HH:mm:ss');
+var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
     var obj = [];
     obj.push({ "intime": intimee, "duration":ms  });
             return res.status(200).json({
@@ -2772,7 +2958,6 @@ checksubscription(body, (err, resultschecksubscriptions) => {
                   success: false,
                   data: obj,
                   detail: "No Punch In Listed."
-
               });
           }
 
@@ -2790,7 +2975,6 @@ savebreakstop: (req, res) => {
         const body = req.body;
 
        body.userid=req.decoded.result[0].id;
-
        body.endtime=moment(body.breakStopTime).format('YYYY-MM-DD HH:mm:ss');
        savebreakstopid(body, (err, results) => {
           
@@ -2859,11 +3043,9 @@ savetaskstop: (req, res) => {
               
             var re = JSON.stringify(results);
             var test = JSON.parse(re);
-           
             var now  = moment(test.endtime).format('DD/MM/YYYY HH:mm:ss');
             var then = moment(test.starttime).format('DD/MM/YYYY HH:mm:ss');
-            var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss")
-     
+            var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
          
     var obj = [];
     obj.push({ "time_invseted_break": ms });
@@ -2900,7 +3082,7 @@ savetaskstop: (req, res) => {
        savebreakstartid(body, (err, results) => {
     
             if (err) {
-                console.log(err);
+                //console.log(err);
               return res.status(500).json({
                     success: false,
                     data: [],

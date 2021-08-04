@@ -990,7 +990,7 @@ app.post('/getproductivity', urlencodedParser, (req, res) => {
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
                         var sess = req.session;
-            res.render('admin/getproductivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid,startdates:startdates,enddates:enddates  });
+            res.render('admin/getproductivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddatess  });
 
             } else if (!error && response.statusCode == 200) {
             var data = response.body;
@@ -999,6 +999,131 @@ app.post('/getproductivity', urlencodedParser, (req, res) => {
        console.log(datas.startdates);
             var sess = req.session;
 res.render('admin/getproductivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+    }else {
+
+        res.render('users/login');
+    }
+
+});
+
+
+app.post('/gettimeline', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    console.log(body);
+    if (sess.companyname && sess.token!='') {
+    
+    request.post({
+        headers: {
+            'Authorization': `Bearer ${token}`
+          },
+            url: process.env.APP_URL + '/api/users/gettimeline',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+            req.flash("error", "Timeline Cannot Upgarded ,Please Try Again.");
+            res.locals.messages = req.flash();
+              
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        var sess = req.session;
+
+
+            res.render('admin/gettimeline', { person: sess.companyname,companyuser:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
+
+            } else if (!error && response.statusCode == 200) {
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var datas = JSON.parse(re);
+       console.log(datas.startdates);
+            var sess = req.session;
+      res.render('admin/gettimeline', {person: sess.companyname,companyuser:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
+
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+    }else {
+
+        res.render('users/login');
+    }
+
+});
+
+
+
+app.post('/getviewdetail', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    console.log(body);
+    if (sess.companyname && sess.token!='') {
+    
+    request.post({
+        headers: {
+            'Authorization': `Bearer ${token}`
+          },
+            url: process.env.APP_URL + '/api/users/getviewdetail',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+            req.flash("error", "Timeline Cannot Upgarded ,Please Try Again.");
+            res.locals.messages = req.flash();
+              
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        var sess = req.session;
+
+
+          
+        res.render('admin/getviewdetail', { person: sess.companyname, user: datas,roleid :sess.roleid,uid:datas.ids,startdates:datas.startdates,enddates:datas.enddates });
+            } else if (!error && response.statusCode == 200) {
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var datas = JSON.parse(re);
+       //console.log(datas.startdates);
+            var sess = req.session;
+        res.render('admin/getviewdetail', { person: sess.companyname, user: datas,roleid :sess.roleid,uid:datas.ids,startdates:datas.startdates,enddates:datas.enddates });
+
 
             
             res.end;
@@ -3077,10 +3202,10 @@ app.get('/viewdetail/:id', urlencodedParser, function(req, res) {
                             res.locals.messages = req.flash();
                         }
               // console.log(test);
-    res.render('admin/viewdetail', { person: sess.companyname, user: test,roleid :sess.roleid  });
+res.render('admin/viewdetail', { person: sess.companyname, user: test,roleid :sess.roleid,uid:ids });
     res.end;
                           
-                     } else {
+    } else {
                         req.flash("error", "Id not Found Plan.Try Again Later");
             res.locals.messages = req.flash();
             res.redirect(process.env.APP_URL + '/plan');
@@ -4070,6 +4195,4 @@ if(sess.companyname && sess.token!='') {
     });
 
 
-app.listen(process.env.APP_PORT || 4000, function() {
-    console.log('now listen for new request', process.env.APP_PORT);
-});
+
