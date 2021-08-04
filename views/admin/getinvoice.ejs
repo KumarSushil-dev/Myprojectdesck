@@ -5,7 +5,7 @@
     if(roleid==2){ 
       var ppid=getinvoicedata.data[0].payment_id; if(ppid){ %><button  class="btn btn-danger pull-right" style="margin-top: -41px;">Paid && Download</button>  <%  }else{ 
         
-       var plan={};
+         var plan={};
         plan['totalUser']=getinvoicedata.data[0].totaluser;
         plan['discount']=getinvoicedata.data[0].discount;
         plan['tax']=getinvoicedata.data[0].taxprice;
@@ -23,7 +23,7 @@
 <table border="1">
 <tbody>
 <input type="hidden" name="amount" value="<%= getinvoicedata.data[0].payment_detail; %>">
-<input type="hidden" name="orderId" value="<%= getinvoicedata.data[0].order_id; %>">
+<input type="hidden" name="orderId" value="<%= getinvoicedata.data[0].id; %>">
 <input type="hidden" name="redirect_url" value="<%= process.env.APP_URL %>/updatepayment">
 <input type="hidden" name="detail" value="<%= detail; %>">  
 <input type="hidden" name="logo" value="https://www.doomshell.com/images/myprojectdesklogo.png">
