@@ -2,7 +2,7 @@
   <div id="table_wrapper2">
   
     <% 
-    if(roleid==2 && order != null){ var orderid=order.id; 
+    if(roleid==2){ 
       var ppid=getinvoicedata.data[0].payment_id; if(ppid){ %><button  class="btn btn-danger pull-right" style="margin-top: -41px;">Paid && Download</button>  <%  }else{ 
         
        var plan={};
@@ -24,7 +24,7 @@
 <tbody>
 <input type="hidden" name="amount" value="<%= getinvoicedata.data[0].payment_detail; %>">
 <input type="hidden" name="orderId" value="<%= getinvoicedata.data[0].order_id; %>">
-<input type="hidden" name="redirect_url" value="<%= process.env.APP_URL %>/updatepayment/<%= getinvoicedata.data[0].order_id; %>/<%= getinvoicedata.data[0].plan_id;  %>">
+<input type="hidden" name="redirect_url" value="<%= process.env.APP_URL %>/updatepayment">
 <input type="hidden" name="detail" value="<%= detail; %>">  
 <input type="hidden" name="logo" value="https://www.doomshell.com/images/myprojectdesklogo.png">
 <input type="hidden" name="site" value="My Project-Desk">
