@@ -1707,14 +1707,17 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             updatepaymentid: async(data, callBack) => {
    
         
-                await Subscriptions.update({payment_id: data.payment_id,signature_razorpay:data.signature_razorpay,status:'Y'},{
-                    where: {userId: data.userid,order_id: data.order_id}
+     await Subscriptions.update({payment_id: data.payment_id,signature_razorpay:data.signature_razorpay,order_id:data.order_id,status:'Y'},{
+                where: {id: data.id}
                 }).then(function(){
-                    User.update({plan_id: data.plan_id},{
+                  Subscriptions.findOne({
+                    where: {id:data.id}
+                    }).then(function(createduser){
+                    User.update({plan_id: createduser.plan_id},{
                         where: {id: data.userid}
                     }).then(function(){
                         Subscriptions.findOne({
-                            where: {userId: data.userid,order_id: data.order_id},
+                            where: {id: data.id},
                             order:[['id','DESC']],
                                 include: [{
                                   model: User,
@@ -1728,7 +1731,10 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
                             
                            
                               }).then(notes => callBack(null,notes));                      
-                         })                      
+                         })  }).catch(function (err) {
+                          // handle error;
+                          return callBack(err);
+                        })                    
                      }).catch(function (err) {
                     // handle error;
                     return callBack(err);

@@ -939,9 +939,10 @@ getsubscription: (req, res) => {
 updatepayment: (req, res) => {
     const body = req.body;
   body.userid=req.decoded.result[0].id;
-  body.payment_id=randomstring.generate(7);
-  body.signature_razorpay=randomstring.generate();
-  body.order_id=body.orderid;
+  body.payment_id=body.razorpayPaymentId;
+  body.signature_razorpay=body.razorpaySignature;
+  body.order_id=body.razorPayOrderId;
+  body.id=body.orderId;
     updatepaymentid(body, (err, results) => {
         if (err) {
           return res.status(500).json({

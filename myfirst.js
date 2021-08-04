@@ -2459,15 +2459,12 @@ res.end;
 
 
 
-// Add Plan 
-app.get('/updatepayment/:id/:names', function(req, res) {
+app.post('/updatepayment',urlencodedParser, function(req, res) {
     
      
     sess = req.session;
     const token = sess.token;
-    ids = req.params.id;
-    plan_id = req.params.names;
-
+    var body = req.body;
     if(sess.companyname !="" && sess.token!='') {
     setTimeout(function() {
          
@@ -2476,7 +2473,7 @@ app.get('/updatepayment/:id/:names', function(req, res) {
                  'Authorization': `Bearer ${token}`
                  },
                 url: process.env.APP_URL + '/api/users/updatepaymente',
-                body: { "orderid": ids,"plan_id":plan_id },
+                body: req.body,
                 json: true
                 },
                 function(error, response, body) {
