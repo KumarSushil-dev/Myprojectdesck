@@ -17,6 +17,7 @@ const puppeteer = require("puppeteer"); // will automatically load the node vers
 const { encrypt, decrypt } = require("./api/middleware/crpyto.js");
 var daterangepicker = require("daterangepicker");
 var in_array = require('in_array');
+var https = require('https');
 //set up express app
 const app = express();
 app.set('view engine', 'ejs');
