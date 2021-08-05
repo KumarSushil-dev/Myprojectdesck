@@ -126,16 +126,7 @@
                         <h5 class="modal-title flex-fill" id="leaveModalLabel">Leave Type</h5>
                        
                         <ul class="d-flex topInputs">
-                            <li class="mr-1">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">
-                                            <i class="la la-calendar-o"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Type to Search" aria-label="Username" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
+                            
                             <li>
                                 <a href="#" class="downloadButton btn-success text-white addNewPop">Add New Leave</a>
                             </li>
@@ -163,7 +154,15 @@
                                             <td>--</td>
                                             <td> <%  var str=csettings.data[i]['createdAt']; %>
                                                 <%= moment(str).format('DD-MM-YYYY') %>  %></td>
-<td> <% if(csettings.data[i].status=="Y"){  %> <a href="#" class="btn btn-outline-success">Active</a> <% } %></td>  </tr>
+                                                <td> <% if(csettings.data[i].status=="Y"){  %>
+                                                    <a  class="btn btn-outline-success" href="<%= process.env.APP_URL %>/companysettingupdatestatus/<%= csettings.data[i].id %>/N" onclick="return confirm('Do you really want to inactive ?');" title="InActivate ?"  > Active</a>
+                                                                                    
+                                                    <% }else{ %>
+                                                    <a  class="btn btn-outline-success" href="<%= process.env.APP_URL %>/companysettingupdatestatus/<%= csettings.data[i].id %>/Y" onclick="return confirm('Do you really want to activate ?');" title="Activate ?" style="color:rgb(224, 35, 44)" > Inactive</a>
+                                                             <% } %>
+                                
+                                
+                                </td>  </tr>
                                             <% } } }else{ %>
                                                 <tr>
                                                 <td class="text-center" colspan="4" style="color:red; ">
@@ -189,16 +188,7 @@
                         <h5 class="modal-title flex-fill" id="departmentsModalLabel">Departments</h5>
                        
                         <ul class="d-flex topInputs">
-                            <li class="mr-1">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">
-                                            <i class="la la-calendar-o"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Type to Search" aria-label="Username" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
+                            
                             <li>
                                 <a href="#" class="downloadButton btn-success text-white addNewPop2">Add New Department</a>
                             </li>
@@ -226,7 +216,15 @@
                                             <td>--</td>
                                             <td> <%  var str=csettings.data[i]['createdAt']; %>
                                                 <%= moment(str).format('DD-MM-YYYY') %>  %></td>
-<td> <% if(csettings.data[i].status=="Y"){  %> <a href="#" class="btn btn-outline-success">Active</a> <% } %></td> </tr>
+                                                <td> <% if(csettings.data[i].status=="Y"){  %>
+                                                    <a  class="btn btn-outline-success" href="<%= process.env.APP_URL %>/companysettingupdatestatus/<%= csettings.data[i].id %>/N" onclick="return confirm('Do you really want to inactive ?');" title="InActivate ?"  > Active</a>
+                                                                                    
+                                                    <% }else{ %>
+                                                    <a class="btn btn-outline-success" href="<%= process.env.APP_URL %>/companysettingupdatestatus/<%= csettings.data[i].id %>/Y" onclick="return confirm('Do you really want to activate ?');" title="Activate ?" style="color:rgb(224, 35, 44)" > Inactive</a>
+                                                             <% } %>
+                                
+                                
+                                </td> </tr>
                                             <% } } }else{ %>
                                                 <tr>
                                                 <td class="text-center" colspan="4" style="color:red; ">
@@ -252,16 +250,7 @@
                         <h5 class="modal-title flex-fill" id="breakModalLabel">Breaks</h5>
                        
                         <ul class="d-flex topInputs">
-                            <li class="mr-1">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">
-                                            <i class="la la-calendar-o"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Type to Search" aria-label="Username" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
+                           
                             <li>
                                 <a href="#" class="downloadButton btn-success text-white addNewPop3">Add New Break</a>
                             </li>
@@ -289,7 +278,15 @@
                                             <td>--</td>
                                             <td> <%  var str=csettings.data[i]['createdAt']; %>
                                                 <%= moment(str).format('DD-MM-YYYY') %>  %></td>
-<td> <% if(csettings.data[i].status=="Y"){  %> <a href="#" class="btn btn-outline-success">Active</a> <% } %></td> </tr>
+                                                <td> <% if(csettings.data[i].status=="Y"){  %>
+                                                    <a  class="btn btn-outline-success" href="<%= process.env.APP_URL %>/companysettingupdatestatus/<%= csettings.data[i].id %>/N" onclick="return confirm('Do you really want to inactive ?');" title="InActivate ?"  > Active</a>
+                                                                                    
+                                                    <% }else{ %>
+                                                    <a class="btn btn-outline-success"  href="<%= process.env.APP_URL %>/companysettingupdatestatus/<%= csettings.data[i].id %>/Y" onclick="return confirm('Do you really want to activate ?');" title="Activate ?" style="color:rgb(224, 35, 44)" > Inactive</a>
+                                                             <% } %>
+                                
+                                
+                                </td></tr>
                                             <% } } }else{ %>
                                                 <tr>
                                                 <td class="text-center" colspan="4" style="color:red; ">
@@ -315,16 +312,7 @@
                         <h5 class="modal-title flex-fill" id="taskModalLabel">Task Priority</h5>
                        
                         <ul class="d-flex topInputs">
-                            <li class="mr-1">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1">
-                                            <i class="la la-calendar-o"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Type to Search" aria-label="Username" aria-describedby="basic-addon1">
-                                </div>
-                            </li>
+                          
                             <li>
 
          <a href="#" class="downloadButton btn-success text-white addNewPop4">Add New Task Priority</a>
@@ -353,7 +341,16 @@
                                             <td>--</td>
                                             <td> <%  var str=csettings.data[i]['createdAt']; %>
                                                 <%= moment(str).format('DD-MM-YYYY') %>  %></td>
-<td> <% if(csettings.data[i].status=="Y"){  %> <a href="#" class="btn btn-outline-success">Active</a> <% } %></td></tr>
+
+       <td> <% if(csettings.data[i].status=="Y"){  %>
+         <a  class="btn btn-outline-success" href="<%= process.env.APP_URL %>/companysettingupdatestatus/<%= csettings.data[i].id %>/N" onclick="return confirm('Do you really want to inactive ?');" title="InActivate ?"  > Active</a>
+                                                    
+         <% }else{ %>
+           <a class="btn btn-outline-success" href="<%= process.env.APP_URL %>/companysettingupdatestatus/<%= csettings.data[i].id %>/Y" onclick="return confirm('Do you really want to activate ?');" title="Activate ?" style="color:rgb(224, 35, 44)" > Inactive</a>
+                             <% } %>
+
+
+</td></tr>
                                             <% } } }else{ %>
                                                 <tr>
                                                 <td class="text-center" colspan="4" style="color:red; ">
@@ -382,10 +379,17 @@
                         <h4 class="m-0">Settings</h4>
                         <p class="m-0">View Key Indicators At-A-Glance.</p>
                     </div>
+                  
                 </div>
 
                 <div class="blocks settingContainers mb-0">
+                    <% if (locals.messages) { %>
+                        <div class="alert alert__success " style="color:red; ">
+                            <%= messages.error %>
+                        </div>
+                        <% } %>
                     <div class="row no-gutters">
+                      
                         <div class="col-md-4 col-sm-6">
                             <a href="#" class="d-flex align-items-center settingTiles" id="leaveModalButton">
                                 <img src="/assets/images/ic_leave.png" class="img-fluid" />

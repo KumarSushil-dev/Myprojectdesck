@@ -18,6 +18,7 @@ const TaskModel = require('./models/task')
 const TasksactivitiesModel = require('./models/tasksactivities')
 const ProjectsModel = require('./models/projects')
 const SettingsModel = require('./models/settings')
+const TestimonialModel = require('./models/testimonial')
 //const LocationModel = require('./models/location')
 
 
@@ -54,6 +55,7 @@ const Task = TaskModel(sequelize, Sequelize)
 const Tasksactivities = TasksactivitiesModel(sequelize, Sequelize)
 const Projects = ProjectsModel(sequelize, Sequelize)
 const Settings = SettingsModel(sequelize, Sequelize)
+const Testimonial = TestimonialModel(sequelize, Sequelize)
 //const Location = LocationModel(sequelize, Sequelize)
 User.belongsTo(Country, { foreignKey: 'country_id' });
 User.belongsTo(State, { foreignKey: 'state_id' });
@@ -88,5 +90,5 @@ sequelize.sync()
   })
 
 module.exports = {
-  User,Country,State,Plan,Userattendancelog,Settings,Emailtemplate,Usersbreakslogs,Subscriptions,Break,Usersnapshots,Static,Sitesettings,Roles,Userapplist,Task,Tasksactivities,Projects,Op,sequelize
+  User,Country,State,Plan,Userattendancelog,Settings,Emailtemplate,Usersbreakslogs,Subscriptions,Break,Usersnapshots,Static,Sitesettings,Roles,Userapplist,Task,Tasksactivities,Projects,Testimonial,Op,sequelize
 }

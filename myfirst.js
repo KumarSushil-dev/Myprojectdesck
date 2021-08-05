@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require('express');
 const request = require('request');
 var Firebase = require('firebase');
-const https = require('https')
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -23,7 +22,6 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use('/assets', express.static('assets'));
-app.use(express.static(__dirname + '/static', { dotfiles: 'allow' }))
 app.use('/theme-assets', express.static('theme-assets'));
 app.use('/jquery', express.static('node_modules/jquery/dist/'));
 app.use('/uploads', express.static('uploads'));
@@ -83,9 +81,93 @@ app.use('/api/staticpages', urlencodedParser, require('./api/routes/staticpages.
 
 
 
-app.get('/', (req, res) => {
-    res.render('pages/index',{page: req.url});
-  })
+
+
+
+app.get('/bookademo', function(req, res) {
+
+    res.redirect('/signup');
+});
+
+app.get('/createuser', function(req, res) {
+
+    res.render('users/createpassword',{  createuser: 0  });
+});
+
+app.get('/forgotpassword', function(req, res) {
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('users/forgotpassword',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+
+
+});
+
+app.get('/', function(req, res) {
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/index',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+
+    
+});
        
 // Login 
 
@@ -104,112 +186,845 @@ app.get('/login', function(req, res) {
 
 app.get('/features', function(req, res) {
 
-    res.render('pages/features',{page: req.url});
+    
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/features',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
 });
 
 
 app.get('/aboutus', function(req, res) {
 
-    res.render('pages/aboutus',{page: req.url});
+    
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/aboutus',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
 });
 
 app.get('/faq', function(req, res) {
 
-    res.render('pages/faq',{page: req.url});
+    
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/faq',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
 });
 
 app.get('/reseller', function(req, res) {
 
-    res.render('pages/reseller',{page: req.url});
+    
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/reseller',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+    
 });
 
 app.get('/securitycompliance', function(req, res) {
 
-    res.render('pages/securitycompliance',{page: req.url});
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/securitycompliance',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
 });
 
 app.get('/becomeaffiliate', function(req, res) {
 
-    res.render('pages/becomeaffiliate',{page: req.url});
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/becomeaffiliate',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+   
 });
 
 app.get('/industries', function(req, res) {
 
-    res.render('pages/industries',{page: req.url});
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/industries',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
 });
 app.get('/priceplan', function(req, res) {
 
-    res.render('pages/priceplan',{page: req.url});
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/priceplan',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
 });
 
 app.get('/measureemployeeproductivity', function(req, res) {
 
-    res.render('pages/measureemployeeproductivity',{page: req.url});
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/measureemployeeproductivity',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
 });
 
 app.get('/timetracking', function(req, res) {
 
-    res.render('pages/timetracking',{page: req.url});
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/timetracking',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+
 });
 
 app.get('/automatedattendence', function(req, res) {
 
-    res.render('pages/automatedattendence',{page: req.url});
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/automatedattendence',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+
 });
 
 app.get('/projecttracking', function(req, res) {
 
-    res.render('pages/projecttracking',{page: req.url});
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/projecttracking',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
 });
 
 app.get('/automatedscreenshots', function(req, res) {
 
-    res.render('pages/automatedscreenshots',{page: req.url});
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/automatedscreenshots',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+   
 });
 
 app.get('/engagementtracking', function(req, res) {
 
-    res.render('pages/engagementtracking',{page: req.url});
+
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/engagementtracking',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+   
+
+
 });
 
 app.get('/bidashboard', function(req, res) {
 
-    res.render('pages/bidashboard',{page: req.url});
+
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/bidashboard',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+   
+
+
+
+   
 });
 
 app.get('/kanbantaskmanagment', function(req, res) {
 
-    res.render('pages/kanbantaskmanagment',{page: req.url});
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/kanbantaskmanagment',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+   
 });
 
 app.get('/vsactivtrack', function(req, res) {
 
-    res.render('pages/vsactivtrack',{page: req.url});
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/vsactivtrack',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
 });
 
 app.get('/vshubstaff', function(req, res) {
 
-    res.render('pages/vshubstaff',{page: req.url});
+
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/vshubstaff',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+
 });
 
 app.get('/vsdesktime', function(req, res) {
 
-    res.render('pages/vsdesktime',{page: req.url});
+
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/vsdesktime',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+
+
 });
 
 app.get('/vstimedoctor', function(req, res) {
 
-    res.render('pages/vstimedoctor',{page: req.url});
+
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/vstimedoctor',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
 });
 
 app.get('/privacy', function(req, res) {
 
-    res.render('pages/privacy',{page: req.url});
+
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/privacy',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+
 });
 
 app.get('/termsandconditions', function(req, res) {
 
-    res.render('pages/termsandconditions',{page: req.url});
+
+
+    if(req.query.userfound){
+        var userfound = req.query.userfound;
+    }else{
+        var userfound=0;
+    }
+    
+    setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                
+                    url: process.env.APP_URL + '/api/plans/gettestimonial',
+                    body: { "companyname": "test" },
+                    json: true
+                },
+           function(error, response, body) {
+
+          
+                   if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                  
+                    res.render('pages/termsandconditions',{page: req.url,testimonial:datas,userfound:userfound});
+                    res.end;
+                    } 
+
+                });
+
+        }, 0000);
+
+
+
 });
 
 
@@ -258,8 +1073,19 @@ app.post('/login', urlencodedParser, (req, res) => {
             sess.roleid = test.roleid;
             if(test.roleid==2){
                 res.redirect('/presence');
-                }else{
+                }else if(test.roleid==1){
                 res.redirect('/userlist');  
+                }else{
+                    req.flash("error", "Failed to log in user account: User account not found.");
+                    res.locals.messages = req.flash();
+                    req.session.destroy((err) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                      
+                        res.render('users/login');
+                    });
+
                 }
             res.end;
             }else{
@@ -1336,6 +2162,61 @@ app.get('/userupdatestatusteam/:id/:name', urlencodedParser, function(req, res) 
     }
 });
 
+app.get('/companysettingupdatestatus/:id/:name', urlencodedParser, function(req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    names = req.params.name;
+   
+    const token = sess.token;
+    if (sess.token!='') {
+        setTimeout(function() {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/users/companysettingupdatestatus',
+                    body: {"id":ids,"name":names },
+                    json: true
+                },
+
+                function(error, response, body) {
+                    if (!error && response.statusCode == 200){
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                       
+                        sess = req.session;
+                      //  console.log(sess);
+                      req.flash("error", datas.detail);
+                   
+                      res.locals.messages = req.flash();
+                     
+                      res.render('admin/companysettings', { person: sess.companyname, csettings: datas,roleid :sess.roleid  });
+                      res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
 app.get('/companyprojects/:id', urlencodedParser, function(req, res) {
     sess = req.session;
     ids = req.params.id;
@@ -1582,6 +2463,91 @@ app.post('/signup', urlencodedParser, (req, res) => {
 
 });
 
+app.post('/forgot', urlencodedParser, (req, res) => {
+    var body = req.body;
+    request.post({
+            url: process.env.APP_URL + '/api/users/forgotweb',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+    req.flash("error", "This Email is not registered. Please use a unique Email Address.");
+                res.locals.messages = req.flash();
+                var re = JSON.stringify(data);
+                var countrylist = JSON.parse(re);
+               res.render('users/forgotpassword');
+            } else if (!error && response.statusCode == 200) {
+            var data = response.body;
+
+       req.flash("error", "The instructions to Reset your Password were sent to your Registered Email Address. Please also check your Spam Folder.");
+          
+         res.locals.messages = req.flash();
+         
+        res.render('users/forgotpassword');
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+});
+
+app.post('/resetpasswords', urlencodedParser, (req, res) => {
+    var body = req.body;
+    request.post({
+            url: process.env.APP_URL + '/api/users/forgotsuccessful',
+            body: req.body,
+            json: true
+        },
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+             
+    req.flash("error", "Reset Password Update Failed due to incorrect password, Please try Again Later.");
+    res.locals.messages = req.flash();
+              
+               res.render('users/login');
+            } else if (!error && response.statusCode == 200) {
+           
+
+req.flash("error", "Reset Password Successfully ,You can Login with New Credential Detail.");
+          
+         res.locals.messages = req.flash();
+         
+        res.render('users/login');
+
+            
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+
+});
+
 // Plan List
 
 app.get('/plan', urlencodedParser, function(req, res) {
@@ -1707,6 +2673,136 @@ var body = req.body;
 
 });
 
+
+
+
+app.get('/testimonial', urlencodedParser, function(req, res) {
+    sess = req.session;
+    const token = sess.token;
+    
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+         
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  },
+                    url: process.env.APP_URL + '/api/plans/testimoniallist',
+                    body: { "companyname": sess.companyname },
+                    json: true
+                },
+           function(error, response, body) {
+
+           if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        sess = req.session;
+        res.render('admin/testimonial', { person: sess.companyname, testimonial: datas,roleid :sess.roleid  });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    } 
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+// Add Plan 
+app.get('/testimonialadd', function(req, res) {
+sess = req.session;
+const token = sess.token;
+if(sess.companyname!="" && sess.token!=''){  
+res.render('admin/testimonialadd', { person: sess.companyname,roleid :sess.roleid  });
+res.end;
+}
+ //  res.render('users/login');
+});
+
+// Add Plan Post
+app.post('/testimonialadd', urlencodedParser, (req, res) => {
+sess = req.session;
+const token = sess.token;
+var body = req.body;
+
+    if (sess.companyname && sess.token!='') {
+        setTimeout(function() {
+        // this code will only run when time has ellapsed
+        
+            request.post({
+            headers: {
+                    'Authorization': `Bearer ${token}`
+            },
+             url: process.env.APP_URL + '/api/plans/testimonialaddservice',
+             body: req.body,
+             json: true
+        },
+
+        function(error, response, body) {
+            if (response.statusCode == 500) {
+                var data = response.body;
+           
+                req.flash("error", "Add Plan Error.Try Again Later");
+                res.locals.messages = req.flash();
+                res.redirect(process.env.APP_URL + '/testimonial');
+
+            } else if (!error && response.statusCode == 200) {
+                
+            var data = response.body;
+            var re = JSON.stringify(data);
+            var test = JSON.parse(re);
+         
+            sess = req.session;
+            req.flash("error", "Your testimonial has been added Successfully.");
+            res.locals.messages = req.flash();
+         
+            res.render('admin/testimonial', { person: sess.companyname,testimonial: test,roleid :sess.roleid  });
+           
+            res.end;
+
+            }else{
+
+                //do something with error
+                // res.redirect('/charge-error');
+                //or
+                res.sendStatus(500);
+                return;
+
+
+            }
+
+        });
+    }, 0000);
+    }
+
+});
+
+
+
+
+
+
 // Add Plan Post
 app.post('/companysettings', urlencodedParser, (req, res) => {
 sess = req.session;
@@ -1828,6 +2924,69 @@ var body = req.body;
     }); 
     
 
+    app.get('/testimonialedit/:id', urlencodedParser, function(req, res) {
+        sess = req.session;
+        id = req.params.id;
+        const token = sess.token;
+        if(id && sess.token!='') {
+            setTimeout(function() {
+             
+        request.post({
+                     headers: {
+                     'Authorization': `Bearer ${token}`
+                     },
+                    url: process.env.APP_URL + '/api/plans/testimonialeditshow',
+                    body: { "id": id },
+                    json: true
+                    },
+                    function(error, response, body) {
+                        if (response.statusCode == 500) {
+                            var data = response.body;
+    
+                            req.flash("error", "Id not Found Plan.Try Again Later");
+                            res.locals.messages = req.flash();
+                            res.redirect(process.env.APP_URL + '/testimonial');
+                        } else if (!error && response.statusCode == 200) {
+                            var data = response.body;
+                            var re = JSON.stringify(data);
+                            var test = JSON.parse(re);
+                   
+                           
+                            sess = req.session;
+                            if(test.data.id){
+                           
+                    sess = req.session;
+                       
+                    res.render('admin/testimonialedit', { person: sess.companyname, testimonial: test,roleid :sess.roleid  });
+                            res.end;
+    
+                            }else{
+                                req.flash("error", "Id not Found testimonial.Try Again Later");
+                                res.locals.messages = req.flash();
+                                res.redirect(process.env.APP_URL + '/testimonial');
+                                res.end;
+                            }
+                        } else {
+                            req.flash("error", "Id not Found testimonial.Try Again Later");
+                res.locals.messages = req.flash();
+                res.redirect(process.env.APP_URL + '/testimonial');
+                            res.end;
+    
+    
+                        }
+    
+                    });
+    
+            }, 0000);
+    
+    
+        } else {
+    
+            res.render('users/login');
+        }
+    }); 
+    
+
 
 
 
@@ -1868,6 +3027,59 @@ var body = req.body;
                 req.flash("error", "Your Plan has been Updated Successfully.");
                 res.locals.messages = req.flash();
                 res.render('admin/plan', { person: sess.companyname,plan: test,roleid :sess.roleid  });
+                
+                res.end;
+    
+                }else{
+    
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+    
+    
+                }
+    
+            });
+        }, 0000);
+        }
+    
+    });
+    app.post('/testimonialedit', urlencodedParser, (req, res) => {
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
+    if (sess.companyname && sess.token!='') {
+            setTimeout(function() {
+            // this code will only run when time has ellapsed
+                request.post({
+                headers: {
+                'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/testimonialeditservice',
+                body: req.body,
+                json: true
+            },
+    
+            function(error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+               
+                    req.flash("error", "Error While updated testimonial Successfully.");
+                    res.locals.messages = req.flash();
+                    res.redirect(process.env.APP_URL + '/testimonial');
+    
+                } else if (!error && response.statusCode == 200) {
+                    
+                var data = response.body;
+                var re = JSON.stringify(data);
+                var test = JSON.parse(re);
+             
+                sess = req.session;
+                req.flash("error", "Your testimonial has been Updated Successfully.");
+                res.locals.messages = req.flash();
+                res.render('admin/testimonial', { person: sess.companyname,testimonial: test,roleid :sess.roleid  });
                 
                 res.end;
     
@@ -1952,6 +3164,69 @@ var body = req.body;
         }
     });
     
+    app.get('/testimonialupdatestatus/:id/:name', urlencodedParser, function(req, res) {
+        sess = req.session;
+        ids = req.params.id;
+        names = req.params.name;
+       
+        const token = sess.token;
+        if (sess.token!='') {
+            setTimeout(function() {
+                // this code will only run when time has ellapsed
+                request.post({
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                      },
+                        url: process.env.APP_URL + '/api/plans/testimonialupdatestatus',
+                        body: {"id":ids,"name":names },
+                        json: true
+                    },
+    
+                    function(error, response, body) {
+                        if (response.statusCode == 500) {
+                            var data = response.body;
+    
+                                 
+                    req.flash("error", "Error While updated testimonial Successfully.");
+                    res.locals.messages = req.flash();
+                    res.redirect(process.env.APP_URL + '/testimonial');
+                        } else if (!error && response.statusCode == 200){
+                            var data = response.body;
+                            var re = JSON.stringify(data);
+                            var test = JSON.parse(re);
+                           
+                           
+                            sess = req.session;
+                          //  console.log(sess);
+    
+                          req.flash("error", "Your testimonial Status has been Update Successfully.");
+                          res.locals.messages = req.flash();
+                res.render('admin/testimonial', { person: sess.companyname,testimonial: test,roleid :sess.roleid  });
+    
+                          
+                            res.end;
+                        } else {
+    
+                            //do something with error
+                            // res.redirect('/charge-error');
+                            //or
+                            res.sendStatus(500);
+                            return;
+    
+    
+                        }
+    
+                    });
+    
+            }, 0000);
+    
+    
+        } else {
+    
+            res.render('users/login');
+        }
+    });
+    
     // Delete User
     
     
@@ -1987,6 +3262,62 @@ var body = req.body;
                             req.flash("error", "Your Plan Detail Deleted Successfully.");
                             res.locals.messages = req.flash();
                             res.render('admin/plan', { person: sess.companyname,plan: test,roleid :sess.roleid  });
+                            res.end;
+                        } else {
+    
+                            //do something with error
+                            // res.redirect('/charge-error');
+                            //or
+                            res.sendStatus(500);
+                            return;
+    
+    
+                        }
+    
+                    });
+    
+            }, 0000);
+    
+    
+        } else {
+    
+            res.render('users/login');
+        }
+    });
+
+    
+    app.get('/testimonialupdatedelete/:id', urlencodedParser, function(req, res) {
+        sess = req.session;
+        ids = req.params.id;
+        const token = sess.token;
+        if (sess.token!='') {
+            setTimeout(function() {
+                // this code will only run when time has ellapsed
+                request.post({
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                      },
+                        url: process.env.APP_URL + '/api/plans/testimonialdeletesuper',
+                        body: {"id":ids },
+                        json: true
+                    },
+    
+                    function(error, response, body) {
+                        if (response.statusCode == 500) {
+                            var data = response.body;
+    
+                         
+                            req.flash("error", "Error While updated testimonial Successfully.");
+                            res.locals.messages = req.flash();
+                            res.redirect(process.env.APP_URL + '/testimonial');
+                        } else if (!error && response.statusCode == 200) {
+                            var data = response.body;
+                            var re = JSON.stringify(data);
+                            var test = JSON.parse(re);
+                            sess = req.session;
+                            req.flash("error", "Your testimonial Detail Deleted Successfully.");
+                            res.locals.messages = req.flash();
+                            res.render('admin/testimonial', { person: sess.companyname,plan: test,roleid :sess.roleid  });
                             res.end;
                         } else {
     
@@ -2459,6 +3790,7 @@ res.end;
 
 
 
+// Add Plan 
 app.post('/updatepayment',urlencodedParser, function(req, res) {
     
      
@@ -2505,6 +3837,54 @@ app.post('/updatepayment',urlencodedParser, function(req, res) {
                         res.end;
 
 
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+
+
+
+
+     //  res.render('users/login');
+    });
+
+// Add Plan 
+app.post('/sendmessage',urlencodedParser, function(req, res) {
+    
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
+    if(sess.companyname !="" && sess.token!='') {
+    setTimeout(function() {
+         
+    request.post({
+                 headers: {
+                 'Authorization': `Bearer ${token}`
+                 },
+                url: process.env.APP_URL + '/api/users/sendmessages',
+                body: req.body,
+                json: true
+                },
+                function(error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+               
+                
+                     
+                sess = req.session;
+                   
+                res.redirect(process.env.APP_URL + '/?userfound=1');
+                        res.end;
+                       
                     }
 
                 });
@@ -2859,6 +4239,62 @@ app.get('/activationverified/:name', urlencodedParser, function(req, res) {
                       req.flash("error", "Company has been successfully Verified You can Login with given Credential.");
                       res.locals.messages = req.flash();
                       res.render('users/login');
+                      res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+    
+// Activation Link Verification
+
+app.get('/resetpasswordverified/:name', urlencodedParser, function(req, res) {
+    sess = req.session;
+    names = req.params.name;
+   
+  
+    if (names!='') {
+        setTimeout(function() {
+            // this code will only run when time has ellapsed
+            request.post({
+                    url: process.env.APP_URL + '/api/users/resetpasswordverification',
+                    body: {"name":names },
+                    json: true
+                },
+
+                function(error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                req.flash("error", "Failed to Verification Code Match for user account: User account not found. Try Again !");
+                res.locals.messages = req.flash();
+                res.render('users/forgotpassword');
+                    } else if (!error && response.statusCode == 200){
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                          
+                   
+                      req.flash("error", "Change your Password.");
+                      res.locals.messages = req.flash();
+                      res.render('users/createpassword',{  createuser: test  });
                       res.end;
 
                     } else {

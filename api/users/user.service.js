@@ -36,6 +36,7 @@ module.exports = {
             return callBack(err);
           }); 
     },
+    
     checkifdataexist: async(data, callBack) => {
         await Usersnapshots.findAll({
             where: {capturetime:data.capturetime,userId:data.userId}
@@ -108,8 +109,22 @@ module.exports = {
     companysettingsid: async(data, callBack) => {
       data.status='Y';
         await Settings.create({userId:data.userid,name:data.name,type:data.type,status:data.status}).then(function(){
-          Settings.findall({
-              where: {userId: data.userid,status:data.status},
+          Settings.findAll({
+              where: {userId: data.userid},
+              order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
+           }).catch(function (err) {
+
+            return callBack(err);
+          }); 
+    },
+    companysettingupdatestatusid: async(data, callBack) => {
+      data.status='Y';
+      
+ await Settings.update({status: data.name},{
+          where: {id: data.id}
+      }).then(function(){
+          Settings.findAll({
+              where: {userId: data.userid},
               order:[['id','DESC']]}).then(notes => callBack(null,notes));                      
            }).catch(function (err) {
 
@@ -1569,6 +1584,24 @@ obj.push({ "starttime": string[0],"endtime":string[1],"image":objs });
             return callBack(err);
           }); 
     },
+    updateuserid: async(data, callBack) => {
+     
+        await User.update({status: data.status,activation_key: data.activationkey},{
+            where: {email: data.email}
+        }).then(function(){
+            User.findOne({
+                where: {email: data.email},
+                 include: [ {
+                    model: Roles,
+                    attributes: ['name']
+                },
+            ],order:[['id','DESC']]
+                }).then(notes => callBack(null,notes));                      
+             }).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
     usereditprofile: async(data, callBack) => {
      
         await User.update({firstname: data.firstname,lastname: data.lastname,mobile: data.mobile,email: data.email},{
@@ -1941,7 +1974,7 @@ var colorsCSV = data.assignmultipleuser.join(",");
         }).then(function(createdUser){
         User.update({status: data.status,activation_key:'',parent_id:createdUser.id},{
             where: {id: createdUser.id}
-        }).then(function(createdUser){
+        }).then(function(createdUsers){
     Sitesettings.create({userId:createdUser.id,is_screenshot_enable:'Y',screenshot_freq:'12',user_logintime:'9',idle_threshold:'60',idle_threshold_punchout:'15',is_auto_punchout:'Y',punchout_time:'10'}).then(function(){
 
     Subscriptions.create({plan_id:data.plan_id,totaluser:data.totaluser,userId:createdUser.id,created:startdate,expiry_date: expired,status:data.status,order_id:data.orderid}).then(notes => callBack(null,notes));                      
@@ -1949,6 +1982,29 @@ var colorsCSV = data.assignmultipleuser.join(",");
                 // handle error;
                 return callBack(err);
               })})}).catch(function (err) {
+            // handle error;
+            return callBack(err);
+          }); 
+    },
+    resetpasswordverificationid: async(data, callBack) => {
+
+        data.status='Y';
+     
+
+        await User.findOne({
+            where: {activation_key:data.name},
+            order:[['id','DESC']] 
+        }).then(function(createdUser){
+        User.update({status: data.status,activation_key:''},{
+            where: {id: createdUser.id}
+        }).then(function(createdUsers){
+     User.findOne({
+            where: {id:createdUser.id},
+            order:[['id','DESC']] 
+        }).then(notes => callBack(null,notes));                      
+             
+            })
+          }).catch(function (err) {
             // handle error;
             return callBack(err);
           }); 

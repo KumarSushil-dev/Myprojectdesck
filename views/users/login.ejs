@@ -74,14 +74,15 @@
                                                     <% } %>
                                                         <div class="form-body">
                                                             <h1>Welcome Back!</h1>
-                                                            <p>To keep connected with us please login with your personal info</p>
+                                                            <p style="
+                                                            float: left;
+                                                        ">To keep connected with us please login with your personal info</p>
                                                             <div class="form-group">
                                                                 <label for="donationinput3" class="sr-only">E-mail</label>
                                                                 <input type="email" id="donationinput3" class="form-control" required placeholder="E-mail" name="email">
                                                                 <div class="valid-feedback">Valid.</div>
                                                                 <div class="invalid-feedback">Please fill out this field.</div>
-                                                                <small>We will never share your username with anyone else.
-                                                                </small>
+                                                                
                                                             </div>
 
                                                             <div class="form-group">
@@ -97,7 +98,7 @@
                                                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                                                                 <label class="custom-control-label" for="customCheck1" style="font-size: 12px; text-align: left; margin-left: 10px;">Remember me</label>
                                                             </li>
-                                                            <li><a href="#">Forgot your password?</a></li>
+                                                            <li><a href="<%= process.env.APP_URL %>/forgotpassword">Forgot your password?</a></li>
                                                         </ul>
 
                                                         <div class="d-flex justify-content-between align-items-center list-unstyled w-100">
@@ -131,6 +132,49 @@
         </div>
         <!-- START FOOTER DARK-->
       
+<style>
+    .loader {
+        display: none;
+        top: 50%;
+        left: 50%;
+        position: fixed;
+        transform: translate(-50%, -50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        height: 100%;
+        text-align: center;
+        width: 100%;
+        z-index: 99999999;
+    }
+    
+    .loading {
+        border: 2px solid #ccc;
+        width: 60px;
+        height: 60px;
+        margin: auto;
+        border-radius: 50%;
+        border-top-color: #1ecd97;
+        border-left-color: #1ecd97;
+        animation: spin 1s infinite ease-in;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+    }
+    
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<div class="loader">
+    <div class="loader-inner" style="position: relative;height: 100%;width: 100%;">
+        <div class="loading">
+        </div>
+    </div>
+</div>
 <script>
     // Disable form submissions if there are invalid fields
     (function() {
@@ -141,11 +185,11 @@
         // Loop over them and prevent submission
         var validation = Array.prototype.filter.call(forms, function(form) {
           form.addEventListener('submit', function(event) {
-            $('.preloader').show();
+            document.getElementsByClassName("loader")[0].style.display = "block";
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
-              $('.preloader').hide();
+              document.getElementsByClassName("loader")[0].style.display = "none";
             }
             form.classList.add('was-validated');
           }, false);

@@ -1,4 +1,4 @@
-const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,getdailyattendancesearch,dailyattendancegetupdated,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall,getproductivitysid,gettodayproductivitytrysearch,gettodayproductivitytrytotalsearch,getsnapshotsinfosearch,getsnapshotmoredetail,deletemultipleentry,getlastpunchin,monthlyattendancegetsearch,monthlyinoutgetsearch,gettimelinesearch ,getappssearch,getproductivityinfowebsearch,activeactivitygetwebsearch,getproductivityinfototalwebsearch} = require('../users/user.service');
+const {getcountry,getstate,getSearchid,getstateselect,login,create,checkifemailexist,getuser,userupdatestatusbyid,userdeletesuperbyid,getemailtemplate,getcompanysettingsid,getemailtemplateone,saveuserpunch,savetaskstartid,savebreakstartid,savebreakstopid,savetaskstopid,saveuserpunchout,activationverificationid,getplan,getsubscriptionidcreated,planupgradesbyid,getDetailid,getsubscriptionid,getsubscriptiondetailid,addsubscriptionsid,getuserbiling,getadmin,editprofileid,viewdetailid,getsitesettings,useredit,sitesettingedit,passwordedit,getuserbilingcompany,getselectedcompanydetail,updatepaymentid,datatransferid,getproductivityinfo,getproductivityinfoweb,getproductivityinfototalweb,getusercompany,addcompanyuserid,checkemailexistid,getattendence,checkiftodaydateexistuserid,getcpaturescrreninterval,getsnapshotsinfo,breaklistget,tasklistget,activeactivityget,getapps,applisttransfer,getproductivityinfomonth,usereditprofile,activeactivitygetweb,activeactivitygetupdate,getuserfortimeline,getuserfortimelinesecond,gettimeline,companysettingsid,dailyattendanceget,getdailyattendancesearch,dailyattendancegetupdated,monthlyattendanceget,monthlyinoutget,getprojectsmain,getcompanytask,getprojectsmainadd,getcompanyprojects,gettaskview,getprojectsmainedit,projecttasklistget,activitytasklistget,getpriority,taskaddget,checkifdataexist,gettodayinfo,monthlyattendancegetnext,getapplist,gettodayproductivity,gettodayproductivityasc,getlatestsnapshot,getapplistusage,savetaskstopidmanually,gettodayproductivitytry,gettodayproductivitytrytotal,checksubscription,getuserfortotal,userupdatestatusteambyid,checksubscriptiontall,getproductivitysid,gettodayproductivitytrysearch,gettodayproductivitytrytotalsearch,getsnapshotsinfosearch,getsnapshotmoredetail,deletemultipleentry,getlastpunchin,monthlyattendancegetsearch,monthlyinoutgetsearch,gettimelinesearch ,getappssearch,getproductivityinfowebsearch,activeactivitygetwebsearch,getproductivityinfototalwebsearch,updateuserid,resetpasswordverificationid,companysettingupdatestatusid} = require('../users/user.service');
 const { genSaltSync, hashSync } = require('bcryptjs');
 const { sign } = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
@@ -43,6 +43,68 @@ companysettings: (req, res) => {
     const body = req.body;
     body.userid=req.decoded.result[0].id;
     companysettingsid(body, (err, results) => {
+        if (err) {
+
+            console.log(err);
+          return res.status(500).json({
+                success: false,
+                data: [],
+                message: "Connection Error."
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(500).json({
+                success: false,
+                data: [],
+                detail: "Settings Not Added , Try Again later."
+
+            });
+        }
+
+   
+        return res.status(200).json({
+            success: true,
+            data: results,
+            detail: ""
+          });
+       
+
+    });
+
+},
+
+// Add Planlist
+companysettingupdatestatus: (req, res) => {
+    const body = req.body;
+    body.userid=req.decoded.result[0].id;
+    companysettingupdatestatusid(body, (err, results) => {
+        if (err) {
+
+            console.log(err);
+          return res.status(500).json({
+                success: false,
+                data: [],
+                message: "Connection Error."
+            });
+        }
+
+     
+   return res.status(200).json({
+            success: true,
+            data: results,
+            detail: "Settings Type Status has been updated Successfully."
+          });
+       
+
+    });
+
+},
+forgotsuccessful: (req, res) => {
+    const salt = genSaltSync(10);
+    const body = req.body;
+    body.passwords = hashSync(body.cpassword, salt);
+    passwordedit(body, (err, results) => {
         if (err) {
 
             console.log(err);
@@ -1024,6 +1086,71 @@ var str=utest[0].format;
     });
 
 },
+
+// Get Selected User Detail
+sendmessages: (req, res) => {
+    const body = req.body;
+
+  body.name=body.name;
+  body.email=body.email;
+  body.subject=body.subject;
+  body.phone=body.phone;
+  body.message=body.message;
+  
+  
+
+          body.lid=4;
+            getemailtemplate(body, (err, resultsf) => {
+                
+                        var ured = JSON.stringify(resultsf);
+                        var utest = JSON.parse(ured);
+                
+            
+
+        var replacements = {
+            "%name%": body.name,
+            "%email%": body.email,
+            "%subject%": body.subject,
+            "%phone%": body.phone,
+            "%message%": body.message,
+           
+        }
+
+var str=utest[0].format;
+        str = str.replace(/%\w+%/g, function(all) {
+            return replacements[all] || all;
+         });
+                const mailData = {
+                    from: 'noreply@eboxtenders.com',
+                    to: 'vikas@doomshell.com',
+                    subject: utest[0].subject,
+                    text: '',
+                    html: str,
+                };
+            
+                transporter.sendMail(mailData, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+
+
+                   // res.status(200).json({ message: "Mail send", message_id: info.messageId,   data: resultsdata });
+                   console.log(info.messageId);
+                    return res.status(200).json({
+                        success:true,
+                        data: 1,
+                        message_id:info.messageId,
+                        detail: ""
+                      });
+                });
+    
+   
+    
+            });
+
+
+
+},
 // Get Selected User Detail
 getsubscriptiondetail: (req, res) => {
     const body = req.body;
@@ -1341,6 +1468,106 @@ var str=utest[0].format;
 
     }
 });
+    });
+    },
+    // Signup User Web
+    forgotuserweb: (req, res) => {
+        const body = req.body;
+ 
+       
+        body.activationkey=randomstring.generate();
+        body.status='N';
+      
+
+        checkifemailexist(body, (err, resultdata) => {
+  if (err) {
+             
+                return res.status(500).json({
+                    success: false,
+                    data: [],
+                    detail: "Connection Error."
+
+                });
+            }
+
+      console.log(resultdata.length);
+               
+        if (resultdata.length > 0) {
+         updateuserid(body, (err, results) => {
+           
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    success: false,
+                    detail: "Connection Error."
+
+                });
+            }
+
+            if (!results){
+                return res.status(500).json({
+                    success: false,
+                    detail: "Invalid Email."
+
+                });
+            }
+
+            if (results) {
+            body.lid=5;
+            getemailtemplate(body, (err, resultsf) => {
+        //  console.log(resultsf);
+                var ure = JSON.stringify(resultsf);
+                var utest = JSON.parse(ure);
+                var urer = JSON.stringify(results);
+                var utestyrtt = JSON.parse(urer);
+
+
+             
+var activation=process.env.APP_URL+'/resetpasswordverified/'+body.activationkey;
+
+        var replacements = {
+            "%Name%": utestyrtt.companyname,
+            "%Activation%": activation
+        }
+
+var str=utest[0].format;
+        str = str.replace(/%\w+%/g, function(all) {
+            return replacements[all] || all;
+         });
+                const mailData = {
+                    from: 'noreply@eboxtenders.com',
+                    to: utestyrtt.email,
+                    subject: utest[0].subject,
+                    text: '',
+                    html: str,
+                };
+            
+                transporter.sendMail(mailData, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+
+
+                    res.status(200).json({ message: "Mail send", message_id: info.messageId });
+                });
+    
+    
+    
+            });
+
+        }
+
+        });
+    }else{
+
+        return res.status(500).json({
+            success: false,
+            detail: "Email Not Exist."
+
+        });
+
+    }
+
     });
     },
 // Signup User Web
@@ -2806,6 +3033,44 @@ checksubscription(body, (err, resultschecksubscriptions) => {
                 });
 
             }
+            if (!results) {
+                return res.status(500).json({
+                    suceess: 0,
+                    message: "Record Not Found"
+
+                });
+            }
+
+            if (results) {
+             
+                return res.status(200).json({
+                    success: 1,
+                    data: results
+    
+    
+                });
+        
+        }
+
+        });
+
+
+    },
+    resetpasswordverification: (req, res) => {
+        const body = req.body;
+
+     resetpasswordverificationid(body, (err, results) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    suceess: 0,
+                    message: "Record Not Found"
+
+                });
+
+            }
+
+            
             if (!results) {
                 return res.status(500).json({
                     suceess: 0,

@@ -12,11 +12,11 @@
                         <p>While we absolutely love monitoring software, we believe monitoring, in general, is broken. There's just too many tools to keep track of, too many things in entirely separate ecosystems. </p>
                         <ul class="list-unstyled">
                             <li>
-                              <strong>Phone:  <a href="tel:+91 9829732221">+91 9829732221</a></strong>
+                              <strong>Phone:  <a href="tel:+91 <%= testimonial.admindetail.mobile; %>">+91 <%= testimonial.admindetail.mobile; %></a></strong>
                             </li>
 
                             <li>
-                                <strong>Email:  <a href="mailto:sales@myproject-desk">sales@doomshell.com</a></strong>
+                                <strong>Email:  <a href="mailto:vikas@myproject-desk">vikas@doomshell.com</a></strong>
                               </li>
 
                               <li>
@@ -34,7 +34,7 @@
 <ul class="list-unstyled">
  <li> <a href="<%= process.env.APP_URL %>/aboutus"> About Us</a>  </li>
  <li> <a href="<%= process.env.APP_URL %>/priceplan">Pricing</a>  </li>
-        <li> <a href="<%= process.env.APP_URL %>/contactus">Contact Us</a>  </li>
+   
             <li> <a href="<%= process.env.APP_URL %>/reseller">Become a trusted Reseller</a>  </li>
                 <li> <a href="<%= process.env.APP_URL %>/becomeaffiliate">Become an Affiliate</a>  </li>
                     <li> <a href="<%= process.env.APP_URL %>/securitycompliance">Security and Compliance</a>  </li>

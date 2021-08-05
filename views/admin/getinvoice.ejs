@@ -3,9 +3,10 @@
   
     <% 
     if(roleid==2){ 
-      var ppid=getinvoicedata.data[0].payment_id; if(ppid){ %><button  class="btn btn-danger pull-right" style="margin-top: -41px;">Paid && Download</button>  <%  }else{ 
-        
-         var plan={};
+     
+      var ppid=getinvoicedata.data[0].payment_id;
+       if(ppid){
+         %><button  class="btn btn-danger pull-right" style="margin-top: -41px;">Paid && Download</button>  <%  }else{        var plan={};
         plan['totalUser']=getinvoicedata.data[0].totaluser;
         plan['discount']=getinvoicedata.data[0].discount;
         plan['tax']=getinvoicedata.data[0].taxprice;
@@ -36,71 +37,6 @@
  <% } %>
 
 
-<script> 
-
- var options = 
-  {
-   "key": "rzp_test_ZL1wkQfxNIacl5", // Enter the Key ID generated from the Dashboard 
-   "name": "Test Company", 
-   "order_id": "<%= order.id; %>", // For one time payment
-   "subscription_id" : "", // For recurring subscription
-   "prefill": {
-     "name": "<%= getinvoicedata.data[0].user.companyname; %>",
-     "email": "<%= getinvoicedata.data[0].user.email; %>",
-     "contact": "<%= getinvoicedata.data[0].user.mobile; %>"
-   },
-   "theme": {
-    "color": "#3399cc"
-   },
-   // This handler function will handle the success payment
-   "handler": function (response) {
-    var pid='<%= getinvoicedata.data[0].order_id; %>';
-    var psid='<%= getinvoicedata.data[0].id; %>';
-    var planid='<%= getinvoicedata.data[0].plan_id; %>';
-    var userId='<%= getinvoicedata.data[0].userId; %>';
-   var data = {};
-   data.id=psid;
-   data.payment_id=response.razorpay_payment_id;
-   data.signature_razorpay=response.razorpay_signature;
-   data.order_id=pid;
-   data.plan_id=planid;
-   data.user_id=userId;
-
-   document.getElementsByClassName("loader")[0].style.display = "block";
-    $.ajax({
-      url:'/api/users/updatepayment',
-      method:'post',  
-     contentType: 'application/json',
-      data: JSON.stringify(data), 
-  success: function(response){
-if(response.data==1){
-window.location.href ='<%= process.env.APP_URL %>/orderinvoice?userfound=1';
-}else{
-  window.location.href ='<%= process.env.APP_URL %>/orderinvoice?userfound=2';
-
-}
-},
-});
- 
-   },
-};
-var rzp1 = new Razorpay(options);
-document.getElementById('rzp-button1').onclick = function (e) {
-  rzp1.open();
-  e.preventDefault();
-}
-rzp1.on('payment.failed', function (response)
- {            
-  alert(response.error.code);     
-  alert(response.error.description);      
-  alert(response.error.source);
-  alert(response.error.step);     
-  alert(response.error.reason);
-  alert(response.error.metadata.order_id);
-  alert(response.error.metadata.payment_id);
- });
-</script>
-   
     
       
          

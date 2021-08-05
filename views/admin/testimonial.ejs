@@ -1,0 +1,109 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        <%- include('../partials/left'); %>
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+                       <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Listed Testimonial </h4>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                                <ul class="list-inline mb-0">
+                                                    <li> <a type="button" href="/testimonialadd" class="btn btn-outline-primary btn-min-width btn-glow mr-1 mb-1"><i class="la la-plus"></i> Add Testimonial
+                                                    </a></li>
+                                                </ul>
+                                               
+                                            </div>
+                                          
+                                        </div>
+                                        <div class="card-content collapse show">
+                                            <div class="card-body">
+                                                <% if (locals.messages) { %>
+                                                    <div class="alert alert__success " style="color:red; ">
+                                                        <%= messages.error %>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                            <div class="table-responsive">
+
+                                                <table class="table">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Person Name</th>
+                                                           
+                                                           
+                                                            <th scope="col">Image</th>
+                                            <th scope="col" style="width: 30%;">Description</th>
+                                                            <th scope="col">Status</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                        <%  if(testimonial.data.length > 0){
+                                                             var s=1; 
+                                        for(var i=0; i < testimonial.data.length; i++) { %>
+                                                            <tr>
+                                                 <th scope="row"><%= s++; %></th>
+                                             <td><%= testimonial.data[i].name; %></td>
+                                             
+                                             
+                                             <td>    <img style="width:100px;" src="/theme-assets/images/<%= testimonial.data[i].image; %>"></td>
+                                             <td> <%= testimonial.data[i].description; %></td>
+<td>
+    <% if(testimonial.data[i].status=="Y"){  %>
+        <a  href="<%= process.env.APP_URL %>/testimonialupdatestatus/<%= testimonial.data[i].id %>/N" onclick="return confirm('Do you really want to inactive this testimonial?');" title="InActivate testimonial?" style="color:rgb(224, 35, 44)" > <i style="color:green" class="la la-toggle-on"></i></a>
+        
+        <% }else{ %>
+           <a  href="<%= process.env.APP_URL %>/testimonialupdatestatus/<%= testimonial.data[i].id %>/Y" onclick="return confirm('Do you really want to activate this testimonial?');" title="Activate testimonial?" style="color:rgb(224, 35, 44)" ><i style="color:red" class="la la-toggle-off "></i></a>
+            <% } %>
+          </td>
+        <td> 
+            <a onclick="spinner()" href="<%= process.env.APP_URL %>/testimonialedit/<%= testimonial.data[i].id %>" title="Edit testimonial" style="color:rgb(41, 211, 19)" ><i style="color:red" class="la la-edit"></i></a>
+            <a  href="<%= process.env.APP_URL %>/testimonialupdatedelete/<%= testimonial.data[i].id %>" onclick="return confirm('Do you really want to delete this testimonial?');" title="Delete testimonial?" style="color:rgba(207, 112, 117, 0.842)" > <i style="color:red" class="la la-trash-o"></i></a>   
+
+    </td>
+           </tr>
+<% } }else{ %>
+<tr>
+<td class="text-center" colspan="4" style="color:red; ">
+   No testimonial Listed Yet
+ </td>
+</tr>
+<% }  %>
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Table head options end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+          
+                <%- include('../partials/footer'); %>
