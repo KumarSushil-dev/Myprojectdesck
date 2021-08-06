@@ -333,7 +333,7 @@ header ul li a:hover{ color: #f87456;}
     #pricingPlanSec .pricePlanBxmn .pricePlanBx h6 span{ display: block; text-align: center; color: #0081ef;}
     #pricingPlanSec .pricePlanBxmn .pricePlanBx h6:after{ content: '' ; display: block; background-color: #ddd; width: 60px; height: 2px; margin: auto; margin-top: 30px;}
 
-    #pricingPlanSec .pricePlanBxmn .pricePlanBx ul li{ margin-bottom: 15px; text-align: center; color: #404040; font-size: 16px; opacity: .8; }
+    #pricingPlanSec .pricePlanBxmn .pricePlanBx ul li{ margin-bottom: 15px; text-align: left; color: #404040; font-size: 16px; opacity: .8; }
     #pricingPlanSec .pricePlanBxmn .pricePlanBx ul li.check:before{ content: '\f00c'; font-family:"Font Awesome 5 Free"; font-weight: 900; color: green; font-size: 14px;  display: inline-block; margin-right: 4px;}
     #pricingPlanSec .pricePlanBxmn .pricePlanBx ul li.cross:before{ content: '\f00d'; font-family:"Font Awesome 5 Free"; font-weight: 900; color: red; font-size: 14px;  display: inline-block; margin-right: 4px;}
     #pricingPlanSec .pricePlanBxmn .pricePlanBx{ height: 100%; padding-bottom: 110px; position: relative;}
@@ -500,7 +500,7 @@ footer .copyright p a:hover{ color: #fff;}
 
 /* ============innerHeadSliderSec========
 =============================================== */
-#innerHeadSliderSec{ padding: 120px 0px 20px; /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,e2f2ff+100 */
+#innerHeadSliderSec{ padding: 20px 0px 20px; /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,e2f2ff+100 */
     background: #ffffff; /* Old browsers */
     background: -moz-linear-gradient(top,  #ffffff 0%, #e2f2ff 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  #ffffff 0%,#e2f2ff 100%); /* Chrome10-25,Safari5.1-6 */
