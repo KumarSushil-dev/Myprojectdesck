@@ -82,7 +82,12 @@ app.use('/api/staticpages', urlencodedParser, require('./api/routes/staticpages.
 
 
 
+app.get('*', function(req, res) {  
+    res.redirect('https://' + req.headers.host + req.url);
 
+    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+    // res.redirect('https://example.com' + req.url);
+})
 
 
 app.get('/bookademo', function(req, res) {
@@ -5645,9 +5650,5 @@ https
     console.log('Listening...')
   })
 
-var http = require('http');
-http.createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-}).listen(80);
+
 
