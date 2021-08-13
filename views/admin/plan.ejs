@@ -19,8 +19,8 @@
                                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                             <div class="heading-elements">
                                                 <ul class="list-inline mb-0">
-                                                    <li> <a type="button" href="/planadd" class="btn btn-outline-primary btn-min-width btn-glow mr-1 mb-1"><i class="la la-plus"></i> Add Plan
-                                                    </a></li>
+                                                   <!-- <li> <a type="button" href="/planadd" class="btn btn-outline-primary btn-min-width btn-glow mr-1 mb-1"><i class="la la-plus"></i> Add Plan
+                                                    </a></li>-->
                                                 </ul>
                                                
                                             </div>
@@ -37,7 +37,7 @@
                                             <div class="table-responsive">
 
                                                 <table class="table">
-                                                    <thead class="thead-dark">
+                                                    <thead class="thead-default">
                                                         <tr>
                                                             <th scope="col">#</th>
                                                             <th scope="col">Name</th>
@@ -74,15 +74,16 @@
                                             </ul></td>
 <td>
     <% if(plan.data[i].status=="Y"){  %>
-        <a  href="<%= process.env.APP_URL %>/planupdatestatus/<%= plan.data[i].id %>/N" onclick="return confirm('Do you really want to inactive this Plan?');" title="InActivate Plan?" style="color:rgb(224, 35, 44)" > <i style="color:green" class="la la-toggle-on"></i></a>
-        
+        <i style="color:green" class="la la-toggle-on"></i>
+      <!-- <a  href="<%= process.env.APP_URL %>/planupdatestatus/<%= plan.data[i].id %>/N" onclick="return confirm('Do you really want to inactive this Plan?');" title="InActivate Plan?" style="color:rgb(224, 35, 44)" ></a>
+      -->
         <% }else{ %>
-           <a  href="<%= process.env.APP_URL %>/planupdatestatus/<%= plan.data[i].id %>/Y" onclick="return confirm('Do you really want to activate this Plan?');" title="Activate Plan?" style="color:rgb(224, 35, 44)" ><i style="color:red" class="la la-toggle-off "></i></a>
+          
             <% } %>
           </td>
         <td> 
             <a onclick="spinner()" href="<%= process.env.APP_URL %>/planedit/<%= plan.data[i].id %>" title="Edit Plan" style="color:rgb(41, 211, 19)" ><i style="color:red" class="la la-edit"></i></a>
-            <a  href="<%= process.env.APP_URL %>/planupdatedelete/<%= plan.data[i].id %>" onclick="return confirm('Do you really want to delete this Plan?');" title="Delete Plan?" style="color:rgba(207, 112, 117, 0.842)" > <i style="color:red" class="la la-trash-o"></i></a>   
+           <!-- <a  href="<%= process.env.APP_URL %>/planupdatedelete/<%= plan.data[i].id %>" onclick="return confirm('Do you really want to delete this Plan?');" title="Delete Plan?" style="color:rgba(207, 112, 117, 0.842)" > <i style="color:red" class="la la-trash-o"></i></a>   -->
 
     </td>
            </tr>

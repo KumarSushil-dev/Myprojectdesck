@@ -88,7 +88,26 @@
                         <div class="content-header row">
                         </div>
                         <div class="content-body">
-
+                          <script>
+                            $(document).ready(function() {
+                            $("#btnExport").click(function(e) {
+                              e.preventDefault();
+                             
+                              //getting data from our table
+                              var data_type = 'data:application/vnd.ms-excel';
+                              var table_div = document.getElementById('table_wrapper2');
+                              var table_html = table_div.outerHTML.replace(/ /g, '%20');
+                              var getmonn = 'Invoices';
+                              var a = document.createElement('a');
+                              a.href = data_type + ', ' + table_html;
+                              a.download = getmonn + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+                              a.click();
+                              document.getElementsByClassName("loader")[0].style.display = "none";
+                            });
+                          
+                          
+                          });
+                          </script>
                             <!-- Table head options start -->
                             <div class="row">
                                 <div class="col-12">
@@ -97,8 +116,9 @@
                                             <h4 class="card-title">Orders / Invoices </h4>
                                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                             <div class="heading-elements">
-                                              
-                                                <a class="btn btn-primary" href="<%= process.env.APP_URL %>/addsubscription">Add Subscription</a>
+                                              <ul class="d-flex topInputs"> <a href="javascript:void(0);" onclick="spinner()"  id="btnExport" class="downloadButton"><i class="la la-download"></i> Export to xls</a>
+                    
+                                              <li class="mr-1">  <a class="btn btn-primary" href="<%= process.env.APP_URL %>/addsubscription">Add Subscription</a></li> </ul>
                                         
                                             </div>
                                         </div>
@@ -109,11 +129,116 @@
                                                         <%= messages.error %>
                                                     </div>
                                                     <% } %>
-                                            </div>
-                                            <div class="table-responsive">
+                                                    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+                                                    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                                                                        <script>
+                                                    
+                                                    $(function () {
+                                                    var currentDate = moment().format("DD-MM-YYYY");
+                                                    
+                                                    $(".date").daterangepicker(
+                                                      {
+                                                        locale: {
+                                                          format: "DD-MM-YYYY"
+                                                        },
+                                                        alwaysShowCalendars: true,
+                                                       
+                                                        autoApply: true,
+                                                        autoUpdateInput: true,
+                                                        autoclose: true
+                                                      },
+                                                      function (start, end, label) {
+                                                        $('.daterangepicker').show();
+                                                        // console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+                                                        // Lets update the fields manually this event fires on selection of range
+                                                        var selectedStartDate = start.format("DD-MM-YYYY"); // selected start
+                                                        var selectedEndDate = end.format("DD-MM-YYYY"); // selected end
+                                                    
+                                                    
+                                                        var selectedStartDater = start.format("YYYY-MM-DD HH:mm:ss"); // selected start
+                                                        var selectedEndDater = end.format("YYYY-MM-DD HH:mm:ss");
+                                                    
+                                                    
+                                                        $checkinInput = $("#search_checkin");
+                                                        $checkoutInput = $("#search_checkout");
+                                                        $checkoutInputselected = $("#allselecteddate");
+                                                     
+                                                        // Updating Fields with selected dates
+                                                        $checkinInput.val(selectedStartDater);
+                                                        $checkoutInput.val(selectedEndDater);
+                                                        $checkoutInputselected.val(selectedStartDate + ' - ' + selectedEndDate);
+                                                        $('.daterangepicker').hide();
+                                                        // Setting the Selection of dates on calender on CHECKOUT FIELD (To get this it must be binded by Ids not Calss)
+                                                       
+                                                      });
+                                                    });
+                                                    
+                                                    
+                                                    
+                                                    </script>
+    
+      
+        <form action="/getbillingdetail"  method="post" class="form-horizontal">
+            
+            <div class="row">
+           
+
+                    <div class="col-sm-3 col-xs-6">
+                        <label>Company Name</label>
+                           <div class="input select">
+                            <input type="text" name="name" class="form-control" placeholder="Enter Company Name" aria-label="Username"  aria-describedby="basic-addon1">        
+                           </div>   
+                        
+                        </div>
+
+                       
+                <div class="col-sm-2 col-xs-6">
+                  <label>Status</label>
+                     <div class="input select">
+                      <select name="status"  class="form-control " >
+                          <option value="">--Select --</option>
+                          <option value="Y">Paid</option>
+                          <option value="N">Pending</option>
+                          
+                        
+                          </select>
+  
+                     </div>   
+                  
+                  </div> 
+                            <div class="col-sm-3 col-xs-6">
+                                <label>Invoice Payment Date</label>
+                                <div class="input-group">
+               
+                                    <% var selectr= moment().format("DD-MM-YYYY");
+                                    var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
+                         <input type="text"  class="form-control date" placeholder="<%= selectr %> - <%= selectr %>" aria-label="Username" id="allselecteddate" aria-describedby="basic-addon1">
+                         <input type="hidden" id="search_checkin" value="<%= selectrmon %>" name="startdate" class="form-control" placeholder="Use this hidden">
+                         <input type="hidden" id="search_checkout" value="<%= selectrmon %>" name="enddate" class="form-control" placeholder="Use this hidden"> 
+                         
+                       
+                                 </div>
+                                
+                                </div>
+                           
+           
+                                <div class="col-sm-2 col-xs-6">
+                                    <label></label>
+                                <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
+                                color: #fff;margin-top: 21px;" >
+                                <i style="font-size: 1.6rem;
+                                font-weight: bolder;
+                                margin-top: 4px;" class="la la-search fa-lg"></i> 
+                                </button>
+                                </div>
+                            </div>
+      </form>
+    </div>
+                                            <div class="table-responsive" >
 
                                                 <table class="table">
-                                                    <thead class="thead-dark">
+                                                    <thead class="thead-default">
                                                         <tr>
                                                           <th scope="col">#</th>
                                                           <th scope="col">Company Detail</th>
@@ -169,7 +294,7 @@
                                              
                                              <td>
                                                <% if(userlist.data[i].plan['id']!=5){ %>
-                   <a class="dropdown-item dropplan" href="<%= process.env.APP_URL %>/getinvoice/<%= userlist.data[i].id %>" style="color:red;"> View</a>   
+                   <a class="dropdown-item dropplan" href="<%= process.env.APP_URL %>/getinvoice/<%= userlist.data[i].id %>" style="color:red;"> <i class="la la-file-pdf-o"></i></a>   
                    <% }else{ %> -- <% } %>     
                                              </td>
 
@@ -191,6 +316,46 @@
 
 
                                             </div>
+
+
+                                            <div class="table-responsive" id="table_wrapper2"  style="display:none;">
+
+                                              <table>
+                                                  <thead>
+                                                      <tr>
+                                                        <th>#</th>
+                                                        <th>Company Detail</th>
+                                                        <th>Plan</th>
+                                                        <th>Invoice ID</th>
+                                                        <th>Invoice Date</th>
+                                                         <th>Payment Date</th>
+                                                          <th>Status</th>
+                                                           <th>Amount</th>
+                                                          </tr>
+                                                  </thead>
+                                                  <tbody>
+                                      <%  if(userlist.data.length > 0){
+                                                           var s=1; 
+                                      for(var i=0; i < userlist.data.length; i++) { %>
+                                        <tr>
+                                          <td><%= s++; %></td>
+                                      <td><%= userlist.data[i].user['companyname']; %></td>
+                                  <td><%= userlist.data[i].plan['name'];  %></td>
+                                 <td> <%= userlist.data[i].order_id;  %> </td>
+                                  <td> <%  var strs=userlist.data[i].createdAt; 
+                                             var strsu=userlist.data[i].updatedAt; %>
+                                             <%= moment(strs).format('DD-MM-YYYY') %> </td>
+                                   <td> <% if(userlist.data[i].plan['id']==5){ %>  <%= moment(strs).format('DD-MM-YYYY') %>  <% }else if(userlist.data[i].payment_id){ %>
+                                             <%= moment(strsu).format('DD-MM-YYYY') %> <%  } %></td>
+                                       <td><% if(userlist.data[i].status=="Y"){  %>Paid <% }else{ %>Pending <% } %></td><td><%= userlist.data[i].payment_detail;   %> </td> </tr>
+                                                          <% } } %>
+</tbody>
+                                              </table>
+
+
+
+
+                                          </div>
                                         </div>
                                     </div>
                                 </div>

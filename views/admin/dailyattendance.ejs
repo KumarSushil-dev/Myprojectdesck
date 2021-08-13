@@ -4,16 +4,71 @@
         <%- include('../partials/nav'); %>
             <%- include('../partials/left'); %>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
 
-         
+    <script type="text/javascript" src="https://datatables.net/media/js/site.js?_=3ce0bd53b76d94fd6dd7936dd9dbb114"></script>
+	<script type="text/javascript" src="https://datatables.net/media/js/dynamic.php?comments-page=extensions%2Fbuttons%2Fexamples%2Fhtml5%2FexcelBorder.html" async></script>
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+
+	<script type="text/javascript" class="init">
+
+
+
+$(document).ready(function() {
+
+    var ddd=$('#getmonn').text();
+       ddd = ddd.split(/\s/).join('');
+	$('#example').DataTable( {
+		dom: 'Bfrtip',
+           "ordering": false,
+            "searching": false,
+            "paging":   false,
+		buttons: [ {
+             text: 'Export To xls',
+             title: 'Data_'+ddd,
+			extend: 'excelHtml5',
+			customize: function ( xlsx ){
+				var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+				// jQuery selector to add a border
+
+            $('row c[r*="2"]', sheet).attr('s', '25');
+			}
+		} ]
+	} );
+} );
+
+
+
+	</script>
+  <style>
+    .buttons-html5{
+        background-color: red !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    }
+
+    .buttons-html5 span{
+        
+    font-weight: bold !important;
+font-size: 14px !important;
+    }
+    </style>
+
+
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
                         <script>
-    
+
     $(function () {
     var currentDate = moment().format("DD-MM-YYYY");
-    
+
     $(".date").daterangepicker(
       {
         locale: {
@@ -32,50 +87,30 @@
         // Lets update the fields manually this event fires on selection of range
         var selectedStartDate = start.format("DD-MM-YYYY"); // selected start
         var selectedEndDate = end.format("DD-MM-YYYY"); // selected end
-    
-    
+
+
         var selectedStartDater = start.format("YYYY-MM-DD HH:mm:ss"); // selected start
         var selectedEndDater = end.format("YYYY-MM-DD HH:mm:ss");
-    
-    
+
+
         $checkinInput = $("#search_checkin");
         $checkoutInput = $("#search_checkout");
         $checkoutInputselected = $("#allselecteddate");
-     
+
         // Updating Fields with selected dates
         $checkinInput.val(selectedStartDater);
         $checkoutInput.val(selectedEndDater);
         $checkoutInputselected.val(selectedStartDate + ' - ' + selectedEndDate);
         $('.daterangepicker').hide();
         // Setting the Selection of dates on calender on CHECKOUT FIELD (To get this it must be binded by Ids not Calss)
-       
+
       });
     });
-    
-    
-    
+
+
+
     </script>
 
-<script>
-  $(document).ready(function() {
-  $("#btnExport").click(function(e) {
-    e.preventDefault();
-    document.getElementsByClassName("loader")[0].style.display = "block";
-    //getting data from our table
-    var data_type = 'data:application/vnd.ms-excel';
-    var table_div = document.getElementById('table_wrapper2');
-    var table_html = table_div.outerHTML.replace(/ /g, '%20');
-
-    var a = document.createElement('a');
-    a.href = data_type + ', ' + table_html;
-    a.download = 'Daily_Attendance_' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
-    a.click();
-    document.getElementsByClassName("loader")[0].style.display = "none";
-  });
-
-
-});
-</script>
     <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-body">
@@ -87,19 +122,19 @@
                     </a>
 
                     <div class="details">
-                        <h4 class="m-0">Daily Attendance</h4>
+                               <% var selectr= moment().format("DD-MM-YYYY");
+                               var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
+                        <h4 class="m-0" id="getmonn">Daily Attendance -<%= selectr %> </h4>
                         <!-- <p class="m-0">Here You Can Create And Assign New Tasks Or Edit An Existing Task</p> -->
                     </div>
                     <ul class="d-flex topInputs">
-                        <a href="javascript:void(0);" onclick="spinner()"  id="btnExport" class="downloadButton"><i class="la la-download"></i> Export to xls</a>
-                    
+
                         <form action="/getdailyattendance"  method="post" class="form-horizontal">
-                 
+
                         <li class="mr-1">
                             <div class="input-group">
-                               
-                               <% var selectr= moment().format("DD-MM-YYYY");
-                               var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
+
+
                  <input type="text"  required class="form-control date" placeholder="<%= selectr %> - <%= selectr %>" aria-label="Username" id="allselecteddate" aria-describedby="basic-addon1">
                <input type="hidden" id="search_checkin" value="<%= selectrmon %>" name="startdate" class="form-control" placeholder="Use this hidden">
                <input type="hidden" id="search_checkout" value="<%= selectrmon %>" name="enddate" class="form-control" placeholder="Use this hidden"> <div class="input-group-prepend">
@@ -107,14 +142,14 @@
                 color: #fff;" >
                     <i style="font-size: 1.2rem;margin-top: 5px;
                     font-weight: bolder;
-                    margin-top: 5px;" class="la la-search fa-lg"></i> 
+                    margin-top: 5px;" class="la la-search fa-lg"></i>
                 </button>
             </div>
                             </div>
                         </li>
-                        
+
                       </form>
-                      
+
                     </ul>
                 </div>
 
@@ -122,41 +157,41 @@
                     <div class="d-flex align-items-start">
                         <div class="productivityContainer flex-fill">
                             <div class="table-responsive" >
-                                <table id="zero_config87" class="table table-striped table-bordered no-wrap">
+                                <table id="example" class="table table-striped table-bordered no-wrap">
                                     <thead>
                                         <tr>
                                             <th>User</th>
                                             <th>Date</th>
                                             <th>Punch-In</th>
                                             <th>Punch-Out</th>
-                                            
+
                                             <th>Work Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            
-                                             
-                                      
+
+
+
 <%  if(dailyattendance.data.length > 0){
     var s=1;
-    var sday=[]; 
+    var sday=[];
 for(var i=0; i < dailyattendance.data.length; i++) {
-   
-   
-   
+
+
+
 
      %>
     <tr role="row" class="odd">
-       <% var res = dailyattendance.data[i].user.firstname.substring(0, 1); var nres = dailyattendance.data[i].user.lastname.substring(0, 1);  %> 
+       <% var res = dailyattendance.data[i].user.firstname.substring(0, 1); var nres = dailyattendance.data[i].user.lastname.substring(0, 1);  %>
 <td><span class="firstName bg-info"><%= res; %> <%= nres; %></span><a href="<%= process.env.APP_URL %>/viewdetail/<%= dailyattendance.data[i].user.id; %>">
     <%= dailyattendance.data[i].user.firstname; %> <%= dailyattendance.data[i].user.lastname; %></a></td>
 <td><b><%= moment(dailyattendance.data[i].punch_in).format('DD-MM-YYYY'); %></b></td>
 <td><b><%= moment(dailyattendance.data[i].punch_in).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
 <td><b> <% if(dailyattendance.data[i].punch_out){ %><%= moment(dailyattendance.data[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %> <% } %></b></td>
-<td><%  
+<td><%
     var duration = moment.utc(dailyattendance.data[i].duration*1000).format("HH:mm");  %>
 <% if(dailyattendance.data[i].punch_out){ %>
-<%= duration; %> <% } %></td>  
+<%= duration; %> <% } %></td>
 </tr>
 <% } }else{ %>
 <tr><td colspan="4" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
@@ -168,51 +203,6 @@ for(var i=0; i < dailyattendance.data.length; i++) {
 
 
 
-
-        <div class="table-responsive" style="display:none;" id="table_wrapper2">
-                <table  class="table table-striped table-bordered no-wrap">
-                                    <thead>
-                                        <tr>
-                                            <th>User</th>
-                                            <th>Date</th>
-                                            <th>Punch-In</th>
-                                            <th>Punch-Out</th>
-                                            
-                                            <th>Work Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                            
-                                             
-                                      
-<%  if(dailyattendance.data.length > 0){
-    var s=1;
-    var sday=[]; 
-for(var i=0; i < dailyattendance.data.length; i++) {
-   
-   
-   
-
-     %>
-    <tr role="row" >
-       <% var res = dailyattendance.data[i].user.firstname.substring(0, 1); var nres = dailyattendance.data[i].user.lastname.substring(0, 1);  %> 
-<td>
-    <%= dailyattendance.data[i].user.firstname; %> <%= dailyattendance.data[i].user.lastname; %></td>
-<td><b><%= moment(dailyattendance.data[i].punch_in).format('DD-MM-YYYY'); %></b></td>
-<td><b><%= moment(dailyattendance.data[i].punch_in).format('DD-MM-YYYY HH:mm:ss'); %></b></td>
-<td><b> <% if(dailyattendance.data[i].punch_out){ %><%= moment(dailyattendance.data[i].punch_out).format('DD-MM-YYYY HH:mm:ss'); %> <% } %></b></td>
-<td><%  
-    var duration = moment.utc(dailyattendance.data[i].duration*1000).format("HH:mm");  %>
-<% if(dailyattendance.data[i].punch_out){ %>
-<%= duration; %> <% } %></td>  
-</tr>
-<% } }else{ %>
-<tr><td colspan="4" style="text-align:center;color:red;"> No Attendance Logs Available</td></tr>
-
-<% } %>
-</tbody>
-                                </table>
-                            </div>
 
                         </div>
                     </div>
@@ -224,6 +214,19 @@ for(var i=0; i < dailyattendance.data.length; i++) {
 
 
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 
-                <%- include('../partials/footer'); %>
+<footer class=" footer footer-static footer-light navbar-border navbar-shadow ">
+    <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 "><span
+            class="float-md-left d-block d-md-inline-block ">2021 &copy; Copyright <a
+                class="text-bold-800 grey darken-2 " href="# " target="_blank ">MyProject Desk</a></span>
+
+    </div>
+</footer>
+<!-- BEGIN CHAMELEON  JS-->
+
+
+
+                <% // include('../partials/footer'); %>

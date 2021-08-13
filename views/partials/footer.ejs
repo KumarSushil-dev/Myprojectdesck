@@ -1,9 +1,10 @@
+<footer class=" footer footer-static footer-light navbar-border navbar-shadow ">
+    <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 "><span
+            class="float-md-left d-block d-md-inline-block ">2021 &copy; Copyright <a
+                class="text-bold-800 grey darken-2 " href="# " target="_blank ">MyProject Desk</a></span>
 
-      <footer class=" footer footer-static footer-light navbar-border navbar-shadow ">
-        <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 "><span class="float-md-left d-block d-md-inline-block ">2021  &copy; Copyright <a class="text-bold-800 grey darken-2 " href="# " target="_blank ">MyProject Desk</a></span>
-         
-        </div>
-    </footer>
+    </div>
+</footer>
 <!-- BEGIN VENDOR JS-->
 <script src="/theme-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
 <!-- BEGIN VENDOR JS-->
@@ -30,7 +31,7 @@
 
 <script src="/assets/js/lightgallery.js"></script>
 <script>
-  
+
     lightGallery(document.getElementById('lightgallery1'));
     lightGallery(document.getElementById('lightgallery2'));
     lightGallery(document.getElementById('lightgallery3'));
@@ -68,28 +69,35 @@
     });
 </script>
 
+
+
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#zero_config87').DataTable({
-        "ordering": false,
-        "searching": true
-    } );
+            "ordering": false,
+            "searching": true,
+             "pageLength": 20
+        });
         $('#zero_config2').DataTable({
-        "ordering": false,
-        "searching": true
-    } );
+            "ordering": false,
+            "searching": true,
+             "pageLength": 20
+        });
         $('#zero_config3').DataTable({
-        "ordering": false,
-        "searching": true
-    } );
+            "ordering": false,
+            "searching": true,
+             "pageLength": 20
+        });
         $('#zero_config4').DataTable({
-        "ordering": false,
-        "searching": true
-    } );
+            "ordering": false,
+            "searching": true,
+             "pageLength": 20
+        });
         $('#zero_config5').DataTable({
-        "ordering": false,
-        "searching": true
-    } );
+            "ordering": false,
+            "searching": true,
+             "pageLength": 20
+        });
     });
 </script>
 
@@ -105,28 +113,28 @@
             const randomNum = Math.floor(Math.random() * 100 + 1);
             let d = new Date();
             d.setDate(d.getDate() - (i * 30));
-            if(i==0){
-            data.push({
-                date: d,
-                amount: 98
-            });
-        }else{
-            data.push({
-                date: d,
-                amount: 0
-            });
+            if (i == 0) {
+                data.push({
+                    date: d,
+                    amount: 98
+                });
+            } else {
+                data.push({
+                    date: d,
+                    amount: 0
+                });
 
-        }
+            }
         }
 
         return data;
     }
 
     // Create + Format data
-    let data = createData(12).sort(function(a, b) {
+    let data = createData(12).sort(function (a, b) {
         return a.date - b.date;
     });
-console.log(data);
+    console.log(data);
     // what are these and are they things that someone should edit
     const margin = {
         top: 20,
@@ -228,7 +236,7 @@ console.log(data);
     const tooltip = d3.select('.tooltip');
 
     const bars = svg.selectAll('.bar')
-        .on('mouseover', function(d) {
+        .on('mouseover', function (d) {
             let color = d3.color('#338fdb').darker()
             d3.select(this)
                 .attr('fill', color)
@@ -244,7 +252,7 @@ console.log(data);
             tooltip
                 .style('left', `${x(d.date) + margin.left - offset}px`)
         })
-        .on('mouseout', function(d) {
+        .on('mouseout', function (d) {
             d3.select(this)
                 .transition()
                 .duration(250)
@@ -288,8 +296,8 @@ console.log(data);
 
 
 <script>
-    $(document).ready(function() {
-        $('.chart.doughnut').each(function() {
+    $(document).ready(function () {
+        $('.chart.doughnut').each(function () {
             var chartID = $(this).find('canvas').attr('id');
             var c = document.getElementById(chartID);
             var width = $('#' + chartID).width();
@@ -309,7 +317,7 @@ console.log(data);
             ctx.shadowBlur = 20;
             ctx.shadowColor = "rgba(0,0,0,0.2)";
             ctx.stroke();
-            $(this).find('li').each(function() {
+            $(this).find('li').each(function () {
                 var start = startingPoint;
                 var dataValue = $(this).find('data').attr('value');
                 var end = startingPoint + (2 * dataValue);
@@ -327,8 +335,8 @@ console.log(data);
 </script>
 
 <script>
-    $(document).ready(function() {
-        $('.chart.doughnut2').each(function() {
+    $(document).ready(function () {
+        $('.chart.doughnut2').each(function () {
             var chartID = $(this).find('canvas').attr('id');
             var c = document.getElementById(chartID);
             var width = $('#' + chartID).width();
@@ -348,7 +356,7 @@ console.log(data);
             ctx.shadowBlur = 20;
             ctx.shadowColor = "rgba(0,0,0,0.2)";
             ctx.stroke();
-            $(this).find('li').each(function() {
+            $(this).find('li').each(function () {
                 var start = startingPoint;
                 var dataValue = $(this).find('data').attr('value');
                 var end = startingPoint + (2 * dataValue);
@@ -367,9 +375,9 @@ console.log(data);
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
- <!-- graph -->
- <script src="https://code.highcharts.com/highcharts.js"></script>
- <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<!-- graph -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 </body>
 
 </html>

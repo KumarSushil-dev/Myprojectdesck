@@ -3,92 +3,84 @@
    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
            <%- include('../partials/nav'); %>
            <%- include('../partials/left'); %>
-       
-           <script src="/theme-assets/js/jquery.avatarme-1.0.min.js"></script>
-           <link rel="stylesheet" href="/theme-assets/css/avatar.css">
-   
-<script>    jQuery(function($){
-                 var $userName = $('.user-name');
-                 if ($userName.length) {
-                   $userName.avatarMe({
-                     className: 'avatar-me',
-                     maxChar: 1
-                   });
-                 }
-               });
-   </script>
-           <script type="text/javascript" src="/theme-assets/js/jquery.formatCurrency-1.4.0.min.js"></script>
-           <script> $(function () {
-             $(".currency").blur(function () {
-               $(".currency").html(null), $(this).formatCurrency({
-                 colorize: !0,
-                 symbol: "",
-                 negativeFormat: "-%s%n",
-                 roundToDecimalPlace: -1
-               })
-             }).keyup(function (e) {
-               var e = window.event || e,
-                 a = e.charCode || e.keyCode;
-               if (110 != a && 229 != a && 190 != a && 46 != a && 45 != a && a > 31 && (96 > a || a > 105) && (48 > a || a > 57) && $(".currency").val(""), void 0 !== e) switch (a) {
-                 case 16:
-                   break;
-                 case 17:
-                   break;
-                 case 18:
-                   break;
-                 case 27:
-                   this.value = "";
-                   break;
-                 case 35:
-                   break;
-                 case 36:
-                   break;
-                 case 37:
-                   break;
-                 case 38:
-                   break;
-                 case 39:
-                   break;
-                 case 40:
-                   break;
-                 case 78:
-                   break;
-                 case 110:
-                   break;
-                 case 190:
-                   break;
-                 default:
-                   $(this).formatCurrency({
-                     colorize: !0,
-                     negativeFormat: "-%s%n",
-                     roundToDecimalPlace: -1,
-                     eventOnDecimalsEntered: !1
-                   })
-               }
-             }).bind("decimalsEntered", function (e, a) {
-               var t = "Please do not enter any cents (0." + a + ")";
-               alert(t), log("Event on decimals entered:" + t)
-             });
-           });
-           </script>
+
+      
    <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-body">
                 <div class="blocks userDetails">
-                    <a href="./task.html">
+                    <a href="#">
                         <div class="userIcon">
                             <img src="/assets/images/ic_daily_attendance.png" class="img-fluid" alt="" />
                         </div>
                     </a>
                     <div class="details">
-                        <h4 class="m-0">Productivity</h4>
+                        <h4 class="m-0" id="getmonn">Productivity <%= moment().format("DD-MM-YYYY"); %></h4>
                    <p class="m-0">See Deep insights on overall productivity of your employee</p>
                     </div>
+  
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+                    
+<script type="text/javascript" src="https://datatables.net/media/js/site.js?_=3ce0bd53b76d94fd6dd7936dd9dbb114"></script>
+<script type="text/javascript" src="https://datatables.net/media/js/dynamic.php?comments-page=extensions%2Fbuttons%2Fexamples%2Fhtml5%2FexcelBorder.html" async></script>
+ <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+ <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+ <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+                    
+ <% var dfd=new Date();
+ var months=["January", "February" , "March" , "April" , "May" , "June" , "July" , "August" , "September" , "October" , "November" , "December" ];%> 
 
+ <% var tyy=months[dfd.getMonth()]; %>
+                    <script type="text/javascript" class="init">
+                 
+                     $(document).ready(function() {
+                    
+                      var ddd='<%= tyy; %>';
+                         ddd = ddd.split(/\s/).join('');
+                    $('#examplerr').DataTable({
+                      dom: 'Bfrtip',
+                             "ordering": false,
+                              "searching": false,
+                              "paging":   false,
+                              "info":false,
+                      buttons: [ {
+                               text: ddd+'_Export To xls',
+                               title: 'Productivity_'+ddd,
+                        extend: 'excelHtml5',
+                        customize: function ( xlsx ){
+                          var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    
+                          // jQuery selector to add a border
+                    
+                              $('row c[r*="2"]', sheet).attr('s', '25');
+                        }
+                      }]
+                    });
+                    });
+                    
+                    
+                    
+                    </script>
+                      <style>
+                      .buttons-html5{
+                          background-color: red !important;
+                      color: #fff !important;
+                      font-weight: bold !important;
+                      }
+
+                      .buttons-html5 span{
+                          
+                      font-weight: bold !important;
+    font-size: 14px !important;
+                      }
+                      </style>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-                    <script>
+<script>
 
 $(function () {
 var currentDate = moment().format("DD-MM-YYYY");
@@ -120,85 +112,52 @@ $(".date").daterangepicker(
     $checkinInput = $("#search_checkin");
     $checkoutInput = $("#search_checkout");
     $checkoutInputselected = $("#allselecteddate");
- 
+
     // Updating Fields with selected dates
     $checkinInput.val(selectedStartDater);
     $checkoutInput.val(selectedEndDater);
     $checkoutInputselected.val(selectedStartDate + ' - ' + selectedEndDate);
     $('.daterangepicker').hide();
     // Setting the Selection of dates on calender on CHECKOUT FIELD (To get this it must be binded by Ids not Calss)
-   
+
   });
 });
 
-
-
 </script>
                     <ul class="d-flex topInputs">
-                       
+
                         <form action="/getproductivity"  method="post" class="form-horizontal">
-                 
+
                         <li class="mr-1">
                             <div class="input-group">
-                               
+
                                <% var selectr= moment().format("DD-MM-YYYY");
                                var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
                  <input type="text"  required class="form-control date" placeholder="<%= selectr %> - <%= selectr %>" aria-label="Username" id="allselecteddate" aria-describedby="basic-addon1">
                <input type="hidden" id="search_checkin" value="<%= selectrmon %>" name="startdate" class="form-control" placeholder="Use this hidden">
-               <input type="hidden" id="search_checkout" value="<%= selectrmon %>" name="enddate" class="form-control" placeholder="Use this hidden"> 
-               
+               <input type="hidden" id="search_checkout" value="<%= selectrmon %>" name="enddate" class="form-control" placeholder="Use this hidden">
+
                <div class="input-group-prepend">
                 <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
                 color: #fff;" >
                     <i style="font-size: 1.2rem;margin-top: 5px;
                     font-weight: bolder;
-                    margin-top: 5px;" class="la la-search fa-lg"></i> 
+                    margin-top: 5px;" class="la la-search fa-lg"></i>
                 </button>
             </div>
                             </div>
                         </li>
-                        
+
                       </form>
-                      
+
                     </ul>
                 </div>
 
-                
+
 
                 <div class="blocks tabContainers mb-0">
                     <div class="d-flex align-items-start">
-                        <!-- <div class="userProfilez snapShotLeft">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text rounded-0" id="basic-addon1">
-                                        <i class="la la-search"></i>
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control rounded-0" placeholder="Tap to Search" aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
-                            <h4>Employee</h4>
-
-                            <ul class="ssUserList">
-                                <li><a href="#"><span class="firstName bg-dark">DA</span> Deepak Athwani</a></li>
-                                <li><a href="#"><span class="firstName bg-danger">DS</span> Dheerendra Solanki</a></li>
-                                <li><a href="#"><span class="firstName bg-success">DS</span> Dilip Sharma</a></li>
-                                <li><a href="#"><span class="firstName bg-primary">DB</span> Dinesh Binjarniya</a></li>
-                                <li><a href="#"><span class="firstName bg-warning">GK</span> Gajanand Kumawat</a></li>
-                                <li><a href="#"><span class="firstName bg-info">KJ</span> Kailash Jhuria</a></li>
-                                <li><a href="#"><span class="firstName bg-primary">LK</span> Lokesh Kumawat</a></li>
-                                <li><a href="#"><span class="firstName bg-danger">MS</span> Manish Shahu</a></li>
-                                <li><a href="#"><span class="firstName bg-warning">MC</span> Manish Chaudhary</a></li>
-                                <li><a href="#"><span class="firstName bg-dark">DA</span> Deepak Athwani</a></li>
-                                <li><a href="#"><span class="firstName bg-danger">DS</span> Dheerendra Solanki</a></li>
-                                <li><a href="#"><span class="firstName bg-success">DS</span> Dilip Sharma</a></li>
-                                <li><a href="#"><span class="firstName bg-primary">DB</span> Dinesh Binjarniya</a></li>
-                                <li><a href="#"><span class="firstName bg-warning">GK</span> Gajanand Kumawat</a></li>
-                                <li><a href="#"><span class="firstName bg-info">KJ</span> Kailash Jhuria</a></li>
-                                <li><a href="#"><span class="firstName bg-primary">LK</span> Lokesh Kumawat</a></li>
-                                <li><a href="#"><span class="firstName bg-danger">MS</span> Manish Shahu</a></li>
-                                <li><a href="#"><span class="firstName bg-warning">MC</span> Manish Chaudhary</a></li>
-                            </ul>
-                        </div> -->
+                       
 
                         <div class="productivityContainer flex-fill">
                             <!-- Bar charts section start -->
@@ -209,24 +168,24 @@ $(".date").daterangepicker(
                             <!-- // Bar charts section end -->
 
        <%  if(companytask.datatotal.length > 0){
-                    
-                 
+
+
 
            for(var i=0; i < companytask.datatotal.length; i++) {
                                    var totalworkingDisplays="00";
                                    var mtotalworkingDisplays="00";
                                    var stotalworkingDisplays="00";
-                
+
                                    var  productinfoDisplays="00";
                                    var mproductinfoDisplays="00";
-                                   var sproductinfoDisplays="00"; 
-           
-           
+                                   var sproductinfoDisplays="00";
+
+
                                    var  idleinfoDisplays="00";
                                    var midleinfoDisplays="00";
-                                   var sidleinfoDisplays="00"; 
-           
-           
+                                   var sidleinfoDisplays="00";
+
+
                                    var totalproductinfos=0;
                                    var totalidles=0;
                                    var totalworkings=0;
@@ -235,61 +194,61 @@ $(".date").daterangepicker(
                                    var totalidles= Math.floor(companytask.datatotal[i].totalIdleMinutes /1000);
                                     var totalworkings=totalproductinfos+totalidles;
                                                    var dtotalworkings = Number(totalworkings);
-                                                  
+
                                                    var htotalworkings = Math.floor(dtotalworkings / 3600);
-                                                
+
                                                    var mtotalworkings = Math.floor(dtotalworkings % 3600 / 60);
-                                               var stotalworkings = Math.floor(dtotalworkings % 3600 % 60);  
+                                               var stotalworkings = Math.floor(dtotalworkings % 3600 % 60);
                                                    var totalworkingDisplays = htotalworkings > 0 ? (htotalworkings > 9 ? htotalworkings : "0"+htotalworkings) + (htotalworkings == 1 ? "" : "") : "00";
-                                                 
+
                                                    var mtotalworkingDisplays = mtotalworkings > 0 ? (mtotalworkings > 9 ? mtotalworkings : "0"+mtotalworkings) + (mtotalworkings == 1 ? "" : "") : "00";
-                                                   
+
                                                    var stotalworkingDisplays = stotalworkings > 0 ? (stotalworkings > 9 ? stotalworkings : "0"+stotalworkings) + (stotalworkings == 1 ? "" : "") : "00";
-           
-           
-           
+
+
+
                                                    //productivity
                                                    var dproductinfos = Number(totalproductinfos);
-                                                  
+
                                                    var hproductinfos = Math.floor(dproductinfos / 3600);
-                                                
+
                                                    var mproductinfos = Math.floor(dproductinfos % 3600 / 60);
-                                                   var sproductinfos = Math.floor(dproductinfos % 3600 % 60); 
+                                                   var sproductinfos = Math.floor(dproductinfos % 3600 % 60);
                                                    var productinfoDisplays = hproductinfos > 0 ? (hproductinfos > 9 ? hproductinfos : "0"+hproductinfos) + (hproductinfos == 1 ? "" : "") : "00";
-                                                 
+
                                                    var mproductinfoDisplays = mproductinfos > 0 ? (mproductinfos > 9 ? mproductinfos : "0"+mproductinfos) + (mproductinfos == 1 ? "" : "") : "00";
-                                                   
+
                                                    var sproductinfoDisplays = sproductinfos > 0 ? (sproductinfos > 9 ? sproductinfos : "0"+sproductinfos) + (sproductinfos == 1 ? "" : "") : "00";
-           
+
                                                    //idealtime
                                                    var didleinfos = Number(totalidles);
-                                                  
+
                                                    var hidleinfos = Math.floor(didleinfos / 3600);
-                                                
+
                                                    var midleinfos = Math.floor(didleinfos % 3600 / 60);
-                                                   var sidleinfos = Math.floor(didleinfos % 3600 % 60); 
+                                                   var sidleinfos = Math.floor(didleinfos % 3600 % 60);
                                                    var idleinfoDisplays = hidleinfos > 0 ? (hidleinfos > 9 ? hidleinfos : "0"+hidleinfos) + (hidleinfos == 1 ? "" : "") : "00";
-                                                 
+
                                                    var midleinfoDisplays = midleinfos > 0 ? (midleinfos > 9 ? midleinfos : "0"+midleinfos) + (midleinfos == 1 ? "" : "") : "00";
-                                                   
+
                                                    var sidleinfoDisplays = sidleinfos > 0 ? (sidleinfos > 9 ? sidleinfos : "0"+sidleinfos) + (sidleinfos == 1 ? "" : "") : "00";
-           
-           
+
+
                                          var percentagefs=(Number(dproductinfos)*100)/Number(dtotalworkings);
-                                   
-                                         var percentagefs=Math.round(percentagefs).toFixed(2);  
-                                         
+
+                                         var percentagefs=Math.round(percentagefs).toFixed(2);
+
                                          if(percentagefs >100){
                                           percentagefs="100";
-                                        } 
+                                        }
                                         percentagefs=percentagefs;
 
                                         if(percentagefs=="NaN"){
                                           percentagefs="0";
                                         }
-                                   %>                                        
-                                           
-                                   
+                                   %>
+
+
 
                                    <div class="row">
                                     <div class="col-md-3 col-sm-6 col-12">
@@ -317,13 +276,88 @@ $(".date").daterangepicker(
                                         </div>
                                     </div>
                                 </div>
-                     
+
                                                    <% } } %>
 
 
 
 
-                            
+  <div class="table-responsive" style=" border-left: 1px solid #ccc8;border-right: 1px solid #ccc8;">
+         <table  id="examplerr" class="mb-0 table-bordered table" style="display:none;">
+          <thead>      <tr>               
+                         <th class="bt-0"  style="padding: .5rem !important; width: 200px !important;">Employee
+                                                                               </th>
+                               <% var dt=new Date();
+                                          var month=dt.getMonth();
+                                             var year=dt.getFullYear();
+                                          daysInMonth=new Date(year, month,0).getDate();
+                                                 if(daysInMonth){
+                                               for(var g=1; g <=daysInMonth; g++) {
+                                                                                   %>
+                             <th class="bt-0 p_0" style="width:60px !important; text-align:center;"><%= g; %> </th>
+                               
+                                                                                   <% } } %>
+                               
+                               
+                               
+                                    
+                                                                           </tr>
+                                                                       </thead>
+                                                                       <tbody>
+                               
+         <% if(companytask.user.length> 0){
+                       var startdate = new Date();
+                  var nows = moment(startdate).format('D');
+               for(var i=0; i < companytask.user.length; i++) {
+                   var present=0;
+            var absent=0; var userstring=companytask.user[i].split('_');
+                 var srr=userstring[1].split(' ');
+                       var res = srr[0].substring(0, 1);
+                         var nres = srr[1].substring(0, 1);  %>
+            <tr>
+                 <th class="align-middle" style="padding: .5rem !important;">
+                <%= userstring[1]; %>
+                                                                   </th>
+                      <% if(daysInMonth){
+                              var d = new Date();
+                                 var df=d.getDate();
+                               for(var g=1; g <= daysInMonth; g++) {  %>
+                        <td class="align-middle p_0 text-center"> <%
+                                var y=0;
+                      if(companytask.monthlyproductivityreport.length > 0){
+                               
+                       for(var s=0; s < companytask.monthlyproductivityreport.length; s++) {
+                       var datt=moment(companytask.monthlyproductivityreport[s].capturetime).format('D');
+                       if(companytask.monthlyproductivityreport[s].userId==userstring[0] && datt==g){
+       var ms='0' ;
+
+       var percentagef='0';
+       var totalproductinfo= Math.floor(companytask.monthlyproductivityreport[s].productivitytime /1000);
+       var totalidle= Math.floor(companytask.monthlyproductivityreport[s].totalIdleMinutes /1000);
+        var totalworking=totalproductinfo+totalidle;
+                       var dtotalworking = Number(totalworking);
+
+                       var dproductinfo = Number(totalproductinfo);
+
+
+
+       var percentagef=(Number(dproductinfo)*100)/Number(dtotalworking);
+
+        percentagef=Math.round(percentagef).toFixed(2);
+       if(percentagef >100){
+        percentagef="100";
+      }
+      ms=percentagef;
+
+   if(ms!="0" ){   present++; y=1;  %> <%= ms; %>%  <% } } } }
+                                         %>
+                                          </td>
+                                      <% } } %>
+                                </tr>
+                                                     <% } } %>
+                                                                       </tbody>
+                                                                   </table>
+                                                               </div>
 
                             <div class="table-responsive">
                                 <table id="zero_config87" class="table table-striped table-bordered no-wrap">
@@ -342,22 +376,22 @@ $(".date").daterangepicker(
                                     <tbody>
 
                 <%  if(companytask.data.length > 0){
-                    
-                 
+
+
 
                      for(var i=0; i < companytask.data.length; i++) {
                         var totalworkingDisplay="00";
                         var mtotalworkingDisplay="00";
                         var stotalworkingDisplay="00";
-     
+
                         var  productinfoDisplay="00";
                         var mproductinfoDisplay="00";
-                        var sproductinfoDisplay="00"; 
+                        var sproductinfoDisplay="00";
 
 
                         var  idleinfoDisplay="00";
                         var midleinfoDisplay="00";
-                        var sidleinfoDisplay="00"; 
+                        var sidleinfoDisplay="00";
 
 
                         var totalproductinfo=0;
@@ -368,85 +402,85 @@ $(".date").daterangepicker(
                         var totalidle= Math.floor(companytask.data[i].totalIdleMinutes /1000);
                          var totalworking=totalproductinfo+totalidle;
                                         var dtotalworking = Number(totalworking);
-                                       
+
                                         var htotalworking = Math.floor(dtotalworking / 3600);
-                                     
+
                                         var mtotalworking = Math.floor(dtotalworking % 3600 / 60);
-                                    var stotalworking = Math.floor(dtotalworking % 3600 % 60);  
+                                    var stotalworking = Math.floor(dtotalworking % 3600 % 60);
                                         var totalworkingDisplay = htotalworking > 0 ? (htotalworking > 9 ? htotalworking : "0"+htotalworking) + (htotalworking == 1 ? "" : "") : "00";
-                                      
+
                                         var mtotalworkingDisplay = mtotalworking > 0 ? (mtotalworking > 9 ? mtotalworking : "0"+mtotalworking) + (mtotalworking == 1 ? "" : "") : "00";
-                                        
+
                                         var stotalworkingDisplay = stotalworking > 0 ? (stotalworking > 9 ? stotalworking : "0"+stotalworking) + (stotalworking == 1 ? "" : "") : "00";
 
 
 
                                         //productivity
                                         var dproductinfo = Number(totalproductinfo);
-                                       
+
                                         var hproductinfo = Math.floor(dproductinfo / 3600);
-                                     
+
                                         var mproductinfo = Math.floor(dproductinfo % 3600 / 60);
-                                        var sproductinfo = Math.floor(dproductinfo % 3600 % 60); 
+                                        var sproductinfo = Math.floor(dproductinfo % 3600 % 60);
                                         var productinfoDisplay = hproductinfo > 0 ? (hproductinfo > 9 ? hproductinfo : "0"+hproductinfo) + (hproductinfo == 1 ? "" : "") : "00";
-                                      
+
                                         var mproductinfoDisplay = mproductinfo > 0 ? (mproductinfo > 9 ? mproductinfo : "0"+mproductinfo) + (mproductinfo == 1 ? "" : "") : "00";
-                                        
+
                                         var sproductinfoDisplay = sproductinfo > 0 ? (sproductinfo > 9 ? sproductinfo : "0"+sproductinfo) + (sproductinfo == 1 ? "" : "") : "00";
 
                                         //idealtime
                                         var didleinfo = Number(totalidle);
-                                       
+
                                         var hidleinfo = Math.floor(didleinfo / 3600);
-                                     
+
                                         var midleinfo = Math.floor(didleinfo % 3600 / 60);
-                                        var sidleinfo = Math.floor(didleinfo % 3600 % 60); 
+                                        var sidleinfo = Math.floor(didleinfo % 3600 % 60);
                                         var idleinfoDisplay = hidleinfo > 0 ? (hidleinfo > 9 ? hidleinfo : "0"+hidleinfo) + (hidleinfo == 1 ? "" : "") : "00";
-                                      
+
                                         var midleinfoDisplay = midleinfo > 0 ? (midleinfo > 9 ? midleinfo : "0"+midleinfo) + (midleinfo == 1 ? "" : "") : "00";
-                                        
+
                                         var sidleinfoDisplay = sidleinfo > 0 ? (sidleinfo > 9 ? sidleinfo : "0"+sidleinfo) + (sidleinfo == 1 ? "" : "") : "00";
 
 
                                var percentagef=(Number(dproductinfo)*100)/Number(dtotalworking);
-                        
-                                   var  percentagef=Math.round(percentagef).toFixed(2);   
+
+                                   var  percentagef=Math.round(percentagef).toFixed(2);
                                    if(percentagef >100){
                                     percentagef="100";
-                                  } 
+                                  }
                                   percentagef=percentagef;
-     
-                        %>                                        
+
+                        %>
                                         <tr>
 
-                                            <% var srr=companytask.data[i].user.firstname; 
-                                            var snerr=companytask.data[i].user.lastname; 
-          
-                  var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %> 
-          
+                                            <% var srr=companytask.data[i].user.firstname;
+                                            var snerr=companytask.data[i].user.lastname;
+
+                  var res = srr.substring(0, 1); var nres = snerr.substring(0, 1);  %>
+
                                   <td><span class="fname"><%=res %><%=nres %></span><a href="<%= process.env.APP_URL %>/viewdetail/<%= companytask.data[i].user.id; %>"><%= companytask.data[i].user.firstname; %> <%= companytask.data[i].user.lastname; %></a></td>
 
-                                       
+
                                                   <td> <%= totalworkingDisplay+':'+mtotalworkingDisplay+':'+stotalworkingDisplay; %></td>
-                                                    
+
                                                     <td><%= idleinfoDisplay+':'+midleinfoDisplay+':'+sidleinfoDisplay; %></td>
                                                     <td><%= productinfoDisplay+':'+mproductinfoDisplay+':'+sproductinfoDisplay; %></td>
-                                            <td> 
+                                            <td>
                                                 <div class="progress" style="height:.5rem">
                                                     <div class="progress-bar" role="progressbar" style="width: <%= percentagef; %>%" title="<%= percentagef; %> %" aria-valuenow="<%= percentagef; %>" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </td>
                                             <td><%= companytask.data[i].totalKeypressCount; %></td>
-                                           
+
                                             <td><%= companytask.data[i].totalClicks; %></td>
                                             <td><%= companytask.data[i].totalMouseMovement; %></td>
                                         </tr>
                                         <% } }else{ %>
                                             <tr>
-                                               
+
                                         <td colspan="8" class="text-center" style="color:red; ">No Productivity Listed Yet</td>
-                                               
-                                            </tr>      
+
+                                            </tr>
           <%  } %>
                                     </tbody>
                                 </table>
@@ -459,4 +493,16 @@ $(".date").daterangepicker(
     </div>
     <!-- ////////////////////////////////////////////////////////////////////////////-->
 
-    <%- include('../partials/footer'); %>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    
+    
+    <footer class=" footer footer-static footer-light navbar-border navbar-shadow ">
+        <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 "><span
+                class="float-md-left d-block d-md-inline-block ">2021 &copy; Copyright <a
+                    class="text-bold-800 grey darken-2 " href="# " target="_blank ">MyProject Desk</a></span>
+    
+        </div>
+    </footer>
+    <!-- BEGIN CHAMELEON  JS-->
+    

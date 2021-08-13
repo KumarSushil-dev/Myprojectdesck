@@ -1,242 +1,264 @@
+<div id="table_wrapper2">
 
-  <div id="table_wrapper2">
-  
-    <% 
-    if(roleid==2){ 
-     
-      var ppid=getinvoicedata.data[0].payment_id;
-       if(ppid){
-         %><button  class="btn btn-danger pull-right" style="margin-top: -41px;">Paid && Download</button>  <%  }else{        var plan={};
-        plan['totalUser']=getinvoicedata.data[0].totaluser;
-        plan['discount']=getinvoicedata.data[0].discount;
-        plan['tax']=getinvoicedata.data[0].taxprice;
-        plan['orderTotal']=getinvoicedata.data[0].payment_detail;
-        plan['name'] = getinvoicedata.data[0].plan.name;
-        plan['price'] = getinvoicedata.data[0].plan.price;
- //console.log(plan);
-       var detail = JSON.stringify(plan);
-      // console.log(detail); 
-       %>
- 
+  <% if(roleid==2){ var ppid=getinvoicedata.data[0].payment_id; if(ppid){ %><button class="btn btn-danger pull-right"
+      style="margin-top: -41px;">Paid && Download</button>
+    <% }else{ var plan={}; plan['totalUser']=getinvoicedata.data[0].totaluser;
+      plan['discount']=getinvoicedata.data[0].discount; plan['tax']=getinvoicedata.data[0].taxprice;
+      plan['orderTotal']=getinvoicedata.data[0].payment_detail; plan['name']=getinvoicedata.data[0].plan.name;
+      plan['price']=getinvoicedata.data[0].peruserprice; var detail=JSON.stringify(plan); console.log(detail); %>
 
 
-<form method="post" action="https://www.doomshell.com/process-order" name="paytm">
-<table border="1">
-<tbody>
-<input type="hidden" name="amount" value="<%= getinvoicedata.data[0].payment_detail; %>">
-<input type="hidden" name="orderId" value="<%= getinvoicedata.data[0].id; %>">
-<input type="hidden" name="redirect_url" value="<%= process.env.APP_URL %>/updatepayment">
-<input type="hidden" name="detail" value="<%= detail; %>">  
-<input type="hidden" name="logo" value="https://www.doomshell.com/images/myprojectdesklogo.png">
-<input type="hidden" name="site" value="My Project-Desk">
-<input type="submit" value="Pay" class="btn btn-primary pull-right" style="margin-top: -41px;">   
- </tbody>
-  </table>
 
-</form>
- <% } %>
+      <form method="post" action="https://www.doomshell.com/process-order" name="paytm">
+        <table border="1">
+          <tbody>
+            <input type="hidden" name="amount" value="<%= getinvoicedata.data[0].payment_detail; %>">
+            <input type="hidden" name="orderId" value="<%= getinvoicedata.data[0].id; %>">
+            <input type="hidden" name="redirect_url" value="<%= process.env.APP_URL %>/updatepayment">
+            <input type="hidden" name="detail" value="<%= detail; %>">
+            <input type="hidden" name="logo" value="https://www.doomshell.com/images/myprojectdesklogo.png">
+            <input type="hidden" name="site" value="My Project-Desk">
+            <input type="submit" value="Pay" class="btn btn-primary pull-right" style="margin-top: -41px;">
+          </tbody>
+        </table>
+
+      </form>
+      <% } %>
 
 
-    
-      
-         
-          <% } %>
-  <hr>
-<table width="100%" >
- 
-  
-    <tr>
- 
-    <td style="color:#6610f2; font-size:19px; font-weight:bold; text-align:left; height:28px; line-height:28px; width:48%;"><%= getinvoicedata.admin.companyname; %>
-    </td>
-    
-    <td style="color:#6610f2; font-size:19px; font-weight:bold; text-align:right; height:28px; line-height:28px; width:48%;">
-    Invoice
-    </td>
-    <td width="2%"></td>
-    </tr>
-    
-    
-    <tr>
 
-    <td style="color:#7d7d7d; font-size:15px; font-weight:normal; text-align:left; height:28px; line-height:22px; width:35%;">
-      
-      <%= getinvoicedata.admin.address; %><br>
-      <%= getinvoicedata.admin.zipcode; %> INDIA
-    </td>
-    
-    <td style="color:#7d7d7d; font-size:15px; font-weight:normal; text-align:right; height:28px; line-height:28px; width:61%;">
-      <%  if(getinvoicedata.data.length > 0){ %>
-        <%= getinvoicedata.data[0].order_id; %> 
+
+
         <% } %>
-    </td>
-  
-    </tr>
-    </table>
-    <br>
-    <br>
-    
-    <table width="100%" style="background-color:#f8f9fa;">
-    
-    
-    
-    <tr>
+          <hr>
+          <table width="100%">
 
-    <td width="100%" colspan="3" style="padding: 8px;height:20px; color:#6610f2; line-height:20px; font-size:13px;">Billing to:</td>
-  
-    </tr>
-    
-    <tr>
-    
-    <td width="60%" style="color:#000; padding: 8px; text-align:left; font-size:13px;"><%= getinvoicedata.data[0].user.companyname; %></td>
-    <td width="20%" style="padding: 8px;text-align:left; color:#6610f2;  font-size:13px;">Invoice Date</td>
-    <td width="20%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:right;"><%= moment(getinvoicedata.data[0].createdAt).format('DD-MM-YYYY'); %></td>
-   
-    </tr>
-    
-    <tr>
-    
-    <td width="60%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:left;"><%= getinvoicedata.data[0].user.mobile; %><br> <%= getinvoicedata.data[0].user.address; %> <%= getinvoicedata.data[0].user.zipcode; %>
-    </td>
-    <td width="20%" style="padding: 8px;text-align:left; color:#6610f2;  font-size:13px;"></td>
-    <td width="20%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:right;"></td>
-   
-    </tr>
-    
-  
-    </table>
-    <br>
-    <br>
-    
-    <table width="100%">
-    <tr>
-  
-    
-    <td width="60%" style="height:25px; text-align:left; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd; border-bottom:1px solid #ddd; border-right:1px solid #ddd;">Description 
-    </td>
-    
-    <td width="40%"  style="height:25px; text-align:right; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd; border-bottom:1px solid #ddd;">Amount (In Rs.) 
-    </td>
-   
-    
-    </tr>
-    
-    
-    <tr>
-  
-    <td width="60%" style=" padding: 8px;color:#000;  font-size:13px; text-align:left; height:40px ; line-height:22px;">
-    My Project Desk Employee Desktop Monitoring Software
-    <div style="font-size:11px; font-weight:normal;">-  <%  if(getinvoicedata.data.length > 0){ %> <%= getinvoicedata.data[0].totaluser; %>  Users Plan @ Rs. 249.00<br>
-    - Billing Period: <%= moment(getinvoicedata.data[0].created).format('DD-MM-YYYY'); %> to <%= moment(getinvoicedata.data[0].expiry_date).format('DD-MM-YYYY');  %> <% } %></div>
-    
-    
-    </td>
-    
-    <td width="40%"  style=" padding: 8px;color:#000;  font-size:13px; text-align:right;"> 
-      <%= getinvoicedata.data[0].plantotalprice; %>
-    </td>
-     
-   
-    </tr>
-    
-    </table>
-    <br>
-    <br>
-    <table width="100%">
-    <tr>
-  
-    
-    <td width="60%" style="height:25px; text-align:left; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
-    Thank you for your Business!
-    </td>
-    
-    <td width="20%" style="padding: 8px;height:25px; text-align:left; color:#000; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
-    Sub Total
-    </td>
-    
-    <td width="20%" style="padding: 8px;height:25px; text-align:right; color:#000; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
-      <%= getinvoicedata.data[0].plantotalprice; %>
-    
-    </td>
-    
-  
-    </tr>
-    
-    
-    <tr>
-    <td  width="60%" style="height:18px; line-height:18px; ">
-    
-    </td>
-    
-    
-    
-    <td width="20%" style="padding: 8px;height:18px; text-align:left; color:#000; line-height:18px; font-size:13px;  ">
-    Discount
-    </td>
-    
-    <td width="20%" style="padding: 8px;height:18px; text-align:right; color:#000; line-height:18px; font-size:13px;   ">
-      <%= getinvoicedata.data[0].discount; %>
-    
-    </td>
-    
-    
-    </tr>
-    
-    
-  
-    
 
-   
-    
-      <tr>
-        <td  width="60%" style="height:18px; line-height:18px; ">
-        
-        </td>
-        
-        
-        
-        <td width="20%" style="padding: 8px;height:18px; text-align:left; color:#000; line-height:18px; font-size:13px;  ">
-        Tax (18%)
-        </td>
-        
-        <td width="20%" style="padding: 8px;height:18px; text-align:right; color:#000; line-height:18px; font-size:13px;   ">
-          <%= getinvoicedata.data[0].taxprice; %>
-        
-        </td>
-        
-      
-        </tr>
-    
-        <tr>
-          <td  width="60%" style="height:18px; line-height:18px; ">
-        
-          </td>
-    <td width="20%" style="padding: 8px;height:40px; text-align:left; color:#fff; background-color:#6610f2; line-height:40px; font-size:13px;  ">
-    &nbsp; Total Order Value
-    </td>
-    
-    <td width="20%" style="padding: 8px;height:40px; text-align:right; color:#fff; background-color:#6610f2; line-height:40px; font-size:13px;   ">
-      <%= getinvoicedata.data[0].payment_detail; %> &nbsp;
-    
-    </td>
-    
-   
-    </tr>
-   </table>
-    <table width="100%">
-     
-    
-    <tr>
-  
-    <td width="40%" style=" padding: 8px;text-align:left; color:#6610f2; font-size:13px;  font-size:13px;  ">
-    Amount in Words
-    </td>
-    
-    <td width="60%" style="padding: 8px;text-align:right; color:#000; font-size:11px;  font-size:13px;  ">
-        <%=  toWords.convert(getinvoicedata.data[0].payment_detail); %>
-    </td>
-    
-    
-    </tr>
-   
-    </table></div>
+            <tr>
+
+              <td
+                style="color:#6610f2; font-size:19px; font-weight:bold; text-align:left; height:28px; line-height:28px; width:48%;">
+                <%= getinvoicedata.admin.companyname; %>
+              </td>
+
+              <td
+                style="color:#6610f2; font-size:19px; font-weight:bold; text-align:right; height:28px; line-height:28px; width:48%;">
+                Invoice
+              </td>
+              <td width="2%"></td>
+            </tr>
+
+
+            <tr>
+
+              <td
+                style="color:#7d7d7d; font-size:15px; font-weight:normal; text-align:left; height:28px; line-height:22px; width:35%;">
+
+                <%= getinvoicedata.admin.address; %><br>
+                  <%= getinvoicedata.admin.zipcode; %> INDIA
+              </td>
+
+              <td
+                style="color:#7d7d7d; font-size:15px; font-weight:normal; text-align:right; height:28px; line-height:28px; width:61%;">
+                <% if(getinvoicedata.data.length> 0){ %>
+                  <%= getinvoicedata.data[0].order_id; %>
+                    <% } %>
+              </td>
+
+            </tr>
+          </table>
+          <br>
+          <br>
+
+          <table width="100%" style="background-color:#f8f9fa;">
+
+
+
+            <tr>
+
+              <td width="100%" colspan="3"
+                style="padding: 8px;height:20px; color:#6610f2; line-height:20px; font-size:13px;">Billing to:</td>
+
+            </tr>
+
+            <tr>
+
+              <td width="60%" style="color:#000; padding: 8px; text-align:left; font-size:13px;">
+                <%= getinvoicedata.data[0].user.companyname; %>
+              </td>
+              <td width="20%" style="padding: 8px;text-align:left; color:#6610f2;  font-size:13px;">Invoice Date</td>
+              <td width="20%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:right;">
+                <%= moment(getinvoicedata.data[0].createdAt).format('DD-MM-YYYY'); %>
+              </td>
+
+            </tr>
+
+            <tr>
+
+              <td width="60%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:left;">
+                <%= getinvoicedata.data[0].user.mobile; %><br>
+                  <%= getinvoicedata.data[0].user.address; %>
+                    <%= getinvoicedata.data[0].user.zipcode; %>
+              </td>
+              <td width="20%" style="padding: 8px;text-align:left; color:#6610f2;  font-size:13px;"></td>
+              <td width="20%" style="padding: 8px;color:#7d7d7d;  font-size:11px; text-align:right;"></td>
+
+            </tr>
+
+
+          </table>
+          <br>
+          <br>
+
+          <table width="100%">
+            <tr>
+
+
+              <td width="60%"
+                style="height:25px; text-align:left; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd; border-bottom:1px solid #ddd; border-right:1px solid #ddd;">
+                Description
+              </td>
+
+              <td width="40%"
+                style="height:25px; text-align:right; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd; border-bottom:1px solid #ddd;">
+                Amount (In Rs.)
+              </td>
+
+
+            </tr>
+
+
+            <tr>
+
+              <td width="60%"
+                style=" padding: 8px;color:#000;  font-size:13px; text-align:left; height:40px ; line-height:22px;">
+                My Project Desk Employee Desktop Monitoring Software
+                <div style="font-size:11px; font-weight:normal;">- <% if(getinvoicedata.data.length> 0){ %> <%=
+                      getinvoicedata.data[0].totaluser; %> Users Plan @ Rs. <%= getinvoicedata.data[0].peruserprice; %>
+                        <br>
+                        - Billing Period: <%= moment(getinvoicedata.data[0].created).format('DD-MM-YYYY'); %> to <%=
+                            moment(getinvoicedata.data[0].expiry_date).format('DD-MM-YYYY'); %>
+                            <% } %>
+                </div>
+
+
+              </td>
+
+              <td width="40%" style=" padding: 8px;color:#000;  font-size:13px; text-align:right;">
+                <%= getinvoicedata.data[0].plantotalprice; %>
+              </td>
+
+
+            </tr>
+
+          </table>
+          <br>
+          <br>
+          <table width="100%">
+            <tr>
+
+
+              <td width="60%"
+                style="height:25px; text-align:left; color:#6610f2; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
+                Thank you for your Business!
+              </td>
+
+              <td width="20%"
+                style="padding: 8px;height:25px; text-align:left; color:#000; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
+                Sub Total
+              </td>
+
+              <td width="20%"
+                style="padding: 8px;height:25px; text-align:right; color:#000; line-height:25px; font-size:13px; border-top:1px solid #ddd;  ">
+                <%= getinvoicedata.data[0].plantotalprice; %>
+
+              </td>
+
+
+            </tr>
+
+
+            <tr>
+              <td width="60%" style="height:18px; line-height:18px; ">
+
+              </td>
+
+
+
+              <td width="20%"
+                style="padding: 8px;height:18px; text-align:left; color:#000; line-height:18px; font-size:13px;  ">
+                Discount
+              </td>
+
+              <td width="20%"
+                style="padding: 8px;height:18px; text-align:right; color:#000; line-height:18px; font-size:13px;   ">
+                <%= getinvoicedata.data[0].discount; %>
+
+              </td>
+
+
+            </tr>
+
+
+
+
+
+
+
+            <tr>
+              <td width="60%" style="height:18px; line-height:18px; ">
+
+              </td>
+
+
+
+              <td width="20%"
+                style="padding: 8px;height:18px; text-align:left; color:#000; line-height:18px; font-size:13px;  ">
+                Tax (18%)
+              </td>
+
+              <td width="20%"
+                style="padding: 8px;height:18px; text-align:right; color:#000; line-height:18px; font-size:13px;   ">
+                <%= getinvoicedata.data[0].taxprice; %>
+
+              </td>
+
+
+            </tr>
+
+            <tr>
+              <td width="60%" style="height:18px; line-height:18px; ">
+
+              </td>
+              <td width="20%"
+                style="padding: 8px;height:40px; text-align:left; color:#fff; background-color:#6610f2; line-height:40px; font-size:13px;  ">
+                &nbsp; Total Order Value
+              </td>
+
+              <td width="20%"
+                style="padding: 8px;height:40px; text-align:right; color:#fff; background-color:#6610f2; line-height:40px; font-size:13px;   ">
+                <%= getinvoicedata.data[0].payment_detail; %> &nbsp;
+
+              </td>
+
+
+            </tr>
+          </table>
+          <table width="100%">
+
+
+            <tr>
+
+              <td width="40%" style=" padding: 8px;text-align:left; color:#6610f2; font-size:13px;  font-size:13px;  ">
+                Amount in Words
+              </td>
+
+              <td width="60%" style="padding: 8px;text-align:right; color:#000; font-size:11px;  font-size:13px;  ">
+                <%= toWords.convert(getinvoicedata.data[0].payment_detail); %>
+              </td>
+
+
+            </tr>
+
+          </table>
+</div>

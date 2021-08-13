@@ -3,224 +3,16 @@
     <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
         <%- include('../partials/nav'); %>
             <%- include('../partials/left'); %>
+<script>
 
+    var Data= []
+</script>
 
             
-    <!-- Change Password Popup Start -->
-    <div class="modal fade" id="addRemoveUserModal" tabindex="-1" role="dialog" aria-labelledby="addRemoveUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addRemoveUserModalLabel">Add / Remove User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <label class="mb-1">Assign To User</label>
-                        <select class="form-control mb-2">
-                            <option>User 1</option>
-                            <option>User 2</option>
-                            <option>User 3</option>
-                            <option>User 4</option>
-                            <option>User 5</option>
-                            <option>User 6</option>
-                        </select>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary border-0" style="background:#ed4724 !important;">Update</button>
-                    </form>
-                </div>
-
-
-                <div class="userListsPopup">
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">SS</li>
-                        <li class="flex-fill">
-                            <p><b>Sushil Sharma</b></p>
-                            <p>sushil@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-
-                    <ul class="d-flex align-items-center ">
-                        <li class="userName">RC</li>
-                        <li class="flex-fill">
-                            <p><b>Ritesh Chhipa</b></p>
-                            <p>ritesh@doomshell.com</p>
-                        </li>
-                        <li>
-                            <i class="la la-close"></i>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Change Password Popup End -->
-
     <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-body">
-                <!-- <div class="blocks userDetails">
-                    <a href="./task.html">
-                        <div class="userIcon">
-                            <img src="/assets/images/ic_daily_attendance.png" class="img-fluid" alt="" />
-                        </div>
-                    </a>
-                    <div class="details">
-                        <h4 class="m-0">Organization Application Usage</h4>
-                        <p class="m-0">Here you can View the Application Usage Patterns of your employee on a Timely Basis.</p>
-                    </div>
-                    <ul class="d-flex topInputs">
-                        <a href="#" class="downloadButton"><i class="la la-download"></i> Download CSV</a>
-                        <li class="mr-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="la la-calendar-o"></i>
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
-                        </li>
-                        <li>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
-                                    <i class="la la-refresh"></i>
-                                </span>
-                            </div>
-                        </li>
-                    </ul>
-                </div> -->
+               
 
                 <div class="blocks tabContainers mb-2 dailyInOutTable">
                     <h4>All Used Application Statistics</h4>
@@ -235,7 +27,8 @@
                     <div class="applicationTileContainer d-flex align-items-center flex-wrap">
 
                         <%  if(applicationusage.data.length > 0){
-                            var s=1; 
+                            var s=1;
+                            var arr =[] 
                             var seeg=0
                             var productivitytimeDisplays=0;
                             var mproductivitytimeDisplays=0;
@@ -247,7 +40,7 @@
          <%   var  dproductivitytime = Number(applicationusage.data[i].count);
                            seeg += dproductivitytime;
                            var srty= applicationusage.data[i].windowclass.split(".");
-                           software[i]=srty[0].split(" ").join("");
+                           software[i]=srty[0];
                            softwareval[i]=dproductivitytime;
          
                                          %>
@@ -257,6 +50,7 @@
             
                    } 
                  
+               
                     if(applicationusage.data.length > 0){
                             var s=1; 
                             var dproductivitytime =0;
@@ -292,9 +86,11 @@
                         <%  }
 
 
-                    }    var Data = software.filter(function (el) {
+                    }     
+                  var Data= software.filter(function (el) {
                         return el != null;
                       });
+                     
     
                       var Dataval = softwareval.filter(function (el) {
                         return el != null;
@@ -315,7 +111,7 @@
                 <%- include('../partials/footer'); %>
                 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
                 <script>
-                 
+                    
                     var options = {
                         chart: {
                             width: "100%",
@@ -340,7 +136,7 @@
                             data: [27, 20, 10, 9, 8, 7, 4, 5, 2, 10, 9, 8, 7, 4, 6, 2, 4, 10, 9, 8, 7, 4, 8, 7, 10, 9, 8, 7, 4, 4]
                         }],
                         xaxis: {
-                            categories: ['<%= Data %>'],
+                            categories:  ['<%= Data; %>']
                         }
                        
                     };

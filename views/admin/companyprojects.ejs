@@ -88,40 +88,7 @@
                     <a href="#" data-toggle="modal" data-target="#addProjectModal" class="downloadButton btn-success text-white mr-0">
                         Add New Task
                     </a>
-                    <!-- <ul class="d-flex topInputs">
-                        <li class="mr-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="la la-calendar-o"></i>
-                                    </span>
-                                </div>
-
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="la la-calendar-o"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="mr-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="la la-calendar-o"></i>
-                                    </span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
-                        </li>
-                        <li>
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
-                                    <i class="la la-refresh"></i>
-                                </span>
-                            </div>
-                        </li>
-                    </ul> -->
+                    
                 </div>
                 <script>
 
@@ -155,15 +122,18 @@
     <form action="/projectsedit" method="post" class="form  needs-validation" novalidate>
                            
  <label for="userId" class="mb-1"><b>Owner</b></label>
-<input type="hidden" name="id" value="<%= userlist.data.id; %>">                               
-<select name="uid" required="" id="userId" class="form-control country">
+<input type="hidden" name="id" value="<%= userlist.data.id; %>">     
+<input type="hidden" name="uid" value="<%= userlist.data.id; %>">   
+<!--                          
+<select name="uid" type="hidden" required="" id="userId" class="form-control country">
 <option value="">--Select--</option>
 <%  if(userlist.user.length > 0){
 for(var i=0; i < userlist.user.length; i++) { %>
 <option <% if(userlist.data.userId==userlist.user[i].id){ %> selected <% } %> value="<%= userlist.user[i].id; %>"><%= userlist.user[i].firstname; %> <%= userlist.user[i].lastname; %></option>
 <% } } %>
 
-    </select>
+    </select>-->
+    <input type="text" readonly class="form-control mb-1" value="<%= userlist.user[0].firstname; %> <%= userlist.user[0].lastname; %>">
                 <div class="valid-feedback">Valid.</div>
              <div class="invalid-feedback">Please fill out this field.</div> 
                          
@@ -178,7 +148,7 @@ for(var i=0; i < userlist.user.length; i++) { %>
                             value="<%= userlist.data.description; %>""  id="desc" placeholder="Enter Name" class="form-control mb-1" required><%= userlist.data.description; %></textarea>
                             <div class="valid-feedback">Valid.</div>
                             <div class="invalid-feedback">Please fill out this field.</div> 
-                            <a class="btn btn-danger">Close</a>
+                           
                             <input type="submit" class="btn btn-primary pull-right" value="Update" />
                         </form>
                  
@@ -259,50 +229,28 @@ for(var i=0; i < userlist.user.length; i++) { %>
                                 </div>
                                 <% } %>
                             <div class="row">
-                                <div class="col-md-4 col-12">
+                                <div class="col-md-6 col-12">
                                     <div class="alert alert-success">
-                                        <p>Total time Duration</p>
-                                        <p class="font-weight-bold">00:00 hh:mm</p>
+                                        <p>Total Activity Duration</p>
+                                        <p class="font-weight-bold"><%= moment.utc(userlist.gettotaltaskcalculation[0].diff*1000).format("HH:mm"); %> hh:mm</p>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="alert alert-danger">
-                                        <p>Total Activity Worked</p>
-                                        <p class="font-weight-bold">0</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-12">
+                                
+                                <div class="col-md-6 col-12">
                                     <div class="alert alert-warning">
                                         <p>Total Tasks</p>
-                                        <p class="font-weight-bold">0</p>
+                                        <p class="font-weight-bold">1</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <h4 class="tableHeading">Activity</h4>
-                                <ul class="d-flex topInputs">
-                                    <li class="">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">
-                                                    <i class="la la-calendar-o"></i>
-                                                </span>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="2021-05-30 - 2021-06-28" aria-label="Username" aria-describedby="basic-addon1">
-                                        </div>
-                                    </li>
-                                </ul>
+                                
                             </div>
 
 
-                            <div class="grapgss">
-                                <div class="line-chart">
-                                    <div class="aspect-ratio">
-                                        <canvas id="chart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
+                          
 
                             <div class="table-responsive">
                                 <table id="zero_config" class="table table-striped table-bordered no-wrap">

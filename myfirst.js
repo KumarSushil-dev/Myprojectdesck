@@ -8,16 +8,17 @@ const flash = require('connect-flash');
 var path = require('path');
 const moment = require("moment");
 const { ToWords } = require('to-words');
-const  Razorpay  = require('razorpay');
+const Razorpay = require('razorpay');
 const fs = require('fs');
 var cookieParser = require('cookie-parser');
-var $           = require('jquery');  
-var {check,validationResult} = require('express-validator');  
+var $ = require('jquery');
+var { check, validationResult } = require('express-validator');
 const puppeteer = require("puppeteer"); // will automatically load the node version
 const { encrypt, decrypt } = require("./api/middleware/crpyto.js");
 var daterangepicker = require("daterangepicker");
 var in_array = require('in_array');
 var https = require('https');
+const fetch = require("isomorphic-fetch");
 //set up express app
 const app = express();
 app.set('view engine', 'ejs');
@@ -33,16 +34,16 @@ app.use(cookieParser());
 const toWords = new ToWords({
     localeCode: 'en-IN',
     converterOptions: {
-      currency: true,
-      ignoreDecimal: false,
-      ignoreZeroCurrency: false,
+        currency: true,
+        ignoreDecimal: false,
+        ignoreZeroCurrency: false,
     }
-  });
+});
 
-  const rzp = new Razorpay({
+const rzp = new Razorpay({
     key_id: "rzp_test_ZL1wkQfxNIacl5",
     key_secret: "WcApSUvwtcDKO6dFiCtLCshu",
-   });
+});
 
 
 app.locals.encrypt = encrypt;
@@ -52,9 +53,9 @@ app.locals.moment = moment;
 app.locals.daterangepicker = daterangepicker;
 app.locals.fs = fs;
 app.locals.toWords = toWords;
-var jsonParser = bodyParser.json({'limit':'500MB'})
+var jsonParser = bodyParser.json({ 'limit': '500MB' })
 // create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({limit: '500MB', extended: true });
+var urlencodedParser = bodyParser.urlencoded({ limit: '500MB', extended: true });
 
 // parse application/json
 
@@ -65,7 +66,7 @@ app.use(session({
 }));
 app.use(flash());
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -85,95 +86,95 @@ app.use('/api/staticpages', urlencodedParser, require('./api/routes/staticpages.
 
 
 
-app.get('/bookademo', function(req, res) {
+app.get('/bookademo', function (req, res) {
 
     res.redirect('/signup');
 });
 
-app.get('/createuser', function(req, res) {
+app.get('/createuser', function (req, res) {
 
-    res.render('users/createpassword',{  createuser: 0  });
+    res.render('users/createpassword', { createuser: 0 });
 });
 
-app.get('/forgotpassword', function(req, res) {
+app.get('/forgotpassword', function (req, res) {
 
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('users/forgotpassword',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('users/forgotpassword', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
 
 
 
 });
 
-app.get('/', function(req, res) {
-    if(req.query.userfound){
+app.get('/', function (req, res) {
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/index',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/index', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
 
 
-    
+
 });
-       
-// Login 
+
+// Login
 
 
-app.get('/login', function(req, res) {
+app.get('/login', function (req, res) {
 
     sess = req.session;
 
@@ -185,844 +186,844 @@ app.get('/login', function(req, res) {
 });
 
 
-app.get('/features', function(req, res) {
+app.get('/features', function (req, res) {
 
-    
-    if(req.query.userfound){
+
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/features',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/features', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
 
 });
 
 
-app.get('/aboutus', function(req, res) {
+app.get('/aboutus', function (req, res) {
 
-    
-    if(req.query.userfound){
+
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/aboutus',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/aboutus', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
 
 });
 
-app.get('/faq', function(req, res) {
+app.get('/faq', function (req, res) {
 
-    
-    if(req.query.userfound){
+
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/faq',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/faq', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
 });
 
-app.get('/reseller', function(req, res) {
+app.get('/reseller', function (req, res) {
 
-    
-    if(req.query.userfound){
+
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/reseller',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/reseller', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
-
-    
-});
-
-app.get('/securitycompliance', function(req, res) {
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/securitycompliance',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
-});
-
-app.get('/becomeaffiliate', function(req, res) {
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/becomeaffiliate',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
-   
-});
-
-app.get('/industries', function(req, res) {
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/industries',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
-});
-app.get('/priceplan', function(req, res) {
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/priceplan',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
-});
-
-app.get('/measureemployeeproductivity', function(req, res) {
-
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/measureemployeeproductivity',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
-
-});
-
-app.get('/timetracking', function(req, res) {
-
-
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/timetracking',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
+    }, 0000);
 
 
 });
 
-app.get('/automatedattendence', function(req, res) {
+app.get('/securitycompliance', function (req, res) {
 
-
-
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/automatedattendence',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/securitycompliance', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
+});
+
+app.get('/becomeaffiliate', function (req, res) {
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/becomeaffiliate', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+
+});
+
+app.get('/industries', function (req, res) {
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/industries', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+});
+app.get('/priceplan', function (req, res) {
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/priceplan', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+});
+
+app.get('/measureemployeeproductivity', function (req, res) {
+
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/measureemployeeproductivity', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+
+});
+
+app.get('/timetracking', function (req, res) {
+
+
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/timetracking', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
 
 
 });
 
-app.get('/projecttracking', function(req, res) {
+app.get('/automatedattendence', function (req, res) {
 
 
-    if(req.query.userfound){
+
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/projecttracking',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/automatedattendence', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
-
-});
-
-app.get('/automatedscreenshots', function(req, res) {
-
-
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/automatedscreenshots',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
-
-   
-});
-
-app.get('/engagementtracking', function(req, res) {
-
-
-
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/engagementtracking',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
-
-   
+    }, 0000);
 
 
 });
 
-app.get('/bidashboard', function(req, res) {
+app.get('/projecttracking', function (req, res) {
 
 
-
-
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/bidashboard',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/projecttracking', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
-
-   
-
-
-
-   
-});
-
-app.get('/kanbantaskmanagment', function(req, res) {
-
-
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/kanbantaskmanagment',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
-
-   
-});
-
-app.get('/vsactivtrack', function(req, res) {
-
-
-
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/vsactivtrack',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
+    }, 0000);
 
 });
 
-app.get('/vshubstaff', function(req, res) {
+app.get('/automatedscreenshots', function (req, res) {
 
 
 
-
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/vshubstaff',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/automatedscreenshots', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
 
 
 });
 
-app.get('/vsdesktime', function(req, res) {
+app.get('/engagementtracking', function (req, res) {
 
 
 
 
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/vsdesktime',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/engagementtracking', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
+
 
 
 
 });
 
-app.get('/vstimedoctor', function(req, res) {
+app.get('/bidashboard', function (req, res) {
 
 
 
 
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/vstimedoctor',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/bidashboard', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
-
-});
-
-app.get('/privacy', function(req, res) {
+    }, 0000);
 
 
 
 
-    if(req.query.userfound){
-        var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
-    }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
-
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-
-                  
-                    res.render('pages/privacy',{page: req.url,testimonial:datas,userfound:userfound});
-                    res.end;
-                    } 
-
-                });
-
-        }, 0000);
 
 
 });
 
-app.get('/termsandconditions', function(req, res) {
+app.get('/kanbantaskmanagment', function (req, res) {
 
 
 
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
-    
-    setTimeout(function() {
-         
-            // this code will only run when time has ellapsed
-            request.post({
-                
-                    url: process.env.APP_URL + '/api/plans/gettestimonial',
-                    body: { "companyname": "test" },
-                    json: true
-                },
-           function(error, response, body) {
 
-          
-                   if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
+    setTimeout(function () {
 
-                  
-                    res.render('pages/termsandconditions',{page: req.url,testimonial:datas,userfound:userfound});
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/kanbantaskmanagment', { page: req.url, testimonial: datas, userfound: userfound });
                     res.end;
-                    } 
+                }
 
-                });
+            });
 
-        }, 0000);
+    }, 0000);
+
+
+});
+
+app.get('/vsactivtrack', function (req, res) {
+
+
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/vsactivtrack', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+
+});
+
+app.get('/vshubstaff', function (req, res) {
+
+
+
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/vshubstaff', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+
+
+});
+
+app.get('/vsdesktime', function (req, res) {
+
+
+
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/vsdesktime', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+
+
+
+});
+
+app.get('/vstimedoctor', function (req, res) {
+
+
+
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/vstimedoctor', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+
+});
+
+app.get('/privacy', function (req, res) {
+
+
+
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/privacy', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
+
+
+});
+
+app.get('/termsandconditions', function (req, res) {
+
+
+
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
+
+    setTimeout(function () {
+
+        // this code will only run when time has ellapsed
+        request.post({
+
+            url: process.env.APP_URL + '/api/plans/gettestimonial',
+            body: { "companyname": "test" },
+            json: true
+        },
+            function (error, response, body) {
+
+
+                if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+
+
+                    res.render('pages/termsandconditions', { page: req.url, testimonial: datas, userfound: userfound });
+                    res.end;
+                }
+
+            });
+
+    }, 0000);
 
 
 
@@ -1043,56 +1044,56 @@ app.get('/logout', (req, res) => {
 });
 
 app.post('/login', urlencodedParser, (req, res) => {
-  
-   var body = req.body;
+
+    var body = req.body;
 
     request.post({
-            url: process.env.APP_URL + '/api/users/login',
-            body: req.body,
-            json: true
-        },
+        url: process.env.APP_URL + '/api/users/login',
+        body: req.body,
+        json: true
+    },
 
-        function(error, response, body) {
+        function (error, response, body) {
             if (response.statusCode == 401) {
                 var data = response.body;
                 req.flash("error", "Failed to log in user account: User account not found.");
                 res.locals.messages = req.flash();
                 res.render('users/login');
-            }else if (response.statusCode == 500) {
+            } else if (response.statusCode == 500) {
                 var data = response.body;
                 req.flash("error", "Failed to log in user account: User account not found.");
                 res.locals.messages = req.flash();
                 res.render('users/login');
             } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var test = JSON.parse(re);
-         
-            sess = req.session;
-            sess.token = test.data[0].token;
-            sess.companyname = test.companyname;
-            sess.roleid = test.roleid;
-            if(test.roleid==2){
-                res.redirect('/presence');
-                }else if(test.roleid==1){
-                res.redirect('/userlist');  
-                }else{
+                var data = response.body;
+                var re = JSON.stringify(data);
+                var test = JSON.parse(re);
+
+                sess = req.session;
+                sess.token = test.data[0].token;
+                sess.companyname = test.companyname;
+                sess.roleid = test.roleid;
+                if (test.roleid == 2) {
+                    res.redirect('/presence');
+                } else if (test.roleid == 1) {
+                    res.redirect('/userlist');
+                } else {
                     req.flash("error", "Failed to log in user account: User account not found.");
                     res.locals.messages = req.flash();
                     req.session.destroy((err) => {
                         if (err) {
                             return console.log(err);
                         }
-                      
+
                         res.render('users/login');
                     });
 
                 }
-            res.end;
-            }else{
-            res.sendStatus(500);
+                res.end;
+            } else {
+                res.sendStatus(500);
                 return;
-               }
+            }
 
         })
 
@@ -1100,53 +1101,53 @@ app.post('/login', urlencodedParser, (req, res) => {
 
 
 // Dashboard
-app.get('/dashboard', urlencodedParser, function(req, res) {
+app.get('/dashboard', urlencodedParser, function (req, res) {
 
     sess = req.session;
-const token = sess.token;
-if(sess.companyname && sess.token!='') {
-  setTimeout(function() {
-      // this code will only run when time has ellapsed
-      request.post({
-          headers: {
-              'Authorization': `Bearer ${token}`
+    const token = sess.token;
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/users/dashboards',
+                body: { "companyname": sess.companyname },
+                json: true
             },
-              url: process.env.APP_URL + '/api/users/dashboards',
-              body: { "companyname": sess.companyname },
-              json: true
-          },
-     function(error, response, body) {
-
-    
-       if (!error && response.statusCode == 200) {
-                  var data = response.body;
-                  var re = JSON.stringify(data);
-                  var datas = JSON.parse(re);
- 
-          var sess = req.session;
-          res.render('admin/dashboard', { person: sess.companyname,companytask:datas,roleid :sess.roleid });
-          res.end;
-              } else {
-
-                  //do something with error
-                  // res.redirect('/charge-error');
-                  //or
-                  res.render('users/login');
-                  res.end;
-                  return;
+                function (error, response, body) {
 
 
-              } 
+                    if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
 
-          });
+                        var sess = req.session;
+                        res.render('admin/dashboard', { person: sess.companyname, companytask: datas, roleid: sess.roleid });
+                        res.end;
+                    } else {
 
-  }, 0000);
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.render('users/login');
+                        res.end;
+                        return;
 
 
-} else {
+                    }
 
-  res.render('users/login');
-}
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
 
 
 });
@@ -1154,25 +1155,25 @@ if(sess.companyname && sess.token!='') {
 
 
 
-app.get('/companytask', urlencodedParser, function(req, res) {
+app.get('/companytask', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/companytask',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/companytask',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -1183,9 +1184,9 @@ app.get('/companytask', urlencodedParser, function(req, res) {
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
 
-                     //   console.log(datas);
+                        //   console.log(datas);
                         var sess = req.session;
-                res.render('admin/companytask', { person: sess.companyname, companytask: datas,roleid :sess.roleid  });
+                        res.render('admin/companytask', { person: sess.companyname, companytask: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -1196,7 +1197,7 @@ app.get('/companytask', urlencodedParser, function(req, res) {
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -1212,11 +1213,11 @@ app.get('/companytask', urlencodedParser, function(req, res) {
 
 
 // companyprojects
-app.get('/companytaskdetail', function(req, res) {
+app.get('/companytaskdetail', function (req, res) {
 
     sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/companytaskdetail', { person: sess.companyname,roleid :sess.roleid });
+    if (sess.companyname && sess.token != '') {
+        res.render('admin/companytaskdetail', { person: sess.companyname, roleid: sess.roleid });
     } else {
 
         res.render('users/login');
@@ -1224,25 +1225,25 @@ app.get('/companytaskdetail', function(req, res) {
 });
 
 // presence
-app.get('/presence', function(req, res) {
+app.get('/presence', function (req, res) {
 
     sess = req.session;
     const token = sess.token;
-    if(sess.companyname && sess.token!='') {
-        setTimeout(function() {
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/presence',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/presence',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -1253,9 +1254,9 @@ app.get('/presence', function(req, res) {
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
 
-                     // console.log(datas);
+                        // console.log(datas);
                         var sess = req.session;
-                res.render('admin/presence', { person: sess.companyname, companytask: datas,roleid :sess.roleid  });
+                        res.render('admin/presence', { person: sess.companyname, companytask: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -1266,7 +1267,7 @@ app.get('/presence', function(req, res) {
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -1283,11 +1284,11 @@ app.get('/presence', function(req, res) {
 });
 
 // leaves
-app.get('/leaves', function(req, res) {
+app.get('/leaves', function (req, res) {
 
     sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/leaves', { person: sess.companyname,roleid :sess.roleid });
+    if (sess.companyname && sess.token != '') {
+        res.render('admin/leaves', { person: sess.companyname, roleid: sess.roleid });
     } else {
 
         res.render('users/login');
@@ -1296,95 +1297,26 @@ app.get('/leaves', function(req, res) {
 
 
 
-app.get('/productivity', urlencodedParser, function(req, res) {
+app.get('/productivity', urlencodedParser, function (req, res) {
 
-    sess = req.session;
-const token = sess.token;
-if(sess.companyname && sess.token!='') {
-  setTimeout(function() {
-      // this code will only run when time has ellapsed
-      request.post({
-          headers: {
-              'Authorization': `Bearer ${token}`
-            },
-              url: process.env.APP_URL + '/api/users/gettodayproductivitytr',
-              body: { "companyname": sess.companyname },
-              json: true
-          },
-     function(error, response, body) {
-
-    
-      if (response.statusCode == 500) {
-              var data = response.body;
-              req.flash("error", "Failed to log in user account: User account not found.");
-              res.locals.messages = req.flash();
-              res.render('users/login');
-      } else if (!error && response.statusCode == 200) {
-                  var data = response.body;
-                  var re = JSON.stringify(data);
-                  var datas = JSON.parse(re);
-
-          var sess = req.session;
-          res.render('admin/productivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid });
-          res.end;
-              } else {
-
-                  //do something with error
-                  // res.redirect('/charge-error');
-                  //or
-                  res.sendStatus(500);
-                  return;
-
-
-              } 
-
-          });
-
-  }, 0000);
-
-
-} else {
-
-  res.render('users/login');
-}
-
-
-});
-
-app.get('/timesheet', function(req, res) {
-
-    sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/timesheet', { person: sess.companyname,roleid :sess.roleid });
-    } else {
-        res.render('users/login');
-    }
-});
-
-app.get('/applicationusage', function(req, res) {
-
-
-    
     sess = req.session;
     const token = sess.token;
-    
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/applicationusage',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/gettodayproductivitytr',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-           if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
-
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
                         res.render('users/login');
@@ -1392,9 +1324,9 @@ app.get('/applicationusage', function(req, res) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                     //   console.log(datas);
-                        sess = req.session;
-                      res.render('admin/applicationusage', { person: sess.companyname, applicationusage: datas,roleid :sess.roleid  });
+
+                        var sess = req.session;
+                        res.render('admin/productivity', { person: sess.companyname, companytask: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -1405,7 +1337,76 @@ app.get('/applicationusage', function(req, res) {
                         return;
 
 
-                    } 
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+
+
+});
+
+app.get('/timesheet', function (req, res) {
+
+    sess = req.session;
+    if (sess.companyname && sess.token != '') {
+        res.render('admin/timesheet', { person: sess.companyname, roleid: sess.roleid });
+    } else {
+        res.render('users/login');
+    }
+});
+
+app.get('/applicationusage', function (req, res) {
+
+
+
+    sess = req.session;
+    const token = sess.token;
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/users/applicationusage',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
+
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        //   console.log(datas);
+                        sess = req.session;
+                        res.render('admin/applicationusage', { person: sess.companyname, applicationusage: datas, roleid: sess.roleid });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
 
                 });
 
@@ -1418,11 +1419,11 @@ app.get('/applicationusage', function(req, res) {
     }
 });
 // reports
-app.get('/reports', function(req, res) {
+app.get('/reports', function (req, res) {
 
     sess = req.session;
-    if (sess.companyname && sess.token!='') {
-        res.render('admin/reports', { person: sess.companyname,roleid :sess.roleid });
+    if (sess.companyname && sess.token != '') {
+        res.render('admin/reports', { person: sess.companyname, roleid: sess.roleid });
     } else {
 
         res.render('users/login');
@@ -1434,25 +1435,25 @@ app.get('/reports', function(req, res) {
 
 
 
-app.get('/companysettings', urlencodedParser, function(req, res) {
+app.get('/companysettings', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/getcompanysettings',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/getcompanysettings',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-           if (response.statusCode == 500) {
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -1462,9 +1463,9 @@ app.get('/companysettings', urlencodedParser, function(req, res) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                      //  console.log(datas);
+                        //  console.log(datas);
                         sess = req.session;
-                      res.render('admin/companysettings', { person: sess.companyname, csettings: datas,roleid :sess.roleid  });
+                        res.render('admin/companysettings', { person: sess.companyname, csettings: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -1475,7 +1476,7 @@ app.get('/companysettings', urlencodedParser, function(req, res) {
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -1490,25 +1491,25 @@ app.get('/companysettings', urlencodedParser, function(req, res) {
 
 
 // companysettings
-app.get('/timeline', function(req, res) {
+app.get('/timeline', function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/timeline',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/timeline',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -1518,10 +1519,10 @@ app.get('/timeline', function(req, res) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                     //  console.log(datas.data);
-                      
+                        //  console.log(datas.data);
+
                         sess = req.session;
-res.render('admin/timeline', { person: sess.companyname, companyuser: datas,roleid :sess.roleid  });
+                        res.render('admin/timeline', { person: sess.companyname, companyuser: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -1532,7 +1533,7 @@ res.render('admin/timeline', { person: sess.companyname, companyuser: datas,role
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -1550,30 +1551,88 @@ res.render('admin/timeline', { person: sess.companyname, companyuser: datas,role
 
 
 
+app.post('/getuserlist', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    console.log(body);
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            url: process.env.APP_URL + '/api/users/getuserlist',
+            body: req.body,
+            json: true
+        },
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+
+                    req.flash("error", "Userlist Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
+
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
+                    res.render('admin/getuserlist', { person: sess.companyname, userlist: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddatess });
+
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas);
+                    var sess = req.session;
+                    res.render('admin/getuserlist', { person: sess.companyname, userlist: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddates });
+
+
+                    res.end;
+
+                } else {
+
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+
+
+                }
+
+            });
+
+    } else {
+
+        res.render('users/login');
+    }
+
+});
+
 
 //users list
 
 
-app.get('/userlist', urlencodedParser, function(req, res) {
+app.get('/userlist', urlencodedParser, function (req, res) {
     sess = req.session;
     console.log(sess);
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/userlist',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/userlist',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -1583,9 +1642,9 @@ app.get('/userlist', urlencodedParser, function(req, res) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-          
+
                         sess = req.session;
-                      res.render('admin/userlist', { person: sess.companyname, userlist: datas,roleid :sess.roleid  });
+                        res.render('admin/userlist', { person: sess.companyname, userlist: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -1596,7 +1655,63 @@ app.get('/userlist', urlencodedParser, function(req, res) {
                         return;
 
 
-                    } 
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+
+app.get('/userdemolist', urlencodedParser, function (req, res) {
+    sess = req.session;
+    console.log(sess);
+    const token = sess.token;
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/users/userdemolist',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
+
+
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+
+                        sess = req.session;
+                        res.render('admin/userdemolist', { person: sess.companyname, userlist: datas, roleid: sess.roleid });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
 
                 });
 
@@ -1611,25 +1726,25 @@ app.get('/userlist', urlencodedParser, function(req, res) {
 
 // Biling Detail
 
-app.get('/billingdetail', urlencodedParser, function(req, res) {
+app.get('/billingdetail', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/billingdetail',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/billingdetail',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -1641,7 +1756,7 @@ app.get('/billingdetail', urlencodedParser, function(req, res) {
                         var datas = JSON.parse(re);
 
                         sess = req.session;
-                      res.render('admin/billingdetail', { person: sess.companyname, userlist: datas,roleid :sess.roleid  });
+                        res.render('admin/billingdetail', { person: sess.companyname, userlist: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -1652,7 +1767,7 @@ app.get('/billingdetail', urlencodedParser, function(req, res) {
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -1665,31 +1780,95 @@ app.get('/billingdetail', urlencodedParser, function(req, res) {
     }
 });
 
+
+
+
+
+
+app.post('/getbillingdetail', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    console.log(body);
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            url: process.env.APP_URL + '/api/users/getbillingdetail',
+            body: req.body,
+            json: true
+        },
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+
+                    req.flash("error", "Userlist Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
+
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
+                    res.render('admin/getbillingdetail', { person: sess.companyname, userlist: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddatess });
+
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas);
+                    var sess = req.session;
+                    res.render('admin/getbillingdetail', { person: sess.companyname, userlist: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddates });
+
+
+                    res.end;
+
+                } else {
+
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+
+
+                }
+
+            });
+
+    } else {
+
+        res.render('users/login');
+    }
+
+});
+
+
 // Order Invoice Detail
 
-app.get('/orderinvoice', urlencodedParser, function(req, res) {
+app.get('/orderinvoice', urlencodedParser, function (req, res) {
     sess = req.session;
-if(req.query.userfound){
-    var userfound = req.query.userfound;
-}else{
-    var userfound=0;
-}
+    if (req.query.userfound) {
+        var userfound = req.query.userfound;
+    } else {
+        var userfound = 0;
+    }
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/billingcompany',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/billingcompany',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -1699,16 +1878,16 @@ if(req.query.userfound){
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                     
-if(userfound==1){
-    req.flash("error", "Payment Succesfully completed with selected plan. You Can Proceed Now.");
-    res.locals.messages = req.flash();
-}else if(userfound==2){
-    req.flash("error", "Payment Declined with selected plan.Please try again later !");
-    res.locals.messages = req.flash();
-}
+
+                        if (userfound == 1) {
+                            req.flash("error", "Payment Succesfully completed with selected plan. You Can Proceed Now.");
+                            res.locals.messages = req.flash();
+                        } else if (userfound == 2) {
+                            req.flash("error", "Payment Declined with selected plan.Please try again later !");
+                            res.locals.messages = req.flash();
+                        }
                         sess = req.session;
-                      res.render('admin/orderinvoice', { person: sess.companyname, userlist: datas,roleid :sess.roleid });
+                        res.render('admin/orderinvoice', { person: sess.companyname, userlist: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -1719,7 +1898,7 @@ if(userfound==1){
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -1740,54 +1919,54 @@ app.post('/planupgrade', urlencodedParser, (req, res) => {
     var body = req.body;
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-    
-    request.post({
-        headers: {
-            'Authorization': `Bearer ${token}`
-          },
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             url: process.env.APP_URL + '/api/users/planupgrades',
             body: req.body,
             json: true
         },
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-             
-            req.flash("error", "Plan Cannot Upgarded ,Please Try Again.");
-            res.locals.messages = req.flash();
-              
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-                res.render('admin/userlist', { person: sess.companyname,userlist: datas,roleid :sess.roleid  });
-            } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var datas = JSON.parse(re);
-       
-        
-        req.flash("error", "Plan Upgraded Succesfully For Selected Company.");
-        res.locals.messages = req.flash();
-       
-         res.render('admin/userlist', { person: sess.companyname,userlist: datas,roleid :sess.roleid  });
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
 
-            
-            res.end;
+                    req.flash("error", "Plan Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
 
-            }else{
-
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    res.render('admin/userlist', { person: sess.companyname, userlist: datas, roleid: sess.roleid });
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
 
 
-            }
+                    req.flash("error", "Plan Upgraded Succesfully For Selected Company.");
+                    res.locals.messages = req.flash();
 
-        });
+                    res.render('admin/userlist', { person: sess.companyname, userlist: datas, roleid: sess.roleid });
 
-    }else {
+
+                    res.end;
+
+                } else {
+
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+
+
+                }
+
+            });
+
+    } else {
 
         res.render('users/login');
     }
@@ -1799,53 +1978,53 @@ app.post('/getproductivity', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     console.log(body);
-    if (sess.companyname && sess.token!='') {
-    
-    request.post({
-        headers: {
-            'Authorization': `Bearer ${token}`
-          },
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             url: process.env.APP_URL + '/api/users/getproductivity',
             body: req.body,
             json: true
         },
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-             
-            req.flash("error", "Productivity Cannot Upgarded ,Please Try Again.");
-            res.locals.messages = req.flash();
-              
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-                        var sess = req.session;
-            res.render('admin/getproductivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddatess  });
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var datas = JSON.parse(re);
-       console.log(datas.startdates);
-            var sess = req.session;
-res.render('admin/getproductivity', { person: sess.companyname,companytask:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
+                    req.flash("error", "Productivity Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
 
-            
-            res.end;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
+                    res.render('admin/getproductivity', { person: sess.companyname, companytask: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddatess });
 
-            }else{
-
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas.startdates);
+                    var sess = req.session;
+                    res.render('admin/getproductivity', { person: sess.companyname, companytask: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddates });
 
 
-            }
+                    res.end;
 
-        });
+                } else {
 
-    }else {
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+
+
+                }
+
+            });
+
+    } else {
 
         res.render('users/login');
     }
@@ -1858,56 +2037,56 @@ app.post('/gettimeline', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     console.log(body);
-    if (sess.companyname && sess.token!='') {
-    
-    request.post({
-        headers: {
-            'Authorization': `Bearer ${token}`
-          },
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             url: process.env.APP_URL + '/api/users/gettimeline',
             body: req.body,
             json: true
         },
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-             
-            req.flash("error", "Timeline Cannot Upgarded ,Please Try Again.");
-            res.locals.messages = req.flash();
-              
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-                        var sess = req.session;
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+
+                    req.flash("error", "Timeline Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
+
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
 
 
-            res.render('admin/gettimeline', { person: sess.companyname,companyuser:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
+                    res.render('admin/gettimeline', { person: sess.companyname, companyuser: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddates });
 
-            } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var datas = JSON.parse(re);
-       console.log(datas.startdates);
-            var sess = req.session;
-      res.render('admin/gettimeline', {person: sess.companyname,companyuser:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
-
-
-            
-            res.end;
-
-            }else{
-
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas.startdates);
+                    var sess = req.session;
+                    res.render('admin/gettimeline', { person: sess.companyname, companyuser: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddates });
 
 
-            }
 
-        });
+                    res.end;
 
-    }else {
+                } else {
+
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+
+
+                }
+
+            });
+
+    } else {
 
         res.render('users/login');
     }
@@ -1921,56 +2100,56 @@ app.post('/getviewdetail', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     console.log(body);
-    if (sess.companyname && sess.token!='') {
-    
-    request.post({
-        headers: {
-            'Authorization': `Bearer ${token}`
-          },
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             url: process.env.APP_URL + '/api/users/getviewdetail',
             body: req.body,
             json: true
         },
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-             
-            req.flash("error", "Timeline Cannot Upgarded ,Please Try Again.");
-            res.locals.messages = req.flash();
-              
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-                        var sess = req.session;
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+
+                    req.flash("error", "Timeline Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
+
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
 
 
-          
-        res.render('admin/getviewdetail', { person: sess.companyname, user: datas,roleid :sess.roleid,uid:datas.ids,startdates:datas.startdates,enddates:datas.enddates });
-            } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var datas = JSON.parse(re);
-       //console.log(datas.startdates);
-            var sess = req.session;
-        res.render('admin/getviewdetail', { person: sess.companyname, user: datas,roleid :sess.roleid,uid:datas.ids,startdates:datas.startdates,enddates:datas.enddates });
+
+                    res.render('admin/getviewdetail', { person: sess.companyname, user: datas, roleid: sess.roleid, uid: datas.ids, startdates: datas.startdates, enddates: datas.enddates });
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    //console.log(datas.startdates);
+                    var sess = req.session;
+                    res.render('admin/getviewdetail', { person: sess.companyname, user: datas, roleid: sess.roleid, uid: datas.ids, startdates: datas.startdates, enddates: datas.enddates });
 
 
-            
-            res.end;
 
-            }else{
+                    res.end;
 
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                } else {
+
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
 
 
-            }
+                }
 
-        });
+            });
 
-    }else {
+    } else {
 
         res.render('users/login');
     }
@@ -1982,54 +2161,113 @@ app.post('/getsnapshot', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     console.log(body);
-    if (sess.companyname && sess.token!='') {
-    
-    request.post({
-        headers: {
-            'Authorization': `Bearer ${token}`
-          },
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             url: process.env.APP_URL + '/api/users/getsnapshot',
             body: req.body,
             json: true
         },
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-             
-            req.flash("error", "Productivity Cannot Upgarded ,Please Try Again.");
-            res.locals.messages = req.flash();
-              
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-                        var sess = req.session;
-            res.render('admin/getsnapshot', { person: sess.companyname,user: datas,roleid :sess.roleid,startdates:startdates,enddates:enddates,uid:datas.ids });
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var datas = JSON.parse(re);
-            console.log(datas.startdates);
-            console.log(datas.enddates);
-            var sess = req.session;
-res.render('admin/getsnapshot', { person: sess.companyname, user: datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates,uid:datas.ids });
+                    req.flash("error", "Productivity Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
 
-            
-            res.end;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
+                    res.render('admin/getsnapshot', { person: sess.companyname, user: datas, roleid: sess.roleid, startdates: startdates, enddates: enddates, uid: datas.ids });
 
-            }else{
-
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas.startdates);
+                    console.log(datas.enddates);
+                    var sess = req.session;
+                    res.render('admin/getsnapshot', { person: sess.companyname, user: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddates, uid: datas.ids });
 
 
-            }
+                    res.end;
 
-        });
+                } else {
 
-    }else {
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+
+
+                }
+
+            });
+
+    } else {
+
+        res.render('users/login');
+    }
+
+});
+
+app.post('/gettaskview', urlencodedParser, (req, res) => {
+    var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    console.log(body);
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            url: process.env.APP_URL + '/api/users/gettaskviewsearch',
+            body: req.body,
+            json: true
+        },
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
+
+                    req.flash("error", "Task View Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
+
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas);
+                    var sess = req.session;
+                    res.render('admin/gettaskview', { person: sess.companyname, userlist: datas, roleid: sess.roleid, startdates: startdates, enddates: enddates, uid: datas.ids });
+
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas);
+                    var sess = req.session;
+                    res.render('admin/gettaskview', { person: sess.companyname, userlist: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddates, uid: datas.ids });
+
+
+                    res.end;
+
+                } else {
+
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+
+
+                }
+
+            });
+
+    } else {
 
         res.render('users/login');
     }
@@ -2042,42 +2280,42 @@ res.render('admin/getsnapshot', { person: sess.companyname, user: datas,roleid :
 // Company List Active / Inactive
 
 
-app.get('/userupdatestatus/:id/:name', urlencodedParser, function(req, res) {
+app.get('/userupdatestatus/:id/:name', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
     names = req.params.name;
-   
+
     const token = sess.token;
-    if (sess.token!='') {
-        setTimeout(function() {
+    if (sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/userupdatestatus',
-                    body: {"id":ids,"name":names },
-                    json: true
                 },
+                url: process.env.APP_URL + '/api/users/userupdatestatus',
+                body: { "id": ids, "name": names },
+                json: true
+            },
 
-                function(error, response, body) {
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
                         res.render('users/login');
-                    } else if (!error && response.statusCode == 200){
+                    } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
-                       
+
                         sess = req.session;
-                      //  console.log(sess);
-                      req.flash("error", "Company Status has been Updated Successfully.");
-                      res.locals.messages = req.flash();
-                      res.render('admin/userlist', { person: sess.companyname,userlist: test,roleid :sess.roleid  });
-                      res.end;
+                        //  console.log(sess);
+                        req.flash("error", "Company Status has been Updated Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/userlist', { person: sess.companyname, userlist: test, roleid: sess.roleid });
+                        res.end;
 
                     } else {
 
@@ -2103,43 +2341,43 @@ app.get('/userupdatestatus/:id/:name', urlencodedParser, function(req, res) {
 
 
 
-app.get('/userupdatestatusteam/:id/:name', urlencodedParser, function(req, res) {
+app.get('/userupdatestatusteam/:id/:name', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
     names = req.params.name;
-   
+
     const token = sess.token;
-    if (sess.token!='') {
-        setTimeout(function() {
+    if (sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/userupdatestatusteam',
-                    body: {"id":ids,"name":names },
-                    json: true
                 },
+                url: process.env.APP_URL + '/api/users/userupdatestatusteam',
+                body: { "id": ids, "name": names },
+                json: true
+            },
 
-                function(error, response, body) {
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
                         res.render('users/login');
-                    } else if (!error && response.statusCode == 200){
+                    } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
-                       
+
                         sess = req.session;
-                      //  console.log(sess);
-                      req.flash("error", test.detail);
-                   
-                      res.locals.messages = req.flash();
-                      res.render('admin/companyuser', { person: sess.companyname,companyuser: test,roleid :sess.roleid  });
-                      res.end;
+                        //  console.log(sess);
+                        req.flash("error", test.detail);
+
+                        res.locals.messages = req.flash();
+                        res.render('admin/companyuser', { person: sess.companyname, companyuser: test, roleid: sess.roleid });
+                        res.end;
 
                     } else {
 
@@ -2163,38 +2401,38 @@ app.get('/userupdatestatusteam/:id/:name', urlencodedParser, function(req, res) 
     }
 });
 
-app.get('/companysettingupdatestatus/:id/:name', urlencodedParser, function(req, res) {
+app.get('/companysettingupdatestatus/:id/:name', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
     names = req.params.name;
-   
+
     const token = sess.token;
-    if (sess.token!='') {
-        setTimeout(function() {
+    if (sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/companysettingupdatestatus',
-                    body: {"id":ids,"name":names },
-                    json: true
                 },
+                url: process.env.APP_URL + '/api/users/companysettingupdatestatus',
+                body: { "id": ids, "name": names },
+                json: true
+            },
 
-                function(error, response, body) {
-                    if (!error && response.statusCode == 200){
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                       
+
                         sess = req.session;
-                      //  console.log(sess);
-                      req.flash("error", datas.detail);
-                   
-                      res.locals.messages = req.flash();
-                     
-                      res.render('admin/companysettings', { person: sess.companyname, csettings: datas,roleid :sess.roleid  });
-                      res.end;
+                        //  console.log(sess);
+                        req.flash("error", datas.detail);
+
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/companysettings', { person: sess.companyname, csettings: datas, roleid: sess.roleid });
+                        res.end;
 
                     } else {
 
@@ -2218,39 +2456,39 @@ app.get('/companysettingupdatestatus/:id/:name', urlencodedParser, function(req,
     }
 });
 
-app.get('/companyprojects/:id', urlencodedParser, function(req, res) {
+app.get('/companyprojects/:id', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
 
     const token = sess.token;
-    if (sess.token!='') {
-        setTimeout(function() {
+    if (sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
+                },
                 url: process.env.APP_URL + '/api/users/companyprojects',
-                body: {"id":ids },
+                body: { "id": ids },
                 json: true
-                },
+            },
 
-                function(error, response, body) {
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
-                  req.flash("error", "Failed to log in user account: User account not found.");
+                        req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
 
                         res.render('users/login');
-                    } else if (!error && response.statusCode == 200){
+                    } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
                         sess = req.session;
-                   //console.log(test.getuse);
-                      
-        res.render('admin/companyprojects', { person: sess.companyname,userlist: test,roleid :sess.roleid });
-                      res.end;
+                      console.log(test.gettotaltaskcalculation);
+
+                        res.render('admin/companyprojects', { person: sess.companyname, userlist: test, roleid: sess.roleid });
+                        res.end;
 
                     } else {
 
@@ -2274,39 +2512,39 @@ app.get('/companyprojects/:id', urlencodedParser, function(req, res) {
     }
 });
 
-app.get('/taskview/:id', urlencodedParser, function(req, res) {
+app.get('/taskview/:id', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
 
     const token = sess.token;
-    if (sess.token!='') {
-        setTimeout(function() {
+    if (sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                url: process.env.APP_URL + '/api/users/taskview',
-                body: {"id":ids },
-                json: true
                 },
+                url: process.env.APP_URL + '/api/users/taskview',
+                body: { "id": ids },
+                json: true
+            },
 
-                function(error, response, body) {
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
-                  req.flash("error", "Failed to log in user account: User account not found.");
+                        req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
 
                         res.render('users/login');
-                    } else if (!error && response.statusCode == 200){
+                    } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
                         sess = req.session;
-                  //console.log(test);
-                      
-        res.render('admin/taskview', { person: sess.companyname,userlist: test,roleid :sess.roleid });
-                      res.end;
+                        //console.log(test);
+
+                        res.render('admin/taskview', { person: sess.companyname, userlist: test, roleid: sess.roleid });
+                        res.end;
 
                     } else {
 
@@ -2333,23 +2571,23 @@ app.get('/taskview/:id', urlencodedParser, function(req, res) {
 // Delete User
 
 
-app.get('/userupdatedelete/:id', urlencodedParser, function(req, res) {
+app.get('/userupdatedelete/:id', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
     const token = sess.token;
-    if (sess.token!='') {
-        setTimeout(function() {
+    if (sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/userdeletesuper',
-                    body: {"id":ids },
-                    json: true
                 },
+                url: process.env.APP_URL + '/api/users/userdeletesuper',
+                body: { "id": ids },
+                json: true
+            },
 
-                function(error, response, body) {
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
@@ -2365,7 +2603,7 @@ app.get('/userupdatedelete/:id', urlencodedParser, function(req, res) {
                         req.flash("error", "Company details Deleted Successfully.");
                         res.locals.messages = req.flash();
 
-                        res.render('admin/userlist', { person: sess.companyname,userlist: datas,roleid :sess.roleid  });
+                        res.render('admin/userlist', { person: sess.companyname, userlist: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -2390,27 +2628,27 @@ app.get('/userupdatedelete/:id', urlencodedParser, function(req, res) {
 });
 
 
-// Signup 
+// Signup
 
-app.get('/signup', function(req, res) {
-    var countrylist ='';
-  // Country
-  request.get({
+app.get('/signup', function (req, res) {
+    var countrylist = '';
+    // Country
+    request.get({
         url: process.env.APP_URL + '/api/users/countrylist',
         body: { "country": 'select' },
         json: true
     },
-function(error, response, body) {
+        function (error, response, body) {
 
 
-    if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var countrylist = JSON.parse(re);
-           res.render('users/signup', { country: countrylist });
-         }  
+            if (!error && response.statusCode == 200) {
+                var data = response.body;
+                var re = JSON.stringify(data);
+                var countrylist = JSON.parse(re);
+                res.render('users/signup', { country: countrylist });
+            }
 
-    });
+        });
 
 
     res.end;
@@ -2421,35 +2659,35 @@ function(error, response, body) {
 app.post('/signup', urlencodedParser, (req, res) => {
     var body = req.body;
     request.post({
-            url: process.env.APP_URL + '/api/users/signupweb',
-            body: req.body,
-            json: true
-        },
-        function(error, response, body) {
+        url: process.env.APP_URL + '/api/users/signupweb',
+        body: req.body,
+        json: true
+    },
+        function (error, response, body) {
             if (response.statusCode == 500) {
                 var data = response.body;
-             
+
                 req.flash("error", "This email is already Registered. Please use a unique Email Address.");
                 res.locals.messages = req.flash();
                 var re = JSON.stringify(data);
                 var countrylist = JSON.parse(re);
-               res.render('users/signup', { country: countrylist });
+                res.render('users/signup', { country: countrylist });
             } else if (!error && response.statusCode == 200) {
-            var data = response.body;
+                var data = response.body;
 
-       
-        
-            req.flash("error", "Please click on the link that has just been sent to your email account to verify your email and continue with given Login Credentials.");
-          
-         res.locals.messages = req.flash();
-         var re = JSON.stringify(data);
-         var countrylist = JSON.parse(re);
-        res.render('users/signup', { country: countrylist });
 
-            
-            res.end;
 
-            }else{
+                req.flash("error", "Please click on the link that has just been sent to your email account to verify your email and continue with given Login Credentials.");
+
+                res.locals.messages = req.flash();
+                var re = JSON.stringify(data);
+                var countrylist = JSON.parse(re);
+                res.render('users/signup', { country: countrylist });
+
+
+                res.end;
+
+            } else {
 
                 //do something with error
                 // res.redirect('/charge-error');
@@ -2467,32 +2705,32 @@ app.post('/signup', urlencodedParser, (req, res) => {
 app.post('/forgot', urlencodedParser, (req, res) => {
     var body = req.body;
     request.post({
-            url: process.env.APP_URL + '/api/users/forgotweb',
-            body: req.body,
-            json: true
-        },
-        function(error, response, body) {
+        url: process.env.APP_URL + '/api/users/forgotweb',
+        body: req.body,
+        json: true
+    },
+        function (error, response, body) {
             if (response.statusCode == 500) {
                 var data = response.body;
-             
-    req.flash("error", "This Email is not registered. Please use a unique Email Address.");
+
+                req.flash("error", "This Email is not registered. Please use a unique Email Address.");
                 res.locals.messages = req.flash();
                 var re = JSON.stringify(data);
                 var countrylist = JSON.parse(re);
-               res.render('users/forgotpassword');
+                res.render('users/forgotpassword');
             } else if (!error && response.statusCode == 200) {
-            var data = response.body;
+                var data = response.body;
 
-       req.flash("error", "The instructions to Reset your Password were sent to your Registered Email Address. Please also check your Spam Folder.");
-          
-         res.locals.messages = req.flash();
-         
-        res.render('users/forgotpassword');
+                req.flash("error", "The instructions to Reset your Password were sent to your Registered Email Address. Please also check your Spam Folder.");
 
-            
-            res.end;
+                res.locals.messages = req.flash();
 
-            }else{
+                res.render('users/forgotpassword');
+
+
+                res.end;
+
+            } else {
 
                 //do something with error
                 // res.redirect('/charge-error');
@@ -2510,31 +2748,31 @@ app.post('/forgot', urlencodedParser, (req, res) => {
 app.post('/resetpasswords', urlencodedParser, (req, res) => {
     var body = req.body;
     request.post({
-            url: process.env.APP_URL + '/api/users/forgotsuccessful',
-            body: req.body,
-            json: true
-        },
-        function(error, response, body) {
+        url: process.env.APP_URL + '/api/users/forgotsuccessful',
+        body: req.body,
+        json: true
+    },
+        function (error, response, body) {
             if (response.statusCode == 500) {
                 var data = response.body;
-             
-    req.flash("error", "Reset Password Update Failed due to incorrect password, Please try Again Later.");
-    res.locals.messages = req.flash();
-              
-               res.render('users/login');
+
+                req.flash("error", "Reset Password Update Failed due to incorrect password, Please try Again Later.");
+                res.locals.messages = req.flash();
+
+                res.render('users/login');
             } else if (!error && response.statusCode == 200) {
-           
 
-req.flash("error", "Reset Password Successfully ,You can Login with New Credential Detail.");
-          
-         res.locals.messages = req.flash();
-         
-        res.render('users/login');
 
-            
-            res.end;
+                req.flash("error", "Reset Password Successfully ,You can Login with New Credential Detail.");
 
-            }else{
+                res.locals.messages = req.flash();
+
+                res.render('users/login');
+
+
+                res.end;
+
+            } else {
 
                 //do something with error
                 // res.redirect('/charge-error');
@@ -2551,25 +2789,25 @@ req.flash("error", "Reset Password Successfully ,You can Login with New Credenti
 
 // Plan List
 
-app.get('/plan', urlencodedParser, function(req, res) {
+app.get('/plan', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/plans/planlist',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/plans/planlist',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-           if (response.statusCode == 500) {
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -2580,7 +2818,7 @@ app.get('/plan', urlencodedParser, function(req, res) {
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
                         sess = req.session;
-                      res.render('admin/plan', { person: sess.companyname, plan: datas,roleid :sess.roleid  });
+                        res.render('admin/plan', { person: sess.companyname, plan: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -2591,7 +2829,7 @@ app.get('/plan', urlencodedParser, function(req, res) {
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -2604,72 +2842,72 @@ app.get('/plan', urlencodedParser, function(req, res) {
     }
 });
 
-// Add Plan 
-app.get('/planadd', function(req, res) {
+// Add Plan
+app.get('/planadd', function (req, res) {
 
-sess = req.session;
-const token = sess.token;
-if(sess.companyname!="" && sess.token!=''){  
-res.render('admin/planadd', { person: sess.companyname,roleid :sess.roleid  });
-res.end;
-}
- //  res.render('users/login');
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname != "" && sess.token != '') {
+        res.render('admin/planadd', { person: sess.companyname, roleid: sess.roleid });
+        res.end;
+    }
+    //  res.render('users/login');
 });
 
 // Add Plan Post
 app.post('/planadd', urlencodedParser, (req, res) => {
-sess = req.session;
-const token = sess.token;
-var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
 
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-        // this code will only run when time has ellapsed
-        
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+
             request.post({
-            headers: {
+                headers: {
                     'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/planaddservice',
+                body: req.body,
+                json: true
             },
-             url: process.env.APP_URL + '/api/plans/planaddservice',
-             body: req.body,
-             json: true
-        },
 
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-           
-                req.flash("error", "Add Plan Error.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/plan');
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-                
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var test = JSON.parse(re);
-         
-            sess = req.session;
-            req.flash("error", "Your Plan has been added Successfully.");
-            res.locals.messages = req.flash();
-         
-            res.render('admin/plan', { person: sess.companyname,plan: test,roleid :sess.roleid  });
-           
-            res.end;
+                        req.flash("error", "Add Plan Error.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/plan');
 
-            }else{
+                    } else if (!error && response.statusCode == 200) {
 
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your Plan has been added Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/plan', { person: sess.companyname, plan: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
 
 
-            }
+                    }
 
-        });
-    }, 0000);
+                });
+        }, 0000);
     }
 
 });
@@ -2677,25 +2915,25 @@ var body = req.body;
 
 
 
-app.get('/testimonial', urlencodedParser, function(req, res) {
+app.get('/testimonial', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/plans/testimoniallist',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/plans/testimoniallist',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-           if (response.statusCode == 500) {
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -2706,7 +2944,7 @@ app.get('/testimonial', urlencodedParser, function(req, res) {
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
                         sess = req.session;
-        res.render('admin/testimonial', { person: sess.companyname, testimonial: datas,roleid :sess.roleid  });
+                        res.render('admin/testimonial', { person: sess.companyname, testimonial: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -2717,7 +2955,7 @@ app.get('/testimonial', urlencodedParser, function(req, res) {
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -2730,71 +2968,126 @@ app.get('/testimonial', urlencodedParser, function(req, res) {
     }
 });
 
-// Add Plan 
-app.get('/testimonialadd', function(req, res) {
-sess = req.session;
-const token = sess.token;
-if(sess.companyname!="" && sess.token!=''){  
-res.render('admin/testimonialadd', { person: sess.companyname,roleid :sess.roleid  });
-res.end;
-}
- //  res.render('users/login');
+
+
+app.get('/sendmessagelist', urlencodedParser, function (req, res) {
+    sess = req.session;
+    const token = sess.token;
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/sendmessagelist',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
+
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Failed to log in user account: User account not found.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var datas = JSON.parse(re);
+                        sess = req.session;
+                        res.render('admin/sendmessagelist', { person: sess.companyname, testimonial: datas, roleid: sess.roleid });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+// Add Plan
+app.get('/testimonialadd', function (req, res) {
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname != "" && sess.token != '') {
+        res.render('admin/testimonialadd', { person: sess.companyname, roleid: sess.roleid });
+        res.end;
+    }
+    //  res.render('users/login');
 });
 
 // Add Plan Post
 app.post('/testimonialadd', urlencodedParser, (req, res) => {
-sess = req.session;
-const token = sess.token;
-var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
 
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-        // this code will only run when time has ellapsed
-        
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+
             request.post({
-            headers: {
+                headers: {
                     'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/testimonialaddservice',
+                body: req.body,
+                json: true
             },
-             url: process.env.APP_URL + '/api/plans/testimonialaddservice',
-             body: req.body,
-             json: true
-        },
 
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-           
-                req.flash("error", "Add Plan Error.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/testimonial');
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-                
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var test = JSON.parse(re);
-         
-            sess = req.session;
-            req.flash("error", "Your testimonial has been added Successfully.");
-            res.locals.messages = req.flash();
-         
-            res.render('admin/testimonial', { person: sess.companyname,testimonial: test,roleid :sess.roleid  });
-           
-            res.end;
+                        req.flash("error", "Add Plan Error.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/testimonial');
 
-            }else{
+                    } else if (!error && response.statusCode == 200) {
 
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your testimonial has been added Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/testimonial', { person: sess.companyname, testimonial: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
 
 
-            }
+                    }
 
-        });
-    }, 0000);
+                });
+        }, 0000);
     }
 
 });
@@ -2806,541 +3099,541 @@ var body = req.body;
 
 // Add Plan Post
 app.post('/companysettings', urlencodedParser, (req, res) => {
-sess = req.session;
-const token = sess.token;
-var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
 
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-        // this code will only run when time has ellapsed
-        
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+
             request.post({
-            headers: {
+                headers: {
                     'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/users/companysettings',
+                body: req.body,
+                json: true
             },
-             url: process.env.APP_URL + '/api/users/companysettings',
-             body: req.body,
-             json: true
-        },
 
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-           
-                req.flash("error", "Add Plan Error.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/companysettings');
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-                
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var test = JSON.parse(re);
-         
-            sess = req.session;
-            req.flash("error", "Your Company Settings has been added Successfully.");
-            res.locals.messages = req.flash();
-         
-            res.render('admin/companysettings', { person: sess.companyname,csettings: test,roleid :sess.roleid  });
-           
-            res.end;
+                        req.flash("error", "Add Plan Error.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/companysettings');
 
-            }else{
+                    } else if (!error && response.statusCode == 200) {
 
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your Company Settings has been added Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/companysettings', { person: sess.companyname, csettings: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
 
 
-            }
+                    }
 
-        });
-    }, 0000);
+                });
+        }, 0000);
     }
 
 });
 
-    app.get('/planedit/:id', urlencodedParser, function(req, res) {
-        sess = req.session;
-        id = req.params.id;
-        const token = sess.token;
-        if(id && sess.token!='') {
-            setTimeout(function() {
-             
-        request.post({
-                     headers: {
-                     'Authorization': `Bearer ${token}`
-                     },
-                    url: process.env.APP_URL + '/api/plans/planeditshow',
-                    body: { "id": id },
-                    json: true
-                    },
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
+app.get('/planedit/:id', urlencodedParser, function (req, res) {
+    sess = req.session;
+    id = req.params.id;
+    const token = sess.token;
+    if (id && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/planeditshow',
+                body: { "id": id },
+                json: true
+            },
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/plan');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+
+                        sess = req.session;
+                        if (test.data.id) {
+
+                            sess = req.session;
+
+                            res.render('admin/planedit', { person: sess.companyname, plan: test, roleid: sess.roleid });
+                            res.end;
+
+                        } else {
                             req.flash("error", "Id not Found Plan.Try Again Later");
                             res.locals.messages = req.flash();
                             res.redirect(process.env.APP_URL + '/plan');
-                        } else if (!error && response.statusCode == 200) {
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                   
-                           
-                            sess = req.session;
-                            if(test.data.id){
-                           
-                    sess = req.session;
-                       
-                    res.render('admin/planedit', { person: sess.companyname, plan: test,roleid :sess.roleid  });
                             res.end;
-    
-                            }else{
-                                req.flash("error", "Id not Found Plan.Try Again Later");
-                                res.locals.messages = req.flash();
-                                res.redirect(process.env.APP_URL + '/plan');
-                                res.end;
-                            }
-                        } else {
-                            req.flash("error", "Id not Found Plan.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/plan');
-                            res.end;
-    
-    
                         }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    }); 
-    
+                    } else {
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/plan');
+                        res.end;
 
-    app.get('/testimonialedit/:id', urlencodedParser, function(req, res) {
-        sess = req.session;
-        id = req.params.id;
-        const token = sess.token;
-        if(id && sess.token!='') {
-            setTimeout(function() {
-             
-        request.post({
-                     headers: {
-                     'Authorization': `Bearer ${token}`
-                     },
-                    url: process.env.APP_URL + '/api/plans/testimonialeditshow',
-                    body: { "id": id },
-                    json: true
-                    },
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                            req.flash("error", "Id not Found Plan.Try Again Later");
-                            res.locals.messages = req.flash();
-                            res.redirect(process.env.APP_URL + '/testimonial');
-                        } else if (!error && response.statusCode == 200) {
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                   
-                           
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+
+app.get('/testimonialedit/:id', urlencodedParser, function (req, res) {
+    sess = req.session;
+    id = req.params.id;
+    const token = sess.token;
+    if (id && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/testimonialeditshow',
+                body: { "id": id },
+                json: true
+            },
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Id not Found Plan.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/testimonial');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+
+                        sess = req.session;
+                        if (test.data.id) {
+
                             sess = req.session;
-                            if(test.data.id){
-                           
-                    sess = req.session;
-                       
-                    res.render('admin/testimonialedit', { person: sess.companyname, testimonial: test,roleid :sess.roleid  });
+
+                            res.render('admin/testimonialedit', { person: sess.companyname, testimonial: test, roleid: sess.roleid });
                             res.end;
-    
-                            }else{
-                                req.flash("error", "Id not Found testimonial.Try Again Later");
-                                res.locals.messages = req.flash();
-                                res.redirect(process.env.APP_URL + '/testimonial');
-                                res.end;
-                            }
+
                         } else {
                             req.flash("error", "Id not Found testimonial.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/testimonial');
+                            res.locals.messages = req.flash();
+                            res.redirect(process.env.APP_URL + '/testimonial');
                             res.end;
-    
-    
                         }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    }); 
-    
+                    } else {
+                        req.flash("error", "Id not Found testimonial.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/testimonial');
+                        res.end;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
 
 
 
 
 
-    
-    // Edit Plan Post
-    app.post('/planedit', urlencodedParser, (req, res) => {
+
+
+// Edit Plan Post
+app.post('/planedit', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    if (sess.companyname && sess.token!='') {
-            setTimeout(function() {
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-                request.post({
+            request.post({
                 headers: {
-                'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 url: process.env.APP_URL + '/api/plans/planeditservice',
                 body: req.body,
                 json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-               
-                    req.flash("error", "Error While updated Plan Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/plan');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-             
-                sess = req.session;
-                req.flash("error", "Your Plan has been Updated Successfully.");
-                res.locals.messages = req.flash();
-                res.render('admin/plan', { person: sess.companyname,plan: test,roleid :sess.roleid  });
-                
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Error While updated Plan Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/plan');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your Plan has been Updated Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/plan', { person: sess.companyname, plan: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
-    app.post('/testimonialedit', urlencodedParser, (req, res) => {
+    }
+
+});
+app.post('/testimonialedit', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    if (sess.companyname && sess.token!='') {
-            setTimeout(function() {
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-                request.post({
+            request.post({
                 headers: {
-                'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 url: process.env.APP_URL + '/api/plans/testimonialeditservice',
                 body: req.body,
                 json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-               
-                    req.flash("error", "Error While updated testimonial Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/testimonial');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-             
-                sess = req.session;
-                req.flash("error", "Your testimonial has been Updated Successfully.");
-                res.locals.messages = req.flash();
-                res.render('admin/testimonial', { person: sess.companyname,testimonial: test,roleid :sess.roleid  });
-                
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Error While updated testimonial Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/testimonial');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your testimonial has been Updated Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/testimonial', { person: sess.companyname, testimonial: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
-    
+    }
 
-    app.get('/planupdatestatus/:id/:name', urlencodedParser, function(req, res) {
-        sess = req.session;
-        ids = req.params.id;
-        names = req.params.name;
-       
-        const token = sess.token;
-        if (sess.token!='') {
-            setTimeout(function() {
-                // this code will only run when time has ellapsed
-                request.post({
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                        url: process.env.APP_URL + '/api/plans/planupdatestatus',
-                        body: {"id":ids,"name":names },
-                        json: true
-                    },
-    
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                                 
-                    req.flash("error", "Error While updated Plan Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/plan');
-                        } else if (!error && response.statusCode == 200){
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                           
-                           
-                            sess = req.session;
-                          //  console.log(sess);
-    
-                          req.flash("error", "Your Plan Status has been Update Successfully.");
-                          res.locals.messages = req.flash();
-                          res.render('admin/plan', { person: sess.companyname,plan: test,roleid :sess.roleid  });
-    
-                          
-                            res.end;
-                        } else {
-    
-                            //do something with error
-                            // res.redirect('/charge-error');
-                            //or
-                            res.sendStatus(500);
-                            return;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    });
-    
-    app.get('/testimonialupdatestatus/:id/:name', urlencodedParser, function(req, res) {
-        sess = req.session;
-        ids = req.params.id;
-        names = req.params.name;
-       
-        const token = sess.token;
-        if (sess.token!='') {
-            setTimeout(function() {
-                // this code will only run when time has ellapsed
-                request.post({
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                        url: process.env.APP_URL + '/api/plans/testimonialupdatestatus',
-                        body: {"id":ids,"name":names },
-                        json: true
-                    },
-    
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                                 
-                    req.flash("error", "Error While updated testimonial Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/testimonial');
-                        } else if (!error && response.statusCode == 200){
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                           
-                           
-                            sess = req.session;
-                          //  console.log(sess);
-    
-                          req.flash("error", "Your testimonial Status has been Update Successfully.");
-                          res.locals.messages = req.flash();
-                res.render('admin/testimonial', { person: sess.companyname,testimonial: test,roleid :sess.roleid  });
-    
-                          
-                            res.end;
-                        } else {
-    
-                            //do something with error
-                            // res.redirect('/charge-error');
-                            //or
-                            res.sendStatus(500);
-                            return;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    });
-    
-    // Delete User
-    
-    
-    app.get('/planupdatedelete/:id', urlencodedParser, function(req, res) {
-        sess = req.session;
-        ids = req.params.id;
-        const token = sess.token;
-        if (sess.token!='') {
-            setTimeout(function() {
-                // this code will only run when time has ellapsed
-                request.post({
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                        url: process.env.APP_URL + '/api/plans/plandeletesuper',
-                        body: {"id":ids },
-                        json: true
-                    },
-    
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                         
-                            req.flash("error", "Error While updated Plan Successfully.");
-                            res.locals.messages = req.flash();
-                            res.redirect(process.env.APP_URL + '/plan');
-                        } else if (!error && response.statusCode == 200) {
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                            sess = req.session;
-                            req.flash("error", "Your Plan Detail Deleted Successfully.");
-                            res.locals.messages = req.flash();
-                            res.render('admin/plan', { person: sess.companyname,plan: test,roleid :sess.roleid  });
-                            res.end;
-                        } else {
-    
-                            //do something with error
-                            // res.redirect('/charge-error');
-                            //or
-                            res.sendStatus(500);
-                            return;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    });
+});
 
-    
-    app.get('/testimonialupdatedelete/:id', urlencodedParser, function(req, res) {
-        sess = req.session;
-        ids = req.params.id;
-        const token = sess.token;
-        if (sess.token!='') {
-            setTimeout(function() {
-                // this code will only run when time has ellapsed
-                request.post({
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                        url: process.env.APP_URL + '/api/plans/testimonialdeletesuper',
-                        body: {"id":ids },
-                        json: true
-                    },
-    
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                         
-                            req.flash("error", "Error While updated testimonial Successfully.");
-                            res.locals.messages = req.flash();
-                            res.redirect(process.env.APP_URL + '/testimonial');
-                        } else if (!error && response.statusCode == 200) {
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                            sess = req.session;
-                            req.flash("error", "Your testimonial Detail Deleted Successfully.");
-                            res.locals.messages = req.flash();
-                            res.render('admin/testimonial', { person: sess.companyname,plan: test,roleid :sess.roleid  });
-                            res.end;
-                        } else {
-    
-                            //do something with error
-                            // res.redirect('/charge-error');
-                            //or
-                            res.sendStatus(500);
-                            return;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    });
+
+app.get('/planupdatestatus/:id/:name', urlencodedParser, function (req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    names = req.params.name;
+
+    const token = sess.token;
+    if (sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/planupdatestatus',
+                body: { "id": ids, "name": names },
+                json: true
+            },
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+
+                        req.flash("error", "Error While updated Plan Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/plan');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+
+                        sess = req.session;
+                        //  console.log(sess);
+
+                        req.flash("error", "Your Plan Status has been Update Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/plan', { person: sess.companyname, plan: test, roleid: sess.roleid });
+
+
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+app.get('/testimonialupdatestatus/:id/:name', urlencodedParser, function (req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    names = req.params.name;
+
+    const token = sess.token;
+    if (sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/testimonialupdatestatus',
+                body: { "id": ids, "name": names },
+                json: true
+            },
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+
+                        req.flash("error", "Error While updated testimonial Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/testimonial');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+
+                        sess = req.session;
+                        //  console.log(sess);
+
+                        req.flash("error", "Your testimonial Status has been Update Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/testimonial', { person: sess.companyname, testimonial: test, roleid: sess.roleid });
+
+
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+// Delete User
+
+
+app.get('/planupdatedelete/:id', urlencodedParser, function (req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    const token = sess.token;
+    if (sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/plandeletesuper',
+                body: { "id": ids },
+                json: true
+            },
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+
+                        req.flash("error", "Error While updated Plan Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/plan');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                        sess = req.session;
+                        req.flash("error", "Your Plan Detail Deleted Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/plan', { person: sess.companyname, plan: test, roleid: sess.roleid });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+
+app.get('/testimonialupdatedelete/:id', urlencodedParser, function (req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    const token = sess.token;
+    if (sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/plans/testimonialdeletesuper',
+                body: { "id": ids },
+                json: true
+            },
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+
+                        req.flash("error", "Error While updated testimonial Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/testimonial');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                        sess = req.session;
+                        req.flash("error", "Your testimonial Detail Deleted Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/testimonial', { person: sess.companyname, plan: test, roleid: sess.roleid });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
 
 
 
@@ -3349,25 +3642,25 @@ var body = req.body;
 
 
 
-app.get('/emailtemplate', urlencodedParser, function(req, res) {
+app.get('/emailtemplate', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/emailtemplate/emailtemplatelist',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/emailtemplate/emailtemplatelist',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-           if (response.statusCode == 500) {
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
@@ -3378,7 +3671,7 @@ app.get('/emailtemplate', urlencodedParser, function(req, res) {
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
                         sess = req.session;
-                      res.render('admin/emailtemplate', { person: sess.companyname, emailtemplate: datas,roleid :sess.roleid  });
+                        res.render('admin/emailtemplate', { person: sess.companyname, emailtemplate: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -3389,7 +3682,7 @@ app.get('/emailtemplate', urlencodedParser, function(req, res) {
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -3402,320 +3695,320 @@ app.get('/emailtemplate', urlencodedParser, function(req, res) {
     }
 });
 
-// Add Plan 
-app.get('/emailtemplateadd', function(req, res) {
+// Add Plan
+app.get('/emailtemplateadd', function (req, res) {
 
-sess = req.session;
-const token = sess.token;
-if(sess.companyname!="" && sess.token!=''){  
-res.render('admin/emailtemplateadd', { person: sess.companyname,roleid :sess.roleid  });
-res.end;
-}
- //  res.render('users/login');
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname != "" && sess.token != '') {
+        res.render('admin/emailtemplateadd', { person: sess.companyname, roleid: sess.roleid });
+        res.end;
+    }
+    //  res.render('users/login');
 });
 
 // Add Plan Post
 app.post('/emailtemplateadd', urlencodedParser, (req, res) => {
-sess = req.session;
-const token = sess.token;
-var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
 
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-        // this code will only run when time has ellapsed
-        
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+
             request.post({
-            headers: {
+                headers: {
                     'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/emailtemplate/emailtemplateaddservice',
+                body: req.body,
+                json: true
             },
-             url: process.env.APP_URL + '/api/emailtemplate/emailtemplateaddservice',
-             body: req.body,
-             json: true
-        },
 
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-           
-                req.flash("error", "Add Email template Error.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/emailtemplate');
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-                
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var test = JSON.parse(re);
-         
-            sess = req.session;
-            req.flash("error", "Your emailtemplate has been added Successfully.");
-            res.locals.messages = req.flash();
-         
-            res.render('admin/emailtemplate', { person: sess.companyname,emailtemplate: test,roleid :sess.roleid  });
-           
-            res.end;
+                        req.flash("error", "Add Email template Error.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/emailtemplate');
 
-            }else{
+                    } else if (!error && response.statusCode == 200) {
 
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your emailtemplate has been added Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/emailtemplate', { person: sess.companyname, emailtemplate: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
 
 
-            }
+                    }
 
-        });
-    }, 0000);
+                });
+        }, 0000);
     }
 
 });
 
-    app.get('/emailtemplateedit/:id', urlencodedParser, function(req, res) {
-        sess = req.session;
-        id = req.params.id;
-        const token = sess.token;
-        if(id && sess.token!='') {
-            setTimeout(function() {
-             
-        request.post({
-                     headers: {
-                     'Authorization': `Bearer ${token}`
-                     },
-                    url: process.env.APP_URL + '/api/emailtemplate/emailtemplateeditshow',
-                    body: { "id": id },
-                    json: true
-                    },
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
+app.get('/emailtemplateedit/:id', urlencodedParser, function (req, res) {
+    sess = req.session;
+    id = req.params.id;
+    const token = sess.token;
+    if (id && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/emailtemplate/emailtemplateeditshow',
+                body: { "id": id },
+                json: true
+            },
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Id not Found emailtemplate.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/emailtemplate');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+
+                        sess = req.session;
+                        if (test.data.id) {
+
+                            sess = req.session;
+
+                            res.render('admin/emailtemplateedit', { person: sess.companyname, emailtemplate: test, roleid: sess.roleid });
+                            res.end;
+
+                        } else {
                             req.flash("error", "Id not Found emailtemplate.Try Again Later");
                             res.locals.messages = req.flash();
                             res.redirect(process.env.APP_URL + '/emailtemplate');
-                        } else if (!error && response.statusCode == 200) {
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                   
-                           
-                            sess = req.session;
-                            if(test.data.id){
-                           
-                    sess = req.session;
-                       
-                    res.render('admin/emailtemplateedit', { person: sess.companyname, emailtemplate: test,roleid :sess.roleid  });
                             res.end;
-    
-                            }else{
-                                req.flash("error", "Id not Found emailtemplate.Try Again Later");
-                                res.locals.messages = req.flash();
-                                res.redirect(process.env.APP_URL + '/emailtemplate');
-                                res.end;
-                            }
-                        } else {
-                            req.flash("error", "Id not Found emailtemplate.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/emailtemplate');
-                            res.end;
-    
-    
                         }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    }); 
-    
+                    } else {
+                        req.flash("error", "Id not Found emailtemplate.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/emailtemplate');
+                        res.end;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
 
 
 
 
 
-    
-    // Edit Plan Post
-    app.post('/emailtemplateedit', urlencodedParser, (req, res) => {
+
+
+// Edit Plan Post
+app.post('/emailtemplateedit', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    if (sess.companyname && sess.token!='') {
-            setTimeout(function() {
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-                request.post({
+            request.post({
                 headers: {
-                'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 url: process.env.APP_URL + '/api/emailtemplate/emailtemplateeditservice',
                 body: req.body,
                 json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-               
-                    req.flash("error", "Error While updated emailtemplate Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/emailtemplate');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-             
-                sess = req.session;
-                req.flash("error", "Your emailtemplate has been Updated Successfully.");
-                res.locals.messages = req.flash();
-                res.render('admin/emailtemplate', { person: sess.companyname,emailtemplate: test,roleid :sess.roleid  });
-                
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
-        }, 0000);
-        }
-    
-    });
-    
 
-    app.get('/emailtemplateupdatestatus/:id/:name', urlencodedParser, function(req, res) {
-        sess = req.session;
-        ids = req.params.id;
-        names = req.params.name;
-       
-        const token = sess.token;
-        if (sess.token!='') {
-            setTimeout(function() {
-                // this code will only run when time has ellapsed
-                request.post({
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                        url: process.env.APP_URL + '/api/emailtemplate/emailtemplateupdatestatus',
-                        body: {"id":ids,"name":names },
-                        json: true
-                    },
-    
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                                 
-                    req.flash("error", "Error While updated emailtemplate Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/emailtemplate');
-                        } else if (!error && response.statusCode == 200){
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                           
-                           
-                            sess = req.session;
-                          //  console.log(sess);
-    
-                          req.flash("error", "Your emailtemplate Status has been Update Successfully.");
-                          res.locals.messages = req.flash();
-                          res.render('admin/emailtemplate', { person: sess.companyname,emailtemplate: test,roleid :sess.roleid  });
-    
-                          
-                            res.end;
-                        } else {
-    
-                            //do something with error
-                            // res.redirect('/charge-error');
-                            //or
-                            res.sendStatus(500);
-                            return;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    });
-    
-    // Delete User
-    
-    
-    app.get('/emailtemplateupdatedelete/:id', urlencodedParser, function(req, res) {
-        sess = req.session;
-        ids = req.params.id;
-        const token = sess.token;
-        if (sess.token!='') {
-            setTimeout(function() {
-                // this code will only run when time has ellapsed
-                request.post({
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                        url: process.env.APP_URL + '/api/emailtemplate/emailtemplatedeletesuper',
-                        body: {"id":ids },
-                        json: true
-                    },
-    
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                         
-                            req.flash("error", "Error While updated emailtemplate Successfully.");
-                            res.locals.messages = req.flash();
-                            res.redirect(process.env.APP_URL + '/emailtemplate');
-                        } else if (!error && response.statusCode == 200) {
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                            sess = req.session;
-                            req.flash("error", "Your emailtemplate Detail Deleted Successfully.");
-                            res.locals.messages = req.flash();
-                            res.render('admin/emailtemplate', { person: sess.companyname,emailtemplate: test,roleid :sess.roleid  });
-                            res.end;
-                        } else {
-    
-                            //do something with error
-                            // res.redirect('/charge-error');
-                            //or
-                            res.sendStatus(500);
-                            return;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    });
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Error While updated emailtemplate Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/emailtemplate');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your emailtemplate has been Updated Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/emailtemplate', { person: sess.companyname, emailtemplate: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+        }, 0000);
+    }
+
+});
+
+
+app.get('/emailtemplateupdatestatus/:id/:name', urlencodedParser, function (req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    names = req.params.name;
+
+    const token = sess.token;
+    if (sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/emailtemplate/emailtemplateupdatestatus',
+                body: { "id": ids, "name": names },
+                json: true
+            },
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+
+                        req.flash("error", "Error While updated emailtemplate Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/emailtemplate');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+
+                        sess = req.session;
+                        //  console.log(sess);
+
+                        req.flash("error", "Your emailtemplate Status has been Update Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/emailtemplate', { person: sess.companyname, emailtemplate: test, roleid: sess.roleid });
+
+
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.render('users/login');
+    }
+});
+
+// Delete User
+
+
+app.get('/emailtemplateupdatedelete/:id', urlencodedParser, function (req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    const token = sess.token;
+    if (sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/emailtemplate/emailtemplatedeletesuper',
+                body: { "id": ids },
+                json: true
+            },
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+
+                        req.flash("error", "Error While updated emailtemplate Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/emailtemplate');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                        sess = req.session;
+                        req.flash("error", "Your emailtemplate Detail Deleted Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/emailtemplate', { person: sess.companyname, emailtemplate: test, roleid: sess.roleid });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.redirect(process.env.APP_URL + '/error');
+    }
+});
 
 
 
@@ -3724,36 +4017,36 @@ var body = req.body;
 
 
 
-app.get('/staticpages', urlencodedParser, function(req, res) {
+app.get('/staticpages', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/staticpages/staticpageslist',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
-console.log(error);
-           if (response.statusCode == 500) {
+                url: process.env.APP_URL + '/api/staticpages/staticpageslist',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
+                    console.log(error);
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
-                        res.render('users/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
                         sess = req.session;
-                      res.render('admin/staticpages', { person: sess.companyname, staticpages: datas,roleid :sess.roleid  });
+                        res.render('admin/staticpages', { person: sess.companyname, staticpages: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -3764,7 +4057,7 @@ console.log(error);
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -3777,39 +4070,39 @@ console.log(error);
     }
 });
 
-// Add Plan 
-app.get('/staticpagesadd', function(req, res) {
+// Add Plan
+app.get('/staticpagesadd', function (req, res) {
 
-sess = req.session;
-const token = sess.token;
-if(sess.companyname!="" && sess.token!=''){  
-res.render('admin/staticpagesadd', { person: sess.companyname,roleid :sess.roleid  });
-res.end;
-}
- //  res.render('users/login');
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname != "" && sess.token != '') {
+        res.render('admin/staticpagesadd', { person: sess.companyname, roleid: sess.roleid });
+        res.end;
+    }
+    //  res.render('users/login');
 });
 
 
 
-// Add Plan 
-app.post('/updatepayment',urlencodedParser, function(req, res) {
-    
-     
+// Add Plan
+app.post('/updatepayment', urlencodedParser, function (req, res) {
+
+
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    if(sess.companyname !="" && sess.token!='') {
-    setTimeout(function() {
-         
-    request.post({
-                 headers: {
-                 'Authorization': `Bearer ${token}`
-                 },
+    if (sess.companyname != "" && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 url: process.env.APP_URL + '/api/users/updatepaymente',
                 body: req.body,
                 json: true
-                },
-                function(error, response, body) {
+            },
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
@@ -3820,21 +4113,21 @@ app.post('/updatepayment',urlencodedParser, function(req, res) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
-               
-                
+
+
                         sess = req.session;
-                       
-                          
-                sess = req.session;
-                   
-                res.redirect(process.env.APP_URL + '/orderinvoice?userfound=1');
+
+
+                        sess = req.session;
+
+                        res.redirect(process.env.APP_URL + '/orderinvoice?userfound=1');
                         res.end;
 
-                       
+
                     } else {
                         req.flash("error", "Id not Found updatepayment.Try Again Later");
-            res.locals.messages = req.flash();
-            res.redirect(process.env.APP_URL + '/orderinvoice?userfound=2');
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/orderinvoice?userfound=2');
                         res.end;
 
 
@@ -3853,394 +4146,431 @@ app.post('/updatepayment',urlencodedParser, function(req, res) {
 
 
 
-     //  res.render('users/login');
-    });
+    //  res.render('users/login');
+});
 
-// Add Plan 
-app.post('/sendmessage',urlencodedParser, function(req, res) {
-    
+// Add Plan
+app.post('/sendmessage', urlencodedParser, function (req, res) {
+
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    if(sess.companyname !="" && sess.token!='') {
-    setTimeout(function() {
-         
-    request.post({
-                 headers: {
-                 'Authorization': `Bearer ${token}`
-                 },
-                url: process.env.APP_URL + '/api/users/sendmessages',
-                body: req.body,
-                json: true
-                },
-                function(error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        var data = response.body;
-                        var re = JSON.stringify(data);
-                        var test = JSON.parse(re);
-               
-                
-                     
-                sess = req.session;
-                   
-                res.redirect(process.env.APP_URL + '/?userfound=1');
-                        res.end;
-                       
-                    }
+    const name = req.body.name;
+    // getting site key from client side
+    const response_key = req.body["g-recaptcha-response"];
+    // Put secret key here, which we get from google console
+    const secret_key = "6LcRU-wbAAAAAAsYVanIXONTZ-1pDX3bWHLrMDUw";
 
-                });
+    // Hitting POST request to the URL, Google will
+    // respond with success or error scenario.
+    const url =
+        `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${response_key}`;
 
-        }, 0000);
+    // Making POST request to verify captcha
+    fetch(url, {
+        method: "post",
+    })
+        .then((response) => response.json())
+        .then((google_response) => {
+
+            // google_response is the object return by
+            // google as a response
+            if (google_response.success == true) {
+                //   if captcha is verified
+
+                if (sess.companyname != "" && sess.token != '') {
+                    setTimeout(function () {
+
+                        request.post({
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            },
+                            url: process.env.APP_URL + '/api/users/sendmessages',
+                            body: req.body,
+                            json: true
+                        },
+                            function (error, response, body) {
+                                if (!error && response.statusCode == 200) {
+                                    var data = response.body;
+                                    var re = JSON.stringify(data);
+                                    var test = JSON.parse(re);
 
 
-    } else {
 
-        res.render('users/login');
-    }
+                                    sess = req.session;
+
+                                    res.redirect(process.env.APP_URL + '/?userfound=1');
+                                    res.end;
+
+                                }
+
+                            });
+
+                    }, 0000);
+
+
+                } else {
+
+                    res.render('users/login');
+                }
+
+            } else {
+                // if captcha is not verified
+                res.redirect(process.env.APP_URL + '/?userfound=2');
+                res.end;
+            }
+        })
+        .catch((error) => {
+            // Some error while verify captcha
+            res.redirect(process.env.APP_URL + '/?userfound=2');
+            res.end;
+        });
 
 
 
 
-     //  res.render('users/login');
-    });
+
+
+    //  res.render('users/login');
+});
 
 // Add Plan Post
 app.post('/staticpagesadd', urlencodedParser, (req, res) => {
-sess = req.session;
-const token = sess.token;
-var body = req.body;
+    sess = req.session;
+    const token = sess.token;
+    var body = req.body;
 
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-        // this code will only run when time has ellapsed
-        
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+
             request.post({
-            headers: {
+                headers: {
                     'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/staticpages/staticpagesaddservice',
+                body: req.body,
+                json: true
             },
-             url: process.env.APP_URL + '/api/staticpages/staticpagesaddservice',
-             body: req.body,
-             json: true
-        },
 
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-           
-                req.flash("error", "Add staticpages Error.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/staticpages');
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-                
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var test = JSON.parse(re);
-         
-            sess = req.session;
-            req.flash("error", "Your staticpages  has been added Successfully.");
-            res.locals.messages = req.flash();
-         
-            res.render('admin/staticpages', { person: sess.companyname,staticpages: test,roleid :sess.roleid  });
-           
-            res.end;
+                        req.flash("error", "Add staticpages Error.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/staticpages');
 
-            }else{
+                    } else if (!error && response.statusCode == 200) {
 
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your staticpages  has been added Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/staticpages', { person: sess.companyname, staticpages: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.redirect(process.env.APP_URL + '/error');
+                        return;
 
 
-            }
+                    }
 
-        });
-    }, 0000);
+                });
+        }, 0000);
     }
 
 });
 
-    app.get('/staticpagesedit/:id', urlencodedParser, function(req, res) {
-        sess = req.session;
-        id = req.params.id;
-        const token = sess.token;
-        if(id && sess.token!='') {
-            setTimeout(function() {
-             
-        request.post({
-                     headers: {
-                     'Authorization': `Bearer ${token}`
-                     },
-                    url: process.env.APP_URL + '/api/staticpages/staticpageseditshow',
-                    body: { "id": id },
-                    json: true
-                    },
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                            req.flash("error", "Id not Found staticpages.Try Again Later");
-                            res.locals.messages = req.flash();
-                            res.redirect(process.env.APP_URL + '/staticpages');
-                        } else if (!error && response.statusCode == 200) {
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                   
-                    
-                            sess = req.session;
-                           
-                            console.log(test);     
-                    sess = req.session;
-                       
-                    res.render('admin/staticpagesedit', { person: sess.companyname, staticpages: test,roleid :sess.roleid  });
-                            res.end;
-    
-                           
-                        } else {
-                            req.flash("error", "Id not Found staticpages.Try Again Later");
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/staticpages');
-                            res.end;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    }); 
-    
+app.get('/staticpagesedit/:id', urlencodedParser, function (req, res) {
+    sess = req.session;
+    id = req.params.id;
+    const token = sess.token;
+    if (id && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/staticpages/staticpageseditshow',
+                body: { "id": id },
+                json: true
+            },
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Id not Found staticpages.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/staticpages');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+
+                        sess = req.session;
+
+                        console.log(test);
+                        sess = req.session;
+
+                        res.render('admin/staticpagesedit', { person: sess.companyname, staticpages: test, roleid: sess.roleid });
+                        res.end;
+
+
+                    } else {
+                        req.flash("error", "Id not Found staticpages.Try Again Later");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/staticpages');
+                        res.end;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.redirect(process.env.APP_URL + '/error');
+    }
+});
 
 
 
 
 
-    
-    // Edit Plan Post
-    app.post('/staticpagesedit', urlencodedParser, (req, res) => {
+
+
+// Edit Plan Post
+app.post('/staticpagesedit', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    if (sess.companyname && sess.token!='') {
-            setTimeout(function() {
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-                request.post({
+            request.post({
                 headers: {
-                'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 url: process.env.APP_URL + '/api/staticpages/staticpageseditservice',
                 body: req.body,
                 json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-               
-                    req.flash("error", "Error While updated staticpages Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/staticpages');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-            
-                sess = req.session;
-                req.flash("error", "Your staticpages has been Updated Successfully.");
-                res.locals.messages = req.flash();
-                res.render('admin/staticpages', { person: sess.companyname,staticpages: test,roleid :sess.roleid  });
-                
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Error While updated staticpages Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/staticpages');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Your staticpages has been Updated Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/staticpages', { person: sess.companyname, staticpages: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.redirect(process.env.APP_URL + '/error');
+                        return;
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
-    
+    }
 
-    app.get('/staticpagesupdatestatus/:id/:name', urlencodedParser, function(req, res) {
-        sess = req.session;
-        ids = req.params.id;
-        names = req.params.name;
-       
-        const token = sess.token;
-        if (sess.token!='') {
-            setTimeout(function() {
-                // this code will only run when time has ellapsed
-                request.post({
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                        url: process.env.APP_URL + '/api/staticpages/staticpagesupdatestatus',
-                        body: {"id":ids,"name":names },
-                        json: true
-                    },
-    
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                                 
-                    req.flash("error", "Error While updated staticpages Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/staticpages');
-                        } else if (!error && response.statusCode == 200){
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                           
-                           
-                            sess = req.session;
-                          //  console.log(sess);
-    
-                          req.flash("error", "Your staticpages Status has been Update Successfully.");
-                          res.locals.messages = req.flash();
-                          res.render('admin/staticpages', { person: sess.companyname,staticpages: test,roleid :sess.roleid  });
-    
-                          
-                            res.end;
-                        } else {
-    
-                            //do something with error
-                            // res.redirect('/charge-error');
-                            //or
-                            res.sendStatus(500);
-                            return;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    });
-    
-    // Delete User
-    
-    
-    app.get('/staticpagesupdatedelete/:id', urlencodedParser, function(req, res) {
-        sess = req.session;
-        ids = req.params.id;
-        const token = sess.token;
-        if (sess.token!='') {
-            setTimeout(function() {
-                // this code will only run when time has ellapsed
-                request.post({
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                        url: process.env.APP_URL + '/api/staticpages/staticpagesdeletesuper',
-                        body: {"id":ids },
-                        json: true
-                    },
-    
-                    function(error, response, body) {
-                        if (response.statusCode == 500) {
-                            var data = response.body;
-    
-                         
-                            req.flash("error", "Error While updated staticpages Successfully.");
-                            res.locals.messages = req.flash();
-                            res.redirect(process.env.APP_URL + '/staticpages');
-                        } else if (!error && response.statusCode == 200) {
-                            var data = response.body;
-                            var re = JSON.stringify(data);
-                            var test = JSON.parse(re);
-                            sess = req.session;
-                            req.flash("error", "Your staticpages Detail Deleted Successfully.");
-                            res.locals.messages = req.flash();
-                            res.render('admin/staticpages', { person: sess.companyname,staticpages: test,roleid :sess.roleid  });
-                            res.end;
-                        } else {
-    
-                            //do something with error
-                            // res.redirect('/charge-error');
-                            //or
-                            res.sendStatus(500);
-                            return;
-    
-    
-                        }
-    
-                    });
-    
-            }, 0000);
-    
-    
-        } else {
-    
-            res.render('users/login');
-        }
-    });
+});
 
 
-
-
-
-    
-// Activation Link Verification
-
-app.get('/activationverified/:name', urlencodedParser, function(req, res) {
+app.get('/staticpagesupdatestatus/:id/:name', urlencodedParser, function (req, res) {
     sess = req.session;
+    ids = req.params.id;
     names = req.params.name;
-   
-  
-    if (names!='') {
-        setTimeout(function() {
+
+    const token = sess.token;
+    if (sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
-                    url: process.env.APP_URL + '/api/users/activationverification',
-                    body: {"name":names },
-                    json: true
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 },
+                url: process.env.APP_URL + '/api/staticpages/staticpagesupdatestatus',
+                body: { "id": ids, "name": names },
+                json: true
+            },
 
-                function(error, response, body) {
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+
+                        req.flash("error", "Error While updated staticpages Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/staticpages');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+
+                        sess = req.session;
+                        //  console.log(sess);
+
+                        req.flash("error", "Your staticpages Status has been Update Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/staticpages', { person: sess.companyname, staticpages: test, roleid: sess.roleid });
+
+
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.redirect(process.env.APP_URL + '/error');
+    }
+});
+
+// Delete User
+
+
+app.get('/staticpagesupdatedelete/:id', urlencodedParser, function (req, res) {
+    sess = req.session;
+    ids = req.params.id;
+    const token = sess.token;
+    if (sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/staticpages/staticpagesdeletesuper',
+                body: { "id": ids },
+                json: true
+            },
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+
+                        req.flash("error", "Error While updated staticpages Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/staticpages');
+                    } else if (!error && response.statusCode == 200) {
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                        sess = req.session;
+                        req.flash("error", "Your staticpages Detail Deleted Successfully.");
+                        res.locals.messages = req.flash();
+                        res.render('admin/staticpages', { person: sess.companyname, staticpages: test, roleid: sess.roleid });
+                        res.end;
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.redirect(process.env.APP_URL + '/error');
+                        return;
+
+
+                    }
+
+                });
+
+        }, 0000);
+
+
+    } else {
+
+        res.redirect(process.env.APP_URL + '/error');
+    }
+});
+
+
+
+
+
+
+// Activation Link Verification
+
+app.get('/activationverified/:name', urlencodedParser, function (req, res) {
+    sess = req.session;
+    names = req.params.name;
+
+
+    if (names != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+            request.post({
+                url: process.env.APP_URL + '/api/users/activationverification',
+                body: { "name": names },
+                json: true
+            },
+
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to Verification Code Match for user account: User account not found.");
                         res.locals.messages = req.flash();
                         res.render('users/login');
-                    } else if (!error && response.statusCode == 200){
+                    } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
-                       
+
                         sess = req.session;
-                      //  console.log(sess);
-                      req.flash("error", "Company has been successfully Verified You can Login with given Credential.");
-                      res.locals.messages = req.flash();
-                      res.render('users/login');
-                      res.end;
+                        //  console.log(sess);
+                        req.flash("error", "Company has been successfully Verified You can Login with given Credential.");
+                        res.locals.messages = req.flash();
+                        res.render('users/login');
+                        res.end;
 
                     } else {
 
@@ -4260,43 +4590,43 @@ app.get('/activationverified/:name', urlencodedParser, function(req, res) {
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
 });
-    
+
 // Activation Link Verification
 
-app.get('/resetpasswordverified/:name', urlencodedParser, function(req, res) {
+app.get('/resetpasswordverified/:name', urlencodedParser, function (req, res) {
     sess = req.session;
     names = req.params.name;
-   
-  
-    if (names!='') {
-        setTimeout(function() {
+
+
+    if (names != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
-                    url: process.env.APP_URL + '/api/users/resetpasswordverification',
-                    body: {"name":names },
-                    json: true
-                },
+                url: process.env.APP_URL + '/api/users/resetpasswordverification',
+                body: { "name": names },
+                json: true
+            },
 
-                function(error, response, body) {
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
-                req.flash("error", "Failed to Verification Code Match for user account: User account not found. Try Again !");
-                res.locals.messages = req.flash();
-                res.render('users/forgotpassword');
-                    } else if (!error && response.statusCode == 200){
+                        req.flash("error", "Failed to Verification Code Match for user account: User account not found. Try Again !");
+                        res.locals.messages = req.flash();
+                        res.render('users/forgotpassword');
+                    } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
-                          
-                   
-                      req.flash("error", "Change your Password.");
-                      res.locals.messages = req.flash();
-                      res.render('users/createpassword',{  createuser: test  });
-                      res.end;
+
+
+                        req.flash("error", "Change your Password.");
+                        res.locals.messages = req.flash();
+                        res.render('users/createpassword', { createuser: test });
+                        res.end;
 
                     } else {
 
@@ -4316,49 +4646,49 @@ app.get('/resetpasswordverified/:name', urlencodedParser, function(req, res) {
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
 });
-// Add subscription 
+// Add subscription
 
 
-app.get('/addsubscription', urlencodedParser, function(req, res) {
+app.get('/addsubscription', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if(sess.token!='') {
-        setTimeout(function() {
-    request.post({
-                 headers: {
-                 'Authorization': `Bearer ${token}`
-                 },
+    if (sess.token != '') {
+        setTimeout(function () {
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 url: process.env.APP_URL + '/api/plans/getplanlist',
                 body: { "companyname": sess.companyname },
                 json: true
-                },
-                function(error, response, body) {
+            },
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
-                       // req.flash("error", "Id not Found Plan.Try Again Later");
-                       // res.locals.messages = req.flash();
+                        // req.flash("error", "Id not Found Plan.Try Again Later");
+                        // res.locals.messages = req.flash();
                         res.redirect(process.env.APP_URL + '/addsubscription');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
-               
-                       
+
+
                         sess = req.session;
-                       
-                 
-                   
-                res.render('admin/addsubscription', { person: sess.companyname, plan: test,roleid :sess.roleid  });
+
+
+
+                        res.render('admin/addsubscription', { person: sess.companyname, plan: test, roleid: sess.roleid });
                         res.end;
 
-                        
+
                     } else {
-                       
-            res.redirect(process.env.APP_URL + '/addsubscription');
+
+                        res.redirect(process.env.APP_URL + '/addsubscription');
                         res.end;
 
 
@@ -4371,9 +4701,9 @@ app.get('/addsubscription', urlencodedParser, function(req, res) {
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
-}); 
+});
 
 
 // Add Plan Post
@@ -4382,110 +4712,110 @@ app.post('/addsubscriptions', urlencodedParser, (req, res) => {
     const token = sess.token;
     var body = req.body;
 
-        if (sess.companyname && sess.token!='') {
-            setTimeout(function() {
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
             request.post({
-            headers: {
-            'Authorization': `Bearer ${token}`
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/users/addsubscriptions',
+                body: req.body,
+                json: true
             },
-            url: process.env.APP_URL + '/api/users/addsubscriptions',
-            body: req.body,
-            json: true
-            },
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
 
-                    req.flash("error", "Add Subscription Error.Try Again Later");
-                    res.locals.messages = req.flash();
-                   
-                    res.redirect(process.env.APP_URL + '/billingdetail');
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-             
-                sess = req.session;
-                req.flash("error", "Company Invoice has been added Successfully.");
-                res.locals.messages = req.flash();
-             
-                res.redirect(process.env.APP_URL + '/billingdetail');
-               
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+                        req.flash("error", "Add Subscription Error.Try Again Later");
+                        res.locals.messages = req.flash();
+
+                        res.redirect(process.env.APP_URL + '/billingdetail');
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Company Invoice has been added Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.redirect(process.env.APP_URL + '/billingdetail');
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.redirect(process.env.APP_URL + '/error');
+                        return;
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
+    }
+
+});
 
 
 // Get Invoice Detail
 
 
-app.get('/getinvoice/:id', urlencodedParser, function(req, res) {
+app.get('/getinvoice/:id', urlencodedParser, function (req, res) {
     sess = req.session;
     id = req.params.id;
     const token = sess.token;
-    if(id && sess.token!='') {
+    if (id && sess.token != '') {
 
-        const amount=200;
-
-       
-         
+        const amount = 200;
 
 
-        setTimeout(function() {
-         
-    request.post({
-                 headers: {
-                 'Authorization': `Bearer ${token}`
-                 },
+
+
+
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 url: process.env.APP_URL + '/api/users/getsubscriptiondetail',
                 body: { "id": id },
                 json: true
-                },
-                function(error, response, body) {
-                     if (!error && response.statusCode == 200) {
+            },
+                function (error, response, body) {
+                    if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
-                       sess = req.session;
-                       var orderids=test.data[0].order_id;
-                      var amount=parseFloat(test.data[0].payment_detail)*100;
-                       var options = {
-                        amount: amount,  // amount in the smallest currency unit
-                        currency: "INR",
-                        receipt: orderids
-                      };
-                     
-                       rzp.orders.create(options, function(err, order) {
+                        sess = req.session;
+                        var orderids = test.data[0].order_id;
+                        var amount = parseFloat(test.data[0].payment_detail) * 100;
+                        var options = {
+                            amount: amount,  // amount in the smallest currency unit
+                            currency: "INR",
+                            receipt: orderids
+                        };
 
-                        res.render('admin/getinvoice', { person: sess.companyname, getinvoicedata: test,roleid :sess.roleid,order:order });  
-                       // console.log(order);
-                      //  console.log(test);
-                      });
-              
+                        rzp.orders.create(options, function (err, order) {
 
-               
-              
+                            res.render('admin/getinvoice', { person: sess.companyname, getinvoicedata: test, roleid: sess.roleid, order: order });
+                            // console.log(order);
+                            //  console.log(test);
+                        });
+
+
+
+
                         res.end;
 
-                       
-                    } 
+
+                    }
 
                 });
 
@@ -4494,9 +4824,9 @@ app.get('/getinvoice/:id', urlencodedParser, function(req, res) {
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
-}); 
+});
 
 
 // Get Invoice PDF
@@ -4513,11 +4843,11 @@ app.get("/pdf", async (req, res) => {
 
     const webPage = await browser.newPage();
 
-  
+
     await webPage.goto(url, {
         waitUntil: "networkidle0"
     });
-    
+
     const pdf = await webPage.pdf({
         printBackground: true,
         format: "Letter",
@@ -4540,47 +4870,47 @@ app.get("/pdf", async (req, res) => {
 // Update Profile
 
 
-app.get('/editprofile', urlencodedParser, function(req, res) {
+app.get('/editprofile', urlencodedParser, function (req, res) {
     sess = req.session;
     id = 1;
     const token = sess.token;
-    if(id && sess.token!='') {
-        setTimeout(function() {
-         
-    request.post({
-                 headers: {
-                 'Authorization': `Bearer ${token}`
-                 },
+    if (id && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 url: process.env.APP_URL + '/api/users/editprofile',
                 body: { "id": id },
                 json: true
-                },
-                function(error, response, body) {
+            },
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Id not Found Plan.Try Again Later");
                         res.locals.messages = req.flash();
-                        res.redirect(process.env.APP_URL + '/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
 
                         sess = req.session;
-                
-                     console.log(test);
-                            res.render('admin/editprofile', { person: sess.companyname, user: test,roleid :sess.roleid  });
-                        res.end;
-                          
-                   
-              
 
-                       
+                        console.log(test);
+                        res.render('admin/editprofile', { person: sess.companyname, user: test, roleid: sess.roleid });
+                        res.end;
+
+
+
+
+
                     } else {
                         req.flash("error", "Id not Found Plan.Try Again Later");
-            res.locals.messages = req.flash();
-            res.redirect(process.env.APP_URL + '/plan');
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/error');
                         res.end;
 
 
@@ -4593,58 +4923,58 @@ app.get('/editprofile', urlencodedParser, function(req, res) {
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
-}); 
+});
 
-app.get('/viewdetail/:id', urlencodedParser, function(req, res) {
+app.get('/viewdetail/:id', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
     const token = sess.token;
-    if(ids && sess.token!='') {
-        setTimeout(function() {
-         
-    request.post({
-                 headers: {
-                 'Authorization': `Bearer ${token}`
-                 },
+    if (ids && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 url: process.env.APP_URL + '/api/users/viewdetail',
                 body: { "id": ids },
                 json: true
-                },
-                function(error, response, body) {
+            },
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Id not Found Plan.Try Again Later");
                         res.locals.messages = req.flash();
-                        res.redirect(process.env.APP_URL + '/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
                         sess = req.session;
-                    //console.log(test.timesarr);
-                        if(userfound==1){
+                        //console.log(test.timesarr);
+                        if (userfound == 1) {
                             req.flash("error", "User Profile has been succesfully updated.");
                             res.locals.messages = req.flash();
-                        }else if(userfound==2){
+                        } else if (userfound == 2) {
                             req.flash("error", "Change password succesfully updated for user!");
                             res.locals.messages = req.flash();
                         }
-              // console.log(test);
-res.render('admin/viewdetail', { person: sess.companyname, user: test,roleid :sess.roleid,uid:ids });
-    res.end;
-                          
-    } else {
+                        // console.log(test);
+                        res.render('admin/viewdetail', { person: sess.companyname, user: test, roleid: sess.roleid, uid: ids });
+                        res.end;
+
+                    } else {
                         req.flash("error", "Id not Found Plan.Try Again Later");
-            res.locals.messages = req.flash();
-            res.redirect(process.env.APP_URL + '/plan');
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/error');
                         res.end;
 
 
@@ -4657,60 +4987,60 @@ res.render('admin/viewdetail', { person: sess.companyname, user: test,roleid :se
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
-}); 
+});
 
 
 
-app.get('/snapshot/:id', urlencodedParser, function(req, res) {
+app.get('/snapshot/:id', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
     const token = sess.token;
-    if(ids && sess.token!='') {
-        setTimeout(function() {
-         
-    request.post({
-                 headers: {
-                 'Authorization': `Bearer ${token}`
-                 },
+    if (ids && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 url: process.env.APP_URL + '/api/users/snapshotdetail',
                 body: { "id": ids },
                 json: true
-                },
-                function(error, response, body) {
+            },
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Id not Found Plan.Try Again Later");
                         res.locals.messages = req.flash();
-                        res.redirect(process.env.APP_URL + '/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
                         sess = req.session;
-                     //  console.log(test.snapshotdata[0][0].image);
-                        if(userfound==1){
+                        //  console.log(test.snapshotdata[0][0].image);
+                        if (userfound == 1) {
                             req.flash("error", "User Profile has been succesfully updated.");
                             res.locals.messages = req.flash();
-                        }else if(userfound==2){
+                        } else if (userfound == 2) {
                             req.flash("error", "Change password succesfully updated for user!");
                             res.locals.messages = req.flash();
                         }
-              // console.log(test);
-    res.render('admin/snapshot', { person: sess.companyname, user: test,roleid :sess.roleid,uid:ids  });
-    res.end;
-                          
-                     } else {
+                        // console.log(test);
+                        res.render('admin/snapshot', { person: sess.companyname, user: test, roleid: sess.roleid, uid: ids });
+                        res.end;
+
+                    } else {
                         req.flash("error", "Id not Found Plan.Try Again Later");
-            res.locals.messages = req.flash();
-            res.redirect(process.env.APP_URL + '/snapshot');
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/error');
                         res.end;
 
 
@@ -4723,62 +5053,62 @@ app.get('/snapshot/:id', urlencodedParser, function(req, res) {
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
-}); 
+});
 
-app.get('/snapshotmore/:id/:duration/:startdate/:enddate', urlencodedParser, function(req, res) {
+app.get('/snapshotmore/:id/:duration/:startdate/:enddate', urlencodedParser, function (req, res) {
     sess = req.session;
     ids = req.params.id;
     duration = req.params.duration;
     startdateunix = req.params.startdate;
     enddateunix = req.params.enddate;
-    if(req.query.userfound){
+    if (req.query.userfound) {
         var userfound = req.query.userfound;
-    }else{
-        var userfound=0;
+    } else {
+        var userfound = 0;
     }
     const token = sess.token;
-    if(ids && sess.token!='') {
-        setTimeout(function() {
-         
-    request.post({
-                 headers: {
-                 'Authorization': `Bearer ${token}`
-                 },
-                url: process.env.APP_URL + '/api/users/snapshotmoredetail',
-                body: { "id": ids,"duration":duration,"startdateunix":startdateunix,"enddateunix":enddateunix },
-                json: true
+    if (ids && sess.token != '') {
+        setTimeout(function () {
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 },
-                function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/snapshotmoredetail',
+                body: { "id": ids, "duration": duration, "startdateunix": startdateunix, "enddateunix": enddateunix },
+                json: true
+            },
+                function (error, response, body) {
                     if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Id not Found Plan.Try Again Later");
                         res.locals.messages = req.flash();
-                        res.redirect(process.env.APP_URL + '/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var test = JSON.parse(re);
                         sess = req.session;
-                     //  console.log(test.snapshotdata[0][0].image);
-                        if(userfound==1){
+                        //  console.log(test.snapshotdata[0][0].image);
+                        if (userfound == 1) {
                             req.flash("error", "User Profile has been succesfully updated.");
                             res.locals.messages = req.flash();
-                        }else if(userfound==2){
+                        } else if (userfound == 2) {
                             req.flash("error", "Change password succesfully updated for user!");
                             res.locals.messages = req.flash();
                         }
-             console.log(test.startdates);
-              res.render('admin/getsnapshot', { person: sess.companyname, user: test,roleid :sess.roleid,startdates:test.startdates,enddates:test.enddates,uid:test.ids });
+                        console.log(test.startdates);
+                        res.render('admin/getsnapshot', { person: sess.companyname, user: test, roleid: sess.roleid, startdates: test.startdates, enddates: test.enddates, uid: test.ids });
 
-    res.end;
-                          
-                     } else {
+                        res.end;
+
+                    } else {
                         req.flash("error", "Id not Found Plan.Try Again Later");
-            res.locals.messages = req.flash();
-            res.redirect(process.env.APP_URL + '/dashboard');
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/dashboard');
                         res.end;
 
 
@@ -4791,162 +5121,162 @@ app.get('/snapshotmore/:id/:duration/:startdate/:enddate', urlencodedParser, fun
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
-}); 
+});
 // Edir post Profile
 
-  // Edit Plan Post
-  app.post('/editprofile', urlencodedParser, (req, res) => {
+// Edit Plan Post
+app.post('/editprofile', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
 
-   
-    if (sess.companyname && sess.token!='') {
-            setTimeout(function() {
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-                request.post({
+            request.post({
                 headers: {
-                'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 url: process.env.APP_URL + '/api/users/usereditservice',
                 body: req.body,
                 json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-               
-                    req.flash("error", "Error While updated Profile Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/editprofile');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-           
-                sess = req.session;
-                req.flash("error", test.detail);
-                res.locals.messages = req.flash();
-                res.render('admin/editprofile', { person: sess.companyname, user: test,roleid :sess.roleid  });
-                res.end;
 
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Error While updated Profile Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/editprofile');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", test.detail);
+                        res.locals.messages = req.flash();
+                        res.render('admin/editprofile', { person: sess.companyname, user: test, roleid: sess.roleid });
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
+    }
+
+});
 
 
 
 
 
-  // Edit Plan Post
-  app.post('/viewdetailprofile', urlencodedParser, (req, res) => {
+// Edit Plan Post
+app.post('/viewdetailprofile', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
 
-   
-    if (sess.companyname && sess.token!='') {
-            setTimeout(function() {
+
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-                request.post({
+            request.post({
                 headers: {
-                'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 url: process.env.APP_URL + '/api/users/viewdetailprofileservice',
                 body: req.body,
                 json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-               
-                    req.flash("error", "Error While updated Profile Successfully.");
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/viewdetail/');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-          
-                sess = req.session;
-                req.flash("error", test.detail);
-                res.locals.messages = req.flash();
-                res.redirect(process.env.APP_URL + '/viewdetail/'+test.id);
-               // res.render('admin/viewdetail/:'+test.id, { person: sess.companyname, user: test,roleid :sess.roleid  });
-                res.end;
 
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+
+                        req.flash("error", "Error While updated Profile Successfully.");
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/viewdetail/');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", test.detail);
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/viewdetail/' + test.id);
+                        // res.render('admin/viewdetail/:'+test.id, { person: sess.companyname, user: test,roleid :sess.roleid  });
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.sendStatus(500);
+                        return;
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
+    }
+
+});
 
 // company users list
 
 
-app.get('/companyuser', urlencodedParser, function(req, res) {
+app.get('/companyuser', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/companyuser',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/companyuser',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
-                        res.render('users/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                   //    console.log(datas);
+                   
                         sess = req.session;
-res.render('admin/companyuser', { person: sess.companyname, companyuser: datas,roleid :sess.roleid  });
+                        res.render('admin/companyuser', { person: sess.companyname, companyuser: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -4957,7 +5287,7 @@ res.render('admin/companyuser', { person: sess.companyname, companyuser: datas,r
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -4966,41 +5296,41 @@ res.render('admin/companyuser', { person: sess.companyname, companyuser: datas,r
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
 });
 
-app.get('/projectsmain', urlencodedParser, function(req, res) {
+app.get('/projectsmain', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/projectsmain',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/projectsmain',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
-                        res.render('users/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                       
+
                         sess = req.session;
-res.render('admin/projectsmain', { person: sess.companyname, projects: datas,roleid :sess.roleid  });
+                        res.render('admin/projectsmain', { person: sess.companyname, projects: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -5011,7 +5341,7 @@ res.render('admin/projectsmain', { person: sess.companyname, projects: datas,rol
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -5020,43 +5350,43 @@ res.render('admin/projectsmain', { person: sess.companyname, projects: datas,rol
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
 });
 
 
-app.get('/dailyattendance', urlencodedParser, function(req, res) {
+app.get('/dailyattendance', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/dailyattendance',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/dailyattendance',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
-                        res.render('users/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                 
+
 
                         sess = req.session;
-res.render('admin/dailyattendance', { person: sess.companyname, dailyattendance: datas,roleid :sess.roleid  });
+                        res.render('admin/dailyattendance', { person: sess.companyname, dailyattendance: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -5067,7 +5397,7 @@ res.render('admin/dailyattendance', { person: sess.companyname, dailyattendance:
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -5076,7 +5406,7 @@ res.render('admin/dailyattendance', { person: sess.companyname, dailyattendance:
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
     }
 });
 
@@ -5085,54 +5415,54 @@ app.post('/getdailyattendance', urlencodedParser, (req, res) => {
     var body = req.body;
     sess = req.session;
     const token = sess.token;
-   // console.log(body);
-    if (sess.companyname && sess.token!='') {
-    
-    request.post({
-        headers: {
-            'Authorization': `Bearer ${token}`
-          },
+    // console.log(body);
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             url: process.env.APP_URL + '/api/users/getdailyattendance',
             body: req.body,
             json: true
         },
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-             
-            req.flash("error", "dailyattendance Cannot Upgarded ,Please Try Again.");
-            res.locals.messages = req.flash();
-              
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-                        var sess = req.session;
-            res.render('admin/getdailyattendance', { person: sess.companyname,dailyattendance:datas,roleid :sess.roleid,startdates:startdates,enddates:enddates  });
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var datas = JSON.parse(re);
-       console.log(datas.startdates);
-            var sess = req.session;
-res.render('admin/getdailyattendance', { person: sess.companyname,dailyattendance:datas,roleid :sess.roleid,startdates:datas.startdates,enddates:datas.enddates });
+                    req.flash("error", "dailyattendance Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
 
-            
-            res.end;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
+                    res.render('admin/getdailyattendance', { person: sess.companyname, dailyattendance: datas, roleid: sess.roleid, startdates: startdates, enddates: enddates });
 
-            }else{
-
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas.startdates);
+                    var sess = req.session;
+                    res.render('admin/getdailyattendance', { person: sess.companyname, dailyattendance: datas, roleid: sess.roleid, startdates: datas.startdates, enddates: datas.enddates });
 
 
-            }
+                    res.end;
 
-        });
+                } else {
 
-    }else {
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.redirect(process.env.APP_URL + '/error');
+                    return;
+
+
+                }
+
+            });
+
+    } else {
 
         res.render('users/login');
     }
@@ -5143,54 +5473,54 @@ app.post('/getmonthlyattendance', urlencodedParser, (req, res) => {
     var body = req.body;
     sess = req.session;
     const token = sess.token;
-   // console.log(body);
-    if (sess.companyname && sess.token!='') {
-    
-    request.post({
-        headers: {
-            'Authorization': `Bearer ${token}`
-          },
+    // console.log(body);
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             url: process.env.APP_URL + '/api/users/getmonthlyattendance',
             body: req.body,
             json: true
         },
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-             
-            req.flash("error", "Monthlyattendance Cannot Upgarded ,Please Try Again.");
-            res.locals.messages = req.flash();
-              
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-                        var sess = req.session;
-            res.render('admin/getmonthlyattendance', { person: sess.companyname,monthlyattendance:datas,roleid :sess.roleid,startdates:startdates });
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var datas = JSON.parse(re);
-       console.log(datas.startdates);
-            var sess = req.session;
-res.render('admin/getmonthlyattendance', { person: sess.companyname,monthlyattendance:datas,roleid :sess.roleid,startdates:datas.startdates });
+                    req.flash("error", "Monthlyattendance Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
 
-            
-            res.end;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
+                    res.render('admin/getmonthlyattendance', { person: sess.companyname, monthlyattendance: datas, roleid: sess.roleid, startdates: startdates });
 
-            }else{
-
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas.startdates);
+                    var sess = req.session;
+                    res.render('admin/getmonthlyattendance', { person: sess.companyname, monthlyattendance: datas, roleid: sess.roleid, startdates: datas.startdates });
 
 
-            }
+                    res.end;
 
-        });
+                } else {
 
-    }else {
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
+
+
+                }
+
+            });
+
+    } else {
 
         res.render('users/login');
     }
@@ -5200,38 +5530,38 @@ res.render('admin/getmonthlyattendance', { person: sess.companyname,monthlyatten
 
 
 
-app.get('/monthlyattendance', urlencodedParser, function(req, res) {
+app.get('/monthlyattendance', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/monthlyattendance',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/monthlyattendance',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
-                        res.render('users/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                 
+
 
                         sess = req.session;
-res.render('admin/monthlyattendance', { person: sess.companyname, monthlyattendance: datas,roleid :sess.roleid  });
+                        res.render('admin/monthlyattendance', { person: sess.companyname, monthlyattendance: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -5242,7 +5572,7 @@ res.render('admin/monthlyattendance', { person: sess.companyname, monthlyattenda
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -5251,42 +5581,45 @@ res.render('admin/monthlyattendance', { person: sess.companyname, monthlyattenda
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
+        res.end;
+
+        return;
     }
 });
 
-app.get('/monthlyinout', urlencodedParser, function(req, res) {
+app.get('/monthlyinout', urlencodedParser, function (req, res) {
     sess = req.session;
     const token = sess.token;
-    if (sess.companyname && sess.token!='') {
-        setTimeout(function() {
-         
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+
             // this code will only run when time has ellapsed
             request.post({
                 headers: {
                     'Authorization': `Bearer ${token}`
-                  },
-                    url: process.env.APP_URL + '/api/users/monthlyinout',
-                    body: { "companyname": sess.companyname },
-                    json: true
                 },
-           function(error, response, body) {
+                url: process.env.APP_URL + '/api/users/monthlyinout',
+                body: { "companyname": sess.companyname },
+                json: true
+            },
+                function (error, response, body) {
 
-          
-                   if (response.statusCode == 500) {
+
+                    if (response.statusCode == 500) {
                         var data = response.body;
 
                         req.flash("error", "Failed to log in user account: User account not found.");
                         res.locals.messages = req.flash();
-                        res.render('users/login');
+                        res.redirect(process.env.APP_URL + '/error');
                     } else if (!error && response.statusCode == 200) {
                         var data = response.body;
                         var re = JSON.stringify(data);
                         var datas = JSON.parse(re);
-                 
+
 
                         sess = req.session;
-res.render('admin/monthlyinout', { person: sess.companyname, monthlyattendance: datas,roleid :sess.roleid  });
+                        res.render('admin/monthlyinout', { person: sess.companyname, monthlyattendance: datas, roleid: sess.roleid });
                         res.end;
                     } else {
 
@@ -5297,7 +5630,7 @@ res.render('admin/monthlyinout', { person: sess.companyname, monthlyattendance: 
                         return;
 
 
-                    } 
+                    }
 
                 });
 
@@ -5306,7 +5639,10 @@ res.render('admin/monthlyinout', { person: sess.companyname, monthlyattendance: 
 
     } else {
 
-        res.render('users/login');
+        res.redirect(process.env.APP_URL + '/error');
+        res.end;
+
+        return;
     }
 });
 
@@ -5315,56 +5651,59 @@ app.post('/getmonthlyinout', urlencodedParser, (req, res) => {
     var body = req.body;
     sess = req.session;
     const token = sess.token;
-   // console.log(body);
-    if (sess.companyname && sess.token!='') {
-    
-    request.post({
-        headers: {
-            'Authorization': `Bearer ${token}`
-          },
+    // console.log(body);
+    if (sess.companyname && sess.token != '') {
+
+        request.post({
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             url: process.env.APP_URL + '/api/users/getmonthlyinout',
             body: req.body,
             json: true
         },
-        function(error, response, body) {
-            if (response.statusCode == 500) {
-                var data = response.body;
-             
-            req.flash("error", "Monthly In out attendance Cannot Upgarded ,Please Try Again.");
-            res.locals.messages = req.flash();
-              
-                        var re = JSON.stringify(data);
-                        var datas = JSON.parse(re);
-                        var sess = req.session;
-            res.render('admin/getmonthlyinout', { person: sess.companyname,monthlyattendance:datas,roleid :sess.roleid,startdates:startdates });
+            function (error, response, body) {
+                if (response.statusCode == 500) {
+                    var data = response.body;
 
-            } else if (!error && response.statusCode == 200) {
-            var data = response.body;
-            var re = JSON.stringify(data);
-            var datas = JSON.parse(re);
-       console.log(datas.startdates);
-            var sess = req.session;
-res.render('admin/getmonthlyinout', { person: sess.companyname,monthlyattendance:datas,roleid :sess.roleid,startdates:datas.startdates });
+                    req.flash("error", "Monthly In out attendance Cannot Upgarded ,Please Try Again.");
+                    res.locals.messages = req.flash();
 
-            
-            res.end;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    var sess = req.session;
+                    res.render('admin/getmonthlyinout', { person: sess.companyname, monthlyattendance: datas, roleid: sess.roleid, startdates: startdates });
 
-            }else{
-
-                //do something with error
-                // res.redirect('/charge-error');
-                //or
-                res.sendStatus(500);
-                return;
+                } else if (!error && response.statusCode == 200) {
+                    var data = response.body;
+                    var re = JSON.stringify(data);
+                    var datas = JSON.parse(re);
+                    console.log(datas.startdates);
+                    var sess = req.session;
+                    res.render('admin/getmonthlyinout', { person: sess.companyname, monthlyattendance: datas, roleid: sess.roleid, startdates: datas.startdates });
 
 
-            }
+                    res.end;
 
-        });
+                } else {
 
-    }else {
+                    //do something with error
+                    // res.redirect('/charge-error');
+                    //or
+                    res.sendStatus(500);
+                    return;
 
-        res.render('users/login');
+
+                }
+
+            });
+
+    } else {
+
+        res.redirect(process.env.APP_URL + '/error');
+        res.end;
+
+        return;
     }
 
 });
@@ -5373,15 +5712,15 @@ res.render('admin/getmonthlyinout', { person: sess.companyname,monthlyattendance
 
 // Add User
 
-app.get('/addcompanyuser', function(req, res) {
+app.get('/addcompanyuser', function (req, res) {
 
-sess = req.session;
-const token = sess.token;
-if(sess.companyname!="" && sess.token!=''){  
-res.render('admin/addcompanyuser', { person: sess.companyname,roleid :sess.roleid  });
-res.end;
-}
- //  res.render('users/login');
+    sess = req.session;
+    const token = sess.token;
+    if (sess.companyname != "" && sess.token != '') {
+        res.render('admin/addcompanyuser', { person: sess.companyname, roleid: sess.roleid });
+        res.end;
+    }
+    //  res.render('users/login');
 });
 
 
@@ -5390,183 +5729,190 @@ app.post('/addcompanyuser', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    body.companyname=sess.companyname;
-   // console.log(body);
-if(sess.companyname && sess.token!='') {
-    setTimeout(function() {
+    body.companyname = sess.companyname;
+    // console.log(body);
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-            
-        request.post({
+
+            request.post({
                 headers: {
-                        'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
-                 url: process.env.APP_URL + '/api/users/addcompanyuser',
-                 body: req.body,
-                 json: true
+                url: process.env.APP_URL + '/api/users/addcompanyuser',
+                body: req.body,
+                json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-                    var resave = JSON.stringify(data);
-                    var tests = JSON.parse(resave);
-                    
-                    req.flash("error", tests.detail);
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/companyuser');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-             
-                sess = req.session;
-                req.flash("error", test.detail);
-                res.locals.messages = req.flash();
-             
-         res.render('admin/companyuser', { person: sess.companyname,companyuser: test,roleid :sess.roleid  });
-               
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+                        var resave = JSON.stringify(data);
+                        var tests = JSON.parse(resave);
+
+                        req.flash("error", tests.detail);
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/companyuser');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", test.detail);
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/companyuser', { person: sess.companyname, companyuser: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.redirect(process.env.APP_URL + '/error');
+                        res.end;
+
+                        return;
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
+    }
+
+});
 
 // Add Company User
 app.post('/projectsadd', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    body.companyname=sess.companyname;
-  //  console.log(body);
-if(sess.companyname && sess.token!='') {
-    setTimeout(function() {
+    body.companyname = sess.companyname;
+    //  console.log(body);
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-            
-        request.post({
+
+            request.post({
                 headers: {
-                        'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
-                 url: process.env.APP_URL + '/api/users/projectsadd',
-                 body: req.body,
-                 json: true
+                url: process.env.APP_URL + '/api/users/projectsadd',
+                body: req.body,
+                json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-                    var resave = JSON.stringify(data);
-                    var tests = JSON.parse(resave);
-                    
-                    req.flash("error", tests.detail);
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/projectsadd');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-             
-                sess = req.session;
-                req.flash("error", "Project has been added Successfully.");
-                res.locals.messages = req.flash();
-             
-                res.render('admin/projectsmain', { person: sess.companyname, projects: test,roleid :sess.roleid  });
-               
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+                        var resave = JSON.stringify(data);
+                        var tests = JSON.parse(resave);
+
+                        req.flash("error", tests.detail);
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/projectsadd');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Project has been added Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/projectsmain', { person: sess.companyname, projects: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.redirect(process.env.APP_URL + '/error');
+                        res.end;
+
+                        return;
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
+    }
+
+});
 
 // Add Company User
 app.post('/taskadd', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    body.companyname=sess.companyname;
- //   console.log(body);
-if(sess.companyname && sess.token!='') {
-    setTimeout(function() {
+    body.companyname = sess.companyname;
+    //   console.log(body);
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
             // this code will only run when time has ellapsed
-            
-        request.post({
+
+            request.post({
                 headers: {
-                        'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
-                 url: process.env.APP_URL + '/api/users/taskadd',
-                 body: req.body,
-                 json: true
+                url: process.env.APP_URL + '/api/users/taskadd',
+                body: req.body,
+                json: true
             },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-                    var resave = JSON.stringify(data);
-                    var tests = JSON.parse(resave);
-                    
-                    req.flash("error", tests.detail);
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/taskadd');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-             
-                sess = req.session;
-                req.flash("error", "Task has been added Successfully.");
-                res.locals.messages = req.flash();
-             
-                res.render('admin/companyprojects', { person: sess.companyname, userlist: test,roleid :sess.roleid  });
-               
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+                        var resave = JSON.stringify(data);
+                        var tests = JSON.parse(resave);
+
+                        req.flash("error", tests.detail);
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/taskadd');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+
+                        sess = req.session;
+                        req.flash("error", "Task has been added Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/companyprojects', { person: sess.companyname, userlist: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.redirect(process.env.APP_URL + '/error');
+                        res.end;
+
+                        return;
+
+
+
+                    }
+
+                });
         }, 0000);
-        }
-    
-    });
+    }
+
+});
 
 
 // Add Company User
@@ -5574,76 +5920,85 @@ app.post('/projectsedit', urlencodedParser, (req, res) => {
     sess = req.session;
     const token = sess.token;
     var body = req.body;
-    body.companyname=sess.companyname;
-  
-if(sess.companyname && sess.token!='') {
-    setTimeout(function() {
-            // this code will only run when time has ellapsed
-            
-        request.post({
-                headers: {
-                        'Authorization': `Bearer ${token}`
-                },
-                 url: process.env.APP_URL + '/api/users/projectsedit',
-                 body: req.body,
-                 json: true
-            },
-    
-            function(error, response, body) {
-                if (response.statusCode == 500) {
-                    var data = response.body;
-                    var resave = JSON.stringify(data);
-                    var tests = JSON.parse(resave);
-                    
-                    req.flash("error", tests.detail);
-                    res.locals.messages = req.flash();
-                    res.redirect(process.env.APP_URL + '/projectsedit');
-    
-                } else if (!error && response.statusCode == 200) {
-                    
-                var data = response.body;
-                var re = JSON.stringify(data);
-                var test = JSON.parse(re);
-             //console.log(test);
-                sess = req.session;
-                req.flash("error", "Project has been update Successfully.");
-                res.locals.messages = req.flash();
-             
-                res.render('admin/companyprojects', { person: sess.companyname, userlist: test,roleid :sess.roleid  });
-               
-                res.end;
-    
-                }else{
-    
-                    //do something with error
-                    // res.redirect('/charge-error');
-                    //or
-                    res.sendStatus(500);
-                    return;
-    
-    
-                }
-    
-            });
-        }, 0000);
-        }
-    
-    });
+    body.companyname = sess.companyname;
 
+    if (sess.companyname && sess.token != '') {
+        setTimeout(function () {
+            // this code will only run when time has ellapsed
+
+            request.post({
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                url: process.env.APP_URL + '/api/users/projectsedit',
+                body: req.body,
+                json: true
+            },
+
+                function (error, response, body) {
+                    if (response.statusCode == 500) {
+                        var data = response.body;
+                        var resave = JSON.stringify(data);
+                        var tests = JSON.parse(resave);
+
+                        req.flash("error", tests.detail);
+                        res.locals.messages = req.flash();
+                        res.redirect(process.env.APP_URL + '/error');
+
+                    } else if (!error && response.statusCode == 200) {
+
+                        var data = response.body;
+                        var re = JSON.stringify(data);
+                        var test = JSON.parse(re);
+                        //console.log(test);
+                        sess = req.session;
+                        req.flash("error", "Project has been update Successfully.");
+                        res.locals.messages = req.flash();
+
+                        res.render('admin/companyprojects', { person: sess.companyname, userlist: test, roleid: sess.roleid });
+
+                        res.end;
+
+                    } else {
+
+                        //do something with error
+                        // res.redirect('/charge-error');
+                        //or
+                        res.redirect(process.env.APP_URL + '/error');
+                        res.end;
+
+                        return;
+
+
+                    }
+
+                });
+        }, 0000);
+    }
+
+});
+
+
+
+app.use(function (req, res, next) {
+    res.status(404);
+    res.render('pages/error', { page: req.url });
+
+});
 
 
 https
-  .createServer(
-    {
-      key: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/cert.pem'),
-      ca: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/fullchain.pem'),
-    },
-    app
-  )
-  .listen(443, () => {
-    console.log('Listening...')
-  })
+    .createServer(
+        {
+            key: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/privkey.pem'),
+            cert: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/cert.pem'),
+            ca: fs.readFileSync('/etc/letsencrypt/live/myproject-desk.com/fullchain.pem'),
+        },
+        app
+    )
+    .listen(443, () => {
+        console.log('Listening...')
+    })
 
 var http = require('http');
 http.createServer(function (req, res) {

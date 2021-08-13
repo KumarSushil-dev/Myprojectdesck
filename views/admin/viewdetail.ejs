@@ -969,10 +969,14 @@ if(arrt.length > 0){
                                                     </div>
                                                 </div>
                                             </div> -->
-                                                <label class="switch">
-                                                <input type="checkbox" name="is_screenshot" value="<%= user.data.is_screenshot; %>">
-                                                <span class="slider round"></span>
-                                            </label>
+                                               
+              <input type="radio" name="is_screenshot" id="html"  <% if(user.data.is_screenshot =='Y'){ %> checked <% } %> value="Y" > <label for="html" class="mr-2">Yes  </label><br>
+                                               
+                                         
+                        <input type="radio" id="htsml" name="is_screenshot" <% if(user.data.is_screenshot =='N'){ %> checked <% } %>  value="N">
+                                                <label for="htsml">No</label><br>
+                                               
+                                           
                                             <div class="valid-feedback">Valid.</div>
                                         <div class="invalid-feedback">Please fill out this field.</div>
                                             </div>

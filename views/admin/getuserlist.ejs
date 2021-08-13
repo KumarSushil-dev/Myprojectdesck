@@ -1,0 +1,442 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+        
+
+<%- include('../partials/left'); %>
+
+
+
+
+<script>
+
+   
+    
+    $(document).on('click','.dropplan',function (e){
+
+        var df=this.id;
+  
+    
+    $('#dropplan').modal('show');
+    $('.planselectuser').val(df);
+    e.preventDefault();
+    
+    });
+    </script>
+
+
+<div class="modal fade" id="dropplan">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+<h5 class="modal-title">Upgrade Plan ?</h5>
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<!-- Modal body -->
+<div class="modal-body">
+<form action="/planupgrade" method="post" class="form-horizontal needs-validation" novalidate>
+<div class="row">
+
+<div class="" style="padding: 12px;">
+<input type="hidden" name="planselectuser" class="planselectuser" value="">
+
+<div class="form-group">
+<div class="col-md-12 mb-6">
+<div  class="row input-append">
+<label for="txtPassword"><b style="font-size: 16px;">Plan<span style="color:red;">*</span></b></label>
+                                      
+                           
+<select name="plan_id" required class="form-control country" >
+    <option value="">--Select Plan--</option>
+   
+<%  if(userlist.plan.length > 0){
+    for(var i=0; i < userlist.plan.length; i++) { %>
+<option value="<%= userlist.plan[i].id; %>"><%= userlist.plan[i].name; %>-<%= userlist.plan[i].price; %> / month</option>
+    <% } }  %> 
+    </select>
+    <div class="valid-feedback">Valid.</div>
+    <div class="invalid-feedback">Please fill out this field.</div>
+</div>
+</div>
+</div>
+
+
+<div class="form-group">
+<div class="col-md-12 mb-6">
+<div  class="row input-append">
+<label for="txtPassword"><b style="font-size: 16px;">Please Mark Purchase Detail for Upgrade Plan.<span style="color:red;">*</span></b></label>
+<textarea required="required"  placeholder="Enter Mark Purchase Detail Here..." name="payment_detail" class="form-control" rows="5" aria-describedby="emailHelp" ></textarea>
+<div class="valid-feedback">Valid.</div>
+<div class="invalid-feedback">Please fill out this field.</div>
+</div>
+</div>
+</div>
+
+
+</div> 
+         </div> <div class="modal-footer">
+      <button type="button" class="btn btn-default f-left" data-dismiss="modal">Close</button>
+  <input type="submit" onclick="spinner()" class="btn btn-default f-right btn btn-danger" style="color: #fff !important;
+  background-color: #c82333 !important;
+  border-color: #bd2130 !important;"  value="Upgrade" ></div>
+
+         </form>
+
+        </div>
+
+        <!-- Modal footer -->
+
+
+
+      </div>
+    </div>
+  </div> 
+  
+  <script type="text/javascript">
+    function spinner() {
+
+        document.getElementsByClassName("loader")[0].style.display = "block";
+    }
+</script>
+
+<script>
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            document.getElementsByClassName("loader")[0].style.display = "block";
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              document.getElementsByClassName("loader")[0].style.display = "none";
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+    
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Listed Companies </h4>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                              
+
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="card-content collapse show">
+                                      
+                                            <div class="card-body">
+                                                <% if (locals.messages) { %>
+                                                    <div class="alert alert__success " style="color:red; ">
+                                                        <%= messages.error %>
+                                                    </div>
+                                                    <% } %>
+
+                                                    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+                                                    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                                                                        <script>
+                                                    
+                                                    $(function () {
+                                                    var currentDate = moment().format("DD-MM-YYYY");
+                                                    
+                                                    $(".date").daterangepicker(
+                                                      {
+                                                        locale: {
+                                                          format: "DD-MM-YYYY"
+                                                        },
+                                                        alwaysShowCalendars: true,
+                                                    
+                                                        autoApply: true,
+                                                        autoUpdateInput: true,
+                                                        autoclose: true
+                                                      },
+                                                      function (start, end, label) {
+                                                        $('.daterangepicker').show();
+                                                        // console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+                                                        // Lets update the fields manually this event fires on selection of range
+                                                        var selectedStartDate = start.format("DD-MM-YYYY"); // selected start
+                                                        var selectedEndDate = end.format("DD-MM-YYYY"); // selected end
+                                                    
+                                                    
+                                                        var selectedStartDater = start.format("YYYY-MM-DD HH:mm:ss"); // selected start
+                                                        var selectedEndDater = end.format("YYYY-MM-DD HH:mm:ss");
+                                                    
+                                                    
+                                                        $checkinInput = $("#search_checkin");
+                                                        $checkoutInput = $("#search_checkout");
+                                                        $checkoutInputselected = $("#allselecteddate");
+                                                     
+                                                        // Updating Fields with selected dates
+                                                        $checkinInput.val(selectedStartDater);
+                                                        $checkoutInput.val(selectedEndDater);
+                                                        $checkoutInputselected.val(selectedStartDate + ' - ' + selectedEndDate);
+                                                        $('.daterangepicker').hide();
+                                                        // Setting the Selection of dates on calender on CHECKOUT FIELD (To get this it must be binded by Ids not Calss)
+                                                       
+                                                      });
+                                                    });
+                                                    
+                                                    
+                                                    
+                                                    </script>
+    
+      
+        <form action="/getuserlist"  method="post" class="form-horizontal">
+            
+            <div class="row">
+            <div class="col-sm-2 col-xs-6">
+                <label>Country</label>
+                   <div class="input select">
+                    <select name="country_id"  class="form-control" >
+                        <option value="">--Select Country--</option>
+                        
+                        <%  if(userlist.country.length > 0){
+                        for(var i=0; i < userlist.country.length; i++) { %>
+                        <option value="<%= userlist.country[i].id; %>"><%= userlist.country[i].name; %></option>
+                        <% } }  %>
+                        </select>
+
+                   </div>   
+                
+                </div>
+
+
+                <div class="col-sm-2 col-xs-6">
+                    <label>Plan</label>
+                       <div class="input select">
+                        <select name="plan_id"  class="form-control " >
+                            <option value="">--Select Plan--</option>
+                            
+                            <%  if(userlist.plan.length > 0){
+                            for(var i=0; i < userlist.plan.length; i++) { %>
+                            <option value="<%= userlist.plan[i].id; %>"><%= userlist.plan[i].name; %></option>
+                            <% } }  %>
+                            </select>
+    
+                       </div>   
+                    
+                    </div>
+        
+
+                    <div class="col-sm-3 col-xs-6">
+                        <label>Company Name</label>
+                           <div class="input select">
+                            <input type="text" name="name" class="form-control" placeholder="Enter Company Name" aria-label="Username"  aria-describedby="basic-addon1">        
+                           </div>   
+                        
+                        </div>
+
+                        
+                            <div class="col-sm-3 col-xs-6">
+                                <label>Subscription Created Date</label>
+                                <div class="input-group">
+                                    <% 
+                                   
+                                    var selectr= moment(startdates).format("DD-MM-YYYY");
+                                    var selectrs= moment(enddates).format("DD-MM-YYYY");
+        
+                                    var selectr2= moment(startdates).format("YYYY-MM-DD HH:mm:ss");
+                                    var selectrs2= moment(enddates).format("YYYY-MM-DD HH:mm:ss");
+                                      %>
+                         <input type="text"  class="form-control date" placeholder="<%= selectr %> - <%= selectrs %>" aria-label="Username" id="allselecteddate" value="<%= selectr; %> - <%= selectrs; %>" aria-describedby="basic-addon1">
+                         <input type="hidden" id="search_checkin" value="<%= selectr2 %>" name="startdate" class="form-control" placeholder="Use this hidden">
+                         <input type="hidden" id="search_checkout" value="<%= selectrs2 %>" name="enddate" class="form-control" placeholder="Use this hidden"> 
+                         
+                       
+                                 </div>
+                                
+                                </div>
+                           
+           
+                                <div class="col-sm-2 col-xs-6">
+                                    <label></label>
+                                <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
+                                color: #fff;margin-top: 21px;" >
+                                <i style="font-size: 1.6rem;
+                                font-weight: bolder;
+                                margin-top: 4px;" class="la la-search fa-lg"></i> 
+                                </button>
+                                </div>
+                            </div>
+      </form>
+      
+    
+                                            </div>
+                                            <div class="table-responsive">
+                                             
+
+                                                <table class="table">
+                                                    <thead class="thead-default">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Company </th>
+                                                           
+                                                            <th scope="col">Mobile </th>
+                                                            <th scope="col">Email </th>
+                                                            <th scope="col">Country </th>
+                                                            <th scope="col">State </th>
+                                                            <th scope="col">City </th>
+                                                            <th scope="col">Member Since </th>
+                                                            <th scope="col">Plan Detail</th>
+                                                            <th scope="col">LastBill </th>
+                                                            <th scope="col">Due Date  </th>
+                                                          
+                                                            
+                                                            <th scope="col">Status</th>
+                                                        
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                        <%  if(userlist.data.length > 0){
+                                                             var s=1; 
+                                        for(var i=0; i < userlist.data.length; i++) { %>
+                                                            <tr>
+                                                 <th scope="row"><%= s++; %></th>
+                                             <td><b><%= userlist.data[i].companyname; %></b>
+                                                </td>
+
+<td><b><%= userlist.data[i].mobile; %></b></td>
+<td><b><a href="mailto:<%= userlist.data[i].email; %>"><%= userlist.data[i].email; %></a>
+    <% if(userlist.data[i].status=="Y"){  %>
+    <i class="la la-check-circle-o" style="color: green;
+       font-weight: bold;
+       font-size: 14px;">verified</i> <% } %></b></td>
+       <td><b><%= userlist.data[i].country['name']; %></b></td>
+       <td><b><%= userlist.data[i].state['name']; %></b></td>
+         <td><b><%= userlist.data[i].city; %></b></td>
+      
+         <td>
+            <% if(userlist.data[i].subscriptions.length > 0){  %>
+             <%  var str=userlist.data[i].subscriptions[0]['created']; %>
+                 <%= moment(str).format('DD-MM-YYYY') %> 
+     <% } %> </td>
+     
+
+ <%   if(userlist.data[i].subscriptions.length > 0){
+    var payment_detail=userlist.data[i].subscriptions[0]['payment_detail'];
+    var totaluser=userlist.data[i].subscriptions[0]['totaluser'];
+ var price= userlist.data[i].plan['price'];
+    }else{
+       var payment_detail=""; 
+       var totaluser=""; 
+       var price="";
+    } %>
+
+
+                                             <td><% if(userlist.data[i].plan['name']){ %>
+                                                 <%= userlist.data[i].plan['name'];   %> 
+                                                 <div style="font-size:11px; font-weight:normal;">-   <%= totaluser; %>  Users Plan @ Rs. <%= price; %> </div>
+                                                 
+                                                   
+
+                                             <% } %>
+                                        </td>
+
+       <td>
+       <% if(userlist.data[i].subscriptions.length > 0){  %>
+        <%  var str=userlist.data[i].subscriptions[0]['created']; %>
+            <%= moment(str).format('DD-MM-YYYY') %> 
+<% } %> </td>
+       <td>
+<% if(userlist.data[i].subscriptions.length > 0){  %>
+        <%  var strs=userlist.data[i].subscriptions[0]['expiry_date']; %>
+            <%= moment(strs).format('DD-MM-YYYY') %> 
+<% } %> </td>
+
+                                                        
+<td>
+    <%  if(userlist.data[i].status=="Y"){  %>
+        <a  href="<%= process.env.APP_URL %>/userupdatestatus/<%= userlist.data[i].id %>/N" onclick="return confirm('Do you really want to inactive this Company?');" title="InActivate Company?" style="color:rgb(224, 35, 44)" > <i style="color:green" class="la la-toggle-on"></i></a>
+        
+        <% }else{ %>
+           <a  href="<%= process.env.APP_URL %>/userupdatestatus/<%= userlist.data[i].id %>/Y" onclick="return confirm('Do you really want to activate this Company?');" title="Activate Company?" style="color:rgb(224, 35, 44)" ><i style="color:red" class="la la-toggle-off "></i></a>
+            <% } 
+            
+            if(userlist.data[i].plan_id==5){ %>
+            <a  href="<%= process.env.APP_URL %>/userupdatedelete/<%= userlist.data[i].id %>" onclick="return confirm('Do you really want to delete this Company?');" title="Delete Company?" style="color:rgb(224, 35, 44)" > <i style="color:red" class="la la-trash-o"></i></a>
+        
+        <% } %></td>
+     
+                                                            </tr>
+                                                            <% } }else{ %>
+                                                                <tr>
+
+                                                                    <td class=" text-center " colspan="13" style="color:red; ">
+                                                                        No company Listed Yet
+                                                                    </td>
+                                                                </tr>
+                                                                <% }  %>
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Table head options end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+                <script>
+                    // Disable form submissions if there are invalid fields
+                    (function() {
+                      'use strict';
+                      window.addEventListener('load', function() {
+                        // Get the forms we want to add validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                          form.addEventListener('submit', function(event) {
+                            $('.preloader').show();
+                            if (form.checkValidity() === false) {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              $('.preloader').hide();
+                            }
+                            form.classList.add('was-validated');
+                          }, false);
+                        });
+                      }, false);
+                    })();
+                    </script>
+                    
+            
+                <%- include('../partials/footer'); %>

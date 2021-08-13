@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "main": "myfirst.js",
     "dependencies": {
+        "isomorphic-fetch": "^3.0.0",
         "ajax-client": "^1.5.7",
         "basic-auth-connect": "^1.0.0",
         "bcryptjs": "^2.4.3",

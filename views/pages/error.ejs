@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <%- include('../partials/front/headererror'); %>
+
+    <title>My Project-Desk</title>
+</head>
+
+<style>
+    #errorSec{ background-color: #d2effa; padding: 50px 0px; min-height: 100vh;}
+    a.site_btn3 {
+    background: rgb(0,183,248);
+    background: -moz-linear-gradient(left, rgba(0,183,248,1) 0%, rgba(0,129,239,1) 100%);
+    background: -webkit-linear-gradient(left, rgba(0,183,248,1) 0%,rgba(0,129,239,1) 100%);
+    background: linear-gradient(to right, rgba(0,183,248,1) 0%,rgba(0,129,239,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b7f8', endColorstr='#0081ef',GradientType=1 );
+    padding: 12px 30px;
+    min-width: 150px;
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 15px;
+    color: #fff;
+    text-align: center;
+    transition: .5s;
+    -o-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;}
+   
+</style>
+
+<body>
+    <script>
+        function goBack() {
+          window.history.back();
+        }
+        </script>
+    <section id="errorSec" class="text-center">
+<img src="/assets/images/404Error.png" alt="404 Error">
+<div class="text-center">
+    <a  onclick="goBack()" href="javascript:void(0);" class="site_btn3">Go Back</a>
+</div>
+    </section>
+    
+
+
+
+   
+
+
+
+</body>
+
+</html>

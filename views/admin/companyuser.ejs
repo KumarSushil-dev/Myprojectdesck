@@ -53,10 +53,7 @@
     
                 <div class="app-content content">
                     <div class="content-wrapper">
-                        <!--
-                        <div class="content-wrapper-before"></div>-->
-                        <div class="content-header row">
-                        </div>
+                      
                         <div class="content-body">
 
                             <!-- Table head options start -->
@@ -66,6 +63,11 @@
                                         <div class="card-header">
                                             <h4 class="card-title">Employee List </h4><br>
                                             <p>Here You Can Manage Your Existing Employee , Edit Their Profiles , Change Password Or Even Add New Employee To Your Organisation.</p>
+                                            <% if (locals.messages) { %>
+                                              <div class="alert alert__success " style="color:red; ">
+                                                  <%= messages.error %>
+                                              </div>
+                                              <% } %>
                                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                             <div class="heading-elements">
                                                 <ul class="list-inline mb-0">
@@ -76,17 +78,11 @@
                                             </div>
                                         </div><hr>
                                         <div class="card-content collapse show">
-                                            <div class="card-body">
-                                                <% if (locals.messages) { %>
-                                                    <div class="alert alert__success " style="color:red; ">
-                                                        <%= messages.error %>
-                                                    </div>
-                                                    <% } %>
-                                            </div>
+                                           
                                             <div class="table-responsive">
 
                                                 <table class="table">
-                                                    <thead class="thead-dark">
+                                                    <thead class="thead-default">
                                                         <tr>
                                            <th scope="col">#</th>
                                            <th scope="col">Name</th>
@@ -136,7 +132,12 @@
                 <% } %>
             </td>
  <td>
-    Enable
+
+   <% if(companyuser.data[i].is_screenshot=='Y'){ %>
+    <span style="color:green">Enable</span>
+    <% }else{  %>
+ <span style="color:red">Disable</span>
+  <%  } %>
  </td>
 
      

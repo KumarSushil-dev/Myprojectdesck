@@ -5,6 +5,93 @@
             <%- include('../partials/left'); %>
 
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+
+    <script type="text/javascript" src="https://datatables.net/media/js/site.js?_=3ce0bd53b76d94fd6dd7936dd9dbb114"></script>
+	<script type="text/javascript" src="https://datatables.net/media/js/dynamic.php?comments-page=extensions%2Fbuttons%2Fexamples%2Fhtml5%2FexcelBorder.html" async></script>
+	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+
+	<script type="text/javascript" class="init">
+
+
+
+$(document).ready(function() {
+
+    var ddd=$('#getmonn').text();
+       ddd = ddd.split(/\s/).join('');
+	$('#example').DataTable( {
+		dom: 'Bfrtip',
+           "ordering": false,
+            "searching": false,
+            "paging":   false,
+		buttons: [ {
+             text: 'Export To xls',
+             title: 'Data_'+ddd,
+			extend: 'excelHtml5',
+			customize: function ( xlsx ){
+				var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+				// jQuery selector to add a border
+
+            $('row c[r*="2"]', sheet).attr('s', '25');
+			}
+		} ]
+	} );
+} );
+
+
+
+	</script>
+    	<script type="text/javascript" class="init">
+
+
+
+            $(document).ready(function() {
+            
+                var ddd=$('#getmonn').text();
+                   ddd = ddd.split(/\s/).join('');
+                $('#exampless').DataTable( {
+                    dom: 'Bfrtip',
+                       "ordering": false,
+                        "searching": false,
+                        "info":false,
+                        "paging":   false,
+                    buttons: [ {
+                         text: 'Export To Log',
+                         title: 'Data_'+ddd,
+                        extend: 'excelHtml5',
+                        customize: function ( xlsx ){
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+            
+                            // jQuery selector to add a border
+            
+                        $('row c[r*="2"]', sheet).attr('s', '25');
+                        }
+                    } ]
+                } );
+            } );
+            
+            
+            
+                </script>
+  <style>
+    .buttons-html5{
+        background-color: red !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    }
+
+    .buttons-html5 span{
+        
+    font-weight: bold !important;
+font-size: 14px !important;
+    }
+    </style>
             <script>
                 $(document).ready(function() {
                     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -15,7 +102,7 @@
                     let selectMonth = $("#month");
                     let selectDay = $("#day");
                     let currentYear = new Date().getFullYear();
-                  
+
                     for (var y = 0; y < qntYears; y++) {
                       let date = new Date(currentYear);
                       let yearElem = document.createElement("option");
@@ -24,7 +111,7 @@
                       selectYear.append(yearElem);
                       currentYear--;
                     }
-                  
+
                     for (var m = 0; m < 12; m++) {
                       let month = monthNames[m];
                       let monthElem = document.createElement("option");
@@ -32,28 +119,28 @@
                       monthElem.textContent = month;
                       selectMonth.append(monthElem);
                     }
-                  
+
                     var d = new Date();
                     var month = '<%= startdates; %>';
                     var year = d.getFullYear();
                     var day = d.getDate();
-                  
+
                     selectYear.val(year);
                     selectYear.on("change", AdjustDays);
                     selectMonth.val(month);
                     selectMonth.on("change", AdjustDays);
-                  
+
                     AdjustDays();
                     selectDay.val(day)
-                  
+
                     function AdjustDays() {
                       var year = selectYear.val();
                       var month = parseInt(selectMonth.val()) + 1;
                       selectDay.empty();
-                  
+
                       //get the last day, so the number of days in that month
                       var days = new Date(year, month, 0).getDate();
-                  
+
                       //lets create the days of that month
                       for (var d = 1; d <= days; d++) {
                         var dayElem = document.createElement("option");
@@ -63,31 +150,12 @@
                       }
                     }
                   });
-                                  
-                
+
+
                 </script>
-            
-            <script>
-              $(document).ready(function() {
-              $("#btnExport").click(function(e) {
-                e.preventDefault();
-                document.getElementsByClassName("loader")[0].style.display = "block";
-                //getting data from our table
-                var data_type = 'data:application/vnd.ms-excel';
-                var table_div = document.getElementById('table_wrapper2');
-                var table_html = table_div.outerHTML.replace(/ /g, '%20');
-                var getmonn = document.getElementById('getmonn').innerHTML;
-                var a = document.createElement('a');
-                a.href = data_type + ', ' + table_html;
-                a.download = getmonn + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
-                a.click();
-                document.getElementsByClassName("loader")[0].style.display = "none";
-              });
-            
-            
-            });
-            </script>
-   
+
+
+
     <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-body">
@@ -102,39 +170,126 @@
                         <p class="m-0">In-Out Report of Your Organization</p>
                     </div>
                     <ul class="d-flex topInputs">
-                        <a href="javascript:void(0);" onclick="spinner()"  id="btnExport" class="downloadButton"><i class="la la-download"></i> Export to xls</a>
-                    
+
                         <form action="/getmonthlyinout"  method="post" class="form-horizontal">
-                 
+
                         <li class="mr-1">
                             <div class="input-group">
-                               
+
                                <% var selectr= moment().format("DD-MM-YYYY");
                                var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
 
 <select id="year" name="startyear"  class="form-control"></select>
 <select id="month" name="startdate"  class="form-control"></select>
-                
+
               <div class="input-group-prepend">
                 <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
                 color: #fff;" >
                     <i style="font-size: 1.2rem;margin-top: 5px;
                     font-weight: bolder;
-                    margin-top: 5px;" class="la la-search fa-lg"></i> 
+                    margin-top: 5px;" class="la la-search fa-lg"></i>
                 </button>
             </div>
                             </div>
                         </li>
-                        
+
                       </form>
-                      
+
                     </ul>
                 </div>
+
+
+
+
+                <div class="table-responsive"  style="border-left: 1px solid #ccc8;
+                border-right: 1px solid #ccc8;" >
+                    <table  id="exampless" class="mb-0 table-bordered table" style="display:none;" >
+                        <thead>
+                            <tr>
+                                <th>Employee Code</th>
+                                <th>Employee Name</th>
+                               
+                                <th>Attendance date</th>
+                                <th>Status Code </th>
+                                <th>In Time </th>
+                                <th>Out Time </th>
+                                <th>Late By </th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <%  var dds='9';
+                            
+var m = moment().utcOffset(0);
+m.set({hour:dds,minute:0,second:0,millisecond:0})
+m.toISOString()
+m.format();
+                          
+                             if(daysInMonth){
+                                var d = new Date();
+                              var df=d.getDate();
+            for(var g=1; g <= daysInMonth; g++) {
+
+                   if(monthlyattendance.user.length > 0){
+                                   var startdate = new Date();
+                                   var nows  = moment(startdate).format('D');
+                                   for(var i=0; i < monthlyattendance.user.length; i++) {
+                                    var userstring = monthlyattendance.user[i].split('_');
+                                    var srr=userstring[1].split(' ');
+                                    var nres = srr[1].substring(0, 1);
+                                        var res = srr[0].substring(0, 1);
+                                        var dfg=0;    %>
+                           <tr>
+                          <td class="align-middle" style="padding: .5rem !important;"><%= userstring[0]; %></td>
+                          <td class="align-middle" style="padding: .5rem !important;"><%=srr[0]; %> <%=srr[1]; %></td>
+<td class="align-middle" style="padding: .5rem !important;"><%=g; %>-<%=months[startdates]; %>-<%=dfd.getFullYear(); %></td>
+<% if(monthlyattendance.data.length > 0){
+for(var s=0; s < monthlyattendance.data.length; s++){
+var datt=moment(monthlyattendance.data[s].punch_in).format('D');
+if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
+if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){ dfg=1; %>
+<td>P</td>
+    <td><%= moment(monthlyattendance.data[s].punch_in).format('HH:mm'); %></td>
+    <td><%= moment(monthlyattendance.data[s].punch_out).format('HH:mm'); %></td>
+    <td>
+        <%
+        var rty = moment(monthlyattendance.data[s].punch_in).format('H');
+        
+        var nowss  = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
+var thenss = moment(m).format('DD/MM/YYYY HH:mm:ss');
+var mss = moment.utc(moment(nowss,"DD/MM/YYYY HH:mm:ss").diff(moment(thenss,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
+
+%> <% if(dds<= rty){ %> <%=mss; %> <% }else{ %> 0 <% } %>
+        </td>
+<td><% var now  = moment(monthlyattendance.data[s].punch_out).format('DD/MM/YYYY HH:mm:ss');
+var then = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
+var ms = moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); %> <%=ms; %> </td>
+
+<% } } } } 
+if(dfg==0){ %>
+    <td>A</td>
+    <td>00:00</td>
+    <td>00:00</td>
+    <td>0</td>
+    <td>0</td>
+
+
+<% }   %>
+</tr>
+                                    <% } } } } %> 
+</tbody>
+</table>
+</div>
+
+
+
+
 
                 <div class="blocks tabContainers mb-0 dailyInOutTable">
                     <div class="table-responsive" style="border-left: 1px solid #ccc8;
                     border-right: 1px solid #ccc8;">
-                        <table class="mb-0 table-bordered table" style="min-width: 5000px;">
+                        <table  id="example" class="mb-0 table-bordered table" style="min-width: 5000px;">
                             <thead>
                                 <tr>
                                     <th class="bt-0" style="padding: .5rem !important; width: 400px !important;">Employee</th>
@@ -142,7 +297,7 @@
                                     var month = dt.getMonth();
                                     var year = dt.getFullYear();
                                     daysInMonth = new Date(year, month, 0).getDate();
-                                   
+
                                     if(daysInMonth){
                                         for(var g=1; g <= daysInMonth; g++) {  %>
 
@@ -156,80 +311,80 @@
                                     </th>
                                   <% } } %>
                                     <th class="bt-0" style="width:300px !important; text-align:center; padding: .5rem !important;">Total Present</th>
-                                   
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <%  if(monthlyattendance.user.length > 0){
                                     var startdate = new Date();
                                     var nows  = moment(startdate).format('D');
-                                    for(var i=0; i < monthlyattendance.user.length; i++) { 
+                                    for(var i=0; i < monthlyattendance.user.length; i++) {
                                           var present =0;
                                           var absent =0;
-                                        
-                                        var userstring = monthlyattendance.user[i].split('_'); 
-                                                        
-                                           %> <% var srr=userstring[1].split(' '); 
-                                                
-                                            var res = srr[0].substring(0, 1); 
-                                            var nres = srr[1].substring(0, 1);  %> 
+
+                                        var userstring = monthlyattendance.user[i].split('_');
+
+                                           %> <% var srr=userstring[1].split(' ');
+
+                                            var res = srr[0].substring(0, 1);
+                                            var nres = srr[1].substring(0, 1);  %>
                                                 <tr>
                                                     <th class="align-middle" style="padding: .5rem !important;">
                                                     <span class="firstName bg-dark">
                                                     <%=res %><%=nres %></span>
                                                     <a href="<%= process.env.APP_URL %>/viewdetail/<%= userstring[0] %>"> <%= userstring[1]; %></a>
-                                                    </th> 
-                                  
+                                                    </th>
+
 
                                     <% if(daysInMonth){  var d = new Date();
                                         var df=d.getDate();
-                 
-                                       
+
+
                                          for(var g=1; g <= daysInMonth; g++) {  %>
                                              <td class="align-middle p_0"> <%
-                                                var y=0; 
+                                                var y=0;
                                               if(monthlyattendance.data.length > 0){
-                 
+
                                              for(var s=0; s < monthlyattendance.data.length; s++) {
-                                               
+
                                   var datt=moment(monthlyattendance.data[s].punch_in).format('D');
-                                         
-                                    if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
-                                                     
+
+                                    if(monthlyattendance.data[s].userId == userstring[0] && datt==g){
+
                                     if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
 
 
                                      var now  = moment(monthlyattendance.data[s].punch_out).format('DD/MM/YYYY HH:mm:ss');
                                      var then = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
-                                     var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
+                                     var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm");
                                      present++;  y=1;  }   %>
-                                     
+
                              <div class="inout d-flex justify-content-around border-0">
                                <div class="w_50t"><%= moment(monthlyattendance.data[s].punch_in).format('HH:mm A') %></div>
                                  <div class="w_50t"><%  if(monthlyattendance.data[s].punch_out !== null){ %> <%=  moment(monthlyattendance.data[s].punch_out).format('HH:mm A') %>  <% } %></div>
                                     </div>
-                                     
-                                    <%  }else { } } } 
+
+                                    <%  }else { } } }
                                     if(y==0 ){
                                     absent++;%><div class="inout d-flex justify-content-around border-0">
                                         <div class="w_50t"><span style="color:red;">A</span>
-                                        </div></div><% } %> 
+                                        </div></div><% } %>
                                      </td> <% } } %>
-                                                   
+
                                      <td class="align-middle">
                                     <div style="text-align: center;">
                                     <%= present; %></div>
                                                      </td>
-                                
+
                                                  </tr>
                                                 <% } } %>
 
 
 
-                                   
-                                  
+
+
                                 </tr>
-                                
+
                             </tbody>
                         </table>
                     </div>
@@ -243,7 +398,7 @@
                                     var month = dt.getMonth();
                                     var year = dt.getFullYear();
                                     daysInMonth = new Date(year, month, 0).getDate();
-                                  
+
                                     if(daysInMonth){
                                         for(var g=1; g <= daysInMonth; g++) {  %>
 
@@ -253,70 +408,70 @@
                                     </th>
                                   <% } } %>
                                     <th  >Total Present</th>
-                                
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <%  if(monthlyattendance.user.length > 0){
-   
-                                    for(var i=0; i < monthlyattendance.user.length; i++) { 
+
+                                    for(var i=0; i < monthlyattendance.user.length; i++) {
                                           var present =0;
                                           var absent =0;
-                                        
-                                        var userstring = monthlyattendance.user[i].split('_'); 
-                                                        
-                                           %> <% var srr=userstring[1].split(' '); 
-                                                
-                                            var res = srr[0].substring(0, 1); 
-                                            var nres = srr[1].substring(0, 1);  %> 
+
+                                        var userstring = monthlyattendance.user[i].split('_');
+
+                                           %> <% var srr=userstring[1].split(' ');
+
+                                            var res = srr[0].substring(0, 1);
+                                            var nres = srr[1].substring(0, 1);  %>
                                                 <tr>
                                                     <th >
                                                     <%= userstring[1]; %>
-                                                    </th> 
-                                  
+                                                    </th>
+
 
                                     <% if(daysInMonth){  var d = new Date();
                                         var df=d.getDate();
-                 
-                 
+
+
                                          for(var g=1; g <= daysInMonth; g++) {  %>
                                              <td> <%
-                                                  
+
                                               if(monthlyattendance.data.length > 0){
-                 
+
                                              for(var s=0; s < monthlyattendance.data.length; s++) {
-                                               
+
                                   var datt=moment(monthlyattendance.data[s].punch_in).format('D');
-                                         
-                                    if(monthlyattendance.data[s].userId == userstring[0] && datt==g){ 
-                                                     
+
+                                    if(monthlyattendance.data[s].userId == userstring[0] && datt==g){
+
                                     if(monthlyattendance.data[s].punch_in !== null && monthlyattendance.data[s].punch_out !== null){
 
 
                                      var now  = moment(monthlyattendance.data[s].punch_out).format('DD/MM/YYYY HH:mm:ss');
                                      var then = moment(monthlyattendance.data[s].punch_in).format('DD/MM/YYYY HH:mm:ss');
-                                     var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm"); 
+                                     var ms =  moment.utc(moment(now,"DD/MM/YYYY HH:mm:ss").diff(moment(then,"DD/MM/YYYY HH:mm:ss"))).format("HH:mm");
                                      present++;  }   %>
-                                     
+
                              <%= moment(monthlyattendance.data[s].punch_in).format('HH:mm A') %> / <%  if(monthlyattendance.data[s].punch_out !== null){ %> <%=  moment(monthlyattendance.data[s].punch_out).format('HH:mm A') %>  <% } %>
-                                     
-                                    <%  }else {  } } } 
+
+                                    <%  }else {  } } }
                                      if(y==0){ absent++; %>A<% } %>
                                      </td> <% } } %>
-                                                   
+
                                                      <td >
                                                         <%= present; %>
                                                      </td>
-                                                    
+
                                                  </tr>
                                                 <% } } %>
 
 
 
-                                   
-                                  
+
+
                                 </tr>
-                                
+
                             </tbody>
                         </table>
                     </div>
@@ -329,4 +484,4 @@
 
 
 
-                <%- include('../partials/footer'); %>
+                <% // include('../partials/footer'); %>

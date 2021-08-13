@@ -17,11 +17,17 @@
                     </li>-->
                 </ul>
                 <ul class="nav navbar-nav float-right">
-                   <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-mail">             </i></a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <div class="arrow_box_right"><a class="dropdown-item" href="#"><i class="ft-book"></i> Read Mail</a><a class="dropdown-item" href="#"><i class="ft-bookmark"></i> Read Later</a><a class="dropdown-item" href="#"><i class="ft-check-square"></i> Mark all Read       </a></div>
-                        </div>
+                    <% if(roleid==2){ %>
+                   <li class=" nav-item"><a target="_blank" download="MyProjectDesk.dmg" class="nav-link nav-link-label" href="<%= process.env.APP_URL %>/assets/MyProjectDesk.dmg" title="Download Apple App" ><i class="ficon la la-apple">             </i></a>
+                        
                     </li>
+                   <li class=" nav-item"><a target="_blank"  download="MyProjectDesk.exe"  class="nav-link nav-link-label" href="<%= process.env.APP_URL %>/assets/MyProjectDesk.exe" title="Download Windows App" ><i class="ficon la la-windows">             </i></a>
+                        
+                    </li>
+                   <li class=" nav-item"><a target="_blank"  download="MyProjectDesk.AppImage" class="nav-link nav-link-label"  href="<%= process.env.APP_URL %>/assets/MyProjectDesk.AppImage" title="Download Linux App"  ><i class="ficon la la-linux">             </i></a>
+                        
+                    </li>
+                    <% } %>
                     <li class="dropdown dropdown-user nav-item"> 
                         <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"> <span class="topname bg-dark"><%= person; %></span></a>
                         <div class="dropdown-menu dropdown-menu-right">

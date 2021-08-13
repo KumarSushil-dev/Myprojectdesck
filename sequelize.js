@@ -19,6 +19,7 @@ const TasksactivitiesModel = require('./models/tasksactivities')
 const ProjectsModel = require('./models/projects')
 const SettingsModel = require('./models/settings')
 const TestimonialModel = require('./models/testimonial')
+const SendmessageModel = require('./models/sendmessage')
 //const LocationModel = require('./models/location')
 
 
@@ -39,6 +40,7 @@ const sequelize = new Sequelize(process.env.MYSQL_DB, process.env.DB_USER, proce
 
 const User = UserModel(sequelize, Sequelize)
 const Country = CountryModel(sequelize, Sequelize)
+const Sendmessage = SendmessageModel(sequelize, Sequelize)
 const State = StateModel(sequelize, Sequelize)
 const Plan = PlanModel(sequelize, Sequelize)
 const Userattendancelog = UserattendancelogModel(sequelize, Sequelize)
@@ -90,5 +92,5 @@ sequelize.sync()
   })
 
 module.exports = {
-  User,Country,State,Plan,Userattendancelog,Settings,Emailtemplate,Usersbreakslogs,Subscriptions,Break,Usersnapshots,Static,Sitesettings,Roles,Userapplist,Task,Tasksactivities,Projects,Testimonial,Op,sequelize
+  User,Country,State,Plan,Userattendancelog,Settings,Emailtemplate,Usersbreakslogs,Subscriptions,Break,Usersnapshots,Static,Sitesettings,Roles,Userapplist,Task,Tasksactivities,Projects,Testimonial,Sendmessage,Op,sequelize
 }

@@ -43,10 +43,10 @@
 
                 <!-- content body-->
                 <div class="content-body">
-                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
  <style>
-                    .loader {
+     .loader {
                         display: none;
                         top: 50%;
                         left: 50%;
@@ -91,9 +91,6 @@
                     </div>
                 </div>
 
-
-
-
 <script>
 
 $(document).ready(function(){  
@@ -110,7 +107,8 @@ $(document).ready(function(){
            data: JSON.stringify(data), 
            success:function(response){  
                console.log(response);
-
+               $('select[name="state_id"]').show();
+               $('select[name="state_id"]').prop('required',true); 
                $('select[name="state_id"]').empty();
                     $.each(response.data,function(key,value){
                         $('select[name="state_id"]').append('<option value="'+value.id+'">'+value.name+'</option>');
@@ -119,7 +117,8 @@ $(document).ready(function(){
             
            },  
            error:function(response){  
-               alert('server error occured')  
+            $('select[name="state_id"]').removeAttr('required');
+            $('select[name="state_id"]').hide(); 
            }  
        });  
     }

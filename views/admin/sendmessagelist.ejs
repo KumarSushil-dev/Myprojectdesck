@@ -1,0 +1,121 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+        data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+            <%- include('../partials/left'); %>
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Listed Messages </h4>
+                                            <a class="heading-elements-toggle"><i
+                                                    class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                                <ul class="list-inline mb-0">
+
+                                                </ul>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="card-content collapse show">
+                                            <div class="card-body">
+                                                <% if (locals.messages) { %>
+                                                    <div class="alert alert__success " style="color:red; ">
+                                                        <%= messages.error %>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                            <div class="table-responsive">
+
+                                                <table class="table">
+                                                    <thead class="thead-default">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Person Name</th>
+                                                            <th scope="col">Email Address</th>
+                                                            <th scope="col">Subject</th>
+                                                            <th scope="col">Phone</th>
+                                                            <th scope="col">Created</th>
+                                                            <th scope="col" style="width: 30%;">Description</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% if(testimonial.data.length> 0){
+                                                            var s=1;
+                                                            for(var i=0; i < testimonial.data.length; i++) { %>
+                                                                <tr>
+                                                                    <th scope="row">
+                                                                        <%= s++; %>
+                                                                    </th>
+                                                                    <td>
+                                                                        <%= testimonial.data[i].name; %>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <%= testimonial.data[i].email; %>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <%= testimonial.data[i].subject; %>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <%= testimonial.data[i].phone; %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <% var str=testimonial.data[i].createdAt; %>
+                                                                            <%= moment(str).format('DD-MM-YYYY') %>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= testimonial.data[i].description; %>
+                                                                    </td>
+
+
+
+                                                                </tr>
+                                                                <% } }else{ %>
+                                                                    <tr>
+                                                                        <td class="text-center" colspan="4"
+                                                                            style="color:red; ">
+                                                                            No Message Listed Yet
+                                                                        </td>
+                                                                    </tr>
+                                                                    <% } %>
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Table head options end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+
+                <%- include('../partials/footer'); %>

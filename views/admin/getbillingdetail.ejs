@@ -1,0 +1,343 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+
+        
+
+<%- include('../partials/left'); %>
+
+
+
+
+<script>
+
+   
+    
+    $(document).on('click','.dropplan',function (e){
+
+        var df=this.id;
+  
+    
+    $('#dropplan').modal('show');
+
+    e.preventDefault();
+     $('#dropplan').modal('show').find('.modal-body').load($(this).attr('href'));
+    
+    });
+    </script>
+
+
+<div class="modal fade" id="dropplan">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+<h5 class="modal-title">Invoice Detail</h5>
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<!-- Modal body -->
+<div class="modal-body">
+   
+        </div>
+
+        <!-- Modal footer -->
+
+
+
+      </div>
+    </div>
+  </div> 
+  
+  <script type="text/javascript">
+    function spinner() {
+
+        document.getElementsByClassName("loader")[0].style.display = "block";
+    }
+</script>
+
+<script>
+    // Disable form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Get the forms we want to add validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            document.getElementsByClassName("loader")[0].style.display = "block";
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+              document.getElementsByClassName("loader")[0].style.display = "none";
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+    
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Orders / Invoices </h4>
+                                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+                                              
+                                                <a class="btn btn-primary" href="<%= process.env.APP_URL %>/addsubscription">Add Subscription</a>
+                                        
+                                            </div>
+                                        </div>
+                                        <div class="card-content collapse show">
+                                            <div class="card-body">
+                                                <% if (locals.messages) { %>
+                                                    <div class="alert alert__success " style="color:red; ">
+                                                        <%= messages.error %>
+                                                    </div>
+                                                    <% } %>
+                                                    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+                                                    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                                                                        <script>
+                                                    
+                                                    $(function () {
+                                                    var currentDate = moment().format("DD-MM-YYYY");
+                                                    
+                                                    $(".date").daterangepicker(
+                                                      {
+                                                        locale: {
+                                                          format: "DD-MM-YYYY"
+                                                        },
+                                                        alwaysShowCalendars: true,
+                                                       
+                                                        autoApply: true,
+                                                        autoUpdateInput: true,
+                                                        autoclose: true
+                                                      },
+                                                      function (start, end, label) {
+                                                        $('.daterangepicker').show();
+                                                        // console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+                                                        // Lets update the fields manually this event fires on selection of range
+                                                        var selectedStartDate = start.format("DD-MM-YYYY"); // selected start
+                                                        var selectedEndDate = end.format("DD-MM-YYYY"); // selected end
+                                                    
+                                                    
+                                                        var selectedStartDater = start.format("YYYY-MM-DD HH:mm:ss"); // selected start
+                                                        var selectedEndDater = end.format("YYYY-MM-DD HH:mm:ss");
+                                                    
+                                                    
+                                                        $checkinInput = $("#search_checkin");
+                                                        $checkoutInput = $("#search_checkout");
+                                                        $checkoutInputselected = $("#allselecteddate");
+                                                     
+                                                        // Updating Fields with selected dates
+                                                        $checkinInput.val(selectedStartDater);
+                                                        $checkoutInput.val(selectedEndDater);
+                                                        $checkoutInputselected.val(selectedStartDate + ' - ' + selectedEndDate);
+                                                        $('.daterangepicker').hide();
+                                                        // Setting the Selection of dates on calender on CHECKOUT FIELD (To get this it must be binded by Ids not Calss)
+                                                       
+                                                      });
+                                                    });
+                                                    
+                                                    
+                                                    
+                                                    </script>
+    
+      
+        <form action="/getbillingdetail"  method="post" class="form-horizontal">
+            
+            <div class="row">
+           
+
+                    <div class="col-sm-3 col-xs-6">
+                        <label>Company Name</label>
+                           <div class="input select">
+                            <input type="text" name="name" class="form-control" placeholder="Enter Company Name" aria-label="Username"  aria-describedby="basic-addon1">        
+                           </div>   
+                        
+                        </div>
+
+                       
+                <div class="col-sm-2 col-xs-6">
+                  <label>Status</label>
+                     <div class="input select">
+                      <select name="status"  class="form-control " >
+                          <option value="">--Select --</option>
+                          <option value="Y">Paid</option>
+                          <option value="N">Pending</option>
+                          
+                        
+                          </select>
+  
+                     </div>   
+                  
+                  </div> 
+                            <div class="col-sm-3 col-xs-6">
+                                <label>Invoice Payment Date</label>
+                                <div class="input-group">
+                                  <% 
+                                   
+                                  var selectr= moment(startdates).format("DD-MM-YYYY");
+                                  var selectrs= moment(enddates).format("DD-MM-YYYY");
+      
+                                  var selectr2= moment(startdates).format("YYYY-MM-DD HH:mm:ss");
+                                  var selectrs2= moment(enddates).format("YYYY-MM-DD HH:mm:ss");
+                                    %>
+                       <input type="text"  class="form-control date" placeholder="<%= selectr %> - <%= selectrs %>" aria-label="Username" id="allselecteddate" value="<%= selectr; %> - <%= selectrs; %>" aria-describedby="basic-addon1">
+                       <input type="hidden" id="search_checkin" value="<%= selectr2 %>" name="startdate" class="form-control" placeholder="Use this hidden">
+                       <input type="hidden" id="search_checkout" value="<%= selectrs2 %>" name="enddate" class="form-control" placeholder="Use this hidden"> 
+                       
+                       
+                                 </div>
+                                
+                                </div>
+                           
+           
+                                <div class="col-sm-2 col-xs-6">
+                                    <label></label>
+                                <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
+                                color: #fff;margin-top: 21px;" >
+                                <i style="font-size: 1.6rem;
+                                font-weight: bolder;
+                                margin-top: 4px;" class="la la-search fa-lg"></i> 
+                                </button>
+                                </div>
+                            </div>
+      </form>
+    </div>
+                                            <div class="table-responsive">
+
+                                                <table class="table">
+                                                    <thead class="thead-default">
+                                                        <tr>
+                                                          <th scope="col">#</th>
+                                                          <th scope="col">Company Detail</th>
+                                                          <th scope="col" style="width: 12%;">Invoice ID</th>
+                                                          <th scope="col" style="width: 15%;">Invoice Date</th>
+                                                           <th scope="col" style="width: 16%;">Payment Date</th>
+                                                            <th scope="col">Status</th>
+                                                             <th scope="col" style="width: 10%;">Amount</th>
+                                                            <th scope="col" >Action</th>
+                                                        
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                        <%  if(userlist.data.length > 0){
+                                                             var s=1; 
+                                        for(var i=0; i < userlist.data.length; i++) { %>
+                                          <tr>
+                                            <th scope="row"><%= s++; %></th>
+                                        <td><b><%= userlist.data[i].user['companyname']; %></b><% if(userlist.data[i].user['status']=="Y"){  %>
+                                           <i class="la la-check-circle-o" style="color: green;
+                                              font-weight: bold;
+                                              font-size: 14px;">verified</i> <% } %><br><a href="mailto:<%= userlist.data[i].user['email']; %>"><%= userlist.data[i].user['email']; %></a><br>
+                                              <% if(userlist.data[i].plan['name']){ %>
+                                                
+                 <span style="color:green;"><%= userlist.data[i].plan['name'];  %></span>
+                                             <% } %></td>
+                                        <td>
+                                          
+                                               <%= userlist.data[i].order_id;   %>    
+                                              
+                                             </td>
+                                             
+                                             <td>
+                                               <%    var strs=userlist.data[i].createdAt; 
+                                               var strsu=userlist.data[i].updatedAt; %>
+                                               <%= moment(strs).format('DD-MM-YYYY') %> 
+                                                 
+                                              
+                                             </td>
+                                             
+                                             <td>     <% if(userlist.data[i].plan['id']==5){ %>  <%= moment(strs).format('DD-MM-YYYY') %>  <% }else if(userlist.data[i].payment_id){ %>
+                                               <%= moment(strsu).format('DD-MM-YYYY') %>
+
+                                               <%  } %></td>
+                                             <td>  <% if(userlist.data[i].status=="Y"){  %>
+<span style="color:green;">Paid</span>
+
+                                               <% }else{ %><span style="color:red;">Pending</span> <% } %>  
+                                             </td>
+                                             <td>₹&nbsp;<%= userlist.data[i].payment_detail;   %>    
+                                              
+                                             </td>
+                                             
+                                             <td>
+                                               <% if(userlist.data[i].plan['id']!=5){ %>
+                   <a class="dropdown-item dropplan" href="<%= process.env.APP_URL %>/getinvoice/<%= userlist.data[i].id %>" style="color:red;"> <i class="la la-file-pdf-o"></i></a>   
+                   <% }else{ %> -- <% } %>     
+                                             </td>
+
+                                                       </tr>
+                                                            <% } }else{ %>
+                                                                <tr>
+
+                                                                    <td class=" text-center " colspan=" 7 " style="color:red; ">
+                                                                        No Orders Listed Yet
+                                                                    </td>
+                                                                </tr>
+                                                                <% }  %>
+
+
+                                                    </tbody>
+                                                </table>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Table head options end -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+                <script>
+                    // Disable form submissions if there are invalid fields
+                    (function() {
+                      'use strict';
+                      window.addEventListener('load', function() {
+                        // Get the forms we want to add validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                          form.addEventListener('submit', function(event) {
+                            $('.preloader').show();
+                            if (form.checkValidity() === false) {
+                              event.preventDefault();
+                              event.stopPropagation();
+                              $('.preloader').hide();
+                            }
+                            form.classList.add('was-validated');
+                          }, false);
+                        });
+                      }, false);
+                    })();
+                    </script>
+                    
+            
+                <%- include('../partials/footer'); %>

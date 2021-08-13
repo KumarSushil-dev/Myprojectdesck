@@ -1,0 +1,254 @@
+<%- include('../partials/header'); %>
+
+    <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click"
+        data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+        <%- include('../partials/nav'); %>
+
+
+            <%- include('../partials/left'); %>
+
+
+
+
+                <script>
+
+
+
+                    $(document).on('click', '.dropplan', function (e) {
+
+                        var df = this.id;
+
+
+                        $('#dropplan').modal('show');
+                        $('.planselectuser').val(df);
+                        e.preventDefault();
+
+                    });
+                </script>
+
+
+
+                <script type="text/javascript">
+                    function spinner() {
+
+                        document.getElementsByClassName("loader")[0].style.display = "block";
+                    }
+                </script>
+
+                <script>
+                    // Disable form submissions if there are invalid fields
+                    (function () {
+                        'use strict';
+                        window.addEventListener('load', function () {
+                            // Get the forms we want to add validation styles to
+                            var forms = document.getElementsByClassName('needs-validation');
+                            // Loop over them and prevent submission
+                            var validation = Array.prototype.filter.call(forms, function (form) {
+                                form.addEventListener('submit', function (event) {
+                                    document.getElementsByClassName("loader")[0].style.display = "block";
+                                    if (form.checkValidity() === false) {
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                        document.getElementsByClassName("loader")[0].style.display = "none";
+                                    }
+                                    form.classList.add('was-validated');
+                                }, false);
+                            });
+                        }, false);
+                    })();
+                </script>
+
+                <div class="app-content content">
+                    <div class="content-wrapper">
+                        <!--
+                        <div class="content-wrapper-before"></div>-->
+                        <div class="content-header row">
+                        </div>
+                        <div class="content-body">
+
+                            <!-- Table head options start -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Listed Request Demo </h4>
+                                            <a class="heading-elements-toggle"><i
+                                                    class="la la-ellipsis-v font-medium-3"></i></a>
+                                            <div class="heading-elements">
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="card-content collapse show">
+
+                                            <div class="card-body">
+                                                <% if (locals.messages) { %>
+                                                    <div class="alert alert__success " style="color:red; ">
+                                                        <%= messages.error %>
+                                                    </div>
+                                                    <% } %>
+
+
+                                                        <div class="table-responsive">
+
+
+                                                            <table class="table">
+                                                                <thead class="thead-default">
+                                                                    <tr>
+                                                                        <th scope="col">#</th>
+                                                                        <th scope="col">Company </th>
+
+                                                                        <th scope="col">Mobile </th>
+                                                                        <th scope="col">Email </th>
+                                                                        <th scope="col">Country </th>
+                                                                        <th scope="col">State </th>
+                                                                        <th scope="col">City </th>
+                                                                        <th scope="col">Date of Demo Request</th>
+                                                                        <th scope="col">Plan Detail</th>
+
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <% if(userlist.data.length> 0){
+                                                                        var s=1;
+                                                                        for(var i=0; i < userlist.data.length; i++) { %>
+                                                                            <tr>
+                                                                                <th scope="row">
+                                                                                    <%= s++; %>
+                                                                                </th>
+                                                                                <td><b>
+                                                                                        <%= userlist.data[i].companyname;
+                                                                                            %>
+                                                                                    </b>
+                                                                                </td>
+
+                                                                                <td><b>
+                                                                                        <%= userlist.data[i].mobile; %>
+                                                                                    </b></td>
+                                                                                <td><b><a
+                                                                                            href="mailto:<%= userlist.data[i].email; %>">
+                                                                                            <%= userlist.data[i].email;
+                                                                                                %>
+                                                                                        </a>
+                                                                                        <% if(userlist.data[i].status=="Y"
+                                                                                            ){ %>
+                                                                                            <i class="la la-check-circle-o"
+                                                                                                style="color: green;
+       font-weight: bold;
+       font-size: 14px;">verified</i>
+                                                                                            <% } %>
+                                                                                    </b></td>
+                                                                                <td><b>
+                                                                                        <%= userlist.data[i].country['name'];
+                                                                                            %>
+                                                                                    </b></td>
+                                                                                <td><b>
+                                                                                        <%= userlist.data[i].state['name'];
+                                                                                            %>
+                                                                                    </b></td>
+                                                                                <td><b>
+                                                                                        <%= userlist.data[i].city; %>
+                                                                                    </b></td>
+
+                                                                                <td>
+                                                                                    <%
+                                                                                        if(userlist.data[i].subscriptions.length>
+                                                                                        0){ %>
+                                                                                        <% var
+                                                                                            str=userlist.data[i].subscriptions[0]['created'];
+                                                                                            %>
+                                                                                            <%= moment(str).format('DD-MM-YYYY')
+                                                                                                %>
+                                                                                                <% } %>
+                                                                                </td>
+
+
+                                                                                <%
+                                                                                    if(userlist.data[i].subscriptions.length>
+                                                                                    0){
+
+                                                                                    var price=
+                                                                                    userlist.data[i].plan['price'];
+                                                                                    }else{
+
+                                                                                    var price="";
+                                                                                    } %>
+
+
+                                                                                    <td> Free Trial-7 Days
+                                                                                        <div
+                                                                                            style="font-size:11px; font-weight:normal;">
+                                                                                            - 5
+                                                                                            Users Plan @ Rs.
+                                                                                            0
+                                                                                        </div>
+
+
+
+
+                                                                                    </td>
+
+
+
+                                                                            </tr>
+                                                                            <% } }else{ %>
+                                                                                <tr>
+
+                                                                                    <td class=" text-center "
+                                                                                        colspan="13"
+                                                                                        style="color:red; ">
+                                                                                        No Demo Request Listed Yet
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <% } %>
+
+
+                                                                </tbody>
+                                                            </table>
+
+
+
+
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Table head options end -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ////////////////////////////////////////////////////////////////////////////-->
+
+
+
+
+
+
+                    <script>
+                        // Disable form submissions if there are invalid fields
+                        (function () {
+                            'use strict';
+                            window.addEventListener('load', function () {
+                                // Get the forms we want to add validation styles to
+                                var forms = document.getElementsByClassName('needs-validation');
+                                // Loop over them and prevent submission
+                                var validation = Array.prototype.filter.call(forms, function (form) {
+                                    form.addEventListener('submit', function (event) {
+                                        $('.preloader').show();
+                                        if (form.checkValidity() === false) {
+                                            event.preventDefault();
+                                            event.stopPropagation();
+                                            $('.preloader').hide();
+                                        }
+                                        form.classList.add('was-validated');
+                                    }, false);
+                                });
+                            }, false);
+                        })();
+                    </script>
+
+
+                    <%- include('../partials/footer'); %>

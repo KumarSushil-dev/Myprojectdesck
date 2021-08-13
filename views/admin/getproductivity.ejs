@@ -4,73 +4,7 @@
            <%- include('../partials/nav'); %>
            <%- include('../partials/left'); %>
        
-           <script src="/theme-assets/js/jquery.avatarme-1.0.min.js"></script>
-           <link rel="stylesheet" href="/theme-assets/css/avatar.css">
-   
-<script>    jQuery(function($){
-                 var $userName = $('.user-name');
-                 if ($userName.length) {
-                   $userName.avatarMe({
-                     className: 'avatar-me',
-                     maxChar: 1
-                   });
-                 }
-               });
-   </script>
-           <script type="text/javascript" src="/theme-assets/js/jquery.formatCurrency-1.4.0.min.js"></script>
-           <script> $(function () {
-             $(".currency").blur(function () {
-               $(".currency").html(null), $(this).formatCurrency({
-                 colorize: !0,
-                 symbol: "",
-                 negativeFormat: "-%s%n",
-                 roundToDecimalPlace: -1
-               })
-             }).keyup(function (e) {
-               var e = window.event || e,
-                 a = e.charCode || e.keyCode;
-               if (110 != a && 229 != a && 190 != a && 46 != a && 45 != a && a > 31 && (96 > a || a > 105) && (48 > a || a > 57) && $(".currency").val(""), void 0 !== e) switch (a) {
-                 case 16:
-                   break;
-                 case 17:
-                   break;
-                 case 18:
-                   break;
-                 case 27:
-                   this.value = "";
-                   break;
-                 case 35:
-                   break;
-                 case 36:
-                   break;
-                 case 37:
-                   break;
-                 case 38:
-                   break;
-                 case 39:
-                   break;
-                 case 40:
-                   break;
-                 case 78:
-                   break;
-                 case 110:
-                   break;
-                 case 190:
-                   break;
-                 default:
-                   $(this).formatCurrency({
-                     colorize: !0,
-                     negativeFormat: "-%s%n",
-                     roundToDecimalPlace: -1,
-                     eventOnDecimalsEntered: !1
-                   })
-               }
-             }).bind("decimalsEntered", function (e, a) {
-               var t = "Please do not enter any cents (0." + a + ")";
-               alert(t), log("Event on decimals entered:" + t)
-             });
-           });
-           </script>
+        
    <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-body">
@@ -80,11 +14,66 @@
                             <img src="/assets/images/ic_daily_attendance.png" class="img-fluid" alt="" />
                         </div>
                     </a>
-                    <div class="details">
-                        <h4 class="m-0">Productivity</h4>
+                    <div class="details"> <% var selectrr= moment(startdates).format("DD-MM-YYYY");
+                      var selectrsr= moment(enddates).format("DD-MM-YYYY"); %>
+                        <h4 class="m-0" id="getmonn">Productivity <%= selectrr; %> <%= selectrsr; %></h4>
                         <p class="m-0">See Deep insights on overall productivity of your employee</p>
                     </div>
 
+                    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+                    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css">
+                                    
+                <script type="text/javascript" src="https://datatables.net/media/js/site.js?_=3ce0bd53b76d94fd6dd7936dd9dbb114"></script>
+                <script type="text/javascript" src="https://datatables.net/media/js/dynamic.php?comments-page=extensions%2Fbuttons%2Fexamples%2Fhtml5%2FexcelBorder.html" async></script>
+                 <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+                  <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+                <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+                 <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+                 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+                                    
+                                    <script type="text/javascript" class="init">
+                                    
+                                     $(document).ready(function() {
+                                    
+                                      var ddd=$('#getmonn').text();
+                                         ddd = ddd.split(/\s/).join('');
+                                    $('#examplerr').DataTable({
+                                      dom: 'Bfrtip',
+                                             "ordering": false,
+                                              "searching": false,
+                                              "paging":   false,
+                                              "info":false,
+                                      buttons: [ {
+                                               text: 'Export To xls',
+                                               title: 'Data_'+ddd,
+                                        extend: 'excelHtml5',
+                                        customize: function ( xlsx ){
+                                          var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                    
+                                          // jQuery selector to add a border
+                                    
+                                              $('row c[r*="2"]', sheet).attr('s', '25');
+                                        }
+                                      }]
+                                    });
+                                    });
+                                    
+                                    
+                                    
+                                    </script>
+                                      <style>
+                                      .buttons-html5{
+                                          background-color: red !important;
+                                      color: #fff !important;
+                                      font-weight: bold !important;
+                                      }
+                
+                                      .buttons-html5 span{
+                                          
+                                      font-weight: bold !important;
+                    font-size: 14px !important;
+                                      }
+                                      </style>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -323,6 +312,79 @@ $(".date").daterangepicker(
 
 
 
+
+                                                   <div class="table-responsive" style=" border-left: 1px solid #ccc8;border-right: 1px solid #ccc8;">
+                                                    <table  id="examplerr" class="mb-0 table-bordered table" style="display:none;">
+                                                     <thead>      <tr>                                                                                                <tr>
+                                                                    <th class="bt-0"  style="padding: .5rem !important; width: 200px !important;">Employee
+                                                                                                                          </th>
+                                                                          <% var dt=new Date();
+                                                                                     var month=dt.getMonth();
+                                                                                        var year=dt.getFullYear();
+                                                                                     daysInMonth=new Date(year, month,0).getDate();
+                                                                                            if(daysInMonth){
+                                                                                          for(var g=1; g <=daysInMonth; g++) {
+                                                                                                                              %>
+                                                                        <th class="bt-0 p_0" style="width:60px !important; text-align:center;"><%= g; %> </th>
+                                                                          
+                                                                                                                              <% } } %>
+                                                                             </tr>
+                                                            </thead>
+                                              <tbody>
+                                                     <% if(companytask.user.length> 0){
+                                                             var startdate = new Date();
+                                                             var nows = moment(startdate).format('D');
+                                                          for(var i=0; i < companytask.user.length; i++) {
+                                                              var present=0;
+                                                       var absent=0; 
+                                                       var userstring=companytask.user[i].split('_');
+                                                            var srr=userstring[1].split(' ');
+                                                            var res = srr[0].substring(0, 1);
+                                                            var nres = srr[1].substring(0, 1);  %>
+                                                       <tr>
+                                                            <th class="align-middle" style="padding: .5rem !important;">
+                                                           <%= userstring[1]; %>
+                                                                                                              </th>
+                                                                 <% if(daysInMonth){
+                                                                         var d = new Date();
+                                                                            var df=d.getDate();
+                                                                          for(var g=1; g <= daysInMonth; g++) {  %>
+                                                                   <td class="align-middle p_0 text-center"> <%
+                                                                           var y=0;
+                                                                 if(companytask.monthlyproductivityreport.length > 0){
+                                                                          
+                                                                  for(var s=0; s < companytask.monthlyproductivityreport.length; s++) {
+                                                                  var datt=moment(companytask.monthlyproductivityreport[s].capturetime).format('D');
+                                                                  if(companytask.monthlyproductivityreport[s].userId==userstring[0] && datt==g){
+                                                  var ms='0' ;
+                                           
+                                                  var percentagef='0';
+                                                  var totalproductinfo= Math.floor(companytask.monthlyproductivityreport[s].productivitytime /1000);
+                                                  var totalidle= Math.floor(companytask.monthlyproductivityreport[s].totalIdleMinutes /1000);
+                                                   var totalworking=totalproductinfo+totalidle;
+                                                                  var dtotalworking = Number(totalworking);
+                                           
+                                                                  var dproductinfo = Number(totalproductinfo);
+                                           
+                                           
+                                           
+                                                  var percentagef=(Number(dproductinfo)*100)/Number(dtotalworking);
+                                           
+                                                   percentagef=Math.round(percentagef).toFixed(2);
+                                                  if(percentagef >100){
+                                                   percentagef="100";
+                                                 }
+                                                 ms=percentagef;
+                                           
+                                              if(ms!="0" ){   present++; y=1;  %> <%= ms; %>%  <% } } } }
+                                                                                    %>
+                                                                                     </td>
+                                                                                 <% } } %>
+                                                                           </tr>
+                                                                                                <% } } %>
+                                                       </tbody>
+                                                        </table>
+                                                      </div>
                             
 
                             <div class="table-responsive">
@@ -458,5 +520,15 @@ $(".date").daterangepicker(
         </div>
     </div>
     <!-- ////////////////////////////////////////////////////////////////////////////-->
-
-    <%- include('../partials/footer'); %>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    
+    
+    <footer class=" footer footer-static footer-light navbar-border navbar-shadow ">
+        <div class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2 "><span
+                class="float-md-left d-block d-md-inline-block ">2021 &copy; Copyright <a
+                    class="text-bold-800 grey darken-2 " href="# " target="_blank ">MyProject Desk</a></span>
+    
+        </div>
+    </footer>
+    <% // include('../partials/footer'); %>

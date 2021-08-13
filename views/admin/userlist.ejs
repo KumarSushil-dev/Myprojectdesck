@@ -139,33 +139,169 @@
                                 <div class="col-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4 class="card-title">Company Subscription </h4>
+                                            <h4 class="card-title">Listed Companies </h4>
                                             <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                                             <div class="heading-elements">
                                               
-<a class="btn btn-primary" href="<%= process.env.APP_URL %>/addsubscription">Add Subscription</a>
+
                                             </div>
+                                            
                                         </div>
                                         <div class="card-content collapse show">
+                                      
                                             <div class="card-body">
                                                 <% if (locals.messages) { %>
                                                     <div class="alert alert__success " style="color:red; ">
                                                         <%= messages.error %>
                                                     </div>
                                                     <% } %>
+
+                                                    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+                                                    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                                                                        <script>
+                                                    
+                                                    $(function () {
+                                                    var currentDate = moment().format("DD-MM-YYYY");
+                                                    
+                                                    $(".date").daterangepicker(
+                                                      {
+                                                        locale: {
+                                                          format: "DD-MM-YYYY"
+                                                        },
+                                                        alwaysShowCalendars: true,
+                                                       
+                                                        autoApply: true,
+                                                        autoUpdateInput: true,
+                                                        autoclose: true
+                                                      },
+                                                      function (start, end, label) {
+                                                        $('.daterangepicker').show();
+                                                        // console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+                                                        // Lets update the fields manually this event fires on selection of range
+                                                        var selectedStartDate = start.format("DD-MM-YYYY"); // selected start
+                                                        var selectedEndDate = end.format("DD-MM-YYYY"); // selected end
+                                                    
+                                                    
+                                                        var selectedStartDater = start.format("YYYY-MM-DD HH:mm:ss"); // selected start
+                                                        var selectedEndDater = end.format("YYYY-MM-DD HH:mm:ss");
+                                                    
+                                                    
+                                                        $checkinInput = $("#search_checkin");
+                                                        $checkoutInput = $("#search_checkout");
+                                                        $checkoutInputselected = $("#allselecteddate");
+                                                     
+                                                        // Updating Fields with selected dates
+                                                        $checkinInput.val(selectedStartDater);
+                                                        $checkoutInput.val(selectedEndDater);
+                                                        $checkoutInputselected.val(selectedStartDate + ' - ' + selectedEndDate);
+                                                        $('.daterangepicker').hide();
+                                                        // Setting the Selection of dates on calender on CHECKOUT FIELD (To get this it must be binded by Ids not Calss)
+                                                       
+                                                      });
+                                                    });
+                                                    
+                                                    
+                                                    
+                                                    </script>
+    
+      
+        <form action="/getuserlist"  method="post" class="form-horizontal">
+            
+            <div class="row">
+            <div class="col-sm-2 col-xs-6">
+                <label>Country</label>
+                   <div class="input select">
+                    <select name="country_id"  class="form-control" >
+                        <option value="">--Select Country--</option>
+                        
+                        <%  if(userlist.country.length > 0){
+                        for(var i=0; i < userlist.country.length; i++) { %>
+                        <option value="<%= userlist.country[i].id; %>"><%= userlist.country[i].name; %></option>
+                        <% } }  %>
+                        </select>
+
+                   </div>   
+                
+                </div>
+
+
+                <div class="col-sm-2 col-xs-6">
+                    <label>Plan</label>
+                       <div class="input select">
+                        <select name="plan_id"  class="form-control " >
+                            <option value="">--Select Plan--</option>
+                            
+                            <%  if(userlist.plan.length > 0){
+                            for(var i=0; i < userlist.plan.length; i++) { %>
+                            <option value="<%= userlist.plan[i].id; %>"><%= userlist.plan[i].name; %></option>
+                            <% } }  %>
+                            </select>
+    
+                       </div>   
+                    
+                    </div>
+        
+
+                    <div class="col-sm-3 col-xs-6">
+                        <label>Company Name</label>
+                           <div class="input select">
+                            <input type="text" name="name" class="form-control" placeholder="Enter Company Name" aria-label="Username"  aria-describedby="basic-addon1">        
+                           </div>   
+                        
+                        </div>
+
+                        
+                            <div class="col-sm-3 col-xs-6">
+                                <label>Subscription Created Date</label>
+                                <div class="input-group">
+               
+                                    <% var selectr= moment().format("DD-MM-YYYY");
+                                    var selectrmon= moment().format("YYYY-MM-DD HH:mm:ss");  %>
+                         <input type="text"  class="form-control date" placeholder="<%= selectr %> - <%= selectr %>" aria-label="Username" id="allselecteddate" aria-describedby="basic-addon1">
+                         <input type="hidden" id="search_checkin" value="<%= selectrmon %>" name="startdate" class="form-control" placeholder="Use this hidden">
+                         <input type="hidden" id="search_checkout" value="<%= selectrmon %>" name="enddate" class="form-control" placeholder="Use this hidden"> 
+                         
+                       
+                                 </div>
+                                
+                                </div>
+                           
+           
+                                <div class="col-sm-2 col-xs-6">
+                                    <label></label>
+                                <button type="submit"  onclick="spinner()" style="background-color: #262d47 !important;
+                                color: #fff;margin-top: 21px;" >
+                                <i style="font-size: 1.6rem;
+                                font-weight: bolder;
+                                margin-top: 4px;" class="la la-search fa-lg"></i> 
+                                </button>
+                                </div>
+                            </div>
+      </form>
+      
+    
                                             </div>
                                             <div class="table-responsive">
+                                             
 
                                                 <table class="table">
-                                                    <thead class="thead-dark">
+                                                    <thead class="thead-default">
                                                         <tr>
                                                             <th scope="col">#</th>
-                                                            <th scope="col">Company Detail</th>
-                                                        
-                                           <th scope="col" style="width: 19%;">Plan Detail</th>
-                                          
-                                                            <th scope="col">Billing Date</th>
-                                                            <th scope="col">Expired Date</th>
+                                                            <th scope="col">Company </th>
+                                                           
+                                                            <th scope="col">Mobile </th>
+                                                            <th scope="col">Email </th>
+                                                            <th scope="col">Country </th>
+                                                            <th scope="col">State </th>
+                                                            <th scope="col">City </th>
+                                                            <th scope="col">Member Since </th>
+                                                            <th scope="col">Plan Detail</th>
+                                                            <th scope="col">LastBill </th>
+                                                            <th scope="col">Due Date  </th>
+                                                          
+                                                            
                                                             <th scope="col">Status</th>
                                                         
                                                         </tr>
@@ -176,10 +312,26 @@
                                         for(var i=0; i < userlist.data.length; i++) { %>
                                                             <tr>
                                                  <th scope="row"><%= s++; %></th>
-                                             <td><b><%= userlist.data[i].companyname; %></b><% if(userlist.data[i].status=="Y"){  %>
-                                                <i class="la la-check-circle-o" style="color: green;
-                                                   font-weight: bold;
-                                                   font-size: 14px;">verified</i> <% } %><br><a href="mailto:<%= userlist.data[i].email; %>"><%= userlist.data[i].email; %></a></td>
+                                             <td><b><%= userlist.data[i].companyname; %></b>
+                                                </td>
+
+<td><b><%= userlist.data[i].mobile; %></b></td>
+<td><b><a href="mailto:<%= userlist.data[i].email; %>"><%= userlist.data[i].email; %></a>
+    <% if(userlist.data[i].status=="Y"){  %>
+    <i class="la la-check-circle-o" style="color: green;
+       font-weight: bold;
+       font-size: 14px;">verified</i> <% } %></b></td>
+       <td><b><%= userlist.data[i].country['name']; %></b></td>
+       <td><b><%= userlist.data[i].state['name']; %></b></td>
+         <td><b><%= userlist.data[i].city; %></b></td>
+      
+         <td>
+            <% if(userlist.data[i].subscriptions.length > 0){  %>
+             <%  var str=userlist.data[i].subscriptions[0]['created']; %>
+                 <%= moment(str).format('DD-MM-YYYY') %> 
+     <% } %> </td>
+     
+
  <%   if(userlist.data[i].subscriptions.length > 0){
     var payment_detail=userlist.data[i].subscriptions[0]['payment_detail'];
     var totaluser=userlist.data[i].subscriptions[0]['totaluser'];
@@ -195,40 +347,42 @@
                                                  <%= userlist.data[i].plan['name'];   %> 
                                                  <div style="font-size:11px; font-weight:normal;">-   <%= totaluser; %>  Users Plan @ Rs. <%= price; %> </div>
                                                  
-                                                     <!--  <i title="<%= payment_detail; %>" class="la la-sticky-note" style="color:green;
-                                                 font-size: 14px;"></i>-->
+                                                   
 
                                              <% } %>
-                                         <!--<a class="dropdown-item dropplan" href="javascript:void(0);" id="<%= userlist.data[i].id; %>" style="color:red;">
-                                            
-                                                 <i title="Upgrade Plan" class="la la-cloud-upload" ></i></a>-->
-                                                  </td>
-                                                <% if(userlist.data[i].subscriptions.length > 0){  %>
-                                            <td> <%  var str=userlist.data[i].subscriptions[0]['created']; %>
-                                                <%= moment(str).format('DD-MM-YYYY') %> </td>
-                                            <td> <% var str=userlist.data[i].subscriptions[0]['expiry_date']; %>
-                                                 <%= moment(str).format('DD-MM-YYYY') %></td>
-                                                 <% }else{ %>  
-                                                    <td> N.A
-                                                         </td>
-                                                    <td> N.A</td>
-                                                    
-                                                    <% } %>              
+                                        </td>
+
+       <td>
+       <% if(userlist.data[i].subscriptions.length > 0){  %>
+        <%  var str=userlist.data[i].subscriptions[0]['created']; %>
+            <%= moment(str).format('DD-MM-YYYY') %> 
+<% } %> </td>
+       <td>
+<% if(userlist.data[i].subscriptions.length > 0){  %>
+        <%  var strs=userlist.data[i].subscriptions[0]['expiry_date']; %>
+            <%= moment(strs).format('DD-MM-YYYY') %> 
+<% } %> </td>
+
+                                                        
 <td>
-    <% if(userlist.data[i].status=="Y"){  %>
+    <%  if(userlist.data[i].status=="Y"){  %>
         <a  href="<%= process.env.APP_URL %>/userupdatestatus/<%= userlist.data[i].id %>/N" onclick="return confirm('Do you really want to inactive this Company?');" title="InActivate Company?" style="color:rgb(224, 35, 44)" > <i style="color:green" class="la la-toggle-on"></i></a>
         
         <% }else{ %>
            <a  href="<%= process.env.APP_URL %>/userupdatestatus/<%= userlist.data[i].id %>/Y" onclick="return confirm('Do you really want to activate this Company?');" title="Activate Company?" style="color:rgb(224, 35, 44)" ><i style="color:red" class="la la-toggle-off "></i></a>
-            <% } %>
-            <a  href="<%= process.env.APP_URL %>/userupdatedelete/<%= userlist.data[i].id %>" onclick="return confirm('Do you really want to delete this Company?');" title="Delete Company?" style="color:rgb(224, 35, 44)" > <i style="color:red" class="la la-trash-o"></i></a></td>
+            <% } 
+            
+            if(userlist.data[i].plan_id==5){ %>
+            <a  href="<%= process.env.APP_URL %>/userupdatedelete/<%= userlist.data[i].id %>" onclick="return confirm('Do you really want to delete this Company?');" title="Delete Company?" style="color:rgb(224, 35, 44)" > <i style="color:red" class="la la-trash-o"></i></a>
+        
+        <% } %></td>
      
                                                             </tr>
                                                             <% } }else{ %>
                                                                 <tr>
 
-                                                                    <td class=" text-center " colspan=" 7 " style="color:red; ">
-                                                                        No Users Listed Yet
+                                                                    <td class=" text-center " colspan="13" style="color:red; ">
+                                                                        No company Listed Yet
                                                                     </td>
                                                                 </tr>
                                                                 <% }  %>

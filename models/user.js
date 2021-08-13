@@ -76,6 +76,14 @@ const User=sequelize.define('users',{
       is_screenshot: {
         type: DataTypes.ENUM('Y', 'N')
         // allowNull defaults to true
+      },
+      is_detained: {
+        type: DataTypes.ENUM('Y', 'N')
+        // allowNull defaults to true
+      },
+      createdAt: {
+        type: DataTypes.DATE
+        // allowNull defaults to true
       }
       
  });
