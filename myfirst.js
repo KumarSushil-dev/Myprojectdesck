@@ -1055,11 +1055,13 @@ app.post('/login', urlencodedParser, (req, res) => {
 
         function (error, response, body) {
             if (response.statusCode == 401) {
+                console.log("401");
                 var data = response.body;
                 req.flash("error", "Failed to log in user account: User account not found.");
                 res.locals.messages = req.flash();
                 res.render('users/login');
             } else if (response.statusCode == 500) {
+                console.log("500");
                 var data = response.body;
                 req.flash("error", "Failed to log in user account: User account not found.");
                 res.locals.messages = req.flash();
@@ -1068,7 +1070,7 @@ app.post('/login', urlencodedParser, (req, res) => {
                 var data = response.body;
                 var re = JSON.stringify(data);
                 var test = JSON.parse(re);
-
+                console.log(test.roleid);
                 sess = req.session;
                 sess.token = test.data[0].token;
                 sess.companyname = test.companyname;
